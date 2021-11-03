@@ -3,7 +3,7 @@ import requests
 
 from django.core.management.base import BaseCommand, CommandParser
 from requests.models import HTTPError
-from djangoblog.models.posts import Posts
+from djangoblog.models.posts import Post
 
 class Command(BaseCommand):
     help='Seed database for testing and development'
@@ -34,7 +34,7 @@ def run_seed(self):
     print(response)
 
     for article in response:
-        post = Posts(
+        post = Post(
             id = article['id'],
             user_id = article['userId'],
             title = article['title'],
