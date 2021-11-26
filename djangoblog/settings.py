@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -55,8 +55,11 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         # "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
     "DEFAULT_RENDERER_CLASSES": DEFAULT_RENDERER_CLASSES,
     "ALLOWED_VERSIONS": ["v1", "v2"],
+    "DEFAULT_VERSION": "v2",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": (
         # 'rest_framework.authentication.BasicAuthentication',
@@ -70,11 +73,19 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "My blog API",
     "VERSION": "1.0.0",
     "SORT_OPERATIONS": True,
+    "SORT_OPERATION_PARAMETERS": False,
     "ENABLE_LIST_MECHANICS_ON_NON_2XX": True,
     "SWAGGER_UI_SETTINGS": {
         "deepLinking": True,
     },
-    "POSTPROCESSING_HOOKS": ["djangoblog.hooks.remove_schema_endpoints"],
+    # "SCHEMA_PATH_PREFIX": r"/api/v[0-9]",
+    'COMPONENT_SPLIT_REQUEST': True,
+    'COMPONENT_NO_READ_ONLY_REQUIRED': True,
+    "SCHEMA_PATH_PREFIX_TRIM": True,
+    "POSTPROCESSING_HOOKS": [
+        "djangoblog.hooks.remove_schema_endpoints",
+        "drf_spectacular.hooks.postprocess_schema_enums",
+    ],
 }
 
 MIDDLEWARE = [
@@ -113,11 +124,24 @@ WSGI_APPLICATION = "djangoblog.wsgi.application"
 
 DATABASES = {
     "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        'NAME': 'mydb',
+        'USER': 'myuser',
+        'PASSWORD': 'mypass',
+        'HOST': 'localhost',
+        'PORT': '',
+    },
+    "test": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
+if "test" in sys.argv:
+    DATABASES['default'] = DATABASES['test']
+
+# Tests
+SOUTH_TESTS_MIGRATE = False
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
