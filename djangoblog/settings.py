@@ -9,27 +9,31 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import sys
+import os
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ai_mvj)*8v=zrk^-yd5qv50(^&em#dg9jrh)m5fi-tf$3c*uz="
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = env("SECRET_KEY")
 
 ALLOWED_HOSTS = []
+
+# False if not in os.environ because of casting above
+DEBUG = env("DEBUG")
 
 # Application definition
 INSTALLED_APPS = [
     "rest_framework",
+    "rest_framework.authtoken",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -55,6 +59,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         # "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     ],
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
     "DEFAULT_RENDERER_CLASSES": DEFAULT_RENDERER_CLASSES,
@@ -62,8 +67,8 @@ REST_FRAMEWORK = {
     "DEFAULT_VERSION": "v2",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
 }
@@ -79,8 +84,8 @@ SPECTACULAR_SETTINGS = {
         "deepLinking": True,
     },
     # "SCHEMA_PATH_PREFIX": r"/api/v[0-9]",
-    'COMPONENT_SPLIT_REQUEST': True,
-    'COMPONENT_NO_READ_ONLY_REQUIRED': True,
+    "COMPONENT_SPLIT_REQUEST": True,
+    "COMPONENT_NO_READ_ONLY_REQUIRED": True,
     "SCHEMA_PATH_PREFIX_TRIM": True,
     "POSTPROCESSING_HOOKS": [
         "djangoblog.hooks.remove_schema_endpoints",
@@ -125,23 +130,23 @@ WSGI_APPLICATION = "djangoblog.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        'NAME': 'mydb',
-        'USER': 'myuser',
-        'PASSWORD': 'mypass',
-        'HOST': 'localhost',
-        'PORT': '',
+        "NAME": "mydb",
+        "USER": "myuser",
+        "PASSWORD": "mypass",
+        "HOST": "localhost",
+        "PORT": "5432",
     },
     "test": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    },
 }
 
-if "test" in sys.argv:
-    DATABASES['default'] = DATABASES['test']
+default_database = env("DJANGO_DATABASE")
+DATABASES["default"] = DATABASES[default_database]
 
 # Tests
-SOUTH_TESTS_MIGRATE = False
+# SOUTH_TESTS_MIGRATE = False
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Post(models.Model):
     """Post model"""
 
@@ -11,6 +10,12 @@ class Post(models.Model):
 
     class Meta:
         db_table = "posts"
+
+
+class Category(models.Model):
+    id = models.IntegerField(primary_key=True)
+    category_id = models.IntegerField()
+    category = models.CharField(max_length=50)
 
 
 class Author(models.Model):
