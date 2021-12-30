@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "djangoblog",
     "djangoblog.api",
     "drf_spectacular",
+    "debug_toolbar"
 ]
 
 DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
@@ -94,6 +95,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

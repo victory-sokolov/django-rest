@@ -40,4 +40,5 @@ urlpatterns = [
         name="api-documentation",
     ),
     # path("", include(router.urls)),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]

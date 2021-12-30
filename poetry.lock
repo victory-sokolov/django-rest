@@ -119,6 +119,18 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-debug-toolbar"
+version = "3.2.4"
+description = "A configurable set of panels that display various debug information about the current request/response."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+Django = ">=2.2"
+sqlparse = ">=0.2.0"
+
+[[package]]
 name = "django-environ"
 version = "0.8.1"
 description = "A package that allows you to utilize 12factor inspired environment variables to configure your Django application."
@@ -446,7 +458,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "c5db895c70f9c82748331920aa762ceaa1a2d2937e711feb9f42708ae7deffc7"
+content-hash = "50fa79c6024d2b42ad1d137b475ff06e3e6968d04c76164f2f7fc1d7869fe4c4"
 
 [metadata.files]
 asgiref = [
@@ -484,6 +496,10 @@ colorama = [
 django = [
     {file = "Django-3.2.9-py3-none-any.whl", hash = "sha256:e22c9266da3eec7827737cde57694d7db801fedac938d252bf27377cec06ed1b"},
     {file = "Django-3.2.9.tar.gz", hash = "sha256:51284300f1522ffcdb07ccbdf676a307c6678659e1284f0618e5a774127a6a08"},
+]
+django-debug-toolbar = [
+    {file = "django-debug-toolbar-3.2.4.tar.gz", hash = "sha256:644bbd5c428d3283aa9115722471769cac1bec189edf3a0c855fd8ff870375a9"},
+    {file = "django_debug_toolbar-3.2.4-py3-none-any.whl", hash = "sha256:6b633b6cfee24f232d73569870f19aa86c819d750e7f3e833f2344a9eb4b4409"},
 ]
 django-environ = [
     {file = "django-environ-0.8.1.tar.gz", hash = "sha256:6f0bc902b43891656b20486938cba0861dc62892784a44919170719572a534cb"},
