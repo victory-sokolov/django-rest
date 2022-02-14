@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "djangoblog",
     "djangoblog.api",
     "drf_spectacular",
-    "debug_toolbar"
+    "debug_toolbar",
 ]
 
 DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
@@ -130,7 +130,7 @@ WSGI_APPLICATION = "djangoblog.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
+    "test": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "mydb",
         "USER": "myuser",
@@ -138,14 +138,14 @@ DATABASES = {
         "HOST": "localhost",
         "PORT": "5432",
     },
-    "test": {
+    "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "NAME": os.path.join(BASE_DIR, "blog.sqlite3"),
     },
 }
 
-default_database = env("DJANGO_DATABASE")
-DATABASES["default"] = DATABASES[default_database]
+# default_database = env("DJANGO_DATABASE")
+# DATABASES["default"] = DATABASES[default_database]
 
 # Tests
 # SOUTH_TESTS_MIGRATE = False
@@ -168,6 +168,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+INTERNAL_IPS = ["127.0.0.1"]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
