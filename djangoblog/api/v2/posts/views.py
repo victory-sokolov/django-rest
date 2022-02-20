@@ -3,13 +3,14 @@ from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.mixins import (
+    RetrieveModelMixin,
     UpdateModelMixin,
     ListModelMixin,
     CreateModelMixin,
     DestroyModelMixin,
 )
 from rest_framework.views import APIView
-from rest_framework.authentication 
+from rest_framework.authentication
 from drf_spectacular.utils import extend_schema
 
 from djangoblog.api.models.post import Post
@@ -20,6 +21,7 @@ class ArticleView(
     generics.GenericAPIView,
     UpdateModelMixin,
     ListModelMixin,
+    RetrieveModelMixin,
     DestroyModelMixin,
     CreateModelMixin,
 ):
