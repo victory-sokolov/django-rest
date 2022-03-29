@@ -5,6 +5,7 @@ def remove_schema_endpoints(result, generator, request, public):
     exclude_paths = [
         "/api/schema/",
         "/schema/",
+        "/schema.json",
         "/v1/schema.json",
         "/v2/schema.json",
         "/api/v1/schema.json",
