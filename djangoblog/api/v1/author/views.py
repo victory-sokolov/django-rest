@@ -12,12 +12,12 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from djangoblog.api.models.author import Author
 from djangoblog.api.v1.author.serializers import AuthorSerializer
-from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import GenericViewSet
 
 
 @extend_schema(tags=["author"])
 class AuthorView(
-    ViewSet,
+    GenericViewSet,
     UpdateModelMixin,
     ListModelMixin,
     RetrieveModelMixin,

@@ -28,8 +28,6 @@ from djangoblog.api.v1.posts.serializers import PostSerializer
 
 @extend_schema(tags=["post"])
 class ArticleView(
-    # generics.GenericAPIView,
-    # ViewSet,
     GenericViewSet,
     UpdateModelMixin,
     ListModelMixin,
@@ -41,7 +39,7 @@ class ArticleView(
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     name = "posts"
 
     @extend_schema(description="Get all available blog posts")

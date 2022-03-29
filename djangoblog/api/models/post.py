@@ -7,11 +7,11 @@ from djangoblog.api.models.category import Category
 
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user_id = models.IntegerField()
     title = models.CharField(max_length=200)
     body = models.TextField()
-    category = models.ManyToManyField(Category)
+    category = models.ManyToManyField(Category, max_length=100)
     author = models.ForeignKey(Author, null=True, on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = "posts"
