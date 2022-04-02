@@ -1,0 +1,15 @@
+
+.blog-container{
+    margin-top: 40px;
+}
+
+.blog-post {
+    width: 500px;
+    margin: 15px;
+    padding: 15px;
+}
+
+.blog-meta {
+    display: flex;
+    justify-content: space-between;
+}
