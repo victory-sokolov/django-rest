@@ -21,7 +21,7 @@ class Command(BaseCommand):
 def clear_data():
     """Deletes all the table data"""
     print("Delete Address instances")
-    # Post.objects.all().delete()
+    Post.objects.all().delete()
 
 
 def fetch_posts():
