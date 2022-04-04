@@ -2,6 +2,54 @@
 <div class="row">
 	<div class="blog-container">
 		<h1>Latest Posts</h1>
+		<a
+			href="#"
+			class="btn btn-outline-success"
+			data-bs-toggle="modal"
+			data-bs-target="#modal"
+		>
+			Add Post <i class="bi bi-arrow-right"></i>
+		</a>
+		<!-- Modal Windows -->
+		<div
+			class="modal fade"
+			id="modal"
+			tabindex="-1"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">
+							Add new post
+						</h5>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="modal-body">
+						<form action="add/" method="POST">
+							{% csrf_token %} {% for field in form %}
+							<div class="mb-3">
+								<label class="form-label" for="{{ field.id }}"
+									>{{ field.label_tag }}</label
+								>
+								{{ field }}
+							</div>
+							{% endfor %}
+							<button type="submit" class="btn btn-primary">
+								Save changes
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<hr />
 		<section class="blog-posts">
 			<div style="display: flex; flex-direction: row; flex-wrap: wrap">
@@ -14,7 +62,7 @@
 							<p>Author: {{ post.author }}</p>
 						</div>
 						<p class="card-text">{{ post.article.content }}</p>
-						<a href="{{post.id}}" class="btn btn-success"
+						<a href="{{post.id}}" class="btn btn-outline-primary"
 							>Read More</a
 						>
 					</div>
