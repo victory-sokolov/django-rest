@@ -1,10 +1,9 @@
-
 .blog-container{
     margin-top: 40px;
 }
 
 .blog-post {
-    width: 500px;
+    width: 38.5rem;
     margin: 15px;
     padding: 15px;
 }
@@ -12,4 +11,8 @@
 .blog-meta {
     display: flex;
     justify-content: space-between;
+}
+
+.navbar {
+    margin-bottom: 50px;
 }

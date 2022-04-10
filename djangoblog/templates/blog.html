@@ -38,7 +38,7 @@
 								<label class="form-label" for="{{ field.id }}"
 									>{{ field.label_tag }}</label
 								>
-								{{ field }}
+								{{ field }} {{form.media}}
 							</div>
 							{% endfor %}
 							<button type="submit" class="btn btn-primary">
@@ -62,9 +62,9 @@
 							<p>Author: {{ post.author }}</p>
 						</div>
 						<p class="card-text">{{ post.article.content }}</p>
-						<a href="{{post.id}}" class="btn btn-outline-primary"
-							>Read More</a
-						>
+						<a href="{{post.id}}" class="btn btn-outline-primary">
+							Read More
+						</a>
 					</div>
 				</div>
 

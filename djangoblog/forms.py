@@ -1,4 +1,5 @@
 from django import forms
+from ckeditor.widgets import CKEditorWidget
 
 
 class PostForm(forms.Form):
@@ -8,7 +9,7 @@ class PostForm(forms.Form):
     )
     post = forms.CharField(
         label="Content",
-        widget=forms.Textarea(
+        widget=CKEditorWidget(
             attrs={"class": "form-control", "rows": "5", "id": "content"}
         ),
     )

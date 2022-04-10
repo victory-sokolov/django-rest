@@ -1,4 +1,3 @@
-from django.contrib.auth import authenticate
 from django.views import generic
 from drf_spectacular.types import OpenApiTypes
 from rest_framework.parsers import JSONParser

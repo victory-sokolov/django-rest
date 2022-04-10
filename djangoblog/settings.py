@@ -12,13 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import environ
 
+from django.contrib.messages import constants as messages
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, "node_modules", "bootstrap", "dist"),
-    os.path.join(BASE_DIR, "node_modules", "bootstrap-icons"),
-]
 
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -33,6 +30,8 @@ ALLOWED_HOSTS = []
 
 # False if not in os.environ because of casting above
 DEBUG = env("DEBUG")
+AUTH_USER_MODEL = "djangoblog.UserProfile"
+DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
 
 # Application definition
 INSTALLED_APPS = [
@@ -44,13 +43,28 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "djangoblog",
-    "djangoblog.api",
+    "django_extensions",
     "drf_spectacular",
     "debug_toolbar",
+    "ckeditor",
+    "ckeditor_uploader",
+    # app based
+    "djangoblog",
+    "djangoblog.api",
+    "djangoblog.authentication",
 ]
 
-DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
+MESSAGE_TAGS = {
+    messages.ERROR: "danger",
+}
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "login"
 
 # Only enable the browseable HTML API in dev (DEBUG=True)
 if DEBUG:
@@ -76,6 +90,26 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {"rich": {"datefmt": "[%X]"}},
+    "handlers": {
+        "console": {
+            "class": "rich.logging.RichHandler",
+            "formatter": "rich",
+            "level": "DEBUG",
+        }
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": False,
+        },
+    },
 }
 
 SPECTACULAR_SETTINGS = {
@@ -128,7 +162,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "djangoblog.wsgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -193,6 +226,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "djangoblog")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "djangoblog/static"),
+    os.path.join(BASE_DIR, "node_modules", "bootstrap", "dist"),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

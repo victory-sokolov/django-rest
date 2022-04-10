@@ -1,15 +1,17 @@
 import requests
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
-
+from django.contrib.auth.decorators import login_required
 from djangoblog.forms import PostForm
 from .api.models.post import Post
 
 
 def index(request: HttpRequest):
-    return render(request, "base.html")
+    context = {"username": request.session.get("user")}
+    return render(request, "home.html", context)
 
 
+@login_required(login_url="login")
 def blog_posts(request: HttpRequest):
     posts = requests.get("http://localhost:8000/api/v1/post").json()
     context = {"posts": posts["results"], "form": PostForm}
@@ -28,4 +30,4 @@ def add_post(request: HttpRequest):
     content = form.data["post"]
     post = Post(title=title, body=content)
     post.save()
-    return redirect("/post")
+    return redirect("post")
