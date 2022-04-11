@@ -3,7 +3,7 @@
 	<div class="blog-container">
 		<div class="post">
 			<h1>{{post.article.title}}</h1>
-			<p>{{post.article.content}}</p>
+			{{post.article.content|safe}}
 		</div>
 	</div>
 </div>

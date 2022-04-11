@@ -1,5 +1,6 @@
-.blog-container{
-    margin-top: 40px;
+.blog-container {
+    max-width: 600px;
+    margin: 20px auto;
 }
 
 .blog-post {

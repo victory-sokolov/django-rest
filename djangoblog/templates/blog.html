@@ -56,12 +56,14 @@
 				{% for post in posts %}
 				<div class="card blog-post">
 					<div class="card-body">
-						<h2 class="card-title">{{ post.article.title }}</h2>
+						<a href="{{post.id}}">
+							<h2 class="card-title">{{ post.article.title }}</h2>
+						</a>
 						<div class="blog-meta">
-							<p>Date: {{ post.article.created_at}}</p>
+							<p>Date: {{ post.article.created_at }}</p>
 							<p>Author: {{ post.author }}</p>
 						</div>
-						<p class="card-text">{{ post.article.content }}</p>
+						<p class="card-text">{{ post.article.content|safe }}</p>
 						<a href="{{post.id}}" class="btn btn-outline-primary">
 							Read More
 						</a>
