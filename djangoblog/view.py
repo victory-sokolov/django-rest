@@ -14,7 +14,6 @@ def index(request: HttpRequest):
 @login_required(login_url="login")
 def blog_posts(request: HttpRequest):
     posts = requests.get("http://localhost:8000/api/v1/post").json()
-    print(posts)
     context = {"posts": posts["results"], "form": PostForm}
     return render(request, "blog.html", context)
 
@@ -27,8 +26,13 @@ def post(request: HttpRequest, id: str):
 
 def add_post(request: HttpRequest):
     form = PostForm(request.POST)
-    title = form.data["title"]
-    content = form.data["post"]
-    post = Post(title=title, body=content, user=request.user)
+    is_draft = True if form.data["draft"] == "on" else False
+    print(is_draft)
+    post = Post(
+        title=form.data["title"],
+        body=form.data["post"],
+        user=request.user,
+        draft=is_draft,
+    )
     post.save()
     return redirect("post")

@@ -4,7 +4,6 @@ from ckeditor.widgets import CKEditorWidget
 
 class PostForm(forms.Form):
     title = forms.CharField(
-        label="Article Title",
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
@@ -14,12 +13,11 @@ class PostForm(forms.Form):
         ),
     )
     post = forms.CharField(
-        label="Content",
         widget=CKEditorWidget(
-            attrs={
-                "class": "form-control",
-                "rows": "5",
-                "id": "content"
-            }
+            attrs={"class": "form-control", "rows": "5", "id": "content"}
         ),
+    )
+    draft = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "checkbox-inline", "id": "draft"}),
     )

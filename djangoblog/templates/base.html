@@ -106,12 +106,8 @@
 									<form action="add/" method="POST">
 										{% csrf_token %} {% for field in form %}
 										<div class="mb-3">
-											<label
-												class="form-label"
-												for="{{ field.id }}"
-												>{{ field.label_tag }}</label
-											>
-											{{ field }} {{form.media}}
+											{{ field.label_tag }} {{ field }}
+											{{form.media}}
 										</div>
 										{% endfor %}
 										<button

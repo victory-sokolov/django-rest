@@ -14,6 +14,7 @@ class Post(TimeStampedModel):
     title = models.CharField(max_length=200)
     body = RichTextField(blank=True, null=True)
     category = models.ManyToManyField(Category, max_length=100)
+    draft = models.BooleanField(default=False)
 
     class Meta:
         db_table = "posts"

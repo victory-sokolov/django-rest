@@ -1,7 +1,4 @@
-from django.views import generic
-from drf_spectacular.types import OpenApiTypes
 from rest_framework.parsers import JSONParser
-from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.mixins import (
@@ -18,8 +15,8 @@ from rest_framework.authentication import (
     TokenAuthentication,
 )
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.viewsets import ViewSet, GenericViewSet
-from drf_spectacular.utils import OpenApiParameter, extend_schema
+from rest_framework.viewsets import GenericViewSet
+from drf_spectacular.utils import extend_schema
 
 from djangoblog.api.models.post import Post
 from djangoblog.api.v1.posts.serializers import PostSerializer
@@ -35,7 +32,7 @@ class ArticleView(
     CreateModelMixin,
 ):
 
-    queryset = Post.objects.all()
+    queryset = Post.objects.filter(draft=False)
     serializer_class = PostSerializer
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     # permission_classes = [IsAuthenticated]
