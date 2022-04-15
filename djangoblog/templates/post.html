@@ -3,6 +3,9 @@
 	<div class="blog-container">
 		<div class="post">
 			<h1>{{post.article.title}}</h1>
+			<div class="meta-info">
+				<p>Date published: {{ post.article.created_at }}</p>
+			</div>
 			{{post.article.content|safe}}
 		</div>
 	</div>
