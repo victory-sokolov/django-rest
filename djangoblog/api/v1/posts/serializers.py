@@ -1,8 +1,8 @@
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from djangoblog.api.models.author import Author
 from djangoblog.api.models.category import Category
 from djangoblog.api.models.post import Post
+from djangoblog.models import UserProfile
 
 
 class ArticleSerializer(serializers.Serializer):
@@ -16,8 +16,8 @@ class PostSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
         many=True, slug_field="category", queryset=Category.objects.all()
     )
-    author = serializers.SlugRelatedField(
-        slug_field="name", queryset=Author.objects.all()
+    user = serializers.SlugRelatedField(
+        slug_field="name", queryset=UserProfile.objects.all()
     )
     article = ArticleSerializer(many=True, read_only=True)
 

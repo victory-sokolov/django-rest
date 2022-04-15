@@ -5,12 +5,10 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 from rest_framework import routers
-from djangoblog.api.v1.author.views import AuthorView
 from djangoblog.api.v1.posts.views import ArticleView
 
 router = routers.SimpleRouter()
 router.register(r"post", ArticleView, basename="posts")
-router.register(r"author", AuthorView, basename="author")
 
 urlpatterns = [
     re_path(r"^v1/", include((router.urls))),

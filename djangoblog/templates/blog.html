@@ -14,7 +14,7 @@
 						</a>
 						<div class="blog-meta">
 							<p>Date: {{ post.article.created_at }}</p>
-							<p>Author: {{ post.author }}</p>
+							<p>Author: {{ post.user }}</p>
 						</div>
 						<p class="card-text">{{ post.article.content|safe }}</p>
 						<a href="{{post.id}}" class="btn btn-outline-primary">
