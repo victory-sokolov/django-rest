@@ -27,7 +27,8 @@ def post(request: HttpRequest, id: str):
 
 def add_post(request: HttpRequest):
     form = PostForm(request.POST)
-    is_draft = True if form.data["draft"] == "on" else False
+    print(form.data)
+    is_draft = True if form.data.get("draft") == "on" else False
     print(is_draft)
     post = Post(
         title=form.data["title"],
