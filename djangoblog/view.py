@@ -2,12 +2,11 @@ import requests
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
+from djangoblog.api.models.post import Post
 from djangoblog.forms import PostForm
-from .api.models.post import Post
 
 
 def index(request: HttpRequest):
-    print(request.user)
     context = {"username": request.session.get("user")}
     return render(request, "home.html", context)
 
@@ -25,16 +24,22 @@ def post(request: HttpRequest, id: str):
     return render(request, "post.html", context)
 
 
+@login_required
 def add_post(request: HttpRequest):
-    form = PostForm(request.POST)
-    print(form.data)
-    is_draft = True if form.data.get("draft") == "on" else False
-    print(is_draft)
-    post = Post(
-        title=form.data["title"],
-        body=form.data["post"],
-        user=request.user,
-        draft=is_draft,
-    )
-    post.save()
-    return redirect("post")
+
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            is_draft = True if form.data.get("draft") == "on" else False
+            post = Post(
+                title=form.data["title"],
+                body=form.data["post"],
+                user=request.user,
+                draft=is_draft,
+            )
+            post.save()
+            return redirect("post")
+    else:
+        form = PostForm()
+
+    return render(request, "post.html", {"form": form})

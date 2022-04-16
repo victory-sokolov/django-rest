@@ -4,7 +4,6 @@ from djangoblog.api.models.category import Category
 from djangoblog.api.models.post import Post
 from djangoblog.models import UserProfile
 
-
 class ArticleSerializer(serializers.Serializer):
     title = serializers.CharField()
     content = serializers.CharField()
