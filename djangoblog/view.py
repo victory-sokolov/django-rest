@@ -7,6 +7,7 @@ from .api.models.post import Post
 
 
 def index(request: HttpRequest):
+    print(request.user)
     context = {"username": request.session.get("user")}
     return render(request, "home.html", context)
 

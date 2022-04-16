@@ -21,3 +21,19 @@
 .add-post-btn {
    margin-left: auto;
 }
+
+.profile-dropdown > img {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.profile-data {
+    margin-left: 20px;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}

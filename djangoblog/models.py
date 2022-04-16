@@ -34,7 +34,10 @@ class UserProfile(AbstractUser):
     email = models.EmailField(max_length=50, unique=True)
     email_verified = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
-    password = models.CharField(max_length=36, null=False)
+    password = models.CharField(max_length=100, null=False)
+    profile_picture = models.ImageField(
+        upload_to="avatars", default="avatars/default.png"
+    )
     first_name = None
     last_name = None
     username = None
