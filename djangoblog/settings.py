@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "ckeditor",
     "ckeditor_uploader",
+    "tagify",
     # app based
     "djangoblog",
     "djangoblog.api",

@@ -242,6 +242,17 @@ django = "*"
 typing-extensions = "*"
 
 [[package]]
+name = "django-tagify2"
+version = "1.0.19"
+description = "django tag input field using tagify.js"
+category = "main"
+optional = false
+python-versions = ">=3"
+
+[package.dependencies]
+Django = ">=2.0.0"
+
+[[package]]
 name = "djangorestframework"
 version = "3.12.4"
 description = "Web APIs for Django, made easy."
@@ -658,7 +669,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "a23ce1b281bdf155f4da80e9fbeb0d8f108a2ddc9a7ad484dd939be1b6a8504e"
+content-hash = "da50cb5fd3d17f90e378e407724bcb2c31b932bc561f9b78cbfe23b44b0dfc91"
 
 [metadata.files]
 asgiref = [
@@ -775,6 +786,10 @@ django-stubs = [
 django-stubs-ext = [
     {file = "django-stubs-ext-0.4.0.tar.gz", hash = "sha256:3104c4748c34bd741c310a3e6af90dffba46e41bccbe243896e38a708262876b"},
     {file = "django_stubs_ext-0.4.0-py3-none-any.whl", hash = "sha256:901fc77b6338ea29fa381300ff598dd57d461a4882b756404e2aa7724f76fd7d"},
+]
+django-tagify2 = [
+    {file = "django-tagify2-1.0.19.tar.gz", hash = "sha256:e099cf4f33cdc6ca9b9064999adde93e6f4051f849e9ca794a9738a5f57b6049"},
+    {file = "django_tagify2-1.0.19-py3-none-any.whl", hash = "sha256:439d40ffbfae2556beebd96ac8c6ac5e336d929e0f811c736489713c2b7b8b92"},
 ]
 djangorestframework = [
     {file = "djangorestframework-3.12.4-py3-none-any.whl", hash = "sha256:6d1d59f623a5ad0509fe0d6bfe93cbdfe17b8116ebc8eda86d45f6e16e819aaf"},

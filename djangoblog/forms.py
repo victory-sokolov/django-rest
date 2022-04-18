@@ -1,5 +1,8 @@
 from django import forms
 from ckeditor.widgets import CKEditorWidget
+from tagify.fields import TagField
+
+from djangoblog.api.models.post import Tags
 
 
 class PostForm(forms.Form):
@@ -20,4 +23,9 @@ class PostForm(forms.Form):
     draft = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={"class": "checkbox-inline", "id": "draft"}),
+    )
+    tags = TagField(
+        place_holder="Add a tag",
+        delimiters=" ",
+        data_list=list(Tags.objects.all().values_list("tag", flat=True)),
     )

@@ -1,8 +1,11 @@
+from django.db.models.query import QuerySet
+from django.db.models.query_utils import Q
 import requests
+
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-from djangoblog.api.models.post import Post
+from djangoblog.api.models.post import Post, Tags
 from djangoblog.forms import PostForm
 
 
@@ -26,20 +29,28 @@ def post(request: HttpRequest, id: str):
 
 @login_required
 def add_post(request: HttpRequest):
-
     if request.method == "POST":
         form = PostForm(request.POST)
+
         if form.is_valid():
             is_draft = True if form.data.get("draft") == "on" else False
-            post = Post(
+            tags = form.data.get("tags", "").split(" ")
+
+            post = Post.objects.create(
                 title=form.data["title"],
                 body=form.data["post"],
                 user=request.user,
                 draft=is_draft,
             )
-            post.save()
-            return redirect("post")
-    else:
-        form = PostForm()
+            tags_obj = Tags.objects.filter(tag__in=tags)
+            if not tags_obj.exists():
+                for t in tags_obj:
+                    Tags.objects.create(tag=t, slug=t.lower().replace(" ", "-"))
+                    post.tag.add(t)
+                # Tags.objects.bulk_create(
+                #     Tags(tag=t, slug=t.lower().replace(" ", "-")) for t in tags
+                # )
 
-    return render(request, "post.html", {"form": form})
+            return redirect("post")
+
+    return render(request, "post.html")

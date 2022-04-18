@@ -11,6 +11,7 @@ from djangoblog.models import UserProfile
 class Post(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid4)
     user = models.ForeignKey(UserProfile, null=True, on_delete=models.CASCADE)
+    tag = models.ManyToManyField("Tags", blank=True, related_name="posts")
     title = models.CharField(max_length=200)
     body = RichTextField(blank=True, null=True)
     category = models.ManyToManyField(Category, max_length=100)
@@ -21,9 +22,22 @@ class Post(TimeStampedModel):
 
     class Meta:
         db_table = "posts"
+        ordering = ("created_at",)
 
     def __str__(self):
         return self.title
+
+
+class Tags(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4)
+    tag = models.CharField(max_length=20)
+    slug = models.SlugField(max_length=20, unique=True, null=True)
+
+    class Meta:
+        db_table = "post_tag"
+
+    def __str__(self):
+        return self.tag
 
 
 class PostComments(models.Model):
