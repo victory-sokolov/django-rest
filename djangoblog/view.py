@@ -24,6 +24,7 @@ def post(request: HttpRequest, id: Union[str, None] = None):
     context["posts"] = posts["results"]
     return render(request, "blog.html", context)
 
+
 @login_required
 def add_post(request: HttpRequest):
     if request.method == "POST":
@@ -39,12 +40,10 @@ def add_post(request: HttpRequest):
                 user=request.user,
                 draft=is_draft,
             )
-            tags_obj = Tags.objects.filter(tag__in=tags)
-            if not tags_obj.exists():
-                for t in tags_obj:
-                    Tags.objects.create(tag=t, slug=t.lower().replace(" ", "-"))
-                    post.tag.add(t)
+            tag_set = Tags.create_if_not_exist(tags)
+            for tag in tag_set:
+                post.tag.add(tag)
 
             return redirect("post")
-        
+
     return render(request, "post.html")

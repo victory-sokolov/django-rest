@@ -1,5 +1,7 @@
+from typing import Union
 from uuid import uuid4
 from django.db import models
+from django.db.models.query import QuerySet
 
 from djangoblog.api.models.category import Category
 from ckeditor.fields import RichTextField
@@ -24,7 +26,7 @@ class Post(TimeStampedModel):
         db_table = "posts"
         ordering = ("created_at",)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
 
@@ -35,6 +37,17 @@ class Tags(models.Model):
 
     class Meta:
         db_table = "post_tag"
+
+    @classmethod
+    def create_if_not_exist(cls, tags: "list[str]") -> "QuerySet[Tags]":
+        """Create Tag if it doesn't exists."""
+        tag_set = Tags.objects.values_list("tag", flat=True)
+
+        for t in tags:
+            if t not in tag_set:
+                Tags.objects.create(tag=t, slug=t.lower().replace(" ", "-"))
+
+        return Tags.objects.filter(tag__in=tags)
 
     def __str__(self):
         return self.tag
