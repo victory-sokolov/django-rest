@@ -1,5 +1,4 @@
-from django.db.models.query import QuerySet
-from django.db.models.query_utils import Q
+from typing import Union
 import requests
 
 from django.http import HttpRequest
@@ -10,22 +9,20 @@ from djangoblog.forms import PostForm
 
 
 def index(request: HttpRequest):
-    context = {"username": request.session.get("user")}
+    context = {"username": request.session.get("user"), "form": PostForm}
     return render(request, "home.html", context)
 
 
-@login_required(login_url="login")
-def blog_posts(request: HttpRequest):
+def post(request: HttpRequest, id: Union[str, None] = None):
+    context = {"form": PostForm}
+    if id:
+        post = requests.get(f"http://localhost:8000/api/v1/post/{id}").json()
+        context["post"] = post
+        return render(request, "post.html", context)
+
     posts = requests.get("http://localhost:8000/api/v1/post").json()
-    context = {"posts": posts["results"], "form": PostForm}
+    context["posts"] = posts["results"]
     return render(request, "blog.html", context)
-
-
-def post(request: HttpRequest, id: str):
-    post = requests.get(f"http://localhost:8000/api/v1/post/{id}").json()
-    context = {"post": post}
-    return render(request, "post.html", context)
-
 
 @login_required
 def add_post(request: HttpRequest):
@@ -47,10 +44,7 @@ def add_post(request: HttpRequest):
                 for t in tags_obj:
                     Tags.objects.create(tag=t, slug=t.lower().replace(" ", "-"))
                     post.tag.add(t)
-                # Tags.objects.bulk_create(
-                #     Tags(tag=t, slug=t.lower().replace(" ", "-")) for t in tags
-                # )
 
             return redirect("post")
-
+        
     return render(request, "post.html")
