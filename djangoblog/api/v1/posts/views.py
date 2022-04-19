@@ -32,7 +32,7 @@ class ArticleView(
     CreateModelMixin,
 ):
 
-    queryset = Post.objects.filter(draft=False)
+    queryset = Post.objects.filter(draft=False).order_by("-created_at")
     serializer_class = PostSerializer
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     # permission_classes = [IsAuthenticated]
