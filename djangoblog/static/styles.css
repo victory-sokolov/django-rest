@@ -37,3 +37,12 @@
     display: flex;
     align-items: center;
 }
+
+.tags-section {
+    margin-top: 12px;
+}
+
+.tag {
+    background: #ecececee;
+    padding: 4px;
+}
