@@ -4,10 +4,16 @@ from djangoblog.api.models.category import Category
 from djangoblog.api.models.post import Post
 from djangoblog.models import UserProfile
 
+
 class ArticleSerializer(serializers.Serializer):
     title = serializers.CharField()
     content = serializers.CharField()
     created_at = serializers.CharField()
+
+
+class TagSerializer(serializers.Serializer):
+    tag = serializers.CharField()
+    slug = serializers.CharField()
 
 
 @extend_schema_serializer(exclude_fields=("title", "body", "created_at"))
@@ -19,6 +25,7 @@ class PostSerializer(serializers.ModelSerializer):
         slug_field="name", queryset=UserProfile.objects.all()
     )
     article = ArticleSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True)
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
