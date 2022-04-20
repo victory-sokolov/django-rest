@@ -13,7 +13,7 @@ from djangoblog.models import UserProfile
 class Post(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid4)
     user = models.ForeignKey(UserProfile, null=True, on_delete=models.CASCADE)
-    tag = models.ManyToManyField("Tags", blank=True, related_name="posts")
+    tags = models.ManyToManyField("Tags", blank=True, related_name="posts")
     title = models.CharField(max_length=200)
     body = RichTextField(blank=True, null=True)
     category = models.ManyToManyField(Category, max_length=100)
