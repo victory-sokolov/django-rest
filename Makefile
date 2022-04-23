@@ -3,6 +3,10 @@ make-migrations: ## Run migrations
 	python manage.py makemigrations
 	python manage.py migrate
 
+test:
+	coverage run manage.py test -v 2
+	coverage report
+	coverage html
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \

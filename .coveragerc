@@ -1,0 +1,13 @@
+[run]
+branch = True
+omit=
+    */venv/*
+    wsgi.py
+    */staticfiles/*
+    */migrations/*
+    */tests/*
+    manage.py
+    **/__init__.py
+
+[html]
+directory = coverage
