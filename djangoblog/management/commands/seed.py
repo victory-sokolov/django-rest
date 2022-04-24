@@ -1,9 +1,10 @@
 import logging
-import requests
+import random
 
 from django.core.management.base import BaseCommand, CommandParser
-from requests.models import HTTPError
+from faker import Faker
 from djangoblog.api.models.post import Post
+from djangoblog.models import UserProfile
 
 
 class Command(BaseCommand):
@@ -13,34 +14,26 @@ class Command(BaseCommand):
         parser.add_argument("--amount", type=str, help="amount of posts to generate")
 
     def handle(self, *args, **options):
-        logging.info("Fetching posts...")
-        run_seed(self)
-        self.stdout.write("Post fetching done.")
+        logging.info("Adding new posts")
+        amount = options["amount"]
+        run_seed(amount)
+        self.stdout.write("Posts added")
 
 
 def clear_data():
     """Deletes all the table data"""
-    print("Delete Address instances")
+    print("Deleting all Posts")
     Post.objects.all().delete()
 
 
-def fetch_posts():
-    response = requests.get(f"https://jsonplaceholder.typicode.com/posts")
-    if response.status_code == 200:
-        return response.json()
+def run_seed(amount: int):
+    fake = Faker()
+    users = UserProfile.objects.all()
 
-    raise HTTPError(response.json())
-
-
-def run_seed(self):
-    response = fetch_posts()
-    print(response)
-
-    for article in response:
+    for _ in range(amount):
         post = Post(
-            id=article["id"],
-            user_id=article["userId"],
-            title=article["title"],
-            body=article["body"],
+            user=random.choice(users),
+            title=f"{fake.company()} {fake.country()}",
+            body=fake.text(),
         )
         post.save()
