@@ -10,20 +10,23 @@
                 <div class="card blog-post">
                     <div class="card-body">
                         <a href="{{post.id}}">
-                            <h2 class="card-title">{{ post.article.title }}</h2>
+                            <h2 class="card-title">{{ post.title }}</h2>
                         </a>
                         <div class="blog-meta">
-                            <p>Date: {{ post.article.created_at }}</p>
+                            <p>Date: {{ post.created_at }}</p>
                             <p>Author: {{ post.user }}</p>
                         </div>
-                        <p class="card-text">{{ post.article.content|safe }}</p>
-                        <a href="{{post.id}}" class="btn btn-outline-primary">
-                            Read More
-                        </a>
+                        <p class="card-text">{{ post.content|safe }}</p>
                         <div class="tags-section">
                             {% for tag in post.tags %}
                             <span class="tag">#{{ tag.slug }}</span>
                             {% endfor %}
+                        </div>
+                        <div class="like-heart">
+                            <a href="" class="like-button">
+                                <span class="like-icon"></span>
+                                <span>Like</span>
+                            </a>
                         </div>
                     </div>
                 </div>

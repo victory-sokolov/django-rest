@@ -1,13 +1,13 @@
 {% extends 'base.html' %} {% block content %}
 <div class="row">
-	<div class="blog-container">
-		<div class="post">
-			<h1>{{post.article.title}}</h1>
-			<div class="meta-info">
-				<p>Date published: {{ post.article.created_at }}</p>
-			</div>
-			{{post.article.content|safe}}
-		</div>
-	</div>
+    <div class="blog-container">
+        <div class="post">
+            <h1>{{post.title}}</h1>
+            <div class="meta-info">
+                <p>Date published: {{ post.created_at }}</p>
+            </div>
+            {{post.content|safe}}
+        </div>
+    </div>
 </div>
 {% endblock %}
