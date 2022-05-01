@@ -8,6 +8,7 @@ omit=
     */tests/*
     manage.py
     **/__init__.py
+    **/settings.py
 
 [html]
 directory = coverage
