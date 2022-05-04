@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% block content %} {% load static %}
 <div class="row">
     <div class="blog-container">
         <h1>Latest Posts</h1>
@@ -13,7 +13,7 @@
                             <h2 class="card-title">{{ post.title }}</h2>
                         </a>
                         <div class="blog-meta">
-                            <p>Date: {{ post.created_at }}</p>
+                            <p>Date: {{ post.created_at}}</p>
                             <p>Author: {{ post.user }}</p>
                         </div>
                         <p class="card-text">{{ post.content|safe }}</p>
@@ -23,7 +23,7 @@
                             {% endfor %}
                         </div>
                         <div class="like-heart">
-                            <a href="" class="like-button">
+                            <a href="#" class="like-button">
                                 <span class="like-icon"></span>
                                 <span>Like</span>
                             </a>
@@ -36,4 +36,5 @@
         </section>
     </div>
 </div>
+<script src="{% static 'script.js' %}"></script>
 {% endblock %}
