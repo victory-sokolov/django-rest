@@ -1,28 +1,28 @@
-from django.urls import path, include
-from django.urls.conf import re_path
+from django.urls import path
 from drf_spectacular.views import (
     SpectacularJSONAPIView,
     SpectacularSwaggerView,
 )
 from rest_framework import routers
-from djangoblog.api.v1.posts.views import ArticleView
+from .v1.token.views import RefreshTokenView, TokenView
+from djangoblog.api.v1.posts import views
 
 router = routers.SimpleRouter()
-router.register(r"post", ArticleView, basename="posts")
+# router.register(r"post", views.ArticleListView.as_view(), basename="post")
 
 urlpatterns = [
-    re_path(r"^v1/", include((router.urls))),
+    # re_path(r"^v1/", include((router.urls))),
+    path("v1/post/", views.ArticleListView.as_view(), name="posts"),
+    path("v1/post/<str:id>/", views.SingleArticleView.as_view(), name="post"),
     path("schema/", SpectacularJSONAPIView.as_view(), name="schema"),
+    # tokens endpoints
+    path("v1/token", TokenView.as_view(), name="token_obtain_pair"),
+    path("v1/refresh", RefreshTokenView.as_view(), name="token_refresh"),
     # Schemas
     path(
         "v1/schema.json",
         SpectacularJSONAPIView.as_view(api_version="v1"),
         name="schema-json-v1",
-    ),
-    path(
-        "v2/schema.json",
-        SpectacularJSONAPIView.as_view(api_version="v2"),
-        name="schema-json-v2",
     ),
     # Docs
     path(

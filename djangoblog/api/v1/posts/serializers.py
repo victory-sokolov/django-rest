@@ -1,42 +1,33 @@
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from djangoblog.api.models.category import Category
-from djangoblog.api.models.post import Post
-from djangoblog.models import UserProfile
+from djangoblog.api.models.post import Post, Tags
 
 
-class ArticleSerializer(serializers.Serializer):
-    title = serializers.CharField()
-    content = serializers.CharField()
-    created_at = serializers.CharField()
+class PostStatistics(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ["likes", "favorites", "views"]
 
 
-class TagSerializer(serializers.Serializer):
-    tag = serializers.CharField()
-    slug = serializers.CharField()
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tags
+        fields = "__all__"
 
 
-@extend_schema_serializer(exclude_fields=("title", "body", "created_at"))
+@extend_schema_serializer(exclude_fields=("title", "content", "created_at"))
 class PostSerializer(serializers.ModelSerializer):
-    category = serializers.SlugRelatedField(
-        many=True, slug_field="category", queryset=Category.objects.all()
-    )
-    user = serializers.SlugRelatedField(
-        slug_field="name", queryset=UserProfile.objects.all()
-    )
-    article = ArticleSerializer(many=True, read_only=True)
-    tags = TagSerializer(many=True)
+    user = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    tags = TagSerializer(many=True, required=False)
+    statistics = PostStatistics(source="*", read_only=True, required=False)
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        cat = data.pop("category")
-        title = data.pop("title")
-        content = data.pop("body")
-        created_at = data.pop("created_at")
-        data["categories"] = cat
-        data["article"] = {"title": title, "content": content, "created_at": created_at}
-        return data
+    def create(self, validated_data):
+        user = self.context["request"].user
+        post, created = Post.objects.update_or_create(
+            user=user, id=self.context.get("post_id"), defaults=validated_data
+        )
+        return post
 
     class Meta:
         model = Post
-        fields = "__all__"
+        exclude = ["views", "likes", "favorites"]

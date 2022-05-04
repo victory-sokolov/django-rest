@@ -12,7 +12,7 @@ class TestPostModel(TestCase):
     def setUpTestData(cls):
         cls.user = UserProfile.objects.get(pk=1)
         cls.post = Post.objects.create(
-            user=cls.user, title="My Blog post", body="Blog post body text"
+            user=cls.user, title="My Blog post", content="Blog post body text"
         )
 
     def test_post_creation(self):

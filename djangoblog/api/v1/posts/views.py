@@ -1,53 +1,34 @@
-from rest_framework.parsers import JSONParser
+from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework.mixins import (
-    RetrieveModelMixin,
-    UpdateModelMixin,
-    ListModelMixin,
-    CreateModelMixin,
-    DestroyModelMixin,
-)
 from rest_framework.views import APIView
-from rest_framework.authentication import (
-    BasicAuthentication,
-    SessionAuthentication,
-    TokenAuthentication,
-)
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.viewsets import GenericViewSet
+from rest_framework import status
 from drf_spectacular.utils import extend_schema
 
 from djangoblog.api.models.post import Post
 from djangoblog.api.v1.posts.serializers import PostSerializer
 
+from rest_framework.permissions import IsAuthenticated
+
 
 @extend_schema(tags=["post"])
-class ArticleView(
-    GenericViewSet,
-    UpdateModelMixin,
-    ListModelMixin,
-    RetrieveModelMixin,
-    DestroyModelMixin,
-    CreateModelMixin,
-):
-
-    queryset = Post.objects.filter(draft=False).order_by("-created_at")
+class ArticleListView(APIView):
     serializer_class = PostSerializer
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    # permission_classes = [IsAuthenticated]
-    name = "posts"
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(description="Get all available blog posts")
-    def get(self, request: Request, *args, **kwargs):
+    def get(self, request: Request):
         """Get all posts"""
-        return self.list(request, *args, **kwargs)
+        post = Post.objects.filter(draft=False).order_by("-created_at")
+        serializer = PostSerializer(post, many=True)
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     @extend_schema(description="Create new blog post", tags=["post"])
     def post(self, request: Request):
         """Create post"""
-        data = JSONParser().parse(request)
-        serializer = PostSerializer(data=data)
+        context = {"request": request}
+        serializer = PostSerializer(data=request.data, context=context)
 
         if serializer.is_valid():
             serializer.save()
@@ -55,31 +36,61 @@ class ArticleView(
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request: Request, pk: int):
-        return self.destroy(request, pk)
-
-    def put(self, request: Request, pk: int):
-        """Update article"""
-        return self.update(request, pk)
-
 
 @extend_schema(tags=["post"])
-class SingleArticle(APIView):
+class SingleArticleView(APIView):
 
-    serializer_class = PostSerializer
-    # authentication_classes = [SessionAuthentication, BasicAuthentication]
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, pk: int):
-        """Get single article by id"""
+    def get_object(self, user_id: int, post_id=None):
         try:
-            post = Post.objects.get(pk=pk)
+            if user_id:
+                return Post.objects.filter(user_id=user_id, id=post_id, draft=False)
+            return Post.objects.filter(draft=False)
         except Post.DoesNotExist:
+            raise Http404
 
+    def get(self, request: Request, id: str):
+        """Get single article."""
+        post = Post.objects.filter(id=id).first()
+        if not post:
             return Response(
-                f"Post with id: '{pk}' is not found", status=status.HTTP_400_BAD_REQUEST
+                {"response": f"Post with id {id} doesn't exists"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         serializer = PostSerializer(post)
-        return Response(serializer.data)
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+    def delete(self, request: Request, id: str):
+        """Delete post by id"""
+        post = self.get_object(request.user.id, id)
+        if not post:
+            return Response(
+                {"response": f"Post with id {id} doesn't exists"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        post.delete()
+        return Response(
+            {"response": f"Post with id {id} has been deleted."},
+            status=status.HTTP_200_OK,
+        )
+
+    def put(self, request: Request, id: str):
+        """Update article"""
+        post = self.get_object(request.user.id, id)
+        if not post:
+            return Response(
+                {"response": f"Post with id {id} doesn't exists"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        context = {"request": request, "post_id": id}
+        serializer = PostSerializer(data=request.data, context=context)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                data=serializer.data,
+                status=status.HTTP_200_OK,
+            )
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
