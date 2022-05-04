@@ -7,7 +7,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", view.index, name="home"),
     path("post/", view.post, name="post"),
-    path("post/<id>", view.post, name="post"),
+    path("post/<uuid:id>", view.post, name="post"),
     path("post/add/", view.add_post, name="add_post"),
     path("api/", include("djangoblog.api.urls"), name="api"),
     path("auth/", include("djangoblog.authentication.urls"), name="auth"),
@@ -17,3 +17,5 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = "djangoblog.view.handler404"

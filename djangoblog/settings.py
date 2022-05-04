@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+from datetime import timedelta
 import os
 import environ
 
@@ -26,13 +27,15 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 # False if not in os.environ because of casting above
 DEBUG = env("DEBUG")
 AUTH_USER_MODEL = "djangoblog.UserProfile"
 DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
 
+DATE_INPUT_FORMATS = "%Y-%m-%d"
+DATE_FORMAT = "Y-m-d"
 # Application definition
 INSTALLED_APPS = [
     "jazzmin",
@@ -48,6 +51,8 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "debug_toolbar",
     "ckeditor",
+    "corsheaders",
+    "compressor",
     "ckeditor_uploader",
     "tagify",
     # app based
@@ -68,6 +73,11 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "login"
 
+# Compressor
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = False
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Only enable the browseable HTML API in dev (DEBUG=True)
 if DEBUG:
@@ -79,7 +89,7 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     "DEFAULT_PERMISSION_CLASSES": [
-        # "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
@@ -89,11 +99,23 @@ REST_FRAMEWORK = {
     "DEFAULT_VERSION": "v2",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
     ),
 }
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60 * 24),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+    "BLACKLIST_AFTER_ROTATION": False,
+    "JTI_CLAIM": "jti",
+}
+
 
 LOGGING = {
     "version": 1,
@@ -144,6 +166,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "djangoblog.urls"

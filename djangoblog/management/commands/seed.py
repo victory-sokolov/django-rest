@@ -22,7 +22,7 @@ class Command(BaseCommand):
 
 def clear_data():
     """Deletes all the table data"""
-    print("Deleting all Posts")
+    logging.warning("Deleting all Posts")
     Post.objects.all().delete()
 
 
@@ -34,7 +34,7 @@ def run_seed(amount: int):
         post = Post(
             user=random.choice(users),
             title=f"{fake.company()} {fake.country()}",
-            body=fake.text(),
+            content=fake.text(),
         )
         posts.append(post)
 

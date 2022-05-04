@@ -34,21 +34,24 @@ class BlogPageTest(TestCase):
         cls.user = UserProfile.objects.create(
             name="TestUser", email="test@gmail.com", password="pass"
         )
+        cls.api_client = APIClient()
 
     def test_blog_template_render(self):
         response = self.client.get(reverse("post"))
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, "blog.html")
 
-    def test_post_render(self):
-        client = APIClient()
-        client.force_authenticate(user=self.user)
+    def test_single_post_rendered(self):
+        self.api_client.force_authenticate(user=self.user)
         post = Post.objects.create(
             title="Test post",
-            body="Test post data",
+            content="Test post data",
             user=self.user,
         )
-        response = client.get(reverse("post", kwargs={"id": str(post.id)}))
+        self.api_client.get(reverse("post", kwargs={"id": str(post.id)}))
+        response = self.client.get(reverse("post"))
+        self.assertEquals(response.status_code, 200)
+        self.assertIn("Test post data", str(response.content))
 
     def test_render_post_template(self):
         self.client.force_login(user=self.user)
@@ -57,14 +60,12 @@ class BlogPageTest(TestCase):
 
     def test_add_post(self):
         self.client.force_login(user=self.user)
-        form_data = {
-            "title": "Post Title",
-            "post": "Post body",
-            "tags": ["Python", "Js"],
-        }
+        form_data = {"title": "Post Title", "post": "Post body"}
         self.client.post(reverse("add_post"), data=form_data)
         form = PostForm(data=form_data)
         self.assertTrue(form.is_valid())
+        response = self.client.get(reverse("post"))
+        self.assertIn("Post body", str(response.content))
 
     def test_invalid_form(self):
         self.client.force_login(user=self.user)
