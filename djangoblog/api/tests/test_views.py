@@ -3,7 +3,7 @@ from uuid import uuid4
 from rest_framework.test import APITestCase
 from rest_framework import status
 from djangoblog.api.models.post import Post
-
+from django.urls import reverse
 from djangoblog.models import UserProfile
 
 
@@ -65,3 +65,27 @@ class TestPostApi(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(get_post.title, "Title 2")
         self.assertEqual(get_post.content, "Content 2")
+
+
+from rest_framework.test import APIClient
+
+
+class TestTokenApi(APITestCase):
+
+    fixtures = ["test"]
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = UserProfile.objects.get(pk=1)
+        cls.api_client = APIClient()
+
+    def test_token_success(self):
+        url = reverse("token_obtain_pair")
+        # self.api_client.force_authenticate(user=self.user)
+        credentials = {"email": self.user.email, "password": self.user.password}
+        user = UserProfile.objects.create(
+            email="nick@test.com", password="1234567", name="Nick"
+        )
+        # self.api_client.credentials(email=self.user.email, password=self.user.password)
+        self.api_client.login(email="nick@test.com", password="1234567")
+        response = self.api_client.post(url, data=credentials)

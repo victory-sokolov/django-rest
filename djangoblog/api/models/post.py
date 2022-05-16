@@ -1,14 +1,13 @@
-from typing import Union
 from uuid import uuid4
 from django.db import models
-from django.db.models.query import QuerySet
-
 from ckeditor.fields import RichTextField
+from djangoblog.api.models.managers import TagQuerySet
 
 from djangoblog.base import TimeStampedModel
 from djangoblog.models import UserProfile
 
 STATUS = ((0, "Draft"), (1, "Publish"))
+
 
 class Post(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid4)
@@ -35,18 +34,10 @@ class Tags(models.Model):
     tag = models.CharField(max_length=20)
     slug = models.SlugField(max_length=20, unique=True, null=True)
 
+    objects = TagQuerySet.as_manager()
+
     class Meta:
         db_table = "post_tag"
-
-    @classmethod
-    def create_if_not_exist(cls, tags: "list[str]") -> "QuerySet[Tags]":
-        """Create Tag if it doesn't exists."""
-        tag_set = Tags.objects.values_list("tag", flat=True)
-        for t in tags:
-            if t not in tag_set:
-                Tags.objects.create(tag=t, slug=t.lower().replace(" ", "-"))
-
-        return Tags.objects.filter(tag__in=tags)
 
     def __str__(self):
         return self.tag
