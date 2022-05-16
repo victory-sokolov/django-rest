@@ -1,6 +1,8 @@
+from django.contrib.auth.models import Group
 from django.contrib import admin
 from djangoblog.api.models.post import Post
 from djangoblog.models import UserProfile
+from django.contrib.auth.admin import GroupAdmin
 
 
 @admin.register(Post)
@@ -43,7 +45,17 @@ class UserAdmin(admin.ModelAdmin):
         (("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
 
+    @admin.action(description="Total posts")
     def get_total_posts(self, obj):
         return obj.post_set.count()
 
-    get_total_posts.short_description = "Total posts"
+
+class Role(Group):
+    class Meta:
+        proxy = True
+        app_label = "auth"
+        verbose_name = "Role"
+
+
+admin.site.unregister(Group)
+admin.site.register(Role, GroupAdmin)
