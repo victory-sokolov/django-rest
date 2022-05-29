@@ -1,4 +1,7 @@
 
+analyze: ## Run prospektor for static analysis
+	prospector --profile prospector djangoblog
+
 make-migrations: ## Run migrations
 	python manage.py makemigrations
 	python manage.py migrate

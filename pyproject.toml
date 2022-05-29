@@ -6,7 +6,7 @@ authors = ["Viktor Sokolov <viktorsokolov.and@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-Django = "^3.2.7"
+Django = "^4.0.4"
 djangorestframework = "^3.12.4"
 requests = "^2.26.0"
 drf-spectacular = "0.20.2"
@@ -25,17 +25,16 @@ djangorestframework-simplejwt = "^5.1.0"
 django-compressor = "^4.0"
 django-cors-headers = "^3.11.0"
 pylint = "^2.13.9"
-pylint-django = "^2.5.3"
 celery = "^5.2.6"
 watchdog = "^2.1.8"
 
 [tool.poetry.dev-dependencies]
 black = "^21.9b0"
-pylint = "^2.11.1"
-pylint-django = "^2.4.4"
 django-debug-toolbar = "^3.2.4"
 coverage = "^6.3.2"
 Faker = "^13.3.5"
+prospector = "^1.7.7"
+pdbpp = "^0.10.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
