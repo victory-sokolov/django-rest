@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from djangoblog.api.models.post import Post, Tags
 from djangoblog.api.v1.posts.serializers import PostSerializer
 from djangoblog.forms import PostForm
+from djangoblog.tasks import retrieve_all_posts
 
 
 def index(request: HttpRequest):
@@ -21,9 +22,8 @@ def post(request: HttpRequest, id: Union[str, None] = None):
         context["post"] = post
         return render(request, "post.html", context)
 
-    posts = Post.objects.all().order_by("-created_at")
-    serializer = PostSerializer(posts, many=True)
-    context["posts"] = serializer.data
+    data = retrieve_all_posts.delay()
+    context["posts"] = data.get()
     return render(request, "blog.html", context)
 
 
@@ -42,7 +42,8 @@ def add_post(request: HttpRequest):
                 user=request.user,
                 draft=is_draft,
             )
-            tag_set = Tags.create_if_not_exist(tags)
+
+            tag_set = Tags.objects.create_if_not_exist(tags)
             for tag in tag_set:
                 post.tags.add(tag)
             return redirect("post")
@@ -50,7 +51,7 @@ def add_post(request: HttpRequest):
     return render(request, "post.html")
 
 
-def handler404(request, *args, **argv):
+def handler404(request: HttpRequest, *args, **argv):
     response = render(request, "404.html")
     response.status_code = 404
     return response

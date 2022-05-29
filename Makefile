@@ -3,7 +3,10 @@ make-migrations: ## Run migrations
 	python manage.py makemigrations
 	python manage.py migrate
 
-test:
+worker: ## Run celery worker
+	watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery -A djangoblog worker -l info
+
+test: ## Run tests with coverage
 	coverage run manage.py test -v 2
 	coverage report
 	coverage html

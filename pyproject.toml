@@ -24,6 +24,10 @@ django-tagify2 = "^1.0.19"
 djangorestframework-simplejwt = "^5.1.0"
 django-compressor = "^4.0"
 django-cors-headers = "^3.11.0"
+pylint = "^2.13.9"
+pylint-django = "^2.5.3"
+celery = "^5.2.6"
+watchdog = "^2.1.8"
 
 [tool.poetry.dev-dependencies]
 black = "^21.9b0"
