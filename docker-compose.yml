@@ -1,8 +1,122 @@
-version: "3.7"
+version: "3.8"
 services:
+
+  app:
+    build:
+      context: .
+      dockerfile: djangoblog/Dockerfile
+    command: gunicorn djangoblog.wsgi:application --bind 0.0.0.0:8000
+    # command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 1337:80
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+
+  celery-worker:
+    build:
+      context: .
+    volumes:
+      - ./djangoblog:/app
+    environment:
+      <<: *common-variables
+    command: celery --app app worker -l info
+    depends_on:
+      - db
+      - redis
   rabbitmq:
     image: rabbitmq:3.10.2-management
     container_name: rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
+
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
+    container_name: elastic
+    restart: always
+    environment:
+      - node.name=node01
+      - cluster.name=es-cluster-7
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - "9300:9300"
+    networks:
+      - es-network
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.16.2
+    container_name: logstash
+    restart: always
+    ports:
+      - "5140:5140/udp"
+      - "5000:5000"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx1g -Xms1g"
+    networks:
+      - es-network
+    depends_on:
+      - elastic
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.16.2
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://elastic:9200
+    ports:
+      - 5601:5601
+    networks:
+      - es-network
+    depends_on:
+      - elastic
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server --loglevel warning
+    volumes:
+      - cache:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+
+  nginx:
+    build: ./djangoblog/docker/nginx
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+
+  db:
+    image: postgres:14.4
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=db
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  elasticsearch_data:
+    driver: local
+  cache:
+    driver: local
+
+networks:
+  es-network:
+    driver: bridge
