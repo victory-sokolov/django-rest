@@ -12,7 +12,6 @@ class Command(BaseCommand):
     help = "Seed database for testing and development"
 
     def add_arguments(self, parser: CommandParser) -> None:
-        parser.add_argument("gen", type=str)
         parser.add_argument("-a", "--amount", type=int, help="amount to generate")
 
     def handle(self, *args, **options):
