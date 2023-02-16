@@ -1,17 +1,35 @@
-from django.contrib.auth.models import Group
+import logging
 from django.contrib import admin
+
+from django.conf import settings
+from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Group
+
+from djangoblog.forms import GroupAdminForm
 from djangoblog.api.models.post import Post
+from djangoblog.forms import PostForm
 from djangoblog.models import UserProfile
-from django.contrib.auth.admin import GroupAdmin
+
+logger = logging.getLogger(__name__)
 
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ("title", "user", "likes")
-    list_filter = ("created_at",)
+    list_display = (
+        "title",
+        "user",
+        "likes",
+    )
+    readonly_fields = ["id", "user"]
+    list_filter = (
+        "created_at",
+        "likes",
+    )
     search_fields = ["title"]
     exclude = ("likes", "views", "favorites")
     ordering = ("-user", "title")
+
+    form = PostForm
 
 
 @admin.register(UserProfile)
@@ -25,7 +43,6 @@ class UserAdmin(admin.ModelAdmin):
                 "fields": (
                     "email",
                     "name",
-                    "password",
                     "profile_picture",
                 )
             },
@@ -42,20 +59,26 @@ class UserAdmin(admin.ModelAdmin):
                 ),
             },
         ),
-        (("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
 
     @admin.action(description="Total posts")
     def get_total_posts(self, obj):
         return obj.post_set.count()
 
+    def save_model(self, request, obj: UserProfile, form, change):
+        permissions = Permission.objects.filter(codename__in=settings.STAFF_PERMISSIONS)
+        obj.user_permissions.add(*permissions)
+        logger.info(f"Permissions {list(permissions)} added for user {obj.email}")
+        super().save_model(request, obj, form, change)
 
-class Role(Group):
-    class Meta:
-        proxy = True
-        app_label = "auth"
-        verbose_name = "Role"
 
+
+class GroupAdmin(admin.ModelAdmin):
+    
+    form = GroupAdminForm
+    filter_horizontal = ["permissions"]
+    
 
 admin.site.unregister(Group)
-admin.site.register(Role, GroupAdmin)
+
+admin.site.register(Group, GroupAdmin)
