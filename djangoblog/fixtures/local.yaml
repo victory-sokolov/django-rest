@@ -1,0 +1,10 @@
+- model: djangoblog.UserProfile
+  pk: 1
+  fields:
+    email: admin@gmail.com
+    password: superPassword12
+    name: Admin
+    is_staff: true
+    is_active: true
+    is_superuser: true
+    email_verified: true
