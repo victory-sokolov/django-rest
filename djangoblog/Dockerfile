@@ -28,15 +28,15 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 # ENV PATH="${PATH}:/root/.local/bin"
 
 # copy entrypoint.sh
-COPY ./entrypoint.sh .
-RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh
-RUN chmod +x /usr/src/app/entrypoint.sh
+# COPY entrypoint.sh .
+# RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh
+# RUN chmod +x /usr/src/app/entrypoint.sh
 
 
 # Set working directory
 WORKDIR $PYSETUP_PATH
 COPY ./poetry.lock ./pyproject.toml ./
-RUN poetry install --no-dev  # respects
+RUN poetry install --no-dev
 
 # Copy project app
 COPY . .
