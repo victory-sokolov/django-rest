@@ -44,13 +44,18 @@
 							>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="{% url 'post' %}">
+							<a class="nav-link" href="{% url 'get-all-posts' %}">
 								Posts
 							</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#">Contact</a>
 						</li>
+                        {% if user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Admin</a>
+                            </li>
+                        {% endif %}
 						{% if request.user.is_authenticated %}
 						<li class="nav-item">
 							<div class="add-post-btn">
@@ -84,8 +89,6 @@
 							>
 								<li>
 									<a class="dropdown-item" href="#">
-										{{ user.name}}
-										<br>
 										{{user.email}}
 									</a>
 								</li>
@@ -101,16 +104,18 @@
 							</li>
 						</ul>
 						{% else %}
-						<li class="nav-item">
-							<a class="nav-link" href="{% url 'login' %}">
-								Sign In
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{% url 'signup' %}">
-								Sign Up
-							</a>
-						</li>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">
+                                    Sign In
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'signup' %}">
+                                    Sign Up
+                                </a>
+                            </li>
+                        </ul>
 						{% endif %}
 					</ul>
 					<!-- Modal Windows -->
@@ -140,12 +145,13 @@
 									></button>
 								</div>
 								<div class="modal-body">
-									<form action="add/" method="POST">
-										{% csrf_token %} {% for field in form %}
-										<div class="mb-3">
-											{{ field.label_tag }} {{ field }}
-											{{form.media}}
-										</div>
+									<form action="{% url 'create-post' %}" method="POST">
+										{% csrf_token %}
+                                        {% for field in form %}
+                                            <div class="mb-3">
+                                                {{ field.label_tag }} {{ field }}
+                                                {{form.media}}
+                                            </div>
 										{% endfor %}
 										<button
 											type="submit"

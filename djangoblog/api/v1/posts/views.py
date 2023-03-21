@@ -11,6 +11,8 @@ from djangoblog.api.v1.posts.serializers import PostSerializer
 
 from rest_framework.permissions import IsAuthenticated
 
+from djangoblog.tasks import PostTask
+
 
 @extend_schema(tags=["post"])
 class ArticleListView(APIView):
@@ -20,9 +22,9 @@ class ArticleListView(APIView):
     @extend_schema(description="Get all available blog posts")
     def get(self, request: Request):
         """Get all posts"""
-        post = Post.objects.filter(draft=False).order_by("-created_at")
-        serializer = PostSerializer(post, many=True)
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
+        posts = PostTask().apply_async()
+        print(posts)
+        return Response(status=status.HTTP_200_OK, data=posts.get())
 
     @extend_schema(description="Create new blog post", tags=["post"])
     def post(self, request: Request):

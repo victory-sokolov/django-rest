@@ -32,6 +32,10 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 # False if not in os.environ because of casting above
 DEBUG = env("DEBUG")
 AUTH_USER_MODEL = "djangoblog.UserProfile"
+AUTHENTICATION_BACKENDS = (
+    'djangoblog.auth_backends.CustomUserModelBackend',
+)
+CUSTOM_USER_MODEL = 'djangoblog.models.UserProfile'
 DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
 
 DATE_INPUT_FORMATS = "%Y-%m-%d"
@@ -39,6 +43,7 @@ DATE_FORMAT = "Y-m-d"
 # Application definition
 INSTALLED_APPS = [
     "jazzmin",
+    "watchman",
     "rest_framework",
     "rest_framework.authtoken",
     "django.contrib.admin",
@@ -55,10 +60,12 @@ INSTALLED_APPS = [
     "compressor",
     "ckeditor_uploader",
     "tagify",
+    "dbbackup",
     # app based
     "djangoblog",
     "djangoblog.api",
     "djangoblog.authentication",
+    # "django_elasticsearch_dsl",
 ]
 
 MESSAGE_TAGS = {
@@ -79,11 +86,32 @@ COMPRESS_OFFLINE = False
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+# Permissions
+STAFF_PERMISSIONS = [
+    "view_post",
+    "view_userprofile"
+]
+
+# Database backup config
+# Execute backup: ./manage.py dbbackup -z
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {
+    'location': os.path.join(BASE_DIR, 'backup')
+}
+DBBACKUP_FILENAME_TEMPLATE = '{datetime}-{databasename}.{extension}'
+DBBACKUP_MEDIA_FILENAME_TEMPLATE = '{datetime}-media.{extension}'
+
+
 # Only enable the browseable HTML API in dev (DEBUG=True)
 if DEBUG:
     DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + (
         "rest_framework.renderers.BrowsableAPIRenderer",
     )
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.RemoteUserBackend",
+    "django.contrib.auth.backends.ModelBackend",
+)
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -93,7 +121,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 20,
+    "PAGE_SIZE": 100,
     "DEFAULT_RENDERER_CLASSES": DEFAULT_RENDERER_CLASSES,
     "ALLOWED_VERSIONS": ["v1", "v2"],
     "DEFAULT_VERSION": "v2",
@@ -116,7 +144,6 @@ SIMPLE_JWT = {
     "JTI_CLAIM": "jti",
 }
 
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -125,17 +152,55 @@ LOGGING = {
         "console": {
             "class": "rich.logging.RichHandler",
             "formatter": "rich",
-            "level": "DEBUG",
-        }
+            "level": "INFO",
+        },
+        "logstash": {
+            "level": "INFO",
+            "class": "logstash.TCPLogstashHandler",
+            "host": "localhost",
+            "port": 5959,
+            "version": 1,
+            "message_type": "django",
+            "fqdn": False,
+            "tags": ["django.request"],
+        },
     },
     "loggers": {
+        "django.request": {
+            "handlers": ["logstash"],
+            "level": "WARNING",
+            "propagate": True,
+        },
         "django": {
             "handlers": ["console"],
             "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
-            "propagate": False,
+            "propagate": True,
+        },
+        # Log DB queries
+        "django.db.backends": {
+            "level": "DEBUG",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+        'propagate': False,
+    },
+}
+
+# CONN_MAX_AGE = 5
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        "LOCATION": "redis:///host.docker.internal:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
     },
 }
+# CACHE_TTL = 60 * 15
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Blog API",
@@ -158,15 +223,19 @@ SPECTACULAR_SETTINGS = {
 }
 
 MIDDLEWARE = [
+    # "django.middleware.cache.UpdateCacheMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "compression_middleware.middleware.CompressionMiddleware",
+    # "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # "django.middleware.cache.FetchFromCacheMiddleware"
 ]
 
 ROOT_URLCONF = "djangoblog.urls"
@@ -194,12 +263,8 @@ WSGI_APPLICATION = "djangoblog.wsgi.application"
 
 DATABASES = {
     "test": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "ENGINE": "django.db.backends.sqlite3",
         "NAME": "mydb",
-        "USER": "myuser",
-        "PASSWORD": "mypass",
-        "HOST": "localhost",
-        "PORT": "5432",
     },
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -231,22 +296,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 INTERNAL_IPS = ["127.0.0.1"]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
-
+LANGUAGES = [
+    ("en", ("English")),
+    ("ru", ("Russian")),
+    ("lv", ("Latvian")),
+]
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
+# Celery Settings
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -257,19 +328,25 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "djangoblog/static"),
     os.path.join(BASE_DIR, "node_modules", "bootstrap", "dist"),
 ]
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+
+# ELK setup
+ELASTICSEARCH_DSL = {
+    "default": {"hosts": "localhost:9200"},
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
 JAZZMIN_SETTINGS = {
-    "site_title": "Django BLog",
+    "site_title": "Django Blog",
     "site_icon": "images/favicon.png",
     # Add your own branding here
     "site_logo": None,
-    "welcome_sign": "Welcome to the your_site_name",
+    "welcome_sign": "Welcome to the Django Blog",
     # Copyright on the footer
     "copyright": "Django Blog",
     "user_avatar": None,
@@ -279,7 +356,7 @@ JAZZMIN_SETTINGS = {
     # Links to put along the top menu
     "topmenu_links": [
         # Url that gets reversed (Permissions can be added)
-        {"name": "your_site_name", "url": "home", "permissions": ["auth.view_user"]},
+        {"name": "Django Blog", "url": "home", "permissions": ["auth.view_user"]},
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
     ],
@@ -290,7 +367,7 @@ JAZZMIN_SETTINGS = {
     "show_sidebar": True,
     # Whether to aut expand the menu
     "navigation_expanded": True,
-    # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2
+    # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery
     # for the full list of 5.13.0 free icon classes
     "icons": {
         "auth": "fas fa-users-cog",
@@ -310,10 +387,6 @@ JAZZMIN_SETTINGS = {
     #############
     # UI Tweaks #
     #############
-    # Relative paths to custom CSS/JS scripts (must be present in static files)
-    # Uncomment this line once you create the bootstrap-dark.css file
-    # "custom_css": "css/bootstrap-dark.css",
-    "custom_js": None,
     # Whether to show the UI customizer on the sidebar
     "show_ui_builder": False,
     ###############
@@ -321,8 +394,8 @@ JAZZMIN_SETTINGS = {
     ###############
     "changeform_format": "horizontal_tabs",
     # override change forms on a per modeladmin basis
-    "changeform_format_overrides": {
-        "auth.user": "collapsible",
-        "auth.group": "vertical_tabs",
-    },
+    # "changeform_format_overrides": {
+    #     "auth.user": "collapsible",
+    #     "auth.group": "vertical_tabs",
+    # },
 }

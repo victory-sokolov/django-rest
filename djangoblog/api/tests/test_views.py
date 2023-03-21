@@ -27,7 +27,7 @@ class TestPostApi(APITestCase):
 
     def test_get_all_posts(self):
         response = self.client.get("/api/v1/post/")
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_post_bad_request(self):
         data = {"title": "JavaScript Fetch API", "content": "Fetch API Data"}
@@ -36,24 +36,24 @@ class TestPostApi(APITestCase):
 
         response = self.client.post("/api/v1/post/", data={})
         response2 = self.client.put(f"/api/v1/post/{post_id}/", data={})
-        self.assertEquals(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEquals(response2.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response2.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_delete_post(self):
         data = {"title": "JavaScript Fetch API", "content": "Fetch API Data"}
         post = self.client.post("/api/v1/post/", data=data)
         id = json.loads(post.content)["id"]
         response = self.client.delete(f"/api/v1/post/{id}/")
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_post_not_found(self):
         data = {"title": "Title 2", "content": "Content 2"}
         update_post = self.client.put(f"/api/v1/post/{uuid4()}/", data=data)
         delete_post = self.client.delete(f"/api/v1/post/{uuid4()}/")
         get_post = self.client.get(f"/api/v1/post/{uuid4()}/")
-        self.assertEquals(update_post.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEquals(delete_post.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEquals(get_post.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(update_post.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(delete_post.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(get_post.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_update_post(self):
         initial_data = {"title": "JavaScript Fetch API", "content": "Fetch API Data"}
@@ -81,11 +81,11 @@ class TestTokenApi(APITestCase):
 
     def test_token_success(self):
         url = reverse("token_obtain_pair")
-        # self.api_client.force_authenticate(user=self.user)
+        self.api_client.force_authenticate(user=self.user)
         credentials = {"email": self.user.email, "password": self.user.password}
         user = UserProfile.objects.create(
             email="nick@test.com", password="1234567", name="Nick"
         )
-        # self.api_client.credentials(email=self.user.email, password=self.user.password)
+        self.api_client.credentials(email=self.user.email, password=self.user.password)
         self.api_client.login(email="nick@test.com", password="1234567")
         response = self.api_client.post(url, data=credentials)

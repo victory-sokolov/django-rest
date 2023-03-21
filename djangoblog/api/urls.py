@@ -13,7 +13,7 @@ router = routers.SimpleRouter()
 urlpatterns = [
     # re_path(r"^v1/", include((router.urls))),
     path("v1/post/", views.ArticleListView.as_view(), name="posts"),
-    path("v1/post/<str:id>/", views.SingleArticleView.as_view(), name="post"),
+    path("v1/post/<uuid:id>/", views.SingleArticleView.as_view(), name="post"),
     path("schema/", SpectacularJSONAPIView.as_view(), name="schema"),
     # tokens endpoints
     path("v1/token", TokenView.as_view(), name="token_obtain_pair"),

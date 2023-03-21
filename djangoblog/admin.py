@@ -43,6 +43,7 @@ class UserAdmin(admin.ModelAdmin):
                 "fields": (
                     "email",
                     "name",
+                    "password",
                     "profile_picture",
                 )
             },
@@ -65,11 +66,11 @@ class UserAdmin(admin.ModelAdmin):
     def get_total_posts(self, obj):
         return obj.post_set.count()
 
-    def save_model(self, request, obj: UserProfile, form, change):
-        permissions = Permission.objects.filter(codename__in=settings.STAFF_PERMISSIONS)
-        obj.user_permissions.add(*permissions)
-        logger.info(f"Permissions {list(permissions)} added for user {obj.email}")
-        super().save_model(request, obj, form, change)
+    # def save_model(self, request, obj: UserProfile, form, change):
+    #     permissions = Permission.objects.filter(codename__in=settings.STAFF_PERMISSIONS)
+    #     obj.user_permissions.add(*permissions)
+    #     logger.info(f"Permissions {list(permissions)} added for user {obj.email}")
+    #     super().save_model(request, obj, form, change)
 
 
 

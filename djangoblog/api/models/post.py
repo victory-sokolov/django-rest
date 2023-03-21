@@ -9,6 +9,20 @@ from djangoblog.models import UserProfile
 STATUS = ((0, "Draft"), (1, "Publish"))
 
 
+class Tags(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4)
+    tag = models.CharField(max_length=20)
+    slug = models.SlugField(max_length=20, unique=True, null=True)
+
+    objects = TagQuerySet.as_manager()
+
+    class Meta:
+        db_table = "post_tag"
+
+    def __str__(self):
+        return self.tag
+
+
 class Post(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid4)
     user = models.ForeignKey(UserProfile, null=True, on_delete=models.CASCADE)
@@ -27,20 +41,6 @@ class Post(TimeStampedModel):
 
     def __str__(self) -> str:
         return self.title
-
-
-class Tags(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid4)
-    tag = models.CharField(max_length=20)
-    slug = models.SlugField(max_length=20, unique=True, null=True)
-
-    objects = TagQuerySet.as_manager()
-
-    class Meta:
-        db_table = "post_tag"
-
-    def __str__(self):
-        return self.tag
 
 
 class PostComments(models.Model):
