@@ -19,5 +19,8 @@
   "homepage": "https://github.com/victory-sokolov/django-rest#readme",
   "dependencies": {
     "bootstrap": "^5.1.3"
+  },
+  "devDependencies": {
+    "bandit": "^0.0.1"
   }
 }
