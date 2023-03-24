@@ -1,13 +1,14 @@
 
 analyze: ## Run prospektor for static analysis
-	prospector --profile prospector djangoblog
+	poetry run prospector --profile prospector djangoblog
 
 make-migrations: ## Run migrations
-	python manage.py makemigrations
-	python manage.py migrate
+	poetry run python manage.py makemigrations
+	poetry run python manage.py migrate
 
 worker: ## Run celery worker
-	watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery -A djangoblog worker -l info
+	poetry run celery -A djangoblog worker -l info
+	# watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery -A djangoblog worker -l info
 
 start: ## Start project with uvicorn
 	uvicorn djangoblog.asgi:application --port 8081 --reload
@@ -19,13 +20,13 @@ loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
 
 test: ## Run tests with coverage
-	coverage run manage.py test -v 2
-	coverage report
-	coverage html
+	poetry run coverage run manage.py test -v 2
+	poetry run coverage report
+	poetry run coverage html
 
 build-local:
 	# Load initial data
-	python manage.py loaddata djangoblog/fixtures/local.yaml
+	poetry run python manage.py loaddata djangoblog/fixtures/local.yaml
 
 
 help:
