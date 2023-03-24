@@ -23,7 +23,7 @@ RUN apt-get update \
 
 # Install Poetry
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
-ENV POETRY_VERSION=1.2.0
+ENV POETRY_VERSION=1.4.1
 RUN curl -sSL https://install.python-poetry.org | python3 -
 # ENV PATH="${PATH}:/root/.local/bin"
 
@@ -36,7 +36,7 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 # Set working directory
 WORKDIR $PYSETUP_PATH
 COPY ./poetry.lock ./pyproject.toml ./
-RUN poetry install --no-dev
+RUN poetry install --only main
 
 # Copy project app
 COPY . .
