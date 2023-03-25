@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "django-rest-api"
 version = "0.1.0"
-description = ""
+description = "Django blog"
 authors = ["Viktor Sokolov <viktorsokolov.and@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-django = "^4.1.4"
+django = "^4.1.7"
 djangorestframework = "^3.12.4"
 requests = "^2.26.0"
 drf-spectacular = "0.20.2"

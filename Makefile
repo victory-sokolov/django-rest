@@ -6,6 +6,9 @@ make-migrations: ## Run migrations
 	poetry run python manage.py makemigrations
 	poetry run python manage.py migrate
 
+dev:
+	poetry run python manage.py runserver
+
 worker: ## Run celery worker
 	poetry run celery -A djangoblog worker -l info
 	# watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery -A djangoblog worker -l info
