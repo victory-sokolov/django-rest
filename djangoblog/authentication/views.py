@@ -1,8 +1,7 @@
 import logging
 
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
-from django.views.generic.base import View
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from djangoblog.authentication.forms import SignUpForm, LoginForm
@@ -28,10 +27,9 @@ class LoginView(FormView):
 
         email = request.POST.get("email")
         password = request.POST.get("password")
-
         user = authenticate(request, email=email, password=password)
 
-        if user is None:
+        if not user:
             messages.error(request, "Invalid Credentials")
             return redirect("login")
 
@@ -46,13 +44,13 @@ class SignUpView(ListView):
     model = UserProfile
     template_name = "signup.html"
 
-    def get(self, request: HttpRequest):
+    def get(self, request: HttpRequest) -> HttpResponse:
         if "user" in request.session:
             return redirect("home")
 
         return render(request, "signup.html", {"form": self.form})
 
-    def post(self, request: HttpRequest):
+    def post(self, request: HttpRequest) -> HttpResponse:
         form = SignUpForm(request.POST)
 
         if form.is_valid():
@@ -68,7 +66,7 @@ class SignUpView(ListView):
             except IntegrityError:
                 logger.warning(f"User with {email} already exists")
                 messages.warning(request, mark_safe(f"User {email} already exists"))
-                return
+                return redirect('signup')
 
             messages.success(
                 request,

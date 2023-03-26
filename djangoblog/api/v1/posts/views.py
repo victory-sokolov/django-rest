@@ -1,3 +1,4 @@
+import logging
 from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.request import Request
@@ -12,6 +13,8 @@ from djangoblog.api.v1.posts.serializers import PostSerializer
 from rest_framework.permissions import IsAuthenticated
 
 from djangoblog.tasks import PostTask
+
+logger = logging.getLogger(__name__)
 
 
 @extend_schema(tags=["post"])

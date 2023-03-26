@@ -66,7 +66,6 @@ class PostCreateView(CreateView):
 
         tag_set = Tags.objects.create_if_not_exist(tags)
         for tag in tag_set:
-            print("Set tag", tag)
             post.tags.add(tag)
 
         logger.info(f"New post with {post.id} has been created")
