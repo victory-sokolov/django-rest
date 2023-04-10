@@ -16,5 +16,19 @@
       "bearer": "{{token}}"
     },
     "tests": []
+  },
+  {
+    "_id": "d796e8bf-05cd-4db2-9bf1-1ad014984bd5",
+    "colId": "history",
+    "containerId": "",
+    "name": "Update Post",
+    "url": "/post/",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-04-10T09:35:59.547Z",
+    "modified": "2023-04-10T09:35:59.547Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

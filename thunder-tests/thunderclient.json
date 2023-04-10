@@ -74,5 +74,28 @@
       "bearer": "{{token}}"
     },
     "tests": []
+  },
+  {
+    "_id": "4f49335e-d3a6-4c42-bc90-d7129fcb304a",
+    "colId": "0c19f606-4151-4e65-bd26-5a9969fcab9c",
+    "containerId": "",
+    "name": "Update Post",
+    "url": "/post/73aa5500-0baa-4025-b3a1-2f47174dcd84/",
+    "method": "PUT",
+    "sortNum": 40000,
+    "created": "2023-04-10T09:36:18.147Z",
+    "modified": "2023-04-10T12:44:29.995Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"title\": \"Django Transactions\",\n    \"slug\": \"django-transactions\",\n    \"content\": \"Django Transactions\",\n    \"tags\": [\n        {\"tag\": \"Django\"},\n        {\"tag\": \"Python\"}\n    ]\n}\n",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
   }
 ]
