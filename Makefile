@@ -22,10 +22,13 @@ prod:
 loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
 
-test: ## Run tests with coverage
+tests: ## Run tests with coverage
 	poetry run coverage run manage.py test -v 2
 	poetry run coverage report
 	poetry run coverage html
+
+test: ## Run single test
+	poetry run python manage.py test 
 
 build-local:
 	# Load initial data
