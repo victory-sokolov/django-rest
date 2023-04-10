@@ -1,3 +1,4 @@
+import json
 from django.test import SimpleTestCase, TestCase, Client
 from django.urls import reverse
 
@@ -37,7 +38,7 @@ class BlogPageTest(TestCase):
         cls.api_client = APIClient()
 
     def test_blog_template_render(self):
-        response = self.client.get(reverse("post"))
+        response = self.client.get(reverse("get-all-posts"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "blog.html")
 
@@ -48,29 +49,26 @@ class BlogPageTest(TestCase):
             content="Test post data",
             user=self.user,
         )
-        self.api_client.get(reverse("post", kwargs={"id": str(post.id)}))
-        response = self.client.get(reverse("post"))
+        response = self.api_client.get(reverse("get-post-by-id", kwargs={"pk": str(post.id)}))
         self.assertEqual(response.status_code, 200)
-        # self.assertIn("Test post data", str(response.content))
-
-    def test_render_post_template(self):
-        self.client.force_login(user=self.user)
-        response = self.client.get(reverse("add_post"))
+        self.assertIn("Test post data", str(response.content))
         self.assertTemplateUsed(response, "post.html")
 
     def test_add_post(self):
         self.client.force_login(user=self.user)
-        form_data = {"title": "Post Title", "post": "Post body"}
-        response = self.client.post(reverse("add_post"), data=form_data, format="json")
-        # print(response)
-        # form = PostForm(data=form_data)
-        # self.assertTrue(form.is_valid())
-        # response = self.api_client.get(reverse("post"))
-        # print(response.data)
-        # self.assertIn("Post body", str(response.content))
+        form_data = {
+            "title": "Post Title", 
+            "post": "Post body", 
+            "tags": json.dumps([{'value': 'Python'}, {'value': 'Django'}]),
+        }
+        response = self.client.post(
+            reverse("create-post"), 
+            data=form_data,
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
 
     def test_invalid_form(self):
         self.client.force_login(user=self.user)
-        self.client.post(reverse("add_post"), data={})
         form = PostForm(data={})
-        # self.assertFalse(form.is_valid())
+        self.assertFalse(form.is_valid())

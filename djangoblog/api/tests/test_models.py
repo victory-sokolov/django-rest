@@ -29,9 +29,10 @@ class TestPostModel(TestCase):
 
 
 class TestTags(TestCase):
-    def test_add_tag_if_not_exists(self):
-        tag_list = ["TypeScript", "JavaScript", "Python"]
+
+    def test_dont_add_tag(self):
+        tag_list = [{"value": "TypeScript"}, {"value": "JavaScript"}, {"value": "Python"}]
         Tags.objects.create(tag="TypeScript", slug="typescript")
         tags = Tags.objects.create_if_not_exist(tag_list)
-        self.assertEqual(tags.count(), 3)
+        self.assertEqual(Tags.objects.all().count(), 3)
         self.assertEqual(Tags.objects.filter(tag="TypeScript").count(), 1)

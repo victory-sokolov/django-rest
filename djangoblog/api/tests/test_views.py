@@ -51,20 +51,23 @@ class TestPostApi(APITestCase):
         update_post = self.client.put(f"/api/v1/post/{uuid4()}/", data=data)
         delete_post = self.client.delete(f"/api/v1/post/{uuid4()}/")
         get_post = self.client.get(f"/api/v1/post/{uuid4()}/")
-        self.assertEqual(update_post.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(delete_post.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(get_post.status_code, status.HTTP_400_BAD_REQUEST)
+
+        self.assertEqual(update_post.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(delete_post.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(get_post.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_update_post(self):
-        initial_data = {"title": "JavaScript Fetch API", "content": "Fetch API Data"}
-        new_data = {"title": "Title 2", "content": "Content 2"}
+        initial_data = {"title": "JavaScript Fetch", "content": "Fetch Data"}
+        new_data = {"title": "JavaScript Axios", "content": "Axios Data"}
         create_post = self.client.post("/api/v1/post/", data=initial_data).content
         post = json.loads(create_post)
+
         response = self.client.put(f"/api/v1/post/{post['id']}/", data=new_data)
-        get_post = Post.objects.get(id=post["id"])
+        data = response.json()
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(get_post.title, "Title 2")
-        self.assertEqual(get_post.content, "Content 2")
+        self.assertEqual(data.get("title"), "JavaScript Axios")
+        self.assertEqual(data.get("content"), "Axios Data")
 
 
 from rest_framework.test import APIClient

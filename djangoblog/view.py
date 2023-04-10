@@ -52,15 +52,16 @@ class PostView(ListView):
 
 class PostCreateView(CreateView):
     model = Post
+    form_class = PostForm
 
     @method_decorator(login_required)
     def post(self, request: HttpRequest,  **kwargs):
-        is_draft = True if self.request.POST.get("draft") == "on" else False
-        tags = json.loads(self.request.POST.get("tags", {}))
+        is_draft = True if request.POST.get("draft") == "on" else False
+        tags = json.loads(request.POST.get("tags", []))
         post = Post.objects.create(
-            title=self.request.POST.get("title"),
-            content=self.request.POST.get("content"),
-            user=self.request.user,
+            title=request.POST.get("title"),
+            content=request.POST.get("content"),
+            user=request.user,
             draft=is_draft,
         )
 

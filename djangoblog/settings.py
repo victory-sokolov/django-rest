@@ -265,6 +265,7 @@ DATABASES = {
     "test": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": "mydb",
+        'MIGRATE': False
     },
     "default": {
         "ENGINE": "django.db.backends.sqlite3",

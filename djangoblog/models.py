@@ -68,3 +68,5 @@ class UserProfile(AbstractUser, PermissionsMixin):
         # logger.info(f"Permissions {list(permissions)} added for user {self.email}")
         super().save(*args, **kwargs)
 
+    def __str__(self) -> str:
+        return self.email

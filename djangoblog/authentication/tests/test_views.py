@@ -13,7 +13,7 @@ class TestAuth(TestCase):
 
     def test_authenticated_user_can_see_page(self):
         self.client.force_login(user=self.user)
-        response = self.client.get(reverse("post"))
+        response = self.client.get(reverse("get-all-posts"))
         self.assertIn(b"testuser@mail.com", response.content)
 
     def test_render_signup_template(self):

@@ -24,6 +24,7 @@ class PostForm(forms.ModelForm):
         self.fields["draft"].widget.attrs["class"] = "checkbox-inline"
         self.fields["title"].widget.attrs["placeholder"] = "Blog Title"
         self.fields["slug"].widget.attrs["placeholder"] = "Blog Slug"
+        self.fields["tags"].required = False
 
     def save(self, *args, **kwargs):
         self.tags.data_list = list(Tags.objects.all().values_list("tag", flat=True))

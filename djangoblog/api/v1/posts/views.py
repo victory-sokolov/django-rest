@@ -26,7 +26,6 @@ class ArticleListView(APIView):
     def get(self, request: Request):
         """Get all posts"""
         posts = PostTask().apply_async()
-        print(posts)
         return Response(status=status.HTTP_200_OK, data=posts.get())
 
     @extend_schema(description="Create new blog post", tags=["post"])
@@ -47,11 +46,9 @@ class SingleArticleView(APIView):
 
     permission_classes = [IsAuthenticated]
 
-    def get_object(self, user_id: int, post_id=None):
+    def get_object(self, post_id: str):
         try:
-            if user_id:
-                return Post.objects.filter(user_id=user_id, id=post_id, draft=False)
-            return Post.objects.filter(draft=False)
+            return Post.objects.get(id=post_id, draft=False)
         except Post.DoesNotExist:
             raise Http404
 
@@ -61,7 +58,7 @@ class SingleArticleView(APIView):
         if not post:
             return Response(
                 {"response": f"Post with id {id} doesn't exists"},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         serializer = PostSerializer(post)
@@ -69,11 +66,11 @@ class SingleArticleView(APIView):
 
     def delete(self, request: Request, id: str):
         """Delete post by id"""
-        post = self.get_object(request.user.id, id)
+        post = self.get_object(id)
         if not post:
             return Response(
                 {"response": f"Post with id {id} doesn't exists"},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=status.HTTP_404_NOT_FOUND,
             )
         post.delete()
         return Response(
@@ -83,14 +80,15 @@ class SingleArticleView(APIView):
 
     def put(self, request: Request, id: str):
         """Update article"""
-        post = self.get_object(request.user.id, id)
+        post = self.get_object(post_id=str(id))
         if not post:
             return Response(
                 {"response": f"Post with id {id} doesn't exists"},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=status.HTTP_404_NOT_FOUND,
             )
         context = {"request": request, "post_id": id}
-        serializer = PostSerializer(data=request.data, context=context)
+        serializer = PostSerializer(post, data=request.data, context=context)
+
         if serializer.is_valid():
             serializer.save()
             return Response(

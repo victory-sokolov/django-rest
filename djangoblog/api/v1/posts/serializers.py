@@ -39,7 +39,17 @@ class PostSerializer(serializers.ModelSerializer):
             post.tags.add(tag)
         return post
 
+    def update(self, instance, validated_data):
+        tags_data = validated_data.pop('tags', None)  # extract the tags data from validated_data
+        if tags_data is not None:
+            # remove the old tags and add the new tags to the post instance
+            instance.tags.clear()
+            for tag_data in tags_data:
+                tag, _ = Tags.objects.get_or_create(tag=tag_data['tag'])
+                instance.tags.add(tag)
+
+        return super().update(instance, validated_data)
 
     class Meta:
         model = Post
-        fields = ["title", "slug", "tags", "user", "content"]
+        fields = ["id", "title", "slug", "tags", "user", "content"]
