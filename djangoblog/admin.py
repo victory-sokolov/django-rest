@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.contrib.auth.models import Permission
 from django.contrib.auth.models import Group
+from django.http import HttpRequest
 
 from djangoblog.forms import GroupAdminForm
 from djangoblog.api.models.post import Post
@@ -43,7 +44,6 @@ class UserAdmin(admin.ModelAdmin):
                 "fields": (
                     "email",
                     "name",
-                    "password",
                     "profile_picture",
                 )
             },
@@ -65,6 +65,12 @@ class UserAdmin(admin.ModelAdmin):
     @admin.action(description="Total posts")
     def get_total_posts(self, obj):
         return obj.post_set.count()
+    
+    def get_readonly_fields(self, request: HttpRequest, obj):
+        if request.user.is_superuser:
+            return ("is_active", "is_staff", "is_superuser",)
+
+        return super().get_readonly_fields(request, obj)
 
     # def save_model(self, request, obj: UserProfile, form, change):
     #     permissions = Permission.objects.filter(codename__in=settings.STAFF_PERMISSIONS)
