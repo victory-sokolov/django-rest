@@ -33,6 +33,7 @@ djangorestframework-stubs = "^1.10.0"
 django-csp = "^3.7"
 drf-writable-nested = "^0.7.0"
 elasticsearch-dsl = "7.4.1"
+django-silk = "^5.0.3"
 
 [tool.poetry.dev-dependencies]
 black = "^23.1.0"

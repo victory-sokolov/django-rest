@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "djangoblog",
     "djangoblog.api",
     "djangoblog.authentication",
+    "silk"
     # "django_elasticsearch_dsl",
 ]
 
@@ -234,6 +235,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "compression_middleware.middleware.CompressionMiddleware",
+    "silk.middleware.SilkyMiddleware"
     # "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # "django.middleware.cache.FetchFromCacheMiddleware"
 ]
@@ -357,7 +359,8 @@ JAZZMIN_SETTINGS = {
     # Links to put along the top menu
     "topmenu_links": [
         # Url that gets reversed (Permissions can be added)
-        {"name": "Django Blog", "url": "home", "permissions": ["auth.view_user"]},
+        {"name": "Django Blog", "url": "home",
+            "permissions": ["auth.view_user"]},
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
     ],
