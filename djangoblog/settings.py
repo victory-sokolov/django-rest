@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-from sentry_sdk.integrations import django, celery
+from sentry_sdk.integrations import django, celery, redis
 import sentry_sdk
 from datetime import timedelta
 import os
@@ -418,21 +418,17 @@ JAZZMIN_SETTINGS = {
     # },
 }
 
-
-sentry_sdk.init(
-    dsn="https://6e9f9287f768417e964af95f999d8678@o4505149785243648.ingest.sentry.io/4505149787930624",
-    integrations=[
-        django.DjangoIntegration(),
-        celery.CeleryIntegration(),
-
-    ],
-
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
-    traces_sample_rate=1.0,
-
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
+if not DEBUG:
+    sentry_sdk.init(
+        dsn="https://6e9f9287f768417e964af95f999d8678@o4505149785243648.ingest.sentry.io/4505149787930624",
+        integrations=[
+            django.DjangoIntegration(),
+            celery.CeleryIntegration(),
+            redis.RedisIntegration(),
+        ],
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0,
+        send_default_pii=True
+    )
