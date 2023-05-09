@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+from sentry_sdk.integrations import django, celery
+import sentry_sdk
 from datetime import timedelta
 import os
 import environ
@@ -148,8 +150,20 @@ SIMPLE_JWT = {
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "formatters": {"rich": {"datefmt": "[%X]"}},
+    "formatters": {
+        "rich": {"datefmt": "[%X]"},
+        "simple": {
+            "format": '[%(asctime)s] %(levelname)s | %(funcName)s | %(name)s | %(message)s',
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+    },
     "handlers": {
+        'logger': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR + '/logs/test.log',
+            'formatter': 'simple',
+        },
         "console": {
             "class": "rich.logging.RichHandler",
             "formatter": "rich",
@@ -403,3 +417,22 @@ JAZZMIN_SETTINGS = {
     #     "auth.group": "vertical_tabs",
     # },
 }
+
+
+sentry_sdk.init(
+    dsn="https://6e9f9287f768417e964af95f999d8678@o4505149785243648.ingest.sentry.io/4505149787930624",
+    integrations=[
+        django.DjangoIntegration(),
+        celery.CeleryIntegration(),
+
+    ],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
