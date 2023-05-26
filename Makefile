@@ -2,13 +2,13 @@
 analyze: ## Run prospektor for static analysis
 	poetry run prospector --profile prospector djangoblog
 
-migrate:
+migrate: ## Run migrations
 	poetry run python manage.py migrate
 
-make-migrations: migrate ## Run migrations
+make-migrations: migrate ## Create and run migrations
 	poetry run python manage.py makemigrations
 
-dev:
+dev: ## Run dev server
 	poetry run python manage.py runserver
 
 worker: ## Run celery worker
@@ -20,6 +20,9 @@ start: ## Start project with uvicorn
 
 prod:
 	gunicorn djangoblog:asgi:application -w 4 -k uvicorn.workers.UvicornWorker --log-file -
+
+showoutdated: ## Show outdated Poetry packages
+	poetry show --outdated
 
 loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
@@ -35,8 +38,17 @@ test: ## Run single test
 build-local: load-fixtures migrate
 	poetry install
 
-load-fixtures:
-	poetry run python manage.py loaddata djangoblog/fixtures/local.yaml
+load-fixtures: ## Load local and test fixtures
+	poetry run python manage.py loaddata djangoblog/fixtures/*.yaml
+
+flush-db: ## Reset local DB
+	poetry run python manage.py flush
+
+create-superuser: ## Create a new superuser
+	poetry run python manage.py create_superuser \
+		--user=Admin \
+		--password=superPassword12 \
+		--email=admin@gmail.com
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
