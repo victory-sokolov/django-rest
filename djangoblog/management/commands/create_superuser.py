@@ -15,15 +15,21 @@ class Command(BaseCommand):
         parser.add_argument("--email", default="admin@example.com")
 
     def handle(self, *args, **options):
-        user = get_user_model()
+        user_model = get_user_model()
         username = options["user"]
         password = options["password"]
         email = options["email"]
-    
-        if user.objects.exists():
+
+        user = user_model.objects.filter(email=email)
+
+        if user.exists():
             self.stdout.write(f"User with email {email} already exists")
             return
 
-        user.objects.create_superuser(username=username, password=password, email=email)
+        user_model.objects.create_superuser(
+            name=username,
+            password=password,
+            email=email,
+        )
 
         self.stdout.write(f'Local user "{username}" was created')
