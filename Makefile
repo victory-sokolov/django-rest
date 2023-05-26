@@ -2,9 +2,11 @@
 analyze: ## Run prospektor for static analysis
 	poetry run prospector --profile prospector djangoblog
 
-make-migrations: ## Run migrations
-	poetry run python manage.py makemigrations
+migrate:
 	poetry run python manage.py migrate
+
+make-migrations: migrate ## Run migrations
+	poetry run python manage.py makemigrations
 
 dev:
 	poetry run python manage.py runserver
@@ -30,10 +32,11 @@ tests: ## Run tests with coverage
 test: ## Run single test
 	poetry run python manage.py test 
 
-build-local:
-	# Load initial data
-	poetry run python manage.py loaddata djangoblog/fixtures/local.yaml
+build-local: load-fixtures migrate
+	poetry install
 
+load-fixtures:
+	poetry run python manage.py loaddata djangoblog/fixtures/local.yaml
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
