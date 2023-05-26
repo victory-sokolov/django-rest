@@ -4,11 +4,11 @@
     "colId": "0c19f606-4151-4e65-bd26-5a9969fcab9c",
     "containerId": "",
     "name": "Create post",
-    "url": "/post/",
+    "url": "{{baseUrl}}/post/",
     "method": "POST",
     "sortNum": 10000,
     "created": "2023-03-25T15:11:25.890Z",
-    "modified": "2023-03-25T19:11:15.485Z",
+    "modified": "2023-05-26T08:08:30.514Z",
     "headers": [],
     "params": [],
     "body": {
@@ -27,11 +27,11 @@
     "colId": "0c19f606-4151-4e65-bd26-5a9969fcab9c",
     "containerId": "",
     "name": "Generate token",
-    "url": "/token",
+    "url": "{{baseUrl}}/api/v1/token",
     "method": "POST",
     "sortNum": 20000,
     "created": "2023-03-25T15:12:44.622Z",
-    "modified": "2023-03-25T15:18:29.659Z",
+    "modified": "2023-05-26T07:35:40.853Z",
     "headers": [],
     "params": [],
     "body": {
@@ -40,33 +40,26 @@
       "form": [
         {
           "name": "email",
-          "value": "viktor@gmail.com"
+          "value": "admin@gmail.com"
         },
         {
           "name": "password",
-          "value": "123456"
+          "value": "superPassword12"
         }
       ]
     },
-    "tests": [
-      {
-        "type": "set-env-var",
-        "custom": "json.access_token",
-        "action": "setto",
-        "value": "{{token}}"
-      }
-    ]
+    "tests": []
   },
   {
     "_id": "2151c444-c88b-4ee2-b9e8-f4ded2cdf638",
     "colId": "0c19f606-4151-4e65-bd26-5a9969fcab9c",
     "containerId": "",
     "name": "Get all posts",
-    "url": "/post",
+    "url": "{{baseUrl}}//post",
     "method": "GET",
     "sortNum": 30000,
     "created": "2023-03-25T17:11:50.787Z",
-    "modified": "2023-03-25T17:11:50.787Z",
+    "modified": "2023-05-26T08:08:37.459Z",
     "headers": [],
     "params": [],
     "auth": {
@@ -80,11 +73,11 @@
     "colId": "0c19f606-4151-4e65-bd26-5a9969fcab9c",
     "containerId": "",
     "name": "Update Post",
-    "url": "/post/73aa5500-0baa-4025-b3a1-2f47174dcd84/",
+    "url": "{{baseUrl}}/post/73aa5500-0baa-4025-b3a1-2f47174dcd84/",
     "method": "PUT",
     "sortNum": 40000,
     "created": "2023-04-10T09:36:18.147Z",
-    "modified": "2023-04-10T12:44:29.995Z",
+    "modified": "2023-05-26T08:08:50.183Z",
     "headers": [],
     "params": [],
     "body": {

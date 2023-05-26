@@ -4,11 +4,11 @@
     "colId": "history",
     "containerId": "",
     "name": "Get all posts",
-    "url": "/post",
+    "url": "http://localhost:8000/api/v1/post",
     "method": "GET",
     "sortNum": 0,
     "created": "2023-03-25T17:10:07.544Z",
-    "modified": "2023-03-25T17:10:07.544Z",
+    "modified": "2023-05-18T07:21:54.331Z",
     "headers": [],
     "params": [],
     "auth": {
