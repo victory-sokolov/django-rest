@@ -289,6 +289,10 @@ DATABASES = {
     },
 }
 
+FIXTURE_DIRS = [
+    "djangoblog/fixtures",
+]
+
 # default_database = env("DJANGO_DATABASE")
 # DATABASES["default"] = DATABASES[default_database]
 
@@ -324,9 +328,11 @@ LANGUAGES = [
 ]
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
-USE_I18N = True
-USE_L10N = True
+USE_I18N = False
+USE_L10N = False
 USE_TZ = True
+
+ADMIN_LANGUAGE_CODE = "en-us"
 
 # Celery Settings
 CELERY_BROKER_URL = 'redis://localhost:6379'
