@@ -20,4 +20,4 @@ class TagQuerySet(QuerySet):
             if not any(t.lower() == tag for t in tag_set):
                 self.create(tag=tag, slug=tag.lower().replace(" ", "-"))
 
-        return self.filter(tag__in=tags)
+        return self.filter(tag__in=tag_set)

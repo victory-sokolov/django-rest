@@ -33,31 +33,34 @@ services:
       - 5672:5672
       - 15672:15672
 
-  elastic:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
-    container_name: elastic
-    restart: always
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1
+    container_name: elasticsearch
+    restart: on-failure
     environment:
+      - xpack.security.enabled=true
+      - xpack.security.enrollment.enabled=true
+      - xpack.security.http.ssl.enabled=true
       - node.name=node01
       - cluster.name=es-cluster-7
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+      - "ELASTIC_PASSWORD=MuO9+-5c_jRGL3=X*5z8"
+
     ulimits:
       memlock:
         soft: -1
         hard: -1
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
     ports:
-      - 9200:9200
-      - "9300:9300"
+      - 9201:9200
+      - 9302:9300
     networks:
-      - es-network
+      - elk
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:7.16.2
+    image: docker.elastic.co/logstash/logstash:8.7.1
     container_name: logstash
-    restart: always
+    restart: on-failure
     ports:
       - "5140:5140/udp"
       - "5000:5000"
@@ -65,26 +68,41 @@ services:
     environment:
       LS_JAVA_OPTS: "-Xmx1g -Xms1g"
     networks:
-      - es-network
+      - elk
     depends_on:
-      - elastic
+      - elasticsearch
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.16.2
+    image: docker.elastic.co/kibana/kibana:8.7.1
     container_name: kibana
     environment:
-      ELASTICSEARCH_HOSTS: http://elastic:9200
+      ELASTICSEARCH_HOSTS: http://localhost:9200
     ports:
       - 5601:5601
     networks:
-      - es-network
+      - elk
     depends_on:
-      - elastic
+      - elasticsearch
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.7.1
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./logs/:/usr/share/filebeat/logs
+    environment:
+      ELASTICSEARCH_URL: http://localhost:9200
+    networks:
+      - elk
+    links:
+      - kibana
+      - elasticsearch
+    depends_on:
+      - elasticsearch
 
   redis:
     image: redis
     container_name: redis
-    restart: always
+    restart: on-failure
     ports:
       - 6379:6379
     command: redis-server --loglevel warning
@@ -94,7 +112,7 @@ services:
 
   nginx:
     build: ./djangoblog/docker/nginx
-    restart: always
+    restart: on-failure
     ports:
       - "8080:80"
     depends_on:
@@ -123,5 +141,5 @@ volumes:
     driver: local
 
 networks:
-  es-network:
+  elk:
     driver: bridge

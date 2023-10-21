@@ -4,18 +4,15 @@ import logging
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
 from django.db import models
-from django.conf import settings
-from django.contrib.auth.models import Permission
 
 from djangoblog.constants import Roles
-from django.dispatch import receiver
-from django.db.models.signals import post_save
+
 
 logger = logging.getLogger(__name__)
 
 
 class CustomAccountManager(BaseUserManager):
-    
+
     def create_superuser(self, email, name, password, **other_fields):
         other_fields.setdefault("is_staff", True)
         other_fields.setdefault("is_superuser", True)
@@ -24,7 +21,8 @@ class CustomAccountManager(BaseUserManager):
         if other_fields.get("is_staff") is not True:
             raise ValueError("Superuser must be assigned to is_staff=True.")
         if other_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser must be assigned to is_superuser=True.")
+            raise ValueError(
+                "Superuser must be assigned to is_superuser=True.")
 
         return self.create_user(email, name, password, **other_fields)
 
@@ -60,7 +58,7 @@ class UserProfile(AbstractUser, PermissionsMixin):
 
     def is_member(self, group_name: Roles):
         return self.groups.filter(name=group_name.value).exists()
-    
+
     def save(self, *args, **kwargs):
         # if self.is_member(Roles.STAFF):
         # permissions = Permission.objects.filter(codename__in=settings.STAFF_PERMISSIONS)

@@ -21,6 +21,7 @@ class PostAdmin(admin.ModelAdmin):
         "user",
         "likes",
     )
+    filter_horizontal = ("permissions",)
     readonly_fields = ["id", "user"]
     list_filter = (
         "created_at",
@@ -65,7 +66,7 @@ class UserAdmin(admin.ModelAdmin):
     @admin.action(description="Total posts")
     def get_total_posts(self, obj):
         return obj.post_set.count()
-    
+
     def get_readonly_fields(self, request: HttpRequest, obj):
         if request.user.is_superuser:
             return ("is_active", "is_staff", "is_superuser",)
@@ -79,12 +80,11 @@ class UserAdmin(admin.ModelAdmin):
     #     super().save_model(request, obj, form, change)
 
 
-
 class GroupAdmin(admin.ModelAdmin):
-    
+
     form = GroupAdminForm
     filter_horizontal = ["permissions"]
-    
+
 
 admin.site.unregister(Group)
 

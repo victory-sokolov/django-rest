@@ -5,6 +5,7 @@ from djangoblog.api.models.post import Post, Tags
 from djangoblog.models import UserProfile
 from django.contrib.auth.models import Group
 
+
 class PostForm(forms.ModelForm):
 
     tags = TagField(
@@ -14,10 +15,10 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        exclude = ["id", "likes", "views", "favorites", "user"]
+        exclude = ["id", "likes", "views", "favorites", "user", "permissions"]
 
     def __init__(self, *args, **kwargs):
-        super(PostForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs["class"] = "form-control"
 
@@ -26,9 +27,13 @@ class PostForm(forms.ModelForm):
         self.fields["slug"].widget.attrs["placeholder"] = "Blog Slug"
         self.fields["tags"].required = False
 
-    def save(self, *args, **kwargs):
-        self.tags.data_list = list(Tags.objects.all().values_list("tag", flat=True))
-        super().save(*args, **kwargs)
+    def save(self, commit=True, *args, **kwargs):
+        instance = super().save(commit=False)
+        tags_data_list = Tags.objects.all().values_list("tag", flat=True)
+        self.cleaned_data["tags"] = tags_data_list
+        if commit:
+            instance.save()
+        return instance
 
 
 class GroupAdminForm(forms.ModelForm):
@@ -39,9 +44,9 @@ class GroupAdminForm(forms.ModelForm):
         exclude = []
 
     users = forms.ModelMultipleChoiceField(
-         queryset=UserProfile.objects.all(),
-         required=False,
-         widget=FilteredSelectMultiple("users", False)
+        queryset=UserProfile.objects.all(),
+        required=False,
+        widget=FilteredSelectMultiple("users", False)
     )
 
     def __init__(self, *args, **kwargs):

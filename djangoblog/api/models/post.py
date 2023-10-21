@@ -23,6 +23,11 @@ class Tags(models.Model):
         return self.tag
 
 
+class PostPermissions(models.Model):
+    code_name = models.CharField(max_length=256, unique=True)
+    description = models.CharField(max_length=256)
+
+
 class Post(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid4)
     user = models.ForeignKey(UserProfile, null=True, on_delete=models.CASCADE)
@@ -34,6 +39,12 @@ class Post(TimeStampedModel):
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     favorites = models.IntegerField(default=0)
+
+    permissions = models.ManyToManyField(
+        PostPermissions,
+        blank=True,
+        related_name="permissions"
+    )
 
     class Meta:
         db_table = "posts"

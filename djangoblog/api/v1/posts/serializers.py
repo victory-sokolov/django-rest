@@ -1,7 +1,8 @@
-from djangoblog.api.v1.posts.validators import TagValidator, TitleValidator, SlugValidator
+from djangoblog.api.v1.posts.validators import TagValidator, SlugValidator
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 from djangoblog.api.models.post import Post, Tags
+
 
 class PostStatistics(serializers.ModelSerializer):
     class Meta:
@@ -16,17 +17,21 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tags
         fields = ["tag"]
-        validators=[TagValidator()]
+        validators = [TagValidator()]
 
 
 @extend_schema_serializer(exclude_fields=("title", "content", "user"))
 class PostSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(slug_field="name", read_only=True)
-    title = serializers.CharField(required=True, validators=[TitleValidator()])
-    slug = serializers.CharField(max_length=100, required=False, validators=[SlugValidator()])
+    # user = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    title = serializers.CharField(required=True)
+    slug = serializers.CharField(
+        max_length=100, required=False,
+        validators=[SlugValidator()]
+    )
     content = serializers.CharField(required=True)
     tags = TagSerializer(many=True, required=False)
-    
+
     def create(self, validated_data):
         user = self.context["request"].user
         tags_data = validated_data.pop('tags', [])
@@ -40,7 +45,8 @@ class PostSerializer(serializers.ModelSerializer):
         return post
 
     def update(self, instance, validated_data):
-        tags_data = validated_data.pop('tags', None)  # extract the tags data from validated_data
+        # extract the tags data from validated_data
+        tags_data = validated_data.pop('tags', None)
         if tags_data is not None:
             # remove the old tags and add the new tags to the post instance
             instance.tags.clear()

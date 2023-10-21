@@ -9,7 +9,7 @@ from djangoblog.forms import PostForm
 from djangoblog.models import UserProfile
 
 
-class HomePageTest(SimpleTestCase):
+class HomePageTest(TestCase):
     def test_home_page_status_code(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
@@ -49,7 +49,8 @@ class BlogPageTest(TestCase):
             content="Test post data",
             user=self.user,
         )
-        response = self.api_client.get(reverse("get-post-by-id", kwargs={"pk": str(post.id)}))
+        response = self.api_client.get(
+            reverse("get-post-by-id", kwargs={"pk": str(post.id)}))
         self.assertEqual(response.status_code, 200)
         self.assertIn("Test post data", str(response.content))
         self.assertTemplateUsed(response, "post.html")
@@ -57,12 +58,12 @@ class BlogPageTest(TestCase):
     def test_add_post(self):
         self.client.force_login(user=self.user)
         form_data = {
-            "title": "Post Title", 
-            "post": "Post body", 
+            "title": "Post Title",
+            "post": "Post body",
             "tags": json.dumps([{'value': 'Python'}, {'value': 'Django'}]),
         }
         response = self.client.post(
-            reverse("create-post"), 
+            reverse("create-post"),
             data=form_data,
             follow=True,
         )

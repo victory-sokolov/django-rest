@@ -16,7 +16,12 @@ npm install
 
 ## Create superuser
 
+Creates superuser with the following credentials
+
+email: admin@gmail.com
+password: superPassword
+
 ```bash
-python manage.py createsuperuser
+make create-superuser
 ```
 

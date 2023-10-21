@@ -89,6 +89,10 @@ COMPRESS_OFFLINE = False
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+# Sets csrftoken cookie attributes to HttpOnly and secure
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
+
 # Permissions
 STAFF_PERMISSIONS = [
     "view_post",
@@ -119,6 +123,7 @@ AUTHENTICATION_BACKENDS = (
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
+    "EXCEPTION_HANDLER": "djangoblog.api.exceptions.custom_exception_handler",
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
@@ -192,14 +197,14 @@ LOGGING = {
             "propagate": True,
         },
         # Log DB queries
-        "django.db.backends": {
-            "level": "DEBUG",
-        },
+        # "django.db.backends": {
+        #     "level": "DEBUG",
+        # },
     },
     "root": {
         "handlers": ["console"],
         "level": "INFO",
-        'propagate': False,
+        'propagate': True,
     },
 }
 
@@ -435,6 +440,6 @@ if not DEBUG:
         # Set traces_sample_rate to 1.0 to capture 100%
         # of transactions for performance monitoring.
         # We recommend adjusting this value in production.
-        traces_sample_rate=1.0,
+        traces_sample_rate=0.2,
         send_default_pii=True
     )
