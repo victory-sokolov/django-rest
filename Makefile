@@ -9,7 +9,7 @@ make-migrations: migrate ## Create and run migrations
 	poetry run python manage.py makemigrations
 
 dev: ## Run dev server
-	poetry run python manage.py runserver
+	poetry run python manage.py runsslserver 0.0.0.0:8000
 
 worker: ## Run celery worker
 	poetry run celery -A djangoblog worker -l info
@@ -33,7 +33,7 @@ tests: ## Run tests with coverage
 	poetry run coverage html
 
 test: ## Run single test
-	poetry run python manage.py test 
+	poetry run python manage.py test
 
 build-local: load-fixtures migrate
 	poetry install
@@ -49,6 +49,9 @@ create-superuser: ## Create a new superuser
 		--user=Admin \
 		--password=superPassword12 \
 		--email=admin@gmail.com
+
+upgrade-deps:
+	poetry up --latest
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
