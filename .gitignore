@@ -139,3 +139,5 @@ dmypy.json
 cython_debug/
 
 node_modules/
+data/
+docker/secrets/*

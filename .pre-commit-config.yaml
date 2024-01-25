@@ -9,12 +9,6 @@ repos:
       - id: detect-private-key
       - id: check-merge-conflict
 
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
-    hooks:
-      - id: isort
-        files: "\\.(py)$"
-
   - repo: https://github.com/asottile/add-trailing-comma
     rev: v2.4.0
     hooks:
@@ -52,7 +46,6 @@ repos:
           'djangorestframework-stubs',
           'django-stubs',
         ]
-
 
   - repo: local
     hooks:
