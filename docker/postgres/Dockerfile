@@ -1,0 +1,3 @@
+ARG POSTGRES_VERSION=latest
+
+FROM postgres:${POSTGRES_VERSION}

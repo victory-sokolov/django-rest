@@ -1,0 +1,3 @@
+ARG RABBITMQ_VERSION=latest
+
+FROM rabbitmq:${RABBITMQ_VERSION}
