@@ -1,8 +1,9 @@
 from uuid import uuid4
-from django.db import models
-from ckeditor.fields import RichTextField
-from djangoblog.api.models.managers import TagQuerySet
 
+from ckeditor.fields import RichTextField
+from django.db import models
+
+from djangoblog.api.models.managers import TagQuerySet
 from djangoblog.base import TimeStampedModel
 from djangoblog.models import UserProfile
 
@@ -43,7 +44,7 @@ class Post(TimeStampedModel):
     permissions = models.ManyToManyField(
         PostPermissions,
         blank=True,
-        related_name="permissions"
+        related_name="permissions",
     )
 
     class Meta:

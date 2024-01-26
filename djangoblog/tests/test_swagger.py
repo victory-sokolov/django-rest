@@ -1,10 +1,10 @@
 import json
 
-from django.test.client import Client
 from django.test import TestCase
+from django.test.client import Client
 
 
-class SwaggerSchemaTest(TestCase):
+class TestSwaggerSchema(TestCase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.client = Client()

@@ -1,8 +1,8 @@
 import json
-from django.test import SimpleTestCase, TestCase, Client
-from django.urls import reverse
 
-from rest_framework.test import APIClient, APITestCase
+from django.test import TestCase
+from django.urls import reverse
+from rest_framework.test import APIClient
 
 from djangoblog.api.models.post import Post
 from djangoblog.forms import PostForm
@@ -14,7 +14,7 @@ class HomePageTest(TestCase):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
 
-    def tet_view_url_by_name(self):
+    def test_view_url_by_name(self):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
 
@@ -33,7 +33,9 @@ class BlogPageTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = UserProfile.objects.create(
-            name="TestUser", email="test@gmail.com", password="pass"
+            name="TestUser",
+            email="test@gmail.com",
+            password="pass",
         )
         cls.api_client = APIClient()
 
@@ -50,7 +52,8 @@ class BlogPageTest(TestCase):
             user=self.user,
         )
         response = self.api_client.get(
-            reverse("get-post-by-id", kwargs={"pk": str(post.id)}))
+            reverse("get-post-by-id", kwargs={"pk": str(post.id)}),
+        )
         self.assertEqual(response.status_code, 200)
         self.assertIn("Test post data", str(response.content))
         self.assertTemplateUsed(response, "post.html")
@@ -60,7 +63,7 @@ class BlogPageTest(TestCase):
         form_data = {
             "title": "Post Title",
             "post": "Post body",
-            "tags": json.dumps([{'value': 'Python'}, {'value': 'Django'}]),
+            "tags": json.dumps([{"value": "Python"}, {"value": "Django"}]),
         }
         response = self.client.post(
             reverse("create-post"),

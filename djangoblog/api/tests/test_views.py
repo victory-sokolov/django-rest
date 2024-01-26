@@ -1,14 +1,15 @@
 import json
 from uuid import uuid4
-from rest_framework.test import APITestCase
-from rest_framework import status
-from djangoblog.api.models.post import Post
+
 from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APIClient, APITestCase
+
+from djangoblog.api.models.post import Post
 from djangoblog.models import UserProfile
 
 
 class TestPostApi(APITestCase):
-
     fixtures = ["test"]
 
     @classmethod
@@ -59,10 +60,16 @@ class TestPostApi(APITestCase):
     def test_update_post(self):
         initial_data = {"title": "JavaScript Fetch", "content": "Fetch Data"}
         new_data = {"title": "JavaScript Axios", "content": "Axios Data"}
-        create_post = self.client.post("/api/v1/post/", data=initial_data).content
+        create_post = self.client.post(
+            "/api/v1/post/",
+            data=initial_data,
+        ).content
         post = json.loads(create_post)
 
-        response = self.client.put(f"/api/v1/post/{post['id']}/", data=new_data)
+        response = self.client.put(
+            f"/api/v1/post/{post['id']}/",
+            data=new_data,
+        )
         data = response.json()
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -70,11 +77,7 @@ class TestPostApi(APITestCase):
         self.assertEqual(data.get("content"), "Axios Data")
 
 
-from rest_framework.test import APIClient
-
-
 class TestTokenApi(APITestCase):
-
     fixtures = ["test"]
 
     @classmethod
@@ -85,10 +88,18 @@ class TestTokenApi(APITestCase):
     def test_token_success(self):
         url = reverse("token_obtain_pair")
         self.api_client.force_authenticate(user=self.user)
-        credentials = {"email": self.user.email, "password": self.user.password}
+        credentials = {
+            "email": self.user.email,
+            "password": self.user.password,
+        }
         user = UserProfile.objects.create(
-            email="nick@test.com", password="1234567", name="Nick"
+            email="nick@test.com",
+            password="1234567",
+            name="Nick",
         )
-        self.api_client.credentials(email=self.user.email, password=self.user.password)
+        self.api_client.credentials(
+            email=self.user.email,
+            password=self.user.password,
+        )
         self.api_client.login(email="nick@test.com", password="1234567")
         response = self.api_client.post(url, data=credentials)

@@ -1,11 +1,9 @@
 from django.urls import path
-from drf_spectacular.views import (
-    SpectacularJSONAPIView,
-    SpectacularSwaggerView,
-)
+from drf_spectacular.views import SpectacularJSONAPIView, SpectacularSwaggerView
 from rest_framework import routers
-from .v1.token.views import RefreshTokenView, TokenView
+
 from djangoblog.api.v1.posts import views
+from djangoblog.api.v1.token.views import RefreshTokenView, TokenView
 
 router = routers.SimpleRouter()
 # router.register(r"post", views.ArticleListView.as_view(), basename="post")

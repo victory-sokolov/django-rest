@@ -11,7 +11,10 @@ class TimeStampedModel(models.Model):
         auto_now_add=True,
         verbose_name=("created_at"),
     )
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=("updated_at"))
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name=("updated_at"),
+    )
 
     class Meta:
         abstract = True

@@ -1,12 +1,13 @@
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path, re_path
+
 from djangoblog import settings, view
-from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    re_path(r'^watchman/', include('watchman.urls')),
+    re_path(r"^watchman/", include("watchman.urls")),
     path("", view.IndexView.as_view(), name="home"),
     path("post/", view.PostView.as_view(), name="get-all-posts"),
     path("post/<pk>", view.SinglePostView.as_view(), name="get-post-by-id"),
@@ -30,9 +31,9 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL,
-        document_root=settings.MEDIA_ROOT
+        document_root=settings.MEDIA_ROOT,
     )
 
-urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]
+urlpatterns += [path("silk/", include("silk.urls", namespace="silk"))]
 
 handler404 = "djangoblog.view.handler404"

@@ -1,7 +1,8 @@
 import logging
 from time import time
-from celery.signals import task_prerun, task_postrun
+
 from celery import Celery
+from celery.signals import task_postrun, task_prerun
 
 from djangoblog.celeryconfig import Config
 
@@ -16,6 +17,7 @@ app.autodiscover_tasks()
 # Measure celery task execution time
 # Ref: https://stackoverflow.com/questions/19481470/measuring-celery-task-execution-time
 d = {}
+
 
 @task_prerun.connect
 def task_prerun_handler(signal, sender, task_id, task, args, kwargs, **extras):

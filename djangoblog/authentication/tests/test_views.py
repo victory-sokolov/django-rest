@@ -1,10 +1,10 @@
 from django.test import TestCase
 from django.urls import reverse
+
 from djangoblog.models import UserProfile
 
 
 class TestAuth(TestCase):
-
     fixtures = ["test"]
 
     @classmethod
@@ -28,4 +28,3 @@ class TestAuth(TestCase):
 
     def test_account_creation(self):
         pass
-

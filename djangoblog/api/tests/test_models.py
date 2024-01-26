@@ -5,14 +5,15 @@ from djangoblog.models import UserProfile
 
 
 class TestPostModel(TestCase):
-
     fixtures = ["test"]
 
     @classmethod
     def setUpTestData(cls):
         cls.user = UserProfile.objects.get(pk=1)
         cls.post = Post.objects.create(
-            user=cls.user, title="My Blog post", content="Blog post body text"
+            user=cls.user,
+            title="My Blog post",
+            content="Blog post body text",
         )
 
     def test_post_creation(self):
@@ -29,9 +30,12 @@ class TestPostModel(TestCase):
 
 
 class TestTags(TestCase):
-
     def test_dont_add_tag(self):
-        tag_list = [{"value": "TypeScript"}, {"value": "JavaScript"}, {"value": "Python"}]
+        tag_list = [
+            {"value": "TypeScript"},
+            {"value": "JavaScript"},
+            {"value": "Python"},
+        ]
         Tags.objects.create(tag="TypeScript", slug="typescript")
         tags = Tags.objects.create_if_not_exist(tag_list)
         self.assertEqual(Tags.objects.all().count(), 3)

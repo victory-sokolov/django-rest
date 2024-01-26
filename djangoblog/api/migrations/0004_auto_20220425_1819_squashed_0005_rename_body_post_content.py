@@ -4,44 +4,46 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
-    replaces = [('api', '0004_auto_20220425_1819'), ('api', '0005_rename_body_post_content')]
+    replaces = [
+        ("api", "0004_auto_20220425_1819"),
+        ("api", "0005_rename_body_post_content"),
+    ]
 
     dependencies = [
-        ('api', '0003_rename_tag_post_tags'),
+        ("api", "0003_rename_tag_post_tags"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='post',
-            old_name='post_favorites',
-            new_name='favorites',
+            model_name="post",
+            old_name="post_favorites",
+            new_name="favorites",
         ),
         migrations.RenameField(
-            model_name='post',
-            old_name='post_likes',
-            new_name='likes',
+            model_name="post",
+            old_name="post_likes",
+            new_name="likes",
         ),
         migrations.RenameField(
-            model_name='post',
-            old_name='post_views',
-            new_name='views',
+            model_name="post",
+            old_name="post_views",
+            new_name="views",
         ),
         migrations.RemoveField(
-            model_name='post',
-            name='category',
+            model_name="post",
+            name="category",
         ),
         migrations.AddField(
-            model_name='post',
-            name='slug',
+            model_name="post",
+            name="slug",
             field=models.SlugField(max_length=200, null=True, unique=True),
         ),
         migrations.DeleteModel(
-            name='Category',
+            name="Category",
         ),
         migrations.RenameField(
-            model_name='post',
-            old_name='body',
-            new_name='content',
+            model_name="post",
+            old_name="body",
+            new_name="content",
         ),
     ]

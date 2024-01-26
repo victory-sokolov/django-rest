@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 
 
 class TitleValidator:
-
     MIN_TITLE_LENGTH = 10
 
     def __call__(self, title: str) -> str:
@@ -15,13 +14,12 @@ class TitleValidator:
         if len(title) < self.MIN_TITLE_LENGTH:
             raise PostException.validation_error(
                 f"Min title length is {self.MIN_TITLE_LENGTH}",
-                "Title"
+                "Title",
             )
         return title
 
 
 class SlugValidator:
-
     MIN_SLUG_LENGTH = 5
 
     def __call__(self, slug: str) -> str:
@@ -29,14 +27,13 @@ class SlugValidator:
         if len(slug) < self.MIN_SLUG_LENGTH:
             raise PostException.validation_error(
                 f"Slug must be at least {self.MIN_SLUG_LENGTH} characters long",
-                "Slug"
+                "Slug",
             )
 
         return slug
 
 
 class TagValidator:
-
     def __call__(self, tags: OrderedDict):
         logger.info("Validating Tags", tags)
         tag = list(tags.values())[0]

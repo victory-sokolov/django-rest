@@ -1,17 +1,15 @@
 import logging
+
 from django.http import Http404
-from rest_framework.response import Response
-from rest_framework.request import Request
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
 from drf_spectacular.utils import extend_schema
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from djangoblog.api.models.post import Post
 from djangoblog.api.v1.posts.serializers import PostSerializer
-
-from rest_framework.permissions import IsAuthenticated
-
 from djangoblog.tasks import PostTask
 
 logger = logging.getLogger(__name__)
@@ -43,7 +41,6 @@ class ArticleListView(APIView):
 
 @extend_schema(tags=["post"])
 class SingleArticleView(APIView):
-
     permission_classes = [IsAuthenticated]
 
     def get_object(self, post_id: str):

@@ -1,13 +1,13 @@
 from django import forms
-from tagify.fields import TagField
 from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.contrib.auth.models import Group
+from tagify.fields import TagField
+
 from djangoblog.api.models.post import Post, Tags
 from djangoblog.models import UserProfile
-from django.contrib.auth.models import Group
 
 
 class PostForm(forms.ModelForm):
-
     tags = TagField(
         place_holder="Add a tag",
         delimiters=" ",
@@ -46,7 +46,7 @@ class GroupAdminForm(forms.ModelForm):
     users = forms.ModelMultipleChoiceField(
         queryset=UserProfile.objects.all(),
         required=False,
-        widget=FilteredSelectMultiple("users", False)
+        widget=FilteredSelectMultiple("users", False),
     )
 
     def __init__(self, *args, **kwargs):
@@ -56,10 +56,10 @@ class GroupAdminForm(forms.ModelForm):
 
     def save_m2m(self):
         """Save m2m."""
-        self.instance.user_set.set(self.cleaned_data['users'])
+        self.instance.user_set.set(self.cleaned_data["users"])
 
     def save(self, *args, **kwargs):
         """Save data."""
-        instance = super(GroupAdminForm, self).save(commit=True)
+        instance = super().save(commit=True)
         self.save_m2m()
         return instance

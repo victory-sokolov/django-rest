@@ -1,9 +1,11 @@
 import logging
 
 import celery
+
 from djangoblog.api.models.post import Post
-from djangoblog.celery import app
 from djangoblog.api.v1.posts.serializers import PostSerializer
+from djangoblog.celery import app
+
 logger = logging.getLogger(__name__)
 
 
@@ -13,9 +15,12 @@ class PostTask(celery.Task):
 
     def run(self):
         logger.info("Retrieving all posts.")
-        selected_posts = Post.objects.select_related(
-            "user"
-        ).all().order_by("-created_at").prefetch_related('tags')
+        selected_posts = (
+            Post.objects.select_related("user")
+            .all()
+            .order_by("-created_at")
+            .prefetch_related("tags")
+        )
         serializer = PostSerializer(data=selected_posts, many=True)
         if not serializer.is_valid():
             logger.error("Failed to fetch posts", extra=serializer.errors)

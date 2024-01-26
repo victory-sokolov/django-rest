@@ -9,13 +9,13 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-from sentry_sdk.integrations import django, celery, redis
-import sentry_sdk
-from datetime import timedelta
 import os
-import environ
+from datetime import timedelta
 
+import environ
+import sentry_sdk
 from django.contrib.messages import constants as messages
+from sentry_sdk.integrations import celery, django, redis
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -34,10 +34,8 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 # False if not in os.environ because of casting above
 DEBUG = env("DEBUG")
 AUTH_USER_MODEL = "djangoblog.UserProfile"
-AUTHENTICATION_BACKENDS = (
-    'djangoblog.auth_backends.CustomUserModelBackend',
-)
-CUSTOM_USER_MODEL = 'djangoblog.models.UserProfile'
+AUTHENTICATION_BACKENDS = ("djangoblog.auth_backends.CustomUserModelBackend",)
+CUSTOM_USER_MODEL = "djangoblog.models.UserProfile"
 DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
 
 DATE_INPUT_FORMATS = "%Y-%m-%d"
@@ -46,6 +44,7 @@ DATE_FORMAT = "Y-m-d"
 INSTALLED_APPS = [
     "jazzmin",
     "watchman",
+    "sslserver",
     "rest_framework",
     "rest_framework.authtoken",
     "django.contrib.admin",
@@ -67,7 +66,7 @@ INSTALLED_APPS = [
     "djangoblog",
     "djangoblog.api",
     "djangoblog.authentication",
-    "silk"
+    "silk",
     # "django_elasticsearch_dsl",
 ]
 
@@ -94,19 +93,14 @@ CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = True
 
 # Permissions
-STAFF_PERMISSIONS = [
-    "view_post",
-    "view_userprofile"
-]
+STAFF_PERMISSIONS = ["view_post", "view_userprofile"]
 
 # Database backup config
 # Execute backup: ./manage.py dbbackup -z
-DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-DBBACKUP_STORAGE_OPTIONS = {
-    'location': os.path.join(BASE_DIR, 'backup')
-}
-DBBACKUP_FILENAME_TEMPLATE = '{datetime}-{databasename}.{extension}'
-DBBACKUP_MEDIA_FILENAME_TEMPLATE = '{datetime}-media.{extension}'
+DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
+DBBACKUP_STORAGE_OPTIONS = {"location": os.path.join(BASE_DIR, "backup")}
+DBBACKUP_FILENAME_TEMPLATE = "{datetime}-{databasename}.{extension}"
+DBBACKUP_MEDIA_FILENAME_TEMPLATE = "{datetime}-media.{extension}"
 
 
 # Only enable the browseable HTML API in dev (DEBUG=True)
@@ -157,18 +151,19 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "rich": {"datefmt": "[%X]"},
-        "simple": {
-            "format": '[%(asctime)s] %(levelname)s | %(funcName)s | %(name)s | %(message)s',
+        "plain": {
+            "format": "[%(asctime)s:%(levelname)s] | %(funcName)s | %(name)s | %(message)s",
             "datefmt": "%Y-%m-%d %H:%M:%S",
+            "exclude_fileds": ["esc", "process.thread"],
         },
     },
     "handlers": {
-        'logger': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': BASE_DIR + '/logs/test.log',
-            'formatter': 'simple',
-        },
+        # "logger": {
+        #     "level": "DEBUG",
+        #     "class": "logging.handlers.RotatingFileHandler",
+        #     "filename": BASE_DIR + "/var/logs/django_blog.log",
+        #     "formatter": "plain",
+        # },
         "console": {
             "class": "rich.logging.RichHandler",
             "formatter": "rich",
@@ -187,8 +182,8 @@ LOGGING = {
     },
     "loggers": {
         "django.request": {
-            "handlers": ["logstash"],
-            "level": "WARNING",
+            "handlers": ["logstash", "console"],
+            "level": "INFO",
             "propagate": True,
         },
         "django": {
@@ -204,19 +199,17 @@ LOGGING = {
     "root": {
         "handlers": ["console"],
         "level": "INFO",
-        'propagate': True,
+        "propagate": True,
     },
 }
 
 # CONN_MAX_AGE = 5
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis:///host.docker.internal:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-        },
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     },
 }
 # CACHE_TTL = 60 * 15
@@ -254,7 +247,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "compression_middleware.middleware.CompressionMiddleware",
-    "silk.middleware.SilkyMiddleware"
+    "silk.middleware.SilkyMiddleware",
     # "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # "django.middleware.cache.FetchFromCacheMiddleware"
 ]
@@ -286,7 +279,7 @@ DATABASES = {
     "test": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": "mydb",
-        'MIGRATE': False
+        "MIGRATE": False,
     },
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -340,11 +333,11 @@ USE_TZ = True
 ADMIN_LANGUAGE_CODE = "en-us"
 
 # Celery Settings
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = TIME_ZONE
 
 # Static files (CSS, JavaScript, Images)
@@ -356,7 +349,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "djangoblog/static"),
     os.path.join(BASE_DIR, "node_modules", "bootstrap", "dist"),
 ]
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 
 # ELK setup
@@ -384,8 +377,11 @@ JAZZMIN_SETTINGS = {
     # Links to put along the top menu
     "topmenu_links": [
         # Url that gets reversed (Permissions can be added)
-        {"name": "Django Blog", "url": "home",
-            "permissions": ["auth.view_user"]},
+        {
+            "name": "Django Blog",
+            "url": "home",
+            "permissions": ["auth.view_user"],
+        },
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
     ],
@@ -441,5 +437,5 @@ if not DEBUG:
         # of transactions for performance monitoring.
         # We recommend adjusting this value in production.
         traces_sample_rate=0.2,
-        send_default_pii=True
+        send_default_pii=True,
     )

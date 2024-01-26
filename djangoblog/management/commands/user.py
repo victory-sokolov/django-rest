@@ -1,9 +1,10 @@
 import logging
 
+from django.contrib.auth.hashers import make_password
 from django.core.management.base import BaseCommand, CommandParser
 from faker import Faker
+
 from djangoblog.models import UserProfile
-from django.contrib.auth.hashers import make_password
 
 
 class Command(BaseCommand):
@@ -11,7 +12,10 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument(
-            "-a", "--amount", type=int, help="amount of users to generate"
+            "-a",
+            "--amount",
+            type=int,
+            help="amount of users to generate",
         )
 
     def handle(self, *args, **options):

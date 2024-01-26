@@ -4,20 +4,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('djangoblog', '0008_alter_userprofile_managers'),
+        ("djangoblog", "0008_alter_userprofile_managers"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='userprofile',
-            name='profile_picture',
-            field=models.ImageField(default='avatars/default.png', upload_to='avatars'),
+            model_name="userprofile",
+            name="profile_picture",
+            field=models.ImageField(
+                default="avatars/default.png",
+                upload_to="avatars",
+            ),
         ),
         migrations.AlterField(
-            model_name='userprofile',
-            name='password',
+            model_name="userprofile",
+            name="password",
             field=models.CharField(max_length=100),
         ),
     ]

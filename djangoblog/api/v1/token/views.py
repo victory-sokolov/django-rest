@@ -1,5 +1,6 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .serializer import RefreshToken, TokenSerializer
+
+from djangoblog.api.v1.token.serializer import RefreshToken, TokenSerializer
 
 
 class TokenView(TokenObtainPairView):

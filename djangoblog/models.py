@@ -1,18 +1,15 @@
 import logging
 
-
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
-from django.utils import timezone
 from django.db import models
+from django.utils import timezone
 
 from djangoblog.constants import Roles
-
 
 logger = logging.getLogger(__name__)
 
 
 class CustomAccountManager(BaseUserManager):
-
     def create_superuser(self, email, name, password, **other_fields):
         other_fields.setdefault("is_staff", True)
         other_fields.setdefault("is_superuser", True)
@@ -22,7 +19,8 @@ class CustomAccountManager(BaseUserManager):
             raise ValueError("Superuser must be assigned to is_staff=True.")
         if other_fields.get("is_superuser") is not True:
             raise ValueError(
-                "Superuser must be assigned to is_superuser=True.")
+                "Superuser must be assigned to is_superuser=True.",
+            )
 
         return self.create_user(email, name, password, **other_fields)
 
@@ -45,7 +43,8 @@ class UserProfile(AbstractUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     password = models.CharField(max_length=100, null=False)
     profile_picture = models.ImageField(
-        upload_to="avatars", default="avatars/default.png"
+        upload_to="avatars",
+        default="avatars/default.png",
     )
     first_name = None
     last_name = None

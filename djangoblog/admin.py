@@ -1,14 +1,11 @@
 import logging
-from django.contrib import admin
 
-from django.conf import settings
-from django.contrib.auth.models import Permission
+from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.http import HttpRequest
 
-from djangoblog.forms import GroupAdminForm
 from djangoblog.api.models.post import Post
-from djangoblog.forms import PostForm
+from djangoblog.forms import GroupAdminForm, PostForm
 from djangoblog.models import UserProfile
 
 logger = logging.getLogger(__name__)
@@ -36,7 +33,6 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserAdmin(admin.ModelAdmin):
-
     list_display = ("email", "name", "get_total_posts")
     fieldsets = (
         (
@@ -46,7 +42,7 @@ class UserAdmin(admin.ModelAdmin):
                     "email",
                     "name",
                     "profile_picture",
-                )
+                ),
             },
         ),
         (
@@ -69,7 +65,11 @@ class UserAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request: HttpRequest, obj):
         if request.user.is_superuser:
-            return ("is_active", "is_staff", "is_superuser",)
+            return (
+                "is_active",
+                "is_staff",
+                "is_superuser",
+            )
 
         return super().get_readonly_fields(request, obj)
 
@@ -81,7 +81,6 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class GroupAdmin(admin.ModelAdmin):
-
     form = GroupAdminForm
     filter_horizontal = ["permissions"]
 

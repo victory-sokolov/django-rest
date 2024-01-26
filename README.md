@@ -25,3 +25,5 @@ password: superPassword
 make create-superuser
 ```
 
+
+## Access Kibana logs

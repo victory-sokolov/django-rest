@@ -1,17 +1,17 @@
 import logging
 
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import make_password
+from django.db import IntegrityError
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
+from django.utils.safestring import mark_safe
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
-from djangoblog.authentication.forms import SignUpForm, LoginForm
-from djangoblog.models import UserProfile
-from django.contrib.auth.hashers import make_password
-from django.contrib import messages
-from django.utils.safestring import mark_safe
-from django.db import IntegrityError
 
-from django.contrib.auth import authenticate, login
+from djangoblog.authentication.forms import LoginForm, SignUpForm
+from djangoblog.models import UserProfile
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,6 @@ class LoginView(FormView):
     template_name = "login.html"
 
     def post(self, request: HttpRequest):
-
         if "user" in request.session:
             return redirect("home")
 
@@ -65,13 +64,16 @@ class SignUpView(ListView):
                 user.save()
             except IntegrityError:
                 logger.warning(f"User with {email} already exists")
-                messages.warning(request, mark_safe(f"User {email} already exists"))
-                return redirect('signup')
+                messages.warning(
+                    request,
+                    mark_safe(f"User {email} already exists"),
+                )
+                return redirect("signup")
 
             messages.success(
                 request,
                 mark_safe(
-                    "Account successfully created. \n You can <a href='/auth/login/'>Log In</a>"
+                    "Account successfully created. \n You can <a href='/auth/login/'>Log In</a>",
                 ),
             )
             logger.info(f"User with id: {user.id} successfully created.")

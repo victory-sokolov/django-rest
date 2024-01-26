@@ -7,19 +7,31 @@ class SignUpForm(forms.Form):
     name = forms.CharField(
         label="Name",
         widget=forms.TextInput(
-            attrs={"class": "form-control", "id": "name", "placeholder": "Name"}
+            attrs={
+                "class": "form-control",
+                "id": "name",
+                "placeholder": "Name",
+            },
         ),
     )
     email = forms.CharField(
         label="Email",
         widget=forms.EmailInput(
-            attrs={"class": "form-control", "id": "email", "placeholder": "Email"}
+            attrs={
+                "class": "form-control",
+                "id": "email",
+                "placeholder": "Email",
+            },
         ),
     )
     password = forms.CharField(
         label="Password",
         widget=forms.PasswordInput(
-            attrs={"class": "form-control", "id": "password", "placeholder": "Password"}
+            attrs={
+                "class": "form-control",
+                "id": "password",
+                "placeholder": "Password",
+            },
         ),
     )
 
