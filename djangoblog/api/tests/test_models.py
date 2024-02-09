@@ -37,6 +37,6 @@ class TestTags(TestCase):
             {"value": "Python"},
         ]
         Tags.objects.create(tag="TypeScript", slug="typescript")
-        tags = Tags.objects.create_if_not_exist(tag_list)
+        Tags.objects.create_if_not_exist(tag_list)
         self.assertEqual(Tags.objects.all().count(), 3)
         self.assertEqual(Tags.objects.filter(tag="TypeScript").count(), 1)

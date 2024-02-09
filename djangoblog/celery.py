@@ -26,7 +26,15 @@ def task_prerun_handler(signal, sender, task_id, task, args, kwargs, **extras):
 
 @task_postrun.connect
 def task_postrun_handler(
-    signal, sender, task_id, task, args, kwargs, retval, state, **extras
+    signal,
+    sender,
+    task_id,
+    task,
+    args,
+    kwargs,
+    retval,
+    state,
+    **extras,
 ):
     try:
         cost = time() - d.pop(task_id)

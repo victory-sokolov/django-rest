@@ -92,7 +92,7 @@ class TestTokenApi(APITestCase):
             "email": self.user.email,
             "password": self.user.password,
         }
-        user = UserProfile.objects.create(
+        UserProfile.objects.create(
             email="nick@test.com",
             password="1234567",
             name="Nick",
@@ -102,4 +102,4 @@ class TestTokenApi(APITestCase):
             password=self.user.password,
         )
         self.api_client.login(email="nick@test.com", password="1234567")
-        response = self.api_client.post(url, data=credentials)
+        self.api_client.post(url, data=credentials)

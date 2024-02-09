@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
             model_name="post",
             name="permissions",
             field=models.ManyToManyField(
-                blank=True, related_name="permissions", to="api.postpermissions"
+                blank=True, related_name="permissions", to="api.postpermissions",
             ),
         ),
     ]

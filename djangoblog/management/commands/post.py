@@ -6,7 +6,7 @@ from faker import Faker
 
 from djangoblog.api.models.post import Post
 from djangoblog.models import UserProfile
-from djangoblog.utils.utils import slugify
+from djangoblog.utils import slugify
 
 
 class Command(BaseCommand):
