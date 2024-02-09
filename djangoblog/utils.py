@@ -1,33 +1,24 @@
-import datetime
+import inspect
+import logging
 
-import jwt
-from django.conf import settings
-
-
-def generate_access_token(user):
-    access_token_payload = {
-        "user_id": user.id,
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=0, minutes=5),
-        "iat": datetime.datetime.utcnow(),
-    }
-    access_token = jwt.encode(
-        access_token_payload,
-        settings.SECRET_KEY,
-        algorithm="HS256",
-    ).decode("utf-8")
-    return access_token
+logger = logging.getLogger(__name__)
 
 
-def generate_refresh_token(user):
-    refresh_token_payload = {
-        "user_id": user.id,
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=7),
-        "iat": datetime.datetime.utcnow(),
-    }
-    refresh_token = jwt.encode(
-        refresh_token_payload,
-        settings.REFRESH_TOKEN_SECRET,
-        algorithm="HS256",
-    ).decode("utf-8")
+def slugify(content: str) -> str:
+    return content.lower().replace(" ", "-").replace(",", "")
 
-    return refresh_token
+
+def enable_args_debugger(func):
+    """Decorator to print function call details and parameters names and values."""
+
+    def wrapper(*args, **kwargs):
+        func_args = inspect.signature(func).bind(*args, **kwargs).arguments
+        func_args_str = ", ".join(
+            map("{0[0]} = {0[1]!r}".format, func_args.items()),
+        )
+        logger.debug(
+            f"{func.__module__}.{func.__qualname__} ( {func_args_str})",
+        )
+        return func(*args, **kwargs)
+
+    return wrapper
