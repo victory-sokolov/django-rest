@@ -2,7 +2,7 @@
 
 # drop, create, migrate schema of a given database
 migratedb () {
-    export DJANGO_SETTINGS_MODULE=myproject.settings.test
+    export DJANGO_SETTINGS_MODULE=djangoblog.settings.test
     dropdb test_db
     createdb test_db
     ./manage.py migrate

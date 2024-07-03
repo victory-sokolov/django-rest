@@ -40,14 +40,13 @@ services:
     container_name: dj-redis
     restart: on-failure
     build:
-      context: docker/redis/
+      context: docker/redis
     security_opt:
       - no-new-privileges:true
     ports:
       - 6379:6379
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
-    command: redis-server --loglevel warning
     # Run as privileged to allow the container to change the vm.overcommit_memory setting
     privileged: true
     volumes:

@@ -22,7 +22,7 @@ prod:
 	gunicorn djangoblog:asgi:application -w 4 -k uvicorn.workers.UvicornWorker --log-file -
 
 showoutdated: ## Show outdated Poetry packages
-	poetry show --outdated
+	poetry show --outdated -T
 
 loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
@@ -36,7 +36,7 @@ test: ## Run single test
 	poetry run python manage.py test
 
 build-local: load-fixtures migrate
-	poetry install
+	poetry install --no-root
 
 load-fixtures: ## Load local and test fixtures
 	poetry run python manage.py loaddata djangoblog/fixtures/*.yaml
