@@ -1,22 +1,11 @@
-version: "3.8"
-
-
-volumes:
-  pgdata:
-
-  cache:
-    driver: local
-
-
 services:
 
-  app:
+  dj-app:
+    container_name: dj-app
+    env_file:
+      - .env.prod
     build:
       context: .
-      dockerfile: djangoblog/Dockerfile
-    image: djangoblog-app
-    volumes:
-      - ./djangoblog:/app
     command: sh -c "python manage.py migrate && gunicorn djangoblog.wsgi:application --bind 0.0.0.0:8000"
     # command: python manage.py runserver 0.0.0.0:8000
     security_opt:
@@ -26,19 +15,18 @@ services:
     depends_on:
       - postgres
 
-  celery_worker:
-    restart: on-failure
-    container_name: dj-celery-worker
-    command: celery -A djangoblog worker -l info
-    image: djangoblog-app
-    security_opt:
-      - no-new-privileges:true
-    volumes:
-      - ./djangoblog:/app
-    depends_on:
-      - app
-      - postgres
-      - redis
+  # celery_worker:
+  #   restart: on-failure
+  #   container_name: dj-celery-worker
+  #   command: celery -A djangoblog worker -l info
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   volumes:
+  #     - ./djangoblog:/app
+  #   depends_on:
+  #     - app
+  #     - postgres
+  #     - redis
 
   rabbitmq:
     image: rabbitmq:3.11.26-management
@@ -46,41 +34,45 @@ services:
     security_opt:
       - no-new-privileges:true
     ports:
-      - 5672:5672
-      - 15672:15672
-
+      - 5675:5675
 
   redis:
     container_name: dj-redis
     restart: on-failure
     build:
-      context: redis/
+      context: docker/redis/
     security_opt:
       - no-new-privileges:true
     ports:
       - 6379:6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
     command: redis-server --loglevel warning
     # Run as privileged to allow the container to change the vm.overcommit_memory setting
     privileged: true
     volumes:
       - ./data/redis:/data
-      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
 
   nginx:
     restart: on-failure
     container_name: dj-nginx
     build:
-      context: nginx/
+      context: docker/nginx/
+    healthcheck:
+      test: ["CMD", "service", "nginx", "status"]
     ports:
       - "8080:80"
     depends_on:
-      - app
+      - dj-app
 
   postgres:
     container_name: dj-postgres
     restart: on-failure
+    env_file:
+      - .env
     build:
-      context: postgres/
+      context: docker/postgres/
     security_opt:
       - no-new-privileges:true
     environment:
@@ -94,3 +86,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+volumes:
+  pgdata:
+
+  cache:
+    driver: local

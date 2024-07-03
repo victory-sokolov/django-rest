@@ -53,6 +53,9 @@ create-superuser: ## Create a new superuser
 upgrade-deps:
 	poetry up --latest
 
+docker-build:
+	docker-compose up --build -d --remove-orphans
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sort \
