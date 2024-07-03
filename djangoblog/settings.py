@@ -40,10 +40,10 @@ DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
 
 DATE_INPUT_FORMATS = "%Y-%m-%d"
 DATE_FORMAT = "Y-m-d"
+
 # Application definition
 INSTALLED_APPS = [
     "jazzmin",
-    "watchman",
     "sslserver",
     "rest_framework",
     "rest_framework.authtoken",
@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "drf_spectacular",
-    "debug_toolbar",
     "ckeditor",
     "corsheaders",
     "compressor",
@@ -102,12 +101,6 @@ DBBACKUP_STORAGE_OPTIONS = {"location": os.path.join(BASE_DIR, "backup")}
 DBBACKUP_FILENAME_TEMPLATE = "{datetime}-{databasename}.{extension}"
 DBBACKUP_MEDIA_FILENAME_TEMPLATE = "{datetime}-media.{extension}"
 
-
-# Only enable the browseable HTML API in dev (DEBUG=True)
-if DEBUG:
-    DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + (
-        "rest_framework.renderers.BrowsableAPIRenderer",
-    )
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.RemoteUserBackend",
@@ -237,7 +230,6 @@ SPECTACULAR_SETTINGS = {
 
 MIDDLEWARE = [
     # "django.middleware.cache.UpdateCacheMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -425,9 +417,22 @@ JAZZMIN_SETTINGS = {
     # },
 }
 
+# Only enable the browseable HTML API in dev (DEBUG=True)
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + (
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    )
+    INSTALLED_APPS += [
+        "watchman",
+        "debug_toolbar",
+    ]
+    MIDDLEWARE += [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    ]
+
 if not DEBUG:
     sentry_sdk.init(
-        dsn="https://6e9f9287f768417e964af95f999d8678@o4505149785243648.ingest.sentry.io/4505149787930624",
+        dsn=env("SENTRY_DSN"),
         integrations=[
             django.DjangoIntegration(),
             celery.CeleryIntegration(),

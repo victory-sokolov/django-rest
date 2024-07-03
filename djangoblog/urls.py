@@ -7,14 +7,12 @@ from djangoblog import settings, view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    re_path(r"^watchman/", include("watchman.urls")),
     path("", view.IndexView.as_view(), name="home"),
     path("post/", view.PostView.as_view(), name="get-all-posts"),
     path("post/<pk>", view.SinglePostView.as_view(), name="get-post-by-id"),
     path("post/add/", view.PostCreateView.as_view(), name="create-post"),
     path("api/", include("djangoblog.api.urls"), name="api"),
     path("auth/", include("djangoblog.authentication.urls"), name="auth"),
-    path("__debug__/", include("debug_toolbar.urls")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
     path(
         "admin/password_reset/",
@@ -33,7 +31,10 @@ if settings.DEBUG:
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT,
     )
-
-urlpatterns += [path("silk/", include("silk.urls", namespace="silk"))]
+    urlpatterns += [
+        re_path(r"^watchman/", include("watchman.urls")),
+        path("silk/", include("silk.urls", namespace="silk")),
+        path("__debug__/", include("debug_toolbar.urls")),
+    ]
 
 handler404 = "djangoblog.view.handler404"
