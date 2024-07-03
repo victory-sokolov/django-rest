@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class PostTask(celery.Task):
-    name = "djangoblog.tasks.PostTask"
+    name = "PostTask"
     POST_PER_PAGE = 10
 
     def run(self):

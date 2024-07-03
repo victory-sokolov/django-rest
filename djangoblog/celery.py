@@ -1,17 +1,21 @@
 import logging
+import os
 from time import time
 
 from celery import Celery
 from celery.signals import task_postrun, task_prerun
 
-from djangoblog.celeryconfig import Config
+from djangoblog.config import Config
 
 logger = logging.getLogger(__name__)
 
-app = Celery("tasks")
+# Set the default Django settings module for the 'celery' program.
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoblog.settings")
+
+app = Celery("djangoblog")
 app.config_from_object(Config)
 
-# Load task modules from all registered Django apps.
+# Load task modules from all registered Django apps
 app.autodiscover_tasks()
 
 # Measure celery task execution time
