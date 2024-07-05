@@ -10,7 +10,7 @@ services:
     # command: python manage.py runserver 0.0.0.0:8000
     security_opt:
       - no-new-privileges:true
-    networks: 
+    networks:
       - default
     ports:
       - 1337:80
@@ -70,7 +70,7 @@ services:
   postgres:
     container_name: dj-postgres
     restart: on-failure
-    networks: 
+    networks:
       - default
     env_file:
       - .env
