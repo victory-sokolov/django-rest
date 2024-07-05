@@ -66,8 +66,6 @@ INSTALLED_APPS = [
     "djangoblog",
     "djangoblog.api",
     "djangoblog.authentication",
-    "silk",
-    # "django_elasticsearch_dsl",
 ]
 
 MESSAGE_TAGS = {
@@ -240,12 +238,14 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "compression_middleware.middleware.CompressionMiddleware",
-    "silk.middleware.SilkyMiddleware",
     # "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # "django.middleware.cache.FetchFromCacheMiddleware"
 ]
 
 ROOT_URLCONF = "djangoblog.urls"
+
+SHOW_TOOLBAR_CALLBACK = False
+DEBUG_TOOLBAR_CONFIG = {"IS_RUNNING_TESTS": False}
 
 TEMPLATES = [
     {
@@ -269,14 +269,13 @@ WSGI_APPLICATION = "djangoblog.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    "test": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "mydb",
-        "MIGRATE": False,
-    },
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "blog.sqlite3"),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "PORT": os.getenv("PGPORT"),
+        "HOST": os.getenv("POSTGRES_HOST"),
     },
 }
 
@@ -419,9 +418,11 @@ if DEBUG:
     INSTALLED_APPS += [
         "watchman",
         "debug_toolbar",
+        "silk",
     ]
     MIDDLEWARE += [
         "debug_toolbar.middleware.DebugToolbarMiddleware",
+        "silk.middleware.SilkyMiddleware",
     ]
 
 if not DEBUG:

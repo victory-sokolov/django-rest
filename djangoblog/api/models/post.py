@@ -11,7 +11,7 @@ STATUS = ((0, "Draft"), (1, "Publish"))
 
 
 class Tags(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid4)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     tag = models.CharField(max_length=20)
     slug = models.SlugField(max_length=20, unique=True, null=True)
 
