@@ -10,6 +10,8 @@ services:
     # command: python manage.py runserver 0.0.0.0:8000
     security_opt:
       - no-new-privileges:true
+    networks: 
+      - default
     ports:
       - 1337:80
     depends_on:
@@ -68,26 +70,28 @@ services:
   postgres:
     container_name: dj-postgres
     restart: on-failure
+    networks: 
+      - default
     env_file:
       - .env
     build:
       context: docker/postgres/
     security_opt:
       - no-new-privileges:true
-    environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5431:5431"
     volumes:
-      - ./data/pgdata:/var/lib/postgresql/data
+      - djdata:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: ["CMD-SHELL", "pg_isready -p ${PGPORT} -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 3
+
+
+networks:
+  default:
+    driver: bridge
 
 volumes:
-  pgdata:
-
-  cache:
-    driver: local
+  djdata:

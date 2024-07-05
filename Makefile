@@ -28,7 +28,7 @@ loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
 
 tests: ## Run tests with coverage
-	poetry run coverage run manage.py test -v 2
+	poetry run coverage run manage.py test -v 3
 	poetry run coverage report
 	poetry run coverage html
 
