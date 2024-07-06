@@ -58,3 +58,9 @@ repos:
     hooks:
       - id: detect-missing-init
         args: ['--create', "--track", "--python-folders", "tests,somefolder,otherfolder"]
+
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: "1.19.0"
+    hooks:
+    -   id: django-upgrade
+        args: [--target-version, "5.0"]
