@@ -28,12 +28,12 @@ loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
 
 tests: ## Run tests with coverage
-	DJANGO_ENV=local poetry run coverage run manage.py test -v 3
-	DJANGO_ENV=local poetry run coverage report
-	DJANGO_ENV=local poetry run coverage html
+	DJANGO_ENV=test poetry run coverage run manage.py test -v 3
+	DJANGO_ENV=test poetry run coverage report
+	DJANGO_ENV=test poetry run coverage html
 
 test: ## Run single test
-	DJANGO_ENV=local poetry run python manage.py test
+	DJANGO_ENV=test poetry run python manage.py test
 
 build-local: load-fixtures migrate
 	DJANGO_ENV=local poetry install --no-root
