@@ -1,4 +1,4 @@
-import os
+from django.conf import settings
 
 
 class Config:
@@ -11,11 +11,7 @@ class Config:
     broker_connection_retry_on_startup = (True,)
     broker_connection_max_retries = (5,)
     imports = ("djangoblog.tasks",)
-    result_backend = os.environ.get(
-        "CELERY_RESULT_BACKEND",
-        "redis://localhost:6379",
-    )
-    CELERY_BROKER_URL = os.environ.get(
-        "CELERY_RESULT_BACKEND",
-        "redis://localhost:6379",
-    )
+    result_backend = settings.CELERY_RESULT_BACKEND
+    broker_url = settings.CELERY_BROKER_URL
+    task_always_eager = settings.CELERY_TASK_ALWAYS_EAGER
+    task_eager_propagates = settings.CELERY_TASK_EAGER_PROPAGATES

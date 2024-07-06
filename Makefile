@@ -3,23 +3,23 @@ analyze: ## Run prospektor for static analysis
 	poetry run prospector --profile prospector djangoblog
 
 migrate: ## Run migrations
-	poetry run python manage.py migrate
+	DJANGO_ENV=local poetry run python manage.py migrate
 
 make-migrations: migrate ## Create and run migrations
-	poetry run python manage.py makemigrations
+	DJANGO_ENV=local poetry run python manage.py makemigrations
 
 dev: ## Run dev server
-	poetry run python manage.py runsslserver 0.0.0.0:8000
+	DJANGO_ENV=local poetry run python manage.py runsslserver 0.0.0.0:8000
 
 worker: ## Run celery worker
-	poetry run celery -A djangoblog worker -l info
+	DJANGO_ENV=local poetry run celery -A djangoblog worker -l info
 	# watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery -A djangoblog worker -l info
 
 start: ## Start project with uvicorn
-	uvicorn djangoblog.asgi:application --port 8081 --reload
+	DJANGO_ENV=local uvicorn djangoblog.asgi:application --port 8081 --reload
 
 prod:
-	gunicorn djangoblog:asgi:application -w 4 -k uvicorn.workers.UvicornWorker --log-file -
+	DJANGO_ENV=production gunicorn djangoblog:asgi:application -w 4 -k uvicorn.workers.UvicornWorker --log-file -
 
 showoutdated: ## Show outdated Poetry packages
 	poetry show --outdated -T
@@ -28,24 +28,24 @@ loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
 
 tests: ## Run tests with coverage
-	poetry run coverage run manage.py test -v 3
-	poetry run coverage report
-	poetry run coverage html
+	DJANGO_ENV=local poetry run coverage run manage.py test -v 3
+	DJANGO_ENV=local poetry run coverage report
+	DJANGO_ENV=local poetry run coverage html
 
 test: ## Run single test
-	poetry run python manage.py test
+	DJANGO_ENV=local poetry run python manage.py test
 
 build-local: load-fixtures migrate
-	poetry install --no-root
+	DJANGO_ENV=local poetry install --no-root
 
 load-fixtures: ## Load local and test fixtures
-	poetry run python manage.py loaddata djangoblog/fixtures/*.yaml
+	DJANGO_ENV=local poetry run python manage.py loaddata djangoblog/fixtures/*.yaml
 
 flush-db: ## Reset local DB
-	poetry run python manage.py flush
+	DJANGO_ENV=local poetry run python manage.py flush
 
 create-superuser: ## Create a new superuser
-	poetry run python manage.py create_superuser \
+	DJANGO_ENV=local poetry run python manage.py create_superuser \
 		--user=Admin \
 		--password=superPassword12 \
 		--email=admin@gmail.com

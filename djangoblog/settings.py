@@ -12,27 +12,24 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from datetime import timedelta
 
-import environ
+import dynaconf
 import sentry_sdk
 from django.contrib.messages import constants as messages
 from sentry_sdk.integrations import celery, django, redis
 
+settings = dynaconf.DjangoDynaconf(__name__)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-env = environ.Env(DEBUG=(bool, True))
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = "Overriden in envs"
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
-
-# False if not in os.environ because of casting above
-DEBUG = env("DEBUG", False)
 
 AUTH_USER_MODEL = "djangoblog.UserProfile"
 AUTHENTICATION_BACKENDS = ("djangoblog.auth_backends.CustomUserModelBackend",)
@@ -267,15 +264,16 @@ WSGI_APPLICATION = "djangoblog.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+DB = settings.DATABASES.default
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "PORT": os.getenv("PGPORT"),
-        "HOST": os.getenv("POSTGRES_HOST"),
+        "NAME": DB.NAME,
+        "USER": DB.USER,
+        "PASSWORD": DB.PASSWORD,
+        "PORT": DB.PORT,
+        "HOST": DB.HOST,
     },
 }
 
@@ -319,11 +317,9 @@ LANGUAGES = [
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = False
-USE_L10N = False
 USE_TZ = True
 
 ADMIN_LANGUAGE_CODE = "en-us"
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -439,3 +435,11 @@ if not DEBUG:
         traces_sample_rate=0.2,
         send_default_pii=True,
     )
+
+
+# HERE STARTS DYNACONF EXTENSION LOAD (Keep at the very bottom of settings.py)
+# Read more at https://www.dynaconf.com/django/
+import dynaconf  # noqa
+
+settings = dynaconf.DjangoDynaconf(__name__)  # noqa
+# HERE ENDS DYNACONF EXTENSION LOAD (No more code below this line)

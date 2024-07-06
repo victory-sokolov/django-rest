@@ -1,0 +1,46 @@
+database: &database
+  ENGINE: 'django.db.backends.postgresql'
+  NAME: 'blog'
+  USER: 'user'
+  PASSWORD: 'securepassword'
+  PORT: 5431
+  HOST: 127.0.0.1
+
+local:
+  APP_ENV: local
+  DEBUG: True
+  SECRET_KEY: 'RandomSecureKey'
+
+  # Celery
+  CELERY_RESULT_BACKEND: redis://localhost:6379
+  CELERY_BROKER_URL: redis://localhost:6379
+  CELERY_TASK_ALWAYS_EAGER: False
+  CELERY_TASK_EAGER_PROPAGATES: False
+
+  # Database
+  DATABASES:
+    default:
+      <<: *database
+
+test:
+  APP_ENV: test
+  DEBUG: True
+  SECRET_KEY: 'RandomSecureKey'
+  ALLOWED_HOSTS:
+    - '.testserver'
+    - testserver
+
+  # Celery
+  CELERY_RESULT_BACKEND: 'cache+memory://'
+  CELERY_BROKER_URL: 'memory://localhost/'
+  CELERY_TASK_ALWAYS_EAGER: True
+  CELERY_TASK_EAGER_PROPAGATES: True
+
+  # Database
+  DATABASES:
+    default:
+      <<: *database
+
+production:
+  DEBUG: False
+  SENTRY_DSN: '@format {env[SENTRY_DSN]}'
