@@ -11,5 +11,8 @@ omit=
     **/__init__.py
     **/settings.py
 
+parallel = True
+concurrency = multiprocessing
+
 [html]
 directory = coverage
