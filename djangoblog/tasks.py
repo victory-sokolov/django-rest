@@ -21,13 +21,11 @@ class PostTask(celery.Task):
             .order_by("-created_at")
             .prefetch_related("tags")
         )
-        serializer = PostSerializer(data=selected_posts, many=True)
-        if not serializer.is_valid():
-            logger.error("Failed to fetch posts", extra=serializer.errors)
-
-        logger.info(f"Successfully retrieved {len(selected_posts)} posts")
-        serializer.save()
-        return serializer.data
+        serializer = PostSerializer(selected_posts, many=True)
+        try:
+            return serializer.data
+        except Exception as e:
+            logger.error("Failed to fetch posts", exc_info=e)
 
 
 app.register_task(PostTask())
