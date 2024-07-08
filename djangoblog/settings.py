@@ -349,7 +349,14 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "djangoblog/static"),
     os.path.join(BASE_DIR, "node_modules", "bootstrap", "dist"),
 ]
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 
 # ELK setup
