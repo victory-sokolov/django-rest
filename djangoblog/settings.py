@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import sys
 from datetime import timedelta
 
 import dynaconf
@@ -192,7 +193,23 @@ LOGGING = {
     },
 }
 
-# CONN_MAX_AGE = 5
+TEST_LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+}
+
+if "test" in sys.argv:
+    LOGGING = TEST_LOGGING
+
 
 CACHES = {
     "default": {
@@ -235,12 +252,14 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "compression_middleware.middleware.CompressionMiddleware",
-    # "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # "django.middleware.cache.FetchFromCacheMiddleware"
 ]
 
 ROOT_URLCONF = "djangoblog.urls"
-
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 SHOW_TOOLBAR_CALLBACK = False
 DEBUG_TOOLBAR_CONFIG = {"IS_RUNNING_TESTS": False}
 
@@ -407,23 +426,20 @@ JAZZMIN_SETTINGS = {
 }
 
 # Only enable the browseable HTML API in dev (DEBUG=True)
-if DEBUG:
+if DEBUG and "test" not in sys.argv:
     DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + (
         "rest_framework.renderers.BrowsableAPIRenderer",
     )
-    INSTALLED_APPS += [
-        "watchman",
-        "debug_toolbar",
-        "silk",
-    ]
+    INSTALLED_APPS += ["watchman", "debug_toolbar", "silk"]
     MIDDLEWARE += [
         "debug_toolbar.middleware.DebugToolbarMiddleware",
         "silk.middleware.SilkyMiddleware",
     ]
 
+
 if not DEBUG:
     sentry_sdk.init(
-        dsn=env("SENTRY_DSN"),
+        dsn=settings.SENTRY_DSN,
         integrations=[
             django.DjangoIntegration(),
             celery.CeleryIntegration(),
