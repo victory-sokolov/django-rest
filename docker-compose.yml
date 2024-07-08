@@ -82,6 +82,8 @@ services:
       - "5431:5431"
     volumes:
       - djdata:/var/lib/postgresql/data
+    environment:
+      - TZ=Etc/GMT-3
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -p ${PGPORT} -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
