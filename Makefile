@@ -27,8 +27,15 @@ showoutdated: ## Show outdated Poetry packages
 loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
 
+mypy:
+	DJANGO_ENV=local poetry run mypy --config-file pyproject.toml djangoblog --cache-fine-grained
+
+security-check:
+	DJANGO_ENV=production poetry run python manage.py check --deploy
+
 tests: ## Run tests with coverage
-	DJANGO_ENV=test poetry run coverage run manage.py test -v 3
+	DJANGO_ENV=test poetry run coverage run --parallel-mode --concurrency=multiprocessing manage.py test --parallel -v 2
+	DJANGO_ENV=test poetry run coverage combine
 	DJANGO_ENV=test poetry run coverage report
 	DJANGO_ENV=test poetry run coverage html
 
@@ -52,6 +59,9 @@ create-superuser: ## Create a new superuser
 
 upgrade-deps:
 	poetry up --latest
+
+install:
+	DJANGO_ENV=local poetry install --no-root
 
 docker-build:
 	docker-compose up --build -d --remove-orphans
