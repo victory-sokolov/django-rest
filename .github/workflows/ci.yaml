@@ -3,15 +3,12 @@ name: ci
 on:
   push:
     branches: [main, master]
-    paths-ignore:
-      - '*.md'
-      - 'docs/**'
-      - '.*'
-      - package.json
-      - yarn.lock
+
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 jobs:
-  build:
+  vm-job:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -31,7 +28,7 @@ jobs:
 
       - name: Run tests
         env:
-          DB_HOST: postgres
+          DB_HOST: localhost
           POSTGRES_PORT: ${{ job.services.postgres.ports[5431] }}
         run: |
           set -v
