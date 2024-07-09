@@ -67,6 +67,8 @@ ci:
   ALLOWED_HOSTS:
     - '.testserver'
     - testserver
+    - localhost
+
   DEBUG: True
 
   DATABASES:
@@ -75,8 +77,8 @@ ci:
       NAME: postgres
       USER: postgres
       PASSWORD: postgres
-      PORT: 5431
       HOST: postgres
+      PORT: 5431
 
   # Celery
   CELERY_RESULT_BACKEND: 'cache+memory://'

@@ -19,6 +19,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
+          PGPORT: 5431
         ports:
           - 5431:5431
         options: >-
@@ -33,10 +34,12 @@ jobs:
         uses: ./.github/actions/install-deps
 
       - name: Run tests
-        # env:
-        # POSTGRES_HOST_AUTH_METHOD: trust
-        # HOST: postgres
-        # POSTGRES_PORT: ${{ job.services.postgres.ports[5431] }}
+        env:
+          DATABASE_NAME: postgres
+          DATABASE_USER: postgres
+          DATABASE_PASS: postgres
+          DATABASE_HOST: postgres
+          DATABASE_PORT: 5431
         run: |
           set -v
           make tests-ci
