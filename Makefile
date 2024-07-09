@@ -34,7 +34,7 @@ security-check:
 	DJANGO_ENV=production poetry run python manage.py check --deploy
 
 tests-ci: ## Run tests with coverage
-	DJANGO_ENV=test poetry run python manage.py test -v 2
+	DJANGO_ENV=test poetry run coverage run --parallel-mode --concurrency=multiprocessing manage.py test --parallel -v 2
 	# DJANGO_ENV=test poetry run coverage combine
 	# DJANGO_ENV=test poetry run coverage report
 	# DJANGO_ENV=test poetry run coverage html

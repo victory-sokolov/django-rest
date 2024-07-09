@@ -14,11 +14,11 @@ runs:
       run: |
         pip install poetry==1.8.3
 
-    # - name: Cache the virtualenv
-    #   uses: actions/cache@v4
-    #   with:
-    #     path: ./.venv
-    #     key: ${{ runner.os }}-venv-${{ hashFiles('**/poetry.lock') }}
+    - name: Cache the virtualenv
+      uses: actions/cache@v4
+      with:
+        path: ./.venv
+        key: ${{ runner.os }}-venv-${{ hashFiles('**/poetry.lock') }}
 
     - name: Install dependencies
       shell: sh
