@@ -61,3 +61,11 @@ production:
   CELERY_BROKER_URL: 'redis://localhost:6379/'
   CELERY_TASK_ALWAYS_EAGER: False
   CELERY_TASK_EAGER_PROPAGATES: False
+
+ci:
+  ENGINE: 'django.db.backends.postgresql'
+  NAME: 'blog'
+  USER: 'user'
+  PASSWORD: 'securepassword'
+  PORT: 5431
+  HOST: 'postgres'

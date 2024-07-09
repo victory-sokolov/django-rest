@@ -40,7 +40,7 @@ tests: ## Run tests with coverage
 	DJANGO_ENV=test poetry run coverage html
 
 test: ## Run single test
-	DJANGO_ENV=test poetry run python manage.py test
+	DJANGO_ENV=ci poetry run python manage.py test
 
 build-local: load-fixtures migrate
 	DJANGO_ENV=local poetry install --no-root

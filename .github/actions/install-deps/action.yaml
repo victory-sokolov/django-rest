@@ -23,4 +23,4 @@ runs:
     - name: Install dependencies
       shell: sh
       run: |
-        poetry install --no-interaction
+        poetry install --no-interaction --no-root
