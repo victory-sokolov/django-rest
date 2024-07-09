@@ -10,6 +10,7 @@ runs:
         cache: 'pip'
 
     - name: Install poetry
+      shell: sh
       run: |
         pip install poetry==1.8.3
 
@@ -20,5 +21,6 @@ runs:
         key: ${{ runner.os }}-venv-${{ hashFiles('**/poetry.lock') }}
 
     - name: Install dependencies
+      shell: sh
       run: |
         poetry install --no-interaction
