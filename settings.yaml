@@ -72,9 +72,9 @@ ci:
   DATABASES:
     default:
       ENGINE: 'django.db.backends.postgresql'
-      NAME: 'blog'
-      USER: 'user'
-      PASSWORD: 'securepassword'
+      NAME: postgres
+      USER: postgres
+      PASSWORD: postgres
       PORT: 5431
       HOST: postgres
 

@@ -10,16 +10,22 @@ on:
 jobs:
   vm-job:
     runs-on: ubuntu-latest
+    container: python:3.10
+
     services:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: securepassword
-          POSTGRES_DB: blog
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
         ports:
           - 5431:5431
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4.1.7
@@ -27,10 +33,10 @@ jobs:
         uses: ./.github/actions/install-deps
 
       - name: Run tests
-        env:
-          POSTGRES_HOST_AUTH_METHOD: trust
-          DB_HOST: postgres
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5431] }}
+        # env:
+        # POSTGRES_HOST_AUTH_METHOD: trust
+        # HOST: postgres
+        # POSTGRES_PORT: ${{ job.services.postgres.ports[5431] }}
         run: |
           set -v
           make tests-ci
