@@ -10,15 +10,14 @@ on:
 jobs:
   vm-job:
     runs-on: ubuntu-latest
-    container: python:3.10
 
     services:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: securepassword
+          POSTGRES_DB: blog
           PGPORT: 5431
         ports:
           - 5431:5431

@@ -4,10 +4,10 @@ description: Set up dependencies for Python
 runs:
   using: composite
   steps:
-    # - uses: actions/setup-python@v5.1.0
-    #   with:
-    #     python-version: 3.10.14
-    #     cache: 'pip'
+    - uses: actions/setup-python@v5.1.0
+      with:
+        python-version: 3.10.14
+        cache: 'pip'
 
     - name: Install poetry
       shell: sh

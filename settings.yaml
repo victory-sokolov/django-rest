@@ -1,10 +1,10 @@
 database: &database
   ENGINE: 'django.db.backends.postgresql'
-  NAME: 'blog'
-  USER: 'user'
-  PASSWORD: 'securepassword'
+  NAME: blog
+  USER: user
+  PASSWORD: securepassword
   PORT: 5431
-  HOST: 'localhost'
+  HOST: localhost
 
 local:
   APP_ENV: local
@@ -29,6 +29,7 @@ test:
   ALLOWED_HOSTS:
     - '.testserver'
     - testserver
+    - localhost
 
   # Celery
   CELERY_RESULT_BACKEND: 'cache+memory://'
