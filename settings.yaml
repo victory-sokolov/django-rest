@@ -4,12 +4,12 @@ database: &database
   USER: 'user'
   PASSWORD: 'securepassword'
   PORT: 5431
-  HOST: 127.0.0.1
+  HOST: 'localhost'
 
 local:
   APP_ENV: local
   DEBUG: True
-  SECRET_KEY: 'RandomSecureKey'
+  SECRET_KEY: 'NiXAPEoTDXkv2_vnIR1LH9WSrRhHhFNviRZDJZNHdRGy06ZUexwJ5W0w1Sl5m_Uj4N0'
 
   # Celery
   CELERY_RESULT_BACKEND: redis://localhost:6379
@@ -25,7 +25,7 @@ local:
 test:
   APP_ENV: test
   DEBUG: True
-  SECRET_KEY: 'RandomSecureKey'
+  SECRET_KEY: 'NiXAPEoTDXkv2_vnIR1LH9WSrRhHhFNviRZDJZNHdRGy06ZUexwJ5W0w1Sl5m_Uj4N0'
   ALLOWED_HOSTS:
     - '.testserver'
     - testserver
@@ -36,6 +36,10 @@ test:
   CELERY_TASK_ALWAYS_EAGER: True
   CELERY_TASK_EAGER_PROPAGATES: True
 
+  CACHES:
+    default:
+      'BACKEND': 'django.core.cache.backends.dummy.DummyCache'
+
   # Database
   DATABASES:
     default:
@@ -44,3 +48,16 @@ test:
 production:
   DEBUG: False
   SENTRY_DSN: '@format {env[SENTRY_DSN]}'
+  SECRET_KEY: 'Kr5E1qxqLZxTBXgbt66TzzfncPLLMRU1Yjt60TnOx4rplQa-iwBCThDi0mYlMd06C7-G_'
+  ALLOWED_HOSTS: ['*']
+
+  # Database
+  DATABASES:
+    default:
+      <<: *database
+
+  # Celery
+  CELERY_RESULT_BACKEND: 'redis://localhost:6379'
+  CELERY_BROKER_URL: 'redis://localhost:6379/'
+  CELERY_TASK_ALWAYS_EAGER: False
+  CELERY_TASK_EAGER_PROPAGATES: False
