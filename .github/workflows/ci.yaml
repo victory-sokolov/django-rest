@@ -32,7 +32,20 @@ jobs:
       - id: setup
         uses: ./.github/actions/install-deps
 
+      - name: Create multiple databases
+        shell: bash
+        env:
+          POSTGRES_USER: user
+          POSTGRES_HOST: localhost
+          POSTGRES_PASSWORD: securepassword
+          POSTGRES_MULTIPLE_DATABASES: content_blog
+          PGPORT: 5431
+        run: |
+          set -v
+          chmod +x ./pg-bootstrap.sh
+          ./pg-bootstrap.sh
+
       - name: Run tests
         run: |
           set -v
-          make tests-ci
+          make test
