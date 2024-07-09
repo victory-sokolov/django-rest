@@ -27,6 +27,11 @@ jobs:
             -e POSTGRES_PASSWORD=securepassword \
             -e DB_HOST=localhost \
             -p 5431:5431 \
+            --health-cmd="pg_isready -U user" \
+            --health-interval=10s \
+            --health-timeout=5s \
+            --health-retries=5 \
+            --health-start-period=10s \
             -v ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d \
             postgres:15
 
@@ -39,6 +44,8 @@ jobs:
         uses: ./.github/actions/install-deps
 
       - name: Run tests
+        env:
+          POSTGRES_HOST: postgres
         run: |
           set -v
           make tests
