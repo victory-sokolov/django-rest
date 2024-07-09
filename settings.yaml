@@ -63,9 +63,15 @@ production:
   CELERY_TASK_EAGER_PROPAGATES: False
 
 ci:
-  ENGINE: 'django.db.backends.postgresql'
-  NAME: 'blog'
-  USER: 'user'
-  PASSWORD: 'securepassword'
-  PORT: 5431
-  HOST: 'postgres'
+  SECRET_KEY: 'Kr5E1qxqLZxTBXgbt66TzzfncPLLMRU1Yjt60TnOx4rplQa-iwBCThDi0mYlMd06C7-G_'
+  ALLOWED_HOSTS: ['*']
+  DEBUG: True
+
+  DATABASES:
+    default:
+      ENGINE: 'django.db.backends.postgresql'
+      NAME: 'blog'
+      USER: 'user'
+      PASSWORD: 'securepassword'
+      PORT: 5431
+      HOST: 'postgres'

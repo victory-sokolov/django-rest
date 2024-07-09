@@ -40,7 +40,7 @@ tests-ci: ## Run tests with coverage
 	# DJANGO_ENV=ci poetry run coverage html
 
 test: ## Run single test
-	DJANGO_ENV=ci poetry run python manage.py test
+	DJANGO_ENV=test poetry run coverage run --parallel-mode --concurrency=multiprocessing manage.py test --parallel -v 2
 
 build-local: load-fixtures migrate
 	DJANGO_ENV=local poetry install --no-root
