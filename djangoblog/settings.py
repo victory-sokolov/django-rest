@@ -284,7 +284,7 @@ WSGI_APPLICATION = "djangoblog.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 DB = settings.DATABASES.default
-print("DB Host", DB)
+
 DATABASES = {
     "default": {
         "ENGINE": DB.ENGINE,
