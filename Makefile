@@ -18,6 +18,9 @@ worker: ## Run celery worker
 start: ## Start project with uvicorn
 	DJANGO_ENV=local uvicorn djangoblog.asgi:application --port 8081 --reload
 
+flower: ## Run Flower Celery monitoring system
+	DJANGO_ENV=local poetry run celery -A djangoblog.celery.app flower
+
 collectstatic:
 	DJANGO_ENV=local poetry run python manage.py collectstatic
 

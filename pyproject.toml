@@ -55,6 +55,7 @@ tblib = "^3.0.0"
 uvicorn = "^0.21.1"
 watchdog = "^4.0.0"
 py-spy = "^0.3.14"
+flower = "^2.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
