@@ -20,7 +20,7 @@ npm install
 Creates superuser with the following credentials
 
 email: admin@gmail.com
-password: superPassword
+password: superPassword12
 
 ```bash
 make create-superuser

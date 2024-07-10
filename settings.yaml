@@ -62,27 +62,3 @@ production:
   CELERY_BROKER_URL: 'redis://localhost:6379/'
   CELERY_TASK_ALWAYS_EAGER: False
   CELERY_TASK_EAGER_PROPAGATES: False
-
-ci:
-  SECRET_KEY: 'Kr5E1qxqLZxTBXgbt66TzzfncPLLMRU1Yjt60TnOx4rplQa-iwBCThDi0mYlMd06C7-G_'
-  ALLOWED_HOSTS:
-    - '.testserver'
-    - testserver
-    - localhost
-
-  DEBUG: True
-
-  DATABASES:
-    default:
-      ENGINE: 'django.db.backends.postgresql'
-      NAME: postgres
-      USER: postgres
-      PASSWORD: postgres
-      HOST: postgres
-      PORT: 5431
-
-  # Celery
-  CELERY_RESULT_BACKEND: 'cache+memory://'
-  CELERY_BROKER_URL: 'memory://localhost/'
-  CELERY_TASK_ALWAYS_EAGER: True
-  CELERY_TASK_EAGER_PROPAGATES: True
