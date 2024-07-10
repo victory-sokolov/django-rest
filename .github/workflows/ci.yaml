@@ -3,26 +3,35 @@ name: ci
 on:
   push:
     branches: [main, master]
-    paths-ignore:
-      - '*.md'
-      - 'docs/**'
-      - '.*'
-      - package.json
-      - yarn.lock
+
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+env:
+  PGPORT: 5431
+  POSTGRES_DB: blog
+  POSTGRES_PASSWORD: securepassword
+  POSTGRES_USER: user
 
 jobs:
-  build:
+  vm-job:
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: securepassword
-          POSTGRES_DB: blog
+          POSTGRES_USER:  ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          PGPORT: ${{ env.PGPORT}}
         ports:
           - 5431:5431
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4.1.7
@@ -30,9 +39,6 @@ jobs:
         uses: ./.github/actions/install-deps
 
       - name: Run tests
-        env:
-          DB_HOST: postgres
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5431] }}
         run: |
           set -v
-          make tests-ci
+          make test

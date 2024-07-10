@@ -1,10 +1,10 @@
 database: &database
   ENGINE: 'django.db.backends.postgresql'
-  NAME: 'blog'
-  USER: 'user'
-  PASSWORD: 'securepassword'
+  NAME: blog
+  USER: user
+  PASSWORD: securepassword
   PORT: 5431
-  HOST: 'localhost'
+  HOST: localhost
 
 local:
   APP_ENV: local
@@ -29,6 +29,7 @@ test:
   ALLOWED_HOSTS:
     - '.testserver'
     - testserver
+    - localhost
 
   # Celery
   CELERY_RESULT_BACKEND: 'cache+memory://'
@@ -64,14 +65,24 @@ production:
 
 ci:
   SECRET_KEY: 'Kr5E1qxqLZxTBXgbt66TzzfncPLLMRU1Yjt60TnOx4rplQa-iwBCThDi0mYlMd06C7-G_'
-  ALLOWED_HOSTS: ['*']
+  ALLOWED_HOSTS:
+    - '.testserver'
+    - testserver
+    - localhost
+
   DEBUG: True
 
   DATABASES:
     default:
       ENGINE: 'django.db.backends.postgresql'
-      NAME: 'blog'
-      USER: 'user'
-      PASSWORD: 'securepassword'
+      NAME: postgres
+      USER: postgres
+      PASSWORD: postgres
+      HOST: postgres
       PORT: 5431
-      HOST: 'postgres'
+
+  # Celery
+  CELERY_RESULT_BACKEND: 'cache+memory://'
+  CELERY_BROKER_URL: 'memory://localhost/'
+  CELERY_TASK_ALWAYS_EAGER: True
+  CELERY_TASK_EAGER_PROPAGATES: True
