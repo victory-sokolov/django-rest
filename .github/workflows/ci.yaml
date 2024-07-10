@@ -7,6 +7,12 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
+env:
+  PGPORT: 5431
+  POSTGRES_DB: blog
+  POSTGRES_PASSWORD: securepassword
+  POSTGRES_USER: user
+
 jobs:
   vm-job:
     runs-on: ubuntu-latest
@@ -15,10 +21,10 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: securepassword
-          POSTGRES_DB: blog
-          PGPORT: 5431
+          POSTGRES_USER:  ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          PGPORT: ${{ env.PGPORT}}
         ports:
           - 5431:5431
         options: >-
@@ -31,19 +37,6 @@ jobs:
       - uses: actions/checkout@v4.1.7
       - id: setup
         uses: ./.github/actions/install-deps
-
-      - name: Create multiple databases
-        shell: bash
-        env:
-          POSTGRES_USER: user
-          POSTGRES_MULTIPLE_DATABASES: content_blog, test_blog
-          POSTGRES_HOST: localhost
-          POSTGRES_PASSWORD: securepassword
-          PGPORT: 5431
-        run: |
-          set -v
-          chmod +x ./pg-bootstrap.sh
-          ./pg-bootstrap.sh
 
       - name: Run tests
         run: |
