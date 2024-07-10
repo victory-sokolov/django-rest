@@ -9,8 +9,6 @@ from djangoblog.config import Config
 
 logger = logging.getLogger(__name__)
 
-# Set the default Django settings module for the 'celery' program.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoblog.settings")
 
 app = Celery("djangoblog")
 app.config_from_object(Config)
