@@ -13,10 +13,13 @@ dev: ## Run dev server
 
 worker: ## Run celery worker
 	DJANGO_ENV=local poetry run celery -A djangoblog worker -l info
-	# watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery -A djangoblog worker -l info
+	# DJANGO_ENV=poetry run watchmedo auto-restart --directory=./ --pattern="*.py" --recursive -- poetry run celery -A djangoblog worker -l info
 
 start: ## Start project with uvicorn
 	DJANGO_ENV=local uvicorn djangoblog.asgi:application --port 8081 --reload
+
+collectstatic:
+	DJANGO_ENV=local poetry run python manage.py collectstatic
 
 prod:
 	DJANGO_ENV=production gunicorn djangoblog:asgi:application -w 4 -k uvicorn.workers.UvicornWorker --log-file -
