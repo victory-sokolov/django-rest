@@ -36,10 +36,9 @@ jobs:
         shell: bash
         env:
           POSTGRES_USER: user
+          POSTGRES_MULTIPLE_DATABASES: content_blog, test_blog
           POSTGRES_HOST: localhost
-          #   POSTGRES_PASSWORD: securepassword
-          POSTGRES_HOST_AUTH_METHOD: trust
-          POSTGRES_MULTIPLE_DATABASES: content_blog
+          POSTGRES_PASSWORD: securepassword
           PGPORT: 5431
         run: |
           set -v
