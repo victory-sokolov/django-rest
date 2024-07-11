@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from djangoblog.api.models.post import Post
 from djangoblog.api.v1.posts.serializers import PostSerializer
-from djangoblog.tasks import PostTask
+from djangoblog.tasks import GetPostsTask
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ class ArticleListView(APIView):
     @extend_schema(description="Get all available blog posts")
     def get(self, request: Request):
         """Get all posts"""
-        posts = PostTask().apply_async()
+        posts = GetPostsTask().apply_async()
         return Response(status=status.HTTP_200_OK, data=posts.get())
 
     @extend_schema(description="Create new blog post", tags=["post"])

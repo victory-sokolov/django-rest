@@ -7,9 +7,9 @@ from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, ListView
 
-from djangoblog.api.models.post import Post, Tags
+from djangoblog.api.models.post import Post
 from djangoblog.forms import PostForm
-from djangoblog.tasks import PostTask
+from djangoblog.tasks import CreatePostsTask, GetPostsTask
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +41,7 @@ class PostView(ListView):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         context = {"form": self.form, "posts": []}
-        data = PostTask().apply_async()
+        data = GetPostsTask().apply_async()
         context["posts"] = data.get()
         return render(request, self.template_name, context)
 
@@ -54,18 +54,14 @@ class PostCreateView(CreateView):
     def post(self, request: HttpRequest, **kwargs):
         is_draft = True if request.POST.get("draft") == "on" else False
         tags = json.loads(request.POST.get("tags", []))
-        post = Post.objects.create(
-            title=request.POST.get("title"),
-            content=request.POST.get("content"),
-            user=request.user,
-            draft=is_draft,
-        )
-
-        tag_set = Tags.objects.create_if_not_exist(tags)
-        for tag in tag_set:
-            post.tags.add(tag)
-
-        logger.info(f"New post with {post.id} has been created")
+        data = {
+            "tags": tags,
+            "is_draft": is_draft,
+            "title": request.POST.get("title"),
+            "content": request.POST.get("content"),
+            "user_id": request.user.id,
+        }
+        CreatePostsTask().delay(data)
         return redirect("get-all-posts")
 
 
