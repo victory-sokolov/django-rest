@@ -45,6 +45,8 @@ services:
       context: docker/redis
     security_opt:
       - no-new-privileges:true
+    environment:
+      - TZ=Etc/GMT-3
     ports:
       - 6379:6379
     healthcheck:
