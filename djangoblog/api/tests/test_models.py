@@ -1,7 +1,6 @@
-from django.test import TestCase
-
 from djangoblog.api.models.post import Post, Tags
 from djangoblog.models import UserProfile
+from djangoblog.utils.limit_test import TestCase
 
 
 class TestPostModel(TestCase):

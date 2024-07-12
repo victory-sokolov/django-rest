@@ -1,12 +1,12 @@
 import json
 
-from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
 
 from djangoblog.api.models.post import Post
 from djangoblog.forms import PostForm
 from djangoblog.models import UserProfile
+from djangoblog.utils.limit_test import TestCase
 
 
 class HomePageTest(TestCase):

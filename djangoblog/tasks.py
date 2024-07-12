@@ -33,7 +33,6 @@ class CreatePostsTask(celery.Task):
     name = "CreatePostTask"
 
     def run(self, data: dict):
-        print("Task id", self.request.id)
         user = UserProfile.objects.get(id=data["user_id"])
         post = Post.objects.create(
             title=data["title"],
@@ -47,6 +46,7 @@ class CreatePostsTask(celery.Task):
             post.tags.add(tag)
 
         logger.info(f"New post with {post.id} has been created")
+
 
 app.register_task(GetPostsTask())
 app.register_task(CreatePostsTask())

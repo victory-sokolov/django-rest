@@ -1,7 +1,7 @@
-from django.test import TestCase
 from django.urls import reverse
 
 from djangoblog.models import UserProfile
+from djangoblog.utils.limit_test import TestCase
 
 
 class TestAuth(TestCase):

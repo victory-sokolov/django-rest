@@ -1,7 +1,8 @@
 import json
 
-from django.test import TestCase
 from django.test.client import Client
+
+from djangoblog.utils.limit_test import TestCase
 
 
 class TestSwaggerSchema(TestCase):
