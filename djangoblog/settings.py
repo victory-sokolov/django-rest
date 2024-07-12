@@ -217,6 +217,10 @@ CACHES = {
         "LOCATION": "redis:///host.docker.internal:6379/1",
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     },
+    "tasks": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost",
+    },
 }
 # CACHE_TTL = 60 * 15
 # SESSION_ENGINE = "django.contrib.sessions.backends.cache"
