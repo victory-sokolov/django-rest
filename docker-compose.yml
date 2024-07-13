@@ -16,6 +16,7 @@ services:
       - 1337:80
     depends_on:
       - postgres
+      - nginx
 
   # celery_worker:
   #   restart: on-failure
@@ -26,8 +27,7 @@ services:
   #   volumes:
   #     - ./djangoblog:/app
   #   depends_on:
-  #     - app
-  #     - postgres
+  #     - dj-app
   #     - redis
 
   rabbitmq:
