@@ -21,13 +21,13 @@ class ArticleListView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(description="Get all available blog posts")
-    def get(self, request: Request):
+    def get(self, request: Request) -> Response:
         """Get all posts"""
         posts = GetPostsTask().apply_async()
         return Response(status=status.HTTP_200_OK, data=posts.get())
 
     @extend_schema(description="Create new blog post", tags=["post"])
-    def post(self, request: Request):
+    def post(self, request: Request) -> Response:
         """Create post"""
         context = {"request": request}
         serializer = PostSerializer(data=request.data, context=context)
@@ -43,13 +43,13 @@ class ArticleListView(APIView):
 class SingleArticleView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get_object(self, post_id: str):
+    def get_object(self, post_id: str) -> Post:
         try:
             return Post.objects.get(id=post_id, draft=False)
         except Post.DoesNotExist:
             raise Http404
 
-    def get(self, request: Request, id: str):
+    def get(self, request: Request, id: str) -> Response:
         """Get single article."""
         post = Post.objects.filter(id=id).first()
         if not post:
@@ -61,7 +61,7 @@ class SingleArticleView(APIView):
         serializer = PostSerializer(post)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
-    def delete(self, request: Request, id: str):
+    def delete(self, request: Request, id: str) -> Response:
         """Delete post by id"""
         post = self.get_object(id)
         if not post:
@@ -75,7 +75,7 @@ class SingleArticleView(APIView):
             status=status.HTTP_200_OK,
         )
 
-    def put(self, request: Request, id: str):
+    def put(self, request: Request, id: str) -> Response:
         """Update article"""
         post = self.get_object(post_id=str(id))
         if not post:

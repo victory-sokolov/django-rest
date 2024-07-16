@@ -34,7 +34,7 @@ class SlugValidator:
 
 
 class TagValidator:
-    def __call__(self, tags: OrderedDict):
+    def __call__(self, tags: OrderedDict) -> OrderedDict:
         logger.info("Validating Tags", tags)
         tag = list(tags.values())[0]
         errors = []
