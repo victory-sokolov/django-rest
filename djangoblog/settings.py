@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+
 import os
 import sys
 from datetime import timedelta
@@ -182,9 +183,10 @@ LOGGING = {
             "propagate": True,
         },
         # Log DB queries
-        # "django.db.backends": {
-        #     "level": "DEBUG",
-        # },
+        "django.db.backends": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+        },
     },
     "root": {
         "handlers": ["console"],
@@ -447,6 +449,10 @@ if DEBUG and "test" not in sys.argv:
         "debug_toolbar.middleware.DebugToolbarMiddleware",
         "silk.middleware.SilkyMiddleware",
     ]
+elif "test" in sys.argv:
+    NPLUSONE_RAISE = False
+    INSTALLED_APPS += ["nplusone.ext.django"]
+    MIDDLEWARE += ["nplusone.ext.django.NPlusOneMiddleware"]
 
 
 if not DEBUG:

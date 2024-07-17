@@ -7,7 +7,6 @@ services:
     build:
       context: .
     command: sh -c "python manage.py migrate && gunicorn djangoblog.wsgi:application --bind 0.0.0.0:8000"
-    # command: python manage.py runserver 0.0.0.0:8000
     security_opt:
       - no-new-privileges:true
     networks:
@@ -17,6 +16,7 @@ services:
     depends_on:
       - postgres
       - nginx
+      - redis
 
   # celery_worker:
   #   restart: on-failure
@@ -66,8 +66,6 @@ services:
       test: ["CMD", "service", "nginx", "status"]
     ports:
       - "8080:80"
-    depends_on:
-      - dj-app
 
   postgres:
     container_name: dj-postgres

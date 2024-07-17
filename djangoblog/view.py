@@ -30,7 +30,7 @@ class SinglePostView(DetailView):
     template_name = "post.html"
 
     def get(self, request: HttpRequest, pk: str) -> HttpResponse:
-        post = Post.objects.filter(id=pk).first()
+        post = Post.objects.select_related("user").filter(id=pk).first()
         context = {"post": post}
         return render(request, self.template_name, context)
 

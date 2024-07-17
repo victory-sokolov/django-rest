@@ -22,7 +22,6 @@ class TagSerializer(serializers.ModelSerializer):
 
 @extend_schema_serializer(exclude_fields=("title", "content", "user"))
 class PostSerializer(serializers.ModelSerializer):
-    # user = serializers.SlugRelatedField(slug_field="name", read_only=True)
     user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     title = serializers.CharField(required=True)
     slug = serializers.CharField(
