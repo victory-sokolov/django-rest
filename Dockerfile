@@ -28,7 +28,7 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python
 
 
 # Set working directory
-WORKDIR $PYSETUP_PATH
+WORKDIR /app
 COPY ./poetry.lock ./pyproject.toml ./
 RUN poetry install --no-root --only main
 

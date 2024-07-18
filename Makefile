@@ -63,7 +63,7 @@ create-superuser: ## Create a new superuser
 upgrade-deps:
 	poetry up --latest
 
-install:
+install-dev:
 	DJANGO_ENV=local poetry install --no-root
 
 docker-build:

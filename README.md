@@ -3,6 +3,7 @@
 ## Install dependencies
 
 ```bash
+poetry env use 3.10.14
 poetry install
 # Install npm dependencies
 npm install

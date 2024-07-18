@@ -216,7 +216,7 @@ if "test" in sys.argv:
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis:///host.docker.internal:6379/1",
+        "LOCATION": settings.REDIS_URL,
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     },
     "tasks": {
@@ -262,12 +262,27 @@ MIDDLEWARE = [
     # "django.middleware.cache.FetchFromCacheMiddleware"
 ]
 
+# Only enable the browseable HTML API in dev (DEBUG=True)
+if settings.DEBUG and "test" not in sys.argv:
+    DEFAULT_RENDERER_CLASSES += ("rest_framework.renderers.BrowsableAPIRenderer",)
+    INSTALLED_APPS += ["watchman", "debug_toolbar", "silk"]
+    MIDDLEWARE += [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+        "silk.middleware.SilkyMiddleware",
+    ]
+    SHOW_TOOLBAR_CALLBACK = True
+    DEBUG_TOOLBAR_CONFIG = {"IS_RUNNING_TESTS": False}
+
+elif "test" in sys.argv:
+    NPLUSONE_RAISE = False
+    INSTALLED_APPS += ["nplusone.ext.django"]
+    MIDDLEWARE += ["nplusone.ext.django.NPlusOneMiddleware"]
+
+
 ROOT_URLCONF = "djangoblog.urls"
 CSRF_COOKIE_SECURE = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
-SHOW_TOOLBAR_CALLBACK = False
-DEBUG_TOOLBAR_CONFIG = {"IS_RUNNING_TESTS": False}
 
 TEMPLATES = [
     {
@@ -439,23 +454,16 @@ JAZZMIN_SETTINGS = {
     # },
 }
 
-# Only enable the browseable HTML API in dev (DEBUG=True)
-if DEBUG and "test" not in sys.argv:
-    DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + (
-        "rest_framework.renderers.BrowsableAPIRenderer",
-    )
-    INSTALLED_APPS += ["watchman", "debug_toolbar", "silk"]
-    MIDDLEWARE += [
-        "debug_toolbar.middleware.DebugToolbarMiddleware",
-        "silk.middleware.SilkyMiddleware",
-    ]
-elif "test" in sys.argv:
-    NPLUSONE_RAISE = False
-    INSTALLED_APPS += ["nplusone.ext.django"]
-    MIDDLEWARE += ["nplusone.ext.django.NPlusOneMiddleware"]
+
+# HERE STARTS DYNACONF EXTENSION LOAD (Keep at the very bottom of settings.py)
+# Read more at https://www.dynaconf.com/django/
+import dynaconf  # noqa
+
+settings = dynaconf.DjangoDynaconf(__name__)  # noqa
+# HERE ENDS DYNACONF EXTENSION LOAD (No more code below this line)
 
 
-if not DEBUG:
+if settings.APP_ENV == "production" and settings.SENTRY_ENABLED:
     sentry_sdk.init(
         dsn=settings.SENTRY_DSN,
         integrations=[
@@ -469,11 +477,3 @@ if not DEBUG:
         traces_sample_rate=0.2,
         send_default_pii=True,
     )
-
-
-# HERE STARTS DYNACONF EXTENSION LOAD (Keep at the very bottom of settings.py)
-# Read more at https://www.dynaconf.com/django/
-import dynaconf  # noqa
-
-settings = dynaconf.DjangoDynaconf(__name__)  # noqa
-# HERE ENDS DYNACONF EXTENSION LOAD (No more code below this line)

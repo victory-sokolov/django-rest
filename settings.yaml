@@ -1,15 +1,19 @@
 database: &database
-  ENGINE: 'django.db.backends.postgresql'
+  ENGINE: django.db.backends.postgresql
   NAME: blog
   USER: user
   PASSWORD: securepassword
   PORT: 5431
   HOST: localhost
 
+default: &default
+  REDIS_URL: redis://dj-redis:6379/0
+
 local:
+  <<: *default
   APP_ENV: local
   DEBUG: True
-  SECRET_KEY: 'NiXAPEoTDXkv2_vnIR1LH9WSrRhHhFNviRZDJZNHdRGy06ZUexwJ5W0w1Sl5m_Uj4N0'
+  SECRET_KEY: '@format {env[SECRET_KEY]}'
 
   # Celery
   CELERY_RESULT_BACKEND: redis://localhost:6379
@@ -25,7 +29,7 @@ local:
 test:
   APP_ENV: test
   DEBUG: True
-  SECRET_KEY: 'NiXAPEoTDXkv2_vnIR1LH9WSrRhHhFNviRZDJZNHdRGy06ZUexwJ5W0w1Sl5m_Uj4N0'
+  SECRET_KEY: '@format {env[SECRET_KEY]}'
   ALLOWED_HOSTS:
     - '.testserver'
     - testserver
@@ -47,18 +51,24 @@ test:
       <<: *database
 
 production:
+  <<: *default
+  APP_ENV: production
   DEBUG: False
   SENTRY_DSN: '@format {env[SENTRY_DSN]}'
-  SECRET_KEY: 'Kr5E1qxqLZxTBXgbt66TzzfncPLLMRU1Yjt60TnOx4rplQa-iwBCThDi0mYlMd06C7-G_'
+  SECRET_KEY: '@format {env[SECRET_KEY]}'
+  SENTRY_ENABLED: False
   ALLOWED_HOSTS: ['*']
 
   # Database
   DATABASES:
     default:
       <<: *database
+      HOST: dj-postgres
+
+  REDIS_URL: redis://dj-redis:6379/0
 
   # Celery
-  CELERY_RESULT_BACKEND: 'redis://localhost:6379'
-  CELERY_BROKER_URL: 'redis://localhost:6379/'
+  CELERY_RESULT_BACKEND: 'redis://dj-redis:6379/0'
+  CELERY_BROKER_URL: 'redis://dj-redis:6379/0'
   CELERY_TASK_ALWAYS_EAGER: False
   CELERY_TASK_EAGER_PROPAGATES: False
