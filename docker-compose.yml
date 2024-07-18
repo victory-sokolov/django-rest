@@ -6,7 +6,7 @@ services:
       - .env.prod
     build:
       context: .
-    command: sh -c "python manage.py migrate && gunicorn djangoblog.wsgi:application --bind 0.0.0.0:8000"
+    command: sh -c "DJANGO_ENV=production python manage.py migrate && gunicorn djangoblog.wsgi:application --bind 0.0.0.0:8000"
     security_opt:
       - no-new-privileges:true
     networks:
@@ -18,17 +18,20 @@ services:
       - nginx
       - redis
 
-  # celery_worker:
-  #   restart: on-failure
-  #   container_name: dj-celery-worker
-  #   command: celery -A djangoblog worker -l info
-  #   security_opt:
-  #     - no-new-privileges:true
-  #   volumes:
-  #     - ./djangoblog:/app
-  #   depends_on:
-  #     - dj-app
-  #     - redis
+  celery_worker:
+    restart: on-failure
+    container_name: dj-celery-worker
+    build:
+      context: .
+    env_file:
+      - .env.prod
+    command: sh -c "DJANGO_ENV=production celery -A djangoblog worker -l info"
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - dj-app
+      - redis
+      - postgres
 
   rabbitmq:
     image: rabbitmq:3.11.26-management
