@@ -1,6 +1,6 @@
+#!/usr/bin/env sh
 
-while true; do
-  echo "Re-starting Django runserver"
-  DJANGO_ENV=local poetry run python manage.py runsslserver 0.0.0.0:8000
-  sleep 1
-done
+# Getting static files for Admin panel hosting!
+DJANGO_ENV=production python manage.py collectstatic --noinput
+DJANGO_ENV=production python manage.py migrate
+DJANGO_ENV=production gunicorn djangoblog.wsgi:application --bind 0.0.0.0:"${PORT}"

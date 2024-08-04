@@ -34,3 +34,9 @@ RUN poetry install --no-root --only main
 
 # Copy project app
 COPY . .
+
+ENV PORT=8000
+EXPOSE 8000
+
+RUN chmod +x ./runserver.sh
+CMD ["./runserver.sh"]
