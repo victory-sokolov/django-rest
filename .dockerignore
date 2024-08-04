@@ -31,3 +31,5 @@ node_modules
 data
 schema.yml
 **/tests/**
+infra/
+docker/
