@@ -366,11 +366,16 @@ ADMIN_LANGUAGE_CODE = "en-us"
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "djangoblog")
+STATIC_ROOT = os.path.join(BASE_DIR, "output/static")
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "djangoblog/static"),
+    os.path.join(BASE_DIR, "static"),
     os.path.join(BASE_DIR, "node_modules", "bootstrap", "dist"),
 ]
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+]
+
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
