@@ -20,14 +20,14 @@ class TitleValidator:
 
 
 class SlugValidator:
-    MIN_SLUG_LENGTH = 5
+    MIN_SLUG_LENGTH = 3
 
     def __call__(self, slug: str) -> str:
-        logger.info("Validating Slug", slug)
+        logger.info(f"Validating Slug: {slug}")
         if len(slug) < self.MIN_SLUG_LENGTH:
             raise PostException.validation_error(
                 f"Slug must be at least {self.MIN_SLUG_LENGTH} characters long",
-                "Slug",
+                "slug",
             )
 
         return slug
