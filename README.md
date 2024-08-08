@@ -27,4 +27,9 @@ password: superPassword12
 make create-superuser
 ```
 
+## Load testing
+
+For load testing we are using Locust
+`poetry run locust -f locustfile.py --host=http://localhost:9020`
+
 ## Access Kibana logs
