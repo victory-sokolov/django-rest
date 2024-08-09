@@ -29,7 +29,7 @@ local:
 test:
   APP_ENV: test
   DEBUG: True
-  SECRET_KEY: '@format {env[SECRET_KEY]}'
+  SECRET_KEY: '@format {env[SECRET_KEY]:default_super_secret_key}'
   ALLOWED_HOSTS:
     - '.testserver'
     - testserver
