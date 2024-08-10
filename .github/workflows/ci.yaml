@@ -21,7 +21,7 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER:  ${{ env.POSTGRES_USER }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ env.POSTGRES_DB }}
           PGPORT: ${{ env.PGPORT}}
@@ -39,6 +39,8 @@ jobs:
         uses: ./.github/actions/install-deps
 
       - name: Run tests
+        env:
+          SECRET_KEY: randomStrongTestSecretKey
         run: |
           set -v
           make test
