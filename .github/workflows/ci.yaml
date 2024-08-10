@@ -12,6 +12,7 @@ env:
   POSTGRES_DB: blog
   POSTGRES_PASSWORD: securepassword
   POSTGRES_USER: user
+  SECRET_KEY: 'randomStrongTestSecretKey'
 
 jobs:
   vm-job:
@@ -39,8 +40,6 @@ jobs:
         uses: ./.github/actions/install-deps
 
       - name: Run tests
-        env:
-          SECRET_KEY: 'randomStrongTestSecretKey'
         run: |
           set -v
           make test
