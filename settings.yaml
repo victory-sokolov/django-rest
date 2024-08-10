@@ -8,6 +8,7 @@ database: &database
 
 default: &default
   REDIS_URL: redis://dj-redis:6379/0
+  SENTRY_ENABLED: False
 
 local:
   <<: *default
@@ -56,7 +57,6 @@ production:
   DEBUG: False
   SENTRY_DSN: '@format {env[SENTRY_DSN]}'
   SECRET_KEY: '@format {env[SECRET_KEY]}'
-  SENTRY_ENABLED: False
   ALLOWED_HOSTS: ['*']
 
   # Database
