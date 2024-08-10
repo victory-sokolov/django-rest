@@ -7,16 +7,15 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
-env:
-  PGPORT: 5431
-  POSTGRES_DB: blog
-  POSTGRES_PASSWORD: securepassword
-  POSTGRES_USER: user
-  SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
-
 jobs:
   vm-job:
     runs-on: ubuntu-latest
+    env:
+      PGPORT: 5431
+      POSTGRES_DB: blog
+      POSTGRES_PASSWORD: securepassword
+      POSTGRES_USER: user
+      SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
 
     services:
       postgres:
