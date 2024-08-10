@@ -15,6 +15,7 @@ jobs:
       IMAGE_NAME: django-blog
       PROJECT_ID: django-app-431708
       REGISTRY_NAME: django-blog
+      GCP_REGION: europe-west4
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -39,7 +40,7 @@ jobs:
       - name: Configure Docker Client
         run: |-
           gcloud auth configure-docker --quiet
-          gcloud auth configure-docker europe-west4-docker.pkg.dev --quiet
+          gcloud auth configure-docker $GCP_REGION-docker.pkg.dev --quiet
 
       - name: Push Docker Image to Container Registry (GCR)
         env:
@@ -54,7 +55,11 @@ jobs:
         env:
           GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
         run: |-
-          docker tag $IMAGE_NAME:latest europe-west4-docker.pkg.dev/$PROJECT_ID/$REGISTRY_NAME/$IMAGE_NAME:latest
-          docker tag $IMAGE_NAME:latest europe-west4-docker.pkg.dev/$PROJECT_ID/$REGISTRY_NAME/$IMAGE_NAME:$GIT_TAG
-          docker push europe-west4-docker.pkg.dev/$PROJECT_ID/$REGISTRY_NAME/$IMAGE_NAME:latest
-          docker push europe-west4-docker.pkg.dev/$PROJECT_ID/$REGISTRY_NAME/$IMAGE_NAME:$GIT_TAG
+          docker tag $IMAGE_NAME:latest $GCP_REGION-docker.pkg.dev/$PROJECT_ID/$REGISTRY_NAME/$IMAGE_NAME:latest
+          docker tag $IMAGE_NAME:latest $GCP_REGION-docker.pkg.dev/$PROJECT_ID/$REGISTRY_NAME/$IMAGE_NAME:$GIT_TAG
+          docker push $GCP_REGION-docker.pkg.dev/$PROJECT_ID/$REGISTRY_NAME/$IMAGE_NAME:latest
+          docker push $GCP_REGION-docker.pkg.dev/$PROJECT_ID/$REGISTRY_NAME/$IMAGE_NAME:$GIT_TAG
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy $REGISTRY_NAME --image $GCP_REGION-docker.pkg.dev/$PROJECT_ID/$REGISTRY_NAME/$IMAGE_NAME:latest --region $GCP_REGION --platform managed
