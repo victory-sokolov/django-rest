@@ -12,7 +12,7 @@ env:
   POSTGRES_DB: blog
   POSTGRES_PASSWORD: securepassword
   POSTGRES_USER: user
-  SECRET_KEY: 'randomStrongTestSecretKey'
+  SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
 
 jobs:
   vm-job:
