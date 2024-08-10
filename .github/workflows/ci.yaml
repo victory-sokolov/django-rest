@@ -39,13 +39,16 @@ jobs:
         uses: ./.github/actions/install-deps
 
       - name: Run tests
+        env:
+          SECRET_KEY: ${{ env.SECRET_KEY }}
         run: |
-          export SECRET_KEY=${{ env.SECRET_KEY }}
           set -v
           make test
 
       - name: Run Django Check
         shell: sh
+        env:
+          SECRET_KEY: ${{ env.SECRET_KEY }}
         run: |
           export SECRET_KEY=${{ env.SECRET_KEY }}
           set -v
