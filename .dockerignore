@@ -3,16 +3,22 @@
 .dockerignore
 .gitignore
 .watchmanconfig
+Dockerfile
+docker-compose.yml
 
 .idea
 .vscode
 
+.mypy_cache/
+.ruff_cache/
 __pycache__/
 **/*.pyc
 *.py[cod]
 *$py.class
 *.so
 htmlcov/
+coverage/
+.pre-commit-config.yaml
 .coverage
 .coverage.*
 .pytest_cache/
@@ -33,3 +39,4 @@ schema.yml
 **/tests/**
 infra/
 docker/
+scripts/
