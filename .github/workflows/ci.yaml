@@ -40,7 +40,7 @@ jobs:
 
       - name: Run tests
         env:
-          SECRET_KEY: randomStrongTestSecretKey
+          SECRET_KEY: 'randomStrongTestSecretKey'
         run: |
           set -v
           make test
