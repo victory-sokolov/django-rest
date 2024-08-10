@@ -3,7 +3,8 @@ ARG POETRY_VERSION="1.8.3"
 
 FROM python:3.10.14-bookworm
 
-ENV PYTHONUNBUFFERED=1 \
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
@@ -17,9 +18,8 @@ RUN apt-get update \
     curl \
     build-essential \
     libpq-dev \
-    gunicorn
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Poetry
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
 RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python && \
     cd /usr/local/bin && \
