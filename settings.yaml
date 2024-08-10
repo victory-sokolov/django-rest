@@ -56,7 +56,7 @@ production:
   APP_ENV: production
   DEBUG: False
   # SENTRY_DSN: '@format {env[SENTRY_DSN]}'
-  # SECRET_KEY: '@format {env[SECRET_KEY]}'
+  SECRET_KEY: '@format {env[SECRET_KEY]}'
   ALLOWED_HOSTS: ['*']
 
   # Database
