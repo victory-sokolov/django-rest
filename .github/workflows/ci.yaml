@@ -44,3 +44,9 @@ jobs:
         run: |
           set -v
           make test
+
+      - name: Run Django Check
+        shell: sh
+        run: |
+          set -v
+          DJANGO_ENV=production python manage.py check

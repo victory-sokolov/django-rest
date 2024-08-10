@@ -24,8 +24,3 @@ runs:
       shell: sh
       run: |
         poetry install --no-interaction --no-root
-
-    - name: Run Django Checks
-      shell: sh
-      run: |
-        DJANGO_ENV=production python manage.py check
