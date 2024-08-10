@@ -37,13 +37,6 @@ services:
       - redis
       - postgres
 
-  rabbitmq:
-    image: rabbitmq:3.11.26-management
-    container_name: dj-rabbitmq
-    security_opt:
-      - no-new-privileges:true
-    ports:
-      - 5675:5675
 
   redis:
     container_name: dj-redis
@@ -97,13 +90,6 @@ services:
       timeout: 5s
       retries: 3
 
-  dozzle:
-    container_name: dozzle
-    image: amir20/dozzle:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - 8889:8889
 
 networks:
   default:
