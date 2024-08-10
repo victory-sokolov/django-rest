@@ -15,9 +15,7 @@ import sys
 from datetime import timedelta
 
 import dynaconf
-import sentry_sdk
 from django.contrib.messages import constants as messages
-from sentry_sdk.integrations import celery, django, redis
 
 settings = dynaconf.DjangoDynaconf(__name__)
 
@@ -468,17 +466,17 @@ settings = dynaconf.DjangoDynaconf(__name__)  # noqa
 # HERE ENDS DYNACONF EXTENSION LOAD (No more code below this line)
 
 
-if settings.APP_ENV == "production" and settings.SENTRY_ENABLED:
-    sentry_sdk.init(
-        dsn=settings.SENTRY_DSN,
-        integrations=[
-            django.DjangoIntegration(),
-            celery.CeleryIntegration(),
-            redis.RedisIntegration(),
-        ],
-        # Set traces_sample_rate to 1.0 to capture 100%
-        # of transactions for performance monitoring.
-        # We recommend adjusting this value in production.
-        traces_sample_rate=0.2,
-        send_default_pii=True,
-    )
+# if settings.APP_ENV == "production" and settings.SENTRY_ENABLED:
+#     sentry_sdk.init(
+#         dsn=settings.SENTRY_DSN,
+#         integrations=[
+#             django.DjangoIntegration(),
+#             celery.CeleryIntegration(),
+#             redis.RedisIntegration(),
+#         ],
+#         # Set traces_sample_rate to 1.0 to capture 100%
+#         # of transactions for performance monitoring.
+#         # We recommend adjusting this value in production.
+#         traces_sample_rate=0.2,
+#         send_default_pii=True,
+#     )
