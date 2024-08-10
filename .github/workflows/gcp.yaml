@@ -4,6 +4,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+  pull_request:
+    types: [opened, reopened, synchronize]
+
 jobs:
   build-push-gcr:
     name: Build and Push to GCP
