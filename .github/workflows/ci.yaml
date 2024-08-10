@@ -40,11 +40,13 @@ jobs:
 
       - name: Run tests
         run: |
+          export SECRET_KEY=${{ env.SECRET_KEY }}
           set -v
           make test
 
       - name: Run Django Check
         shell: sh
         run: |
+          export SECRET_KEY=${{ env.SECRET_KEY }}
           set -v
           make security-check
