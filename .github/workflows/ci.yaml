@@ -34,7 +34,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@master
       - id: setup
         uses: ./.github/actions/install-deps
 
