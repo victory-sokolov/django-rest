@@ -27,6 +27,10 @@ password: superPassword12
 make create-superuser
 ```
 
+## Swagger Docs
+
+API documentation is available at: `/api/docs`
+
 ## Load testing
 
 For load testing we are using Locust
