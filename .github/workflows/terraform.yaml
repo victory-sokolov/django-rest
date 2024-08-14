@@ -1,13 +1,13 @@
 name: tfsec-pr-commenter
 on:
+
   pull_request:
     paths:
       - '**/*.tf'
       - '**/*.tfvars'
 
   push:
-    branches:
-      - master
+    branches: [master, main]
     paths:
       - '**/*.tf'
       - '**/*.tfvars'

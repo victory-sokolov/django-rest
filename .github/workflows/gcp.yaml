@@ -1,7 +1,7 @@
 name: Build and Push Django Image to Google Cloud Platform
 on:
-  push:
-    branches: [main, master]
+  #   push:
+  #     branches: [main, master]
   workflow_dispatch:
 
   pull_request:
