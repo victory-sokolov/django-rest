@@ -41,20 +41,18 @@ services:
       - dj-app
       - redis
       - postgres
+      - nginx
     deploy:
       resources:
         limits:
           memory: 1g
           cpus: '1'
 
-
   redis:
     container_name: dj-redis
-    restart: on-failure
+    restart: unless-stopped
     build:
       context: docker/redis
-    security_opt:
-      - no-new-privileges:true
     environment:
       - TZ=Etc/GMT-3
     ports:
@@ -64,13 +62,13 @@ services:
     # Run as privileged to allow the container to change the vm.overcommit_memory setting
     privileged: true
     volumes:
-      - ./data/redis:/data
+      - djredis:/data:rw
       - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
     deploy:
       resources:
         limits:
-          memory: 256m
-          cpus: '0.5'
+          memory: 1g
+          cpus: '1'
 
   nginx:
     restart: on-failure
@@ -84,8 +82,8 @@ services:
     deploy:
       resources:
         limits:
-          memory: 256m
-          cpus: '0.1'
+          memory: 512M
+          cpus: '1'
 
   postgres:
     container_name: dj-postgres
@@ -112,7 +110,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1gb
+          memory: 1g
           cpus: '1'
 
 networks:
@@ -121,3 +119,4 @@ networks:
 
 volumes:
   djdata:
+  djredis:
