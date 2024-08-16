@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -o infra/k8s
+    kompose.version: 1.34.0 (HEAD)
+  labels:
+    io.kompose.service: postgres
+  name: postgres
+spec:
+  containers:
+    - env:
+        - name: DEBUG
+          valueFrom:
+            configMapKeyRef:
+              key: DEBUG
+              name: env
+        - name: PGPORT
+          valueFrom:
+            configMapKeyRef:
+              key: PGPORT
+              name: env
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_DB
+              name: env
+        - name: POSTGRES_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_HOST
+              name: env
+        - name: POSTGRES_MAX_CONNECTIONS
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_MAX_CONNECTIONS
+              name: env
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PASSWORD
+              name: env
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_USER
+              name: env
+        - name: POSTGRES_VERSION
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_VERSION
+              name: env
+        - name: RABBITMQ_VERSION
+          valueFrom:
+            configMapKeyRef:
+              key: RABBITMQ_VERSION
+              name: env
+        - name: REDIS_VERSION
+          valueFrom:
+            configMapKeyRef:
+              key: REDIS_VERSION
+              name: env
+        - name: SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: SECRET_KEY
+              name: env
+        - name: SENTRY_DSN
+          valueFrom:
+            configMapKeyRef:
+              key: SENTRY_DSN
+              name: env
+        - name: TZ
+          value: Etc/GMT-3
+      image: postgres
+      livenessProbe:
+        exec:
+          command:
+            - 'pg_isready -p  -U  -d'
+        failureThreshold: 3
+        periodSeconds: 10
+        timeoutSeconds: 5
+      name: dj-postgres
+      ports:
+        - containerPort: 5431
+          protocol: TCP
+      resources:
+        limits:
+          cpu: '1'
+          memory: '1073741824'
+      volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: djdata
+          subPath: data
+  restartPolicy: OnFailure
+  volumes:
+    - name: djdata
+      persistentVolumeClaim:
+        claimName: djdata
