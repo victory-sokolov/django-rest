@@ -6,10 +6,10 @@ metadata:
     kompose.version: 1.34.0 (HEAD)
   labels:
     io.kompose.service: postgres
-  name: postgres
+  name: dj-postgres
 spec:
   ports:
-    - name: "5431"
+    - protocol: TCP
       port: 5431
       targetPort: 5431
   selector:

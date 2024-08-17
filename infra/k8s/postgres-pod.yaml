@@ -84,10 +84,10 @@ spec:
       ports:
         - containerPort: 5431
           protocol: TCP
-      resources:
-        limits:
-          cpu: '1'
-          memory: '1073741824'
+      # resources:
+      #   limits:
+      #     cpu: '1'
+      #     memory: '1073741824'
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: djdata

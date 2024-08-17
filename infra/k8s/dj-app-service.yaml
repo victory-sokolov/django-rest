@@ -9,8 +9,9 @@ metadata:
   name: dj-app
 spec:
   ports:
-    - name: "1337"
-      port: 1337
-      targetPort: 80
+    - protocol: TCP
+      port: 1337 # External port
+      targetPort: 8000 # Django internal port
+  type: LoadBalancer
   selector:
     io.kompose.service: dj-app

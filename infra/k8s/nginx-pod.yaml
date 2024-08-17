@@ -20,8 +20,8 @@ spec:
       ports:
         - containerPort: 80
           protocol: TCP
-      resources:
-        limits:
-          cpu: 100m
-          memory: "268435456"
+      # resources:
+      #   limits:
+      #     cpu: 100m
+      #     memory: "268435456"
   restartPolicy: OnFailure

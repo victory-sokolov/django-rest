@@ -39,7 +39,7 @@ spec:
             configMapKeyRef:
               key: SENTRY_DSN
               name: env-prod
-      image: victorysokolov/django-blog
+      image: victorysokolov/django-blog:latest
       livenessProbe:
         exec:
           command:
@@ -52,8 +52,9 @@ spec:
         periodSeconds: 15
         timeoutSeconds: 10
       name: dj-celery-worker
-      resources:
-        limits:
-          cpu: '1'
-          memory: '1073741824'
+      imagePullPolicy: Always
+      # resources:
+      #   limits:
+      #     cpu: '2'
+      #     memory: '2Gi'
   restartPolicy: OnFailure

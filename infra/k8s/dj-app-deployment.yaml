@@ -47,13 +47,10 @@ spec:
                 configMapKeyRef:
                   key: SENTRY_DSN
                   name: env-prod
-          image: victorysokolov/django-blog
+          image: victorysokolov/django-blog:latest
           name: dj-app
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
               protocol: TCP
-          resources:
-            limits:
-              cpu: "2"
-              memory: "1073741824"
       restartPolicy: Always
