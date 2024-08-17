@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 from django.http import HttpRequest
 
 from djangoblog.api.models.post import Post
-from djangoblog.forms import GroupAdminForm, PostForm
+from djangoblog.forms import GroupAdminForm
 from djangoblog.models import UserProfile
 
 logger = logging.getLogger(__name__)
@@ -13,11 +13,7 @@ logger = logging.getLogger(__name__)
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = (
-        "title",
-        "user",
-        "likes",
-    )
+    list_display = ("title", "user", "created_at")
     filter_horizontal = ("permissions",)
     readonly_fields = ["id", "user"]
     list_filter = (
@@ -27,8 +23,12 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ["title"]
     exclude = ("likes", "views", "favorites")
     ordering = ("-user", "title")
+    readonly_fields = ("created_at", "id")
 
-    form = PostForm
+    # form = PostForm
+
+    class Meta:
+        model = Post
 
 
 @admin.register(UserProfile)

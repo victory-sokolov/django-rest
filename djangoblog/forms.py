@@ -15,7 +15,7 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        exclude = ["id", "likes", "views", "favorites", "user", "permissions"]
+        exclude = ["id", "likes", "views", "favorites", "permissions"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

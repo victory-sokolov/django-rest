@@ -1,3 +1,6 @@
+import random
+from datetime import datetime, timedelta
+
 import factory
 
 from djangoblog.api.models.post import Post
@@ -18,3 +21,7 @@ class AccountFactory(factory.django.DjangoModelFactory):
     )[0]
     title = factory.Faker("sentence", nb_words=12)
     content = factory.Faker("sentence", nb_words=100)
+
+    @factory.lazy_attribute
+    def created_at(self):
+        return datetime.now() - timedelta(days=random.randint(0, 60))

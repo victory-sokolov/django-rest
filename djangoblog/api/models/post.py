@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import uuid4
 
 from ckeditor.fields import RichTextField
@@ -46,6 +47,12 @@ class Post(TimeStampedModel):
         blank=True,
         related_name="permissions",
     )
+
+    def save(self, *args, **kwargs):
+        if self.created_at is None:
+            self.created_at = datetime.now()
+
+        super().save(*args, **kwargs)
 
     class Meta:
         db_table = "posts"
