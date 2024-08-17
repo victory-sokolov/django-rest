@@ -1,7 +1,7 @@
 ARG DEFAULT_PYTHON_VERSION=3.10.14
 ARG POETRY_VERSION="1.8.3"
 
-FROM python:3.10.14-bookworm
+FROM --platform=linux/amd64 python:3.10.14-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
@@ -13,7 +13,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     POETRY_NO_INTERACTION=1 \
     TZ=Etc/GMT-3
 
-RUN apt-get update \
+RUN set -eux; \
+    apt-get update \
     && apt-get install --no-install-recommends -y \
     curl \
     build-essential \
