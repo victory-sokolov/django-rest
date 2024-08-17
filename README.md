@@ -27,6 +27,15 @@ password: superPassword12
 make create-superuser
 ```
 
+## Populate Post database with some random data
+
+`DJANGO_ENV=local poetry run python manage.py shell`
+
+```python
+from djangoblog.factory import AccountFactory
+AccountFactory.create_batch(50)
+```
+
 ## Swagger Docs
 
 API documentation is available at: `/api/docs`
