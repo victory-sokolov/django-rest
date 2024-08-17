@@ -51,6 +51,7 @@ spec:
           name: dj-app
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - name: http
+              containerPort: 80
               protocol: TCP
       restartPolicy: Always

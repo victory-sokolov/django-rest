@@ -1,10 +1,11 @@
 apiVersion: v1
 data:
-  DEBUG: "False"
+  DEBUG: 'False'
+  SENTRY_DSN: ''
   DJANGO_ENV: production
   GS_BUCKET_NAME: django-cdn
+  DJANGO_ALLOWED_HOSTS: '*'
   SECRET_KEY: Kr5E1qxqLZxTBXgbt66TzzfncPLLMRU1Yjt60TnOx4rplQa-iwBCThDi0mYlMd06C7-G_
-  SENTRY_DSN: https://b1c8ca94d7a5df971edeb19be34a239a@o4505149785243648.ingest.us.sentry.io/4505149787930624
 kind: ConfigMap
 metadata:
   labels:

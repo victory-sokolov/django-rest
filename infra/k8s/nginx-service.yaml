@@ -9,7 +9,7 @@ metadata:
   name: nginx
 spec:
   ports:
-    - name: "8080"
+    - name: 'nginx'
       port: 8080
       targetPort: 80
   selector:
