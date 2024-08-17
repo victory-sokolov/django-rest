@@ -86,7 +86,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Sets csrftoken cookie attributes to HttpOnly and secure
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 
 # Permissions
 STAFF_PERMISSIONS = ["view_post", "view_userprofile"]
