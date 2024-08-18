@@ -3,11 +3,11 @@ resource "google_storage_bucket" "bucket" {
   name          = "django-cdn"
   location      = var.location
   project       = var.project_id
-  force_destroy = var.destroy
+  force_destroy = false
   storage_class = "NEARLINE"
 
   lifecycle {
-    prevent_destroy = var.destroy
+    prevent_destroy = false
   }
 
   versioning {

@@ -47,12 +47,12 @@ variable "image_name" {
 
 variable "min_node_count" {
   type    = number
-  default = 2
+  default = 3
 }
 
 variable "max_node_count" {
   type    = number
-  default = 4
+  default = 5
 }
 
 variable "machine_types" {
