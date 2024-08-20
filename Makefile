@@ -22,7 +22,7 @@ flower: ## Run Flower Celery monitoring system
 	DJANGO_ENV=local poetry run celery -A djangoblog.celery.app flower
 
 collectstatic:
-	DJANGO_ENV=local poetry run python manage.py collectstatic
+	DJANGO_ENV=local poetry run python manage.py collectstatic --no-input
 
 prod:
 	DJANGO_ENV=production gunicorn djangoblog:asgi:application -w 4 -k uvicorn.workers.UvicornWorker --log-file -
