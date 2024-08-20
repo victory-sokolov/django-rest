@@ -20,5 +20,6 @@ class CeleryConfig:
     broker_url = settings.CELERY_BROKER_URL
     task_always_eager = settings.CELERY_TASK_ALWAYS_EAGER
     task_eager_propagates = settings.CELERY_TASK_EAGER_PROPAGATES
+    task_ack_late = True
     worker_max_tasks_per_child = 100
     worker_max_memory_per_child = 200000  # 200 MB
