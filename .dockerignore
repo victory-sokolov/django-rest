@@ -39,4 +39,6 @@ schema.yml
 **/tests/**
 infra/
 docker/
+docker-compose.local.yml
 scripts/
+setup.cfg
