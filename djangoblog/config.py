@@ -6,7 +6,7 @@ from django.conf import settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoblog.settings")
 
 
-class Config:
+class CeleryConfig:
     enable_utc = True
     timezone = "Europe/Kiev"
     task_serializer = "json"

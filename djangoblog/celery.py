@@ -1,17 +1,16 @@
 import logging
-import os
 from time import time
 
 from celery import Celery
 from celery.signals import task_postrun, task_prerun
 
-from djangoblog.config import Config
+from djangoblog.config import CeleryConfig
 
 logger = logging.getLogger(__name__)
 
 
 app = Celery("djangoblog")
-app.config_from_object(Config)
+app.config_from_object(CeleryConfig)
 
 # Load task modules from all registered Django apps
 app.autodiscover_tasks()
