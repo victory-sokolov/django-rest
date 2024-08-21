@@ -77,6 +77,8 @@ services:
       context: docker/nginx/
     healthcheck:
       test: ["CMD", "service", "nginx", "status"]
+      timeout: 15s
+      retries: 5
     ports:
       - "8080:80"
     deploy:

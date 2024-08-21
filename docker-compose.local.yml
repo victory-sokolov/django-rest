@@ -12,6 +12,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.11.26-management
     container_name: dj-rabbitmq
+    platform: linux/arm64
     security_opt:
       - no-new-privileges:true
     ports:

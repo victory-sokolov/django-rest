@@ -384,9 +384,6 @@ STORAGES = {
     },
 }
 
-DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
-
-
 # ELK setup
 ELASTICSEARCH_DSL = {
     "default": {"hosts": "localhost:9200"},

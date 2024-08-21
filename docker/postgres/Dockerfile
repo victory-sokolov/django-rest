@@ -2,14 +2,7 @@ ARG POSTGRES_VERSION=latest
 
 FROM postgres:${POSTGRES_VERSION}
 
-# Copy your custom configuration file into the container
-COPY custom-postgresql.conf /etc/postgresql/conf.d/custom-postgresql.conf
-
-# Ensure the configuration directory exists
-RUN mkdir -p /etc/postgresql/conf.d
-
-# Update the main postgresql.conf to include your custom settings
-RUN echo "include_dir = '/etc/postgresql/conf.d'" >> /usr/share/postgresql/postgresql.conf.sample
+COPY postgresql.conf /etc/postgresql
 
 # Start PostgreSQL with the custom configuration
-CMD ["postgres", "-c", "config_file=/usr/share/postgresql/postgresql.conf.sample"]
+CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]

@@ -22,7 +22,7 @@ flower: ## Run Flower Celery monitoring system
 	DJANGO_ENV=local poetry run celery -A djangoblog.celery.app flower
 
 collectstatic:
-	DJANGO_ENV=local poetry run python manage.py collectstatic --no-input
+	DJANGO_ENV=local poetry run python manage.py collectstatic --noinput
 
 prod:
 	DJANGO_ENV=production gunicorn djangoblog:asgi:application -w 4 -k uvicorn.workers.UvicornWorker --log-file -
@@ -68,6 +68,9 @@ install-dev:
 
 docker-build:
 	docker-compose up --build -d --remove-orphans
+
+docker-local:
+	​docker-compose -f docker-compose.yml -f docker-compose.local.yml up
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
