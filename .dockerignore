@@ -41,4 +41,5 @@ infra/
 docker/
 docker-compose.local.yml
 scripts/
+output/
 setup.cfg
