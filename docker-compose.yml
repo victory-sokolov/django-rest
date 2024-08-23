@@ -6,15 +6,14 @@ services:
       - .env.prod
     build:
       context: .
-    security_opt:
-      - no-new-privileges:true
+    volumes:
+      - static_volume:/app/output/static
     networks:
       - default
     ports:
-      - 1337:80
+      - 8001:80
     depends_on:
       - postgres
-      - nginx
       - redis
     deploy:
       resources:
@@ -35,8 +34,6 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
-    security_opt:
-      - no-new-privileges:true
     depends_on:
       - dj-app
       - redis
@@ -75,10 +72,16 @@ services:
     container_name: dj-nginx
     build:
       context: docker/nginx/
+    networks:
+      - default
+    volumes:
+      - static_volume:/app/output/static
     healthcheck:
       test: ["CMD", "service", "nginx", "status"]
       timeout: 15s
       retries: 5
+    depends_on:
+      - dj-app
     ports:
       - "8080:80"
     deploy:
@@ -96,8 +99,6 @@ services:
       - .env
     build:
       context: docker/postgres/
-    security_opt:
-      - no-new-privileges:true
     ports:
       - "5431:5431"
     volumes:
@@ -122,3 +123,4 @@ networks:
 volumes:
   djdata:
   djredis:
+  static_volume:

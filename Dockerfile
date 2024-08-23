@@ -19,7 +19,12 @@ RUN set -eux; \
     curl \
     build-essential \
     libpq-dev \
+    vim \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y nodejs
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
 RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python && \
@@ -30,8 +35,13 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python
 
 # Set working directory
 WORKDIR /app
+
 COPY ./poetry.lock ./pyproject.toml ./
 RUN poetry install --no-root --only main
+
+# Install npm packages
+COPY ./package.json ./package-lock.json ./
+RUN npm install
 
 # Copy project app
 COPY . .
