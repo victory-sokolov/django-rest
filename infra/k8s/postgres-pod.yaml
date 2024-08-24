@@ -50,11 +50,6 @@ spec:
             configMapKeyRef:
               key: POSTGRES_VERSION
               name: env
-        - name: RABBITMQ_VERSION
-          valueFrom:
-            configMapKeyRef:
-              key: RABBITMQ_VERSION
-              name: env
         - name: REDIS_VERSION
           valueFrom:
             configMapKeyRef:
