@@ -8,9 +8,11 @@ metadata:
     io.kompose.service: nginx
   name: nginx
 spec:
+  type: LoadBalancer
   ports:
     - name: 'nginx'
-      port: 8080
+      protocol: TCP
+      port: 80
       targetPort: 80
   selector:
     io.kompose.service: nginx
