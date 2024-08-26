@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      io.kompose.service: nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        io.kompose.service: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx
+              readOnly: true
+            - name: static-storage
+              mountPath: /app/output/static/
+      volumes: # Move volumes here, outside containers array
+        - name: nginx-config
+          configMap:
+            name: nginx-conf
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+              - key: nginx-custom.conf
+                path: nginx-custom.conf # Subdirectory under /etc/nginx/custom/
+        - name: log
+          emptyDir: {}
+
+        - name: static-storage
+          persistentVolumeClaim:
+            claimName: static-storage-pvc

@@ -10,8 +10,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - name: 'nginx'
-      protocol: TCP
+    - protocol: TCP
       port: 80
       targetPort: 80
   selector:

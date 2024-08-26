@@ -20,8 +20,16 @@ spec:
       labels:
         io.kompose.service: dj-app
     spec:
+      restartPolicy: Always
       containers:
-        - env:
+        - name: dj-app
+          image: victorysokolov/django-blog:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
             - name: DEBUG
               valueFrom:
                 configMapKeyRef:
@@ -47,11 +55,10 @@ spec:
                 configMapKeyRef:
                   key: SENTRY_DSN
                   name: env-prod
-          image: victorysokolov/django-blog:latest
-          name: dj-app
-          imagePullPolicy: Always
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-      restartPolicy: Always
+          volumeMounts:
+            - name: static-storage
+              mountPath: /app/output/static/ # Ensure this is where your Django app writes static files
+      volumes:
+        - name: static-storage # This should match the name in volumeMounts
+          persistentVolumeClaim:
+            claimName: static-storage-pvc
