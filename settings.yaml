@@ -6,6 +6,10 @@ database: &database
   PORT: 5431
   HOST: localhost
 
+bucket: &bucket
+  GS_BUCKET_NAME: django-cdn
+  GS_PROJECT_ID: django-app-431708
+
 default: &default
   REDIS_URL: redis://dj-redis:6379/0
   SENTRY_ENABLED: False
@@ -53,7 +57,7 @@ test:
       <<: *database
 
 production:
-  <<: *default
+  <<: [*default, *bucket]
   APP_ENV: production
   DEBUG: False
   # SENTRY_DSN: '@format {env[SENTRY_DSN]}'

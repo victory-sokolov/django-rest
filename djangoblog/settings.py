@@ -375,14 +375,31 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
 ]
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
-}
+GS_CREDENTIALS = ""
+
+if settings.APP_ENV in ["local", "test"]:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+else:
+    STATIC_URL = f"https://storage.googleapis.com/{settings.GS_BUCKET_NAME}/"
+    GOOGLE_STORAGR = {
+        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+        "OPTIONS": {
+            "bucket_name": settings.GS_BUCKET_NAME,
+            "project_id": settings.GS_PROJECT_ID,
+        },
+    }
+    STORAGES = {
+        "default": {**GOOGLE_STORAGR},
+        "staticfiles": {**GOOGLE_STORAGR},
+    }
+
 
 # ELK setup
 ELASTICSEARCH_DSL = {
