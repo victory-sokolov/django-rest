@@ -45,6 +45,11 @@ variable "image_name" {
   default = "django-blog"
 }
 
+variable "bucket_name" {
+  type    = string
+  default = "django-cdn"
+}
+
 variable "min_node_count" {
   type    = number
   default = 3
@@ -63,4 +68,18 @@ variable "machine_types" {
     standard2 = "e2-standard-2"
     standard4 = "e2-standard-4"
   }
+}
+
+variable "vault_namespace" {
+  type    = string
+  default = "admin"
+}
+
+variable "roles" {
+  type = list(string)
+  default = [
+    "roles/storage.objectViewer",
+    "roles/storage.objectCreator",
+    "roles/storage.objectAdmin"
+  ]
 }

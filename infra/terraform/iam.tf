@@ -1,13 +1,13 @@
-
-# resource "google_storage_bucket_iam_member" "default" {
-#   bucket = google_storage_bucket.default.name
-#   role   = "roles/storage.objectViewer"
-#   member = "allUsers"
-# }
-
 resource "google_service_account" "account" {
   account_id   = "django-service-account"
   display_name = "Django Service Account"
+}
+resource "google_storage_bucket_iam_member" "bucket_roles" {
+  for_each = toset(var.roles)
+
+  bucket = google_storage_bucket.default.name
+  role   = each.value
+  member = "serviceAccount:${google_service_account.account.email}"
 }
 
 # Granting Storage Admin Role to a User or Service Account
