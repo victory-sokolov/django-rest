@@ -1,6 +1,6 @@
 # Bucket configuration
 resource "google_storage_bucket" "bucket" {
-  name          = "django-cdn"
+  name          = var.bucket_name
   location      = var.location
   project       = var.project_id
   force_destroy = false
