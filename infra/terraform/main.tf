@@ -58,7 +58,7 @@ resource "google_cloud_run_v2_service" "django_service" {
       }
     }
 
-    service_account = google_service_account.run_service_account.email
+    service_account = google_service_account.account.email
   }
 
   traffic {

@@ -5,7 +5,7 @@ resource "google_service_account" "account" {
 resource "google_storage_bucket_iam_member" "bucket_roles" {
   for_each = toset(var.roles)
 
-  bucket = google_storage_bucket.default.name
+  bucket = google_storage_bucket.bucket.name
   role   = each.value
   member = "serviceAccount:${google_service_account.account.email}"
 }
