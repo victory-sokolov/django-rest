@@ -5,9 +5,9 @@ variable "gcp_service_list" {
     "serviceusage.googleapis.com",
     "storage.googleapis.com",
     "iam.googleapis.com",
-    "artifactregistry.googleapis.com",
-    "run.googleapis.com",
-    "cloudbuild.googleapis.com",
+    # "artifactregistry.googleapis.com",
+    # "run.googleapis.com",
+    # "cloudbuild.googleapis.com",
     "secretmanager.googleapis.com",
     "container.googleapis.com", # Enables GKE
     "compute.googleapis.com",
@@ -33,6 +33,11 @@ variable "gcp_zone" {
 variable "location" {
   type    = string
   default = "EU"
+}
+
+variable "delete_protection" {
+  type    = bool
+  default = false # true to prevent deleting resources
 }
 
 variable "destroy" {
@@ -80,6 +85,13 @@ variable "roles" {
   default = [
     "roles/storage.objectViewer",
     "roles/storage.objectCreator",
-    "roles/storage.objectAdmin"
+    "roles/storage.objectAdmin",
+  ]
+}
+
+variable "oauth_scopes" {
+  type = list(string)
+  default = [
+    "https://www.googleapis.com/auth/cloud-platform"
   ]
 }

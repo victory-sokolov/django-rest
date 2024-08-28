@@ -2,6 +2,17 @@ resource "google_service_account" "account" {
   account_id   = "django-service-account"
   display_name = "Django Service Account"
 }
+
+resource "google_service_account" "kubernetes" {
+  account_id = "kubernetes"
+}
+
+# resource "google_service_account" "run_service_account" {
+#   account_id   = "cloud-run-sa"
+#   display_name = "Cloud Run Service Account"
+# }
+
+
 resource "google_storage_bucket_iam_member" "bucket_roles" {
   for_each = toset(var.roles)
 
@@ -15,4 +26,10 @@ resource "google_project_iam_member" "compute_storage_admin" {
   project = var.project_id
   role    = "roles/compute.storageAdmin"
   member  = "serviceAccount:${google_service_account.account.email}"
+}
+
+resource "google_project_iam_member" "workload_identity_role" {
+  project = var.project_id
+  role    = "roles/iam.workloadIdentityUser"
+  member  = "serviceAccount:${var.project_id}.svc.id.goog[workload-identity-test/workload-identity-user]"
 }

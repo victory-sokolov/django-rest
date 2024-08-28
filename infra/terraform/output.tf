@@ -10,10 +10,10 @@ output "cdn_url" {
   value = "http://${google_compute_global_forwarding_rule.forwarding_rule.ip_address}"
 }
 
-output "artifact_registry_name" {
-  value = google_artifact_registry_repository.docker_repository.name
-}
+# output "artifact_registry_name" {
+#   value = google_artifact_registry_repository.docker_repository.name
+# }
 
-output "cloud_run_url" {
-  value = google_cloud_run_v2_service.django_service.uri
-}
+# output "cloud_run_url" {
+#   value = google_cloud_run_v2_service.django_service.uri
+# }

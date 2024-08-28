@@ -1,7 +1,8 @@
 # Creating VM instance
 resource "google_compute_instance" "vm_instance" {
-  name         = "terraform-instance"
-  machine_type = var.machine_types["small"]
+  name                = "terraform-instance"
+  machine_type        = var.machine_types["small"]
+  deletion_protection = var.delete_protection
 
   boot_disk {
     initialize_params {
@@ -26,11 +27,6 @@ resource "google_project_service" "gcp_services" {
   disable_on_destroy = false
 }
 
-# Reserve a static IP address
-resource "google_compute_global_address" "app-ip" {
-  name = "djangoapp-ip"
-}
-
 # Create Artifact Registry repository
 resource "google_artifact_registry_repository" "docker_repository" {
   repository_id = "django-blog"
@@ -41,8 +37,9 @@ resource "google_artifact_registry_repository" "docker_repository" {
 
 # Create a Cloud Run service resource:
 resource "google_cloud_run_v2_service" "django_service" {
-  name     = "django-app"
-  location = var.gcp_region
+  name                = "django-app"
+  location            = var.gcp_region
+  deletion_protection = var.delete_protection
 
   template {
     containers {
@@ -65,10 +62,4 @@ resource "google_cloud_run_v2_service" "django_service" {
     percent = 100
     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
   }
-
-}
-
-resource "google_service_account" "run_service_account" {
-  account_id   = "cloud-run-sa"
-  display_name = "Cloud Run Service Account"
 }

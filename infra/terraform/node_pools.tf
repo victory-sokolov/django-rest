@@ -1,7 +1,3 @@
-resource "google_service_account" "kubernetes" {
-  account_id = "kubernetes"
-}
-
 resource "google_container_node_pool" "general" {
   name       = "general"
   cluster    = google_container_cluster.primary.id
@@ -13,18 +9,18 @@ resource "google_container_node_pool" "general" {
     auto_upgrade = true
   }
 
-  node_config {
-    preemptible  = false
-    machine_type = var.machine_types["standard2"]
 
+  node_config {
+    preemptible     = false
+    machine_type    = var.machine_types["standard2"]
+    service_account = google_service_account.account.email
+    oauth_scopes    = var.oauth_scopes
+    workload_metadata_config {
+      mode = "GKE_METADATA"
+    }
     labels = {
       role = "general"
     }
-
-    service_account = google_service_account.account.email
-    oauth_scopes = [
-      "https://www.googleapis.com/auth/cloud-platform"
-    ]
   }
 
   autoscaling {
@@ -50,8 +46,14 @@ resource "google_container_node_pool" "spot" {
   }
 
   node_config {
-    preemptible  = true
-    machine_type = var.machine_types["standard2"]
+    preemptible     = true
+    machine_type    = var.machine_types["standard2"]
+    service_account = google_service_account.account.email
+    oauth_scopes    = var.oauth_scopes
+
+    workload_metadata_config {
+      mode = "GKE_METADATA"
+    }
 
     labels = {
       team = "devops"
@@ -63,9 +65,5 @@ resource "google_container_node_pool" "spot" {
       effect = "NO_SCHEDULE"
     }
 
-    service_account = google_service_account.account.email
-    oauth_scopes = [
-      "https://www.googleapis.com/auth/cloud-platform"
-    ]
   }
 }
