@@ -26,3 +26,15 @@ resource "google_compute_backend_bucket" "backend_bucket" {
   bucket_name = google_storage_bucket.bucket.name
   enable_cdn  = true
 }
+
+resource "google_storage_bucket_object" "translations" {
+  name    = "translations/"
+  bucket  = google_storage_bucket.bucket.name
+  content = "Empty directory"
+}
+
+resource "google_storage_bucket_object" "misc_files" {
+  name    = "misc/"
+  bucket  = google_storage_bucket.bucket.name
+  content = "Empty directory"
+}
