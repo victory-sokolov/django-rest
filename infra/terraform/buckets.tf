@@ -6,6 +6,7 @@ resource "google_storage_bucket" "bucket" {
   uniform_bucket_level_access = true
   force_destroy               = false
   storage_class               = "NEARLINE"
+  # public_access_prevention = "enforced" # Prevent public access tot the bucket
 
   lifecycle {
     prevent_destroy = false
