@@ -10,6 +10,10 @@ output "cdn_url" {
   value = "http://${google_compute_global_forwarding_rule.forwarding_rule.ip_address}"
 }
 
+output "workspace" {
+  value = terraform.workspace
+}
+
 # output "artifact_registry_name" {
 #   value = google_artifact_registry_repository.docker_repository.name
 # }
