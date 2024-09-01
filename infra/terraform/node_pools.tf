@@ -1,7 +1,7 @@
 resource "google_container_node_pool" "general" {
   name       = "general"
   cluster    = google_container_cluster.primary.id
-  node_count = 1
+  node_count = var.initial_node_count
   location   = var.gcp_region
 
   management {

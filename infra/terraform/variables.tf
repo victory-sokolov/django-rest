@@ -80,6 +80,11 @@ variable "vault_namespace" {
   default = "admin"
 }
 
+variable "initial_node_count" {
+  type    = number
+  default = 1
+}
+
 variable "roles" {
   type = list(string)
   default = [
@@ -92,6 +97,8 @@ variable "roles" {
 variable "oauth_scopes" {
   type = list(string)
   default = [
-    "https://www.googleapis.com/auth/cloud-platform"
+    "https://www.googleapis.com/auth/cloud-platform",
+    "https://www.googleapis.com/auth/devstorage.read_write",
+    "https://www.googleapis.com/auth/servicecontrol",
   ]
 }

@@ -18,7 +18,7 @@ resource "google_container_cluster" "primary" {
   location                 = var.gcp_zone
   remove_default_node_pool = true
   deletion_protection      = var.delete_protection
-  initial_node_count       = 1
+  initial_node_count       = var.initial_node_count
   network                  = google_compute_network.main.self_link
   subnetwork               = google_compute_subnetwork.private.self_link
   logging_service          = "logging.googleapis.com/kubernetes"
@@ -30,6 +30,10 @@ resource "google_container_cluster" "primary" {
     machine_type    = var.machine_types["standard2"]
     service_account = google_service_account.account.email
     oauth_scopes    = var.oauth_scopes
+
+    metadata = {
+      disable-legacy-endpoints = "true"
+    }
   }
 
   addons_config {
