@@ -36,6 +36,7 @@ django-compressor = "^4.5.1"
 dynaconf = "^3.2.6"
 gunicorn = "^23.0.0"
 django-storages = {extras = ["google"], version = "^1.14.4"}
+google-auth = "^2.34.0"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.4.1"
