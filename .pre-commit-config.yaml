@@ -81,3 +81,5 @@ repos:
     hooks:
       - id: yamllint
         files: \.(yaml|yml)$
+        args:
+          - --config-file=.yamllint.yaml

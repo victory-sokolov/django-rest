@@ -28,7 +28,8 @@ services:
       context: .
     env_file:
       - .env.prod
-    command: sh -c "DJANGO_ENV=production celery -A djangoblog worker -l info --uid=nobody --gid=nogroup"
+    command:
+      sh -c "DJANGO_ENV=production celery -A djangoblog worker -l info --uid=nobody --gid=nogroup"
     healthcheck:
       test: ["CMD-SHELL", "celery", "-A", "djangoblog", "inspect", "ping"]
       interval: 15s
@@ -56,7 +57,8 @@ services:
       - 6379:6379
     healthcheck:
       test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
-    # Run as privileged to allow the container to change the vm.overcommit_memory setting
+    # Run as privileged to allow the container to change the
+    # vm.overcommit_memory setting
     privileged: true
     volumes:
       - djredis:/data:rw
@@ -78,7 +80,7 @@ services:
       - static_volume:/app/output/static
     healthcheck:
       test: ["CMD", "service", "nginx", "status"]
-      timeout: 15s
+      timeout: 25s
       retries: 5
     depends_on:
       - dj-app
@@ -115,6 +117,18 @@ services:
         limits:
           memory: 1g
           cpus: '1'
+
+  haproxy:
+    container_name: dj-haproxy
+    networks:
+      - default
+    build:
+      context: docker/haproxy/
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - dj-app
 
 networks:
   default:
