@@ -7,8 +7,9 @@ database: &database
   HOST: localhost
 
 bucket: &bucket
-  GS_BUCKET_NAME: django-cdn
-  GS_PROJECT_ID: django-app-431708
+  GC_BUCKET_NAME: django-cdn
+  GC_PROJECT_ID: django-app-431708
+  USE_GC_LOCAL: False # Use GC bucket locally
 
 default: &default
   REDIS_URL: redis://dj-redis:6379/0
