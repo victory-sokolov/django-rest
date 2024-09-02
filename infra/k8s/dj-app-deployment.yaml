@@ -30,6 +30,8 @@ spec:
               containerPort: 80
               protocol: TCP
           env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /secrets/key.json
             - name: DEBUG
               valueFrom:
                 configMapKeyRef:
@@ -40,10 +42,10 @@ spec:
                 configMapKeyRef:
                   key: DJANGO_ENV
                   name: env-prod
-            - name: GS_BUCKET_NAME
+            - name: GC_BUCKET_NAME
               valueFrom:
                 configMapKeyRef:
-                  key: GS_BUCKET_NAME
+                  key: GC_BUCKET_NAME
                   name: env-prod
             - name: SECRET_KEY
               valueFrom:
@@ -56,9 +58,18 @@ spec:
                   key: SENTRY_DSN
                   name: env-prod
           volumeMounts:
-            - name: static-storage
-              mountPath: /app/output/static/ # Ensure this is where your Django app writes static files
+            - name: google-credentials-volume
+              mountPath: /secrets
+              readOnly: true
       volumes:
-        - name: static-storage # This should match the name in volumeMounts
-          persistentVolumeClaim:
-            claimName: static-storage-pvc
+        - name: google-credentials-volume
+          secret:
+            secretName: google-credentials
+
+          # volumeMounts:
+          #   - name: static-storage
+          #     mountPath: /app/output/static/ # Ensure this is where your Django app writes static files
+        # volumes:
+        #   - name: static-storage # This should match the name in volumeMounts
+        #     persistentVolumeClaim:
+        #       claimName: static-storage-pvc

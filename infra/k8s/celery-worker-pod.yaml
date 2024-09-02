@@ -24,10 +24,10 @@ spec:
             configMapKeyRef:
               key: DJANGO_ENV
               name: env-prod
-        - name: GS_BUCKET_NAME
+        - name: GC_BUCKET_NAME
           valueFrom:
             configMapKeyRef:
-              key: GS_BUCKET_NAME
+              key: GC_BUCKET_NAME
               name: env-prod
         - name: SECRET_KEY
           valueFrom:

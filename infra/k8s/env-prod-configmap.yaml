@@ -3,7 +3,7 @@ data:
   DEBUG: 'False'
   SENTRY_DSN: ''
   DJANGO_ENV: production
-  GS_BUCKET_NAME: django-cdn
+  GC_BUCKET_NAME: django-cdn
   DJANGO_ALLOWED_HOSTS: '*'
   SECRET_KEY: Kr5E1qxqLZxTBXgbt66TzzfncPLLMRU1Yjt60TnOx4rplQa-iwBCThDi0mYlMd06C7-G_
 kind: ConfigMap
