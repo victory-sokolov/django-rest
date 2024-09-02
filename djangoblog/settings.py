@@ -373,6 +373,7 @@ STATICFILES_DIRS = [
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     "django.contrib.staticfiles.finders.FileSystemFinder",
+    "compressor.finders.CompressorFinder",
 ]
 
 GS_CREDENTIALS = ""
@@ -383,23 +384,35 @@ if settings.APP_ENV in ["local", "test"]:
             "BACKEND": "django.core.files.storage.FileSystemStorage",
         },
         "staticfiles": {
-            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+            "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
         },
     }
 else:
-    STATIC_URL = f"https://storage.googleapis.com/{settings.GS_BUCKET_NAME}/"
-    GOOGLE_STORAGR = {
-        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+    from google.oauth2 import service_account
+
+    if settings.USE_GC_LOCAL:
+        GC_CREDENTIALS = service_account.Credentials.from_service_account_file(
+            f"{BASE_DIR}/infra/terraform/gcp-creds.json"
+        )
+    else:
+        GC_CREDENTIALS = service_account.Credentials.from_service_account_file(
+            os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+        )
+
+    STATIC_URL = f"https://storage.googleapis.com/{settings.GC_BUCKET_NAME}/"
+    GOOGLE_STORAGE = {
+        "BACKEND": "djangoblog.storage.GoogleCloudStaticFilesStorage",
         "OPTIONS": {
-            "bucket_name": settings.GS_BUCKET_NAME,
-            "project_id": settings.GS_PROJECT_ID,
+            "bucket_name": settings.GC_BUCKET_NAME,
+            "project_id": settings.GC_PROJECT_ID,
+            "querystring_auth": False,
+            "credentials": GC_CREDENTIALS,
         },
     }
     STORAGES = {
-        "default": {**GOOGLE_STORAGR},
-        "staticfiles": {**GOOGLE_STORAGR},
+        "default": GOOGLE_STORAGE,
+        "staticfiles": GOOGLE_STORAGE,
     }
-
 
 # ELK setup
 ELASTICSEARCH_DSL = {
