@@ -49,6 +49,8 @@ services:
   redis:
     container_name: dj-redis
     restart: unless-stopped
+    networks:
+      - default
     build:
       context: docker/redis
     environment:
