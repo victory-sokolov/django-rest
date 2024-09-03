@@ -79,7 +79,7 @@ LOGOUT_REDIRECT_URL = "login"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "output/static")
 STATICFILES_DIRS = [
@@ -93,8 +93,6 @@ STATICFILES_FINDERS = [
 ]
 
 # Compressor
-COMPRESSOR_ROOT = STATIC_ROOT
-COMPRESS_URL = STATIC_URL
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = False
 COMPRESS_CSS_HASHING_METHOD = "content"
@@ -402,11 +400,15 @@ else:
             os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
         )
 
-    COMPRESS_OFFLINE = True
     STATIC_URL = f"https://storage.googleapis.com/{settings.GC_BUCKET_NAME}/"
+    COMPRESS_OFFLINE = True
+    COMPRESSOR_ROOT = STATIC_ROOT
+    COMPRESS_URL = STATIC_URL
+
+    COMPRESS_STORAGE = STORAGE
 
     GOOGLE_STORAGE = {
-        "BACKEND": "djangoblog.storage.GoogleCloudStaticFilesStorage",
+        "BACKEND": STORAGE,
         "OPTIONS": {
             "bucket_name": settings.GC_BUCKET_NAME,
             "project_id": settings.GC_PROJECT_ID,
