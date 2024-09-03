@@ -77,9 +77,27 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "login"
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "output/static")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "djangoblog/static"),
+    os.path.join(BASE_DIR, "node_modules", "bootstrap", "dist"),
+]
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "compressor.finders.CompressorFinder",
+]
+
 # Compressor
+COMPRESSOR_ROOT = STATIC_ROOT
+COMPRESS_URL = STATIC_URL
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = False
+COMPRESS_CSS_HASHING_METHOD = "content"
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -360,21 +378,6 @@ USE_I18N = False
 USE_TZ = True
 
 ADMIN_LANGUAGE_CODE = "en-us"
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "output/static")
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "djangoblog/static"),
-    os.path.join(BASE_DIR, "node_modules", "bootstrap", "dist"),
-]
-STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "compressor.finders.CompressorFinder",
-]
 
 GS_CREDENTIALS = ""
 
