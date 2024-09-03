@@ -392,14 +392,16 @@ else:
 
     if settings.USE_GC_LOCAL:
         GC_CREDENTIALS = service_account.Credentials.from_service_account_file(
-            f"{BASE_DIR}/infra/terraform/gcp-creds.json"
+            f"{BASE_DIR}/infra/terraform/gcp-creds.json",
         )
     else:
         GC_CREDENTIALS = service_account.Credentials.from_service_account_file(
-            os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+            os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
         )
 
+    COMPRESS_OFFLINE = True
     STATIC_URL = f"https://storage.googleapis.com/{settings.GC_BUCKET_NAME}/"
+
     GOOGLE_STORAGE = {
         "BACKEND": "djangoblog.storage.GoogleCloudStaticFilesStorage",
         "OPTIONS": {
