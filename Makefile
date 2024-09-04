@@ -1,3 +1,4 @@
+GIT_COMMIT_HASH := $(shell git rev-parse HEAD)
 
 analyze: ## Run prospektor for static analysis
 	poetry run prospector --profile prospector djangoblog
@@ -71,6 +72,9 @@ docker-build:
 
 docker-local:
 	​docker-compose -f docker-compose.yml -f docker-compose.local.yml up
+
+push-image:
+	docker buildx build -t victorysokolov/django-blog:$(GIT_COMMIT_HASH) --push --platform linux/amd64,linux/arm64 .
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
