@@ -66,6 +66,10 @@ production:
   SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
   ALLOWED_HOSTS: ['*']
 
+  COMPRESS_OFFLINE: True
+  COMPRESS_OFFLINE_MANIFEST_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  COMPRESS_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+
   # Database
   DATABASES:
     default:
