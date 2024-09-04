@@ -15,7 +15,6 @@ django-cors-headers = "^4.3.1"
 django-csp = "^3.7"
 django-dbbackup = "^4.1.0"
 django-extensions = "^3.2.3"
-django-jazzmin = "^2.6.0"
 django-redis = "^5.4.0"
 django-tagify2 = "^1.0.19"
 djangorestframework = "^3.15.2"
@@ -37,6 +36,7 @@ dynaconf = "^3.2.6"
 gunicorn = "^23.0.0"
 django-storages = {extras = ["google"], version = "^1.14.4"}
 google-auth = "^2.34.0"
+django-jazzmin = "^3.0.0"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.4.1"
