@@ -5,8 +5,8 @@
 
             <li class="previous">
                 <a href="?page={{ object_list.previous_page_number }}">
-                    <span aria-hidden="true">‹</span></a
-                >
+                    <span aria-hidden="true">‹</span>
+                </a>
                 {% else %}
             </li>
 
@@ -17,13 +17,12 @@
             {% for page in object_list.paginator.page_range %} {% if page ==
             object_list.number %}
             <li class="pg active">
-                <a class="page_number" href="?page={{page}}">{{page}}</a> {%
-                else %}
+                <a class="page_number" href="?page={{page}}">{{page}}</a> {% else %}
             </li>
 
             <li class="pg">
-                <a class="page_number" href="?page={{page}}">{{page}}</a> {%
-                endif %} {% endfor %}
+                <a class="page_number" href="?page={{page}}">{{page}}</a> {% endif %} {%
+                endfor %}
             </li>
 
             <li class="page-item">

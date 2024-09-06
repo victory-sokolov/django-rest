@@ -1,31 +1,29 @@
 {% extends 'base.html' %} {% block content %}
 <section class="signup-container">
-	<h1>Login</h1>
-	<hr />
-	<form method="POST" action="/auth/login/">
-		{% csrf_token %} {% for field in form %}
-		<div class="mb-3">
-			<label class="form-label" for="{{ field.id }}">
-				{{ field.label_tag }}
-			</label>
-			{{ field }}
-		</div>
-		{% endfor %}
-		<button type="submit" class="btn btn-primary">Log In</button>
-	</form>
-	<div class="col-md-12 mt-5">
-		{% if messages %} {% for message in messages %}
-		<div class="alert alert-{{ message.tags }}">
-			{{ message }}
-			<button
-				type="button"
-				class="btn-close"
-				data-bs-dismiss="alert"
-				aria-label="Close"
-			></button>
-		</div>
-		{% endfor %} {% endif %}
-	</div>
+    <h1>Login</h1>
+    <hr />
+    <form method="POST" action="/auth/login/">
+        {% csrf_token %} {% for field in form %}
+        <div class="mb-3">
+            <label class="form-label" for="{{ field.id }}"> {{ field.label_tag }} </label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+    <div class="col-md-12 mt-5">
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% endfor %} {% endif %}
+    </div>
 </section>
 
 {% endblock %}

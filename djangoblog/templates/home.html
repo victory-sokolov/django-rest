@@ -1,14 +1,14 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="row">
-	<section class="home-section">
-		{% if request.user.is_authenticated %}
-		<h3>Welcome, {{ user.name }}</h3>
-		{% else %}
-		<h3>You have to <a href="{% url 'login' %}">Login</a></h3>
-		{% endif %}
-		<hr />
-	</section>
+    <section class="home-section">
+        {% if request.user.is_authenticated %}
+        <h3>Welcome, {{ user.name }}</h3>
+        {% else %}
+        <h3>You have to <a href="{% url 'login' %}">Login</a></h3>
+        {% endif %}
+        <hr />
+    </section>
 </div>
 
 {% endblock %}
