@@ -1,9 +1,16 @@
 apiVersion: v1
 data:
-  DEBUG: 'False'
+  DEBUG: 'True'
   SENTRY_DSN: ''
   DJANGO_ENV: production
-  GC_BUCKET_NAME: django-cdn
+  GS_QUERYSTRING_AUTH: 'False'
+  GS_BUCKET_NAME: django-cdn
+  GS_PROJECT_ID: django-app-431708
+  COMPRESS_OFFLINE_MANIFEST_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  COMPRESS_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  COMPRESS_URL: https://storage.googleapis.com/django-cdn/
+  STATIC_URL: https://storage.googleapis.com/django-cdn/
+  COMPRESS_OFFLINE: 'True'
   DJANGO_ALLOWED_HOSTS: '*'
   SECRET_KEY: Kr5E1qxqLZxTBXgbt66TzzfncPLLMRU1Yjt60TnOx4rplQa-iwBCThDi0mYlMd06C7-G_
 kind: ConfigMap

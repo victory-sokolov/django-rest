@@ -16,6 +16,7 @@ from datetime import timedelta
 
 import dynaconf
 from django.contrib.messages import constants as messages
+from google.oauth2 import service_account
 
 settings = dynaconf.DjangoDynaconf(__name__)
 
@@ -79,9 +80,17 @@ LOGOUT_REDIRECT_URL = "login"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+# STORAGES = {
+#     "default": {
+#         "BACKEND": settings.STATIC_FILES_STORAGE,
+#     },
+#     "staticfiles": {
+#         "BACKEND": settings.STATIC_FILES_STORAGE,
+#     },
+# }
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "output/static")
+COMPRESS_ROOT = STATIC_ROOT
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "djangoblog/static"),
     os.path.join(BASE_DIR, "node_modules", "bootstrap", "dist"),
@@ -380,40 +389,22 @@ ADMIN_LANGUAGE_CODE = "en-us"
 GS_CREDENTIALS = ""
 
 if settings.APP_ENV in ["local", "test"]:
-    STORAGES = {
-        "default": {
-            "BACKEND": "django.core.files.storage.FileSystemStorage",
-        },
-        "staticfiles": {
-            "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
-        },
-    }
-else:
-    from google.oauth2 import service_account
-
     if settings.USE_GC_LOCAL:
-        GC_CREDENTIALS = service_account.Credentials.from_service_account_file(
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
             f"{BASE_DIR}/infra/terraform/gcp-creds.json",
         )
     else:
-        GC_CREDENTIALS = service_account.Credentials.from_service_account_file(
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
             os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
         )
 
-    STATIC_URL = f"https://storage.googleapis.com/{settings.GC_BUCKET_NAME}/"
-    COMPRESS_OFFLINE = True
-    COMPRESSOR_ROOT = STATIC_ROOT
-    COMPRESS_URL = STATIC_URL
-
-    COMPRESS_STORAGE = STORAGE
-
     GOOGLE_STORAGE = {
-        "BACKEND": STORAGE,
+        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
         "OPTIONS": {
-            "bucket_name": settings.GC_BUCKET_NAME,
-            "project_id": settings.GC_PROJECT_ID,
-            "querystring_auth": False,
-            "credentials": GC_CREDENTIALS,
+            "bucket_name": settings.GS_BUCKET_NAME,
+            "project_id": settings.GS_PROJECT_ID,
+            "querystring_auth": settings.GS_QUERYSTRING_AUTH,
+            "credentials": GS_CREDENTIALS,
         },
     }
     STORAGES = {

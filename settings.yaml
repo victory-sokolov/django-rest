@@ -7,8 +7,9 @@ database: &database
   HOST: localhost
 
 bucket: &bucket
-  GC_BUCKET_NAME: django-cdn
-  GC_PROJECT_ID: django-app-431708
+  GS_BUCKET_NAME: django-cdn
+  GS_PROJECT_ID: django-app-431708
+  GS_QUERYSTRING_AUTH: False
   USE_GC_LOCAL: False # Use GC bucket locally
 
 default: &default
@@ -21,6 +22,8 @@ local:
   DEBUG: True
   SECRET_KEY: '@format {env[SECRET_KEY]}'
   ALLOWED_HOSTS: ['*']
+  USE_GC_LOCAL: False
+  STATIC_FILES_STORAGE: django.contrib.staticfiles.storage.ManifestStaticFilesStorage
 
   # Celery
   CELERY_RESULT_BACKEND: redis://localhost:6379
@@ -60,15 +63,19 @@ test:
 production:
   <<: [*default, *bucket]
   APP_ENV: production
-  DEBUG: False
+  DEBUG: True
   # SENTRY_DSN: '@format {env[SENTRY_DSN]}'
   # SECRET_KEY: '@format {env[SECRET_KEY]}'
   SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
   ALLOWED_HOSTS: ['*']
 
+  STATIC_FILES_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+
   COMPRESS_OFFLINE: True
   COMPRESS_OFFLINE_MANIFEST_STORAGE: storages.backends.gcloud.GoogleCloudStorage
   COMPRESS_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  COMPRESS_URL: https://storage.googleapis.com/django-cdn/
+  STATIC_URL: https://storage.googleapis.com/django-cdn/
 
   # Database
   DATABASES:
