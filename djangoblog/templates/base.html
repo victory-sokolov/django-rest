@@ -7,18 +7,18 @@
         {% if title %}
             <title>Django Blog - {{ title }}</title>
         {% else %}
-        <title>Django Blog</title>
+            <title>Django Blog</title>
         {% endif %}
+        {% load compress %}
+        {% compress css %}
+            <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+            <link rel="stylesheet" href="{% static 'styles.css' %}" />
+        {% endcompress %}
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
         />
         <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
-        {% load compress static %}
-        {% compress css %}
-            <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-            <link rel="stylesheet" href="{% static 'styles.css' %}" />
-        {% endcompress %}
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -173,12 +173,12 @@
         </nav>
         <div class="container">{% block content %}{% endblock %}</div>
         {% block extra_js %}
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
-        <script src="https://unpkg.com/@yaireo/tagify"></script>
-        <script>
-            const input = document.querySelector('input[name=tags]');
-            new Tagify(input)
-        </script>
+            <script src="{% static 'js/bootstrap.min.js' %}"></script>
+            <script src="https://unpkg.com/@yaireo/tagify"></script>
+            <script>
+                const input = document.querySelector('input[name=tags]');
+                new Tagify(input)
+            </script>
         {% endblock extra_js %}
     </body>
 </html>
