@@ -1,10 +1,5 @@
-from compressor.storage import CompressorFileStorage
 from django.core.files.storage import storages
 from storages.backends.gcloud import GoogleCloudStorage
-
-
-class GCSCompressorFileStorage(CompressorFileStorage, GoogleCloudStorage):
-    pass
 
 
 class CachedStorage(GoogleCloudStorage):
