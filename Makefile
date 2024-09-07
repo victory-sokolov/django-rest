@@ -75,8 +75,12 @@ docker-local:
 
 push-image:
 	docker buildx build -t victorysokolov/django-blog:$(GIT_COMMIT_HASH) --push --platform linux/amd64,linux/arm64 .
-	# Modify image hash
-	 sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/dj-app-deployment.yaml
+
+deploy:
+	# Modify image tag
+	sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/dj-app-deployment.yaml
+	kubectl apply -f infra/k8s
+	kubectl get pods
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
