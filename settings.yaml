@@ -22,7 +22,7 @@ local:
   DEBUG: True
   SECRET_KEY: '@format {env[SECRET_KEY]}'
   ALLOWED_HOSTS: ['*']
-  USE_GC_LOCAL: False
+  USE_GC_LOCAL: True
   STATIC_FILES_STORAGE: django.contrib.staticfiles.storage.ManifestStaticFilesStorage
 
   # Celery
@@ -69,11 +69,11 @@ production:
   SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
   ALLOWED_HOSTS: ['*']
 
-  STATIC_FILES_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  STATIC_FILES_STORAGE: djangoblog.storage.CachedStorage
 
   COMPRESS_OFFLINE: True
-  COMPRESS_OFFLINE_MANIFEST_STORAGE: storages.backends.gcloud.GoogleCloudStorage
-  COMPRESS_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CachedStorage
+  COMPRESS_STORAGE: djangoblog.storage.CachedStorage
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/
 
