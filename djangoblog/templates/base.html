@@ -9,7 +9,7 @@
         {% else %}
             <title>Django Blog</title>
         {% endif %}
-        {% load compress %}
+        {% load compress static %}
         {% compress css %}
             <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
             <link rel="stylesheet" href="{% static 'styles.css' %}" />
