@@ -10,6 +10,7 @@ data:
   COMPRESS_STORAGE: storages.backends.gcloud.GoogleCloudStorage
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/
+  STATIC_FILES_STORAGE: djangoblog.storage.CachedStorage
   COMPRESS_OFFLINE: 'True'
   DJANGO_ALLOWED_HOSTS: '*'
   SECRET_KEY: Kr5E1qxqLZxTBXgbt66TzzfncPLLMRU1Yjt60TnOx4rplQa-iwBCThDi0mYlMd06C7-G_
