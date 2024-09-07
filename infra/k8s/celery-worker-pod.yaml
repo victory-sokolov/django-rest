@@ -8,6 +8,10 @@ metadata:
     io.kompose.service: celery-worker
   name: celery-worker
 spec:
+  volumes:
+    - name: google-credentials-volume
+      secret:
+        secretName: google-credentials
   containers:
     - args:
         - sh
@@ -40,6 +44,10 @@ spec:
               key: SENTRY_DSN
               name: env-prod
       image: victorysokolov/django-blog:latest
+      volumeMounts:
+        - name: google-credentials-volume
+          mountPath: /secrets
+          readOnly: true
       livenessProbe:
         exec:
           command:

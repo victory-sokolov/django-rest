@@ -24,7 +24,7 @@ local:
   ALLOWED_HOSTS: ['*']
   USE_GC_LOCAL: True
   STATIC_FILES_STORAGE: django.contrib.staticfiles.storage.ManifestStaticFilesStorage
-
+  STATIC_OPTIONS: {}
   # Celery
   CELERY_RESULT_BACKEND: redis://localhost:6379
   CELERY_BROKER_URL: redis://localhost:6379
@@ -69,11 +69,11 @@ production:
   SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
   ALLOWED_HOSTS: ['*']
 
-  STATIC_FILES_STORAGE: djangoblog.storage.CachedStorage
+  STATIC_FILES_STORAGE: &static_storage djangoblog.storage.CachedStorage
 
   COMPRESS_OFFLINE: True
-  COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CachedStorage
-  COMPRESS_STORAGE: djangoblog.storage.CachedStorage
+  COMPRESS_OFFLINE_MANIFEST_STORAGE: *static_storage
+  COMPRESS_STORAGE: *static_storage
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/
 

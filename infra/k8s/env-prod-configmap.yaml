@@ -6,8 +6,8 @@ data:
   GS_QUERYSTRING_AUTH: 'False'
   GS_BUCKET_NAME: django-cdn
   GS_PROJECT_ID: django-app-431708
-  COMPRESS_OFFLINE_MANIFEST_STORAGE: storages.backends.gcloud.GoogleCloudStorage
-  COMPRESS_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.GCSCompressorFileStorage
+  COMPRESS_STORAGE: djangoblog.storage.GCSCompressorFileStorage
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/
   STATIC_FILES_STORAGE: djangoblog.storage.CachedStorage
