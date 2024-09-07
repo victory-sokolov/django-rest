@@ -35,11 +35,11 @@ resource "google_service_account" "kubernetes" {
   account_id = "kubernetes"
 }
 
-# resource "google_project_iam_member" "assign_django_role" {
-#   project = var.project_id
-#   role    = google_project_iam_custom_role.django_roles.id
-#   member  = google_service_account.account.member
-# }
+resource "google_project_iam_member" "account_admin" {
+  project = var.project_id
+  role    = google_project_iam_custom_role.django_roles.id
+  member  = google_service_account.account.member
+}
 
 resource "google_storage_bucket_iam_member" "bucket_roles" {
   bucket = google_storage_bucket.bucket.name
