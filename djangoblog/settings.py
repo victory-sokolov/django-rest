@@ -80,14 +80,6 @@ LOGOUT_REDIRECT_URL = "login"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-# STORAGES = {
-#     "default": {
-#         "BACKEND": settings.STATIC_FILES_STORAGE,
-#     },
-#     "staticfiles": {
-#         "BACKEND": settings.STATIC_FILES_STORAGE,
-#     },
-# }
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "output/static")
 COMPRESS_ROOT = STATIC_ROOT
@@ -103,9 +95,12 @@ STATICFILES_FINDERS = [
 
 # Compressor
 COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = False
+COMPRESS_OFFLINE = True
 COMPRESS_CSS_HASHING_METHOD = "content"
-
+COMPRESS_CSS_FILTERS = [
+    "compressor.filters.css_default.CssAbsoluteFilter",
+    "compressor.filters.cssmin.CSSMinFilter",
+]
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Sets csrftoken cookie attributes to HttpOnly and secure
@@ -386,31 +381,28 @@ USE_TZ = True
 
 ADMIN_LANGUAGE_CODE = "en-us"
 
-GS_CREDENTIALS = ""
+if settings.USE_GC_LOCAL:
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+        f"{BASE_DIR}/infra/terraform/gcp-creds.json",
+    )
+else:
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+        os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
+    )
 
-if settings.APP_ENV in ["local", "test"]:
-    if settings.USE_GC_LOCAL:
-        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-            f"{BASE_DIR}/infra/terraform/gcp-creds.json",
-        )
-    else:
-        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-            os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
-        )
-
-    GOOGLE_STORAGE = {
-        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
-        "OPTIONS": {
-            "bucket_name": settings.GS_BUCKET_NAME,
-            "project_id": settings.GS_PROJECT_ID,
-            "querystring_auth": settings.GS_QUERYSTRING_AUTH,
-            "credentials": GS_CREDENTIALS,
-        },
-    }
-    STORAGES = {
-        "default": GOOGLE_STORAGE,
-        "staticfiles": GOOGLE_STORAGE,
-    }
+STATIC_STORAGE = {
+    "BACKEND": "djangoblog.storage.CachedStorage",
+    "OPTIONS": {
+        "bucket_name": settings.GS_BUCKET_NAME,
+        "project_id": settings.GS_PROJECT_ID,
+        "querystring_auth": settings.GS_QUERYSTRING_AUTH,
+        "credentials": GS_CREDENTIALS,
+    },
+}
+STORAGES = {
+    "default": STATIC_STORAGE,
+    "staticfiles": STATIC_STORAGE,
+}
 
 # ELK setup
 ELASTICSEARCH_DSL = {
