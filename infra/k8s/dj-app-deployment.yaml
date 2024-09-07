@@ -23,7 +23,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: dj-app
-          image: victorysokolov/django-blog:fafcb9a243ee79ffa4f139ae9a84723fda9bc16b
+          image: victorysokolov/django-blog:74d4bafa31086fd607ceb006577dd59534cc84d9
           imagePullPolicy: Always
           ports:
             - name: http
