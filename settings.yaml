@@ -63,7 +63,7 @@ test:
 production:
   <<: [*default, *bucket]
   APP_ENV: production
-  DEBUG: False
+  DEBUG: True
   # SENTRY_DSN: '@format {env[SENTRY_DSN]}'
   # SECRET_KEY: '@format {env[SECRET_KEY]}'
   SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
@@ -71,11 +71,12 @@ production:
 
   STATIC_FILES_STORAGE: &static_storage djangoblog.storage.CachedStorage
 
-  COMPRESS_OFFLINE: True
+  COMPRESS_OFFLINE: False
   COMPRESS_OFFLINE_MANIFEST_STORAGE: *static_storage
   COMPRESS_STORAGE: *static_storage
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/
+  COMPRESS_OFFLINE_MANIFEST_STORAGE_ALIAS: staticfiles
 
   # Database
   DATABASES:

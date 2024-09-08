@@ -97,10 +97,6 @@ STATICFILES_FINDERS = [
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = True
 COMPRESS_CSS_HASHING_METHOD = "content"
-COMPRESS_CSS_FILTERS = [
-    "compressor.filters.css_default.CssAbsoluteFilter",
-    "compressor.filters.cssmin.CSSMinFilter",
-]
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Sets csrftoken cookie attributes to HttpOnly and secure
@@ -391,7 +387,7 @@ else:
     )
 
 STATIC_STORAGE = {
-    "BACKEND": "djangoblog.storage.CachedStorage",
+    "BACKEND": settings.STATIC_FILES_STORAGE,
     "OPTIONS": {
         "bucket_name": settings.GS_BUCKET_NAME,
         "project_id": settings.GS_PROJECT_ID,

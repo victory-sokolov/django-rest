@@ -35,7 +35,7 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python
 
 # Set working directory
 WORKDIR /app
-ENV DEV_DEPS=0
+ENV DEV_DEPS=1
 
 COPY ./poetry.lock ./pyproject.toml ./
 
