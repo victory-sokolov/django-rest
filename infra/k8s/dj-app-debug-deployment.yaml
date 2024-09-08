@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-app-debug
+  labels:
+    app: django-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-app
+  template:
+    metadata:
+      labels:
+        app: django-app
+    spec:
+      containers:
+        - name: django-app
+          image: victorysokolov/django-blog:$(GIT_COMMIT_HASH)
+          command:
+            [
+              'sh',
+              '-c',
+              'pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:8000 --nothreading --noreload',
+            ]
+          ports:
+            - containerPort: 80 # Django app port
+            - containerPort: 5678 # Debugpy port
+          env:
+            - name: DEV_DEPS
+              value: '1' # Install development dependencies
+      restartPolicy: Always
