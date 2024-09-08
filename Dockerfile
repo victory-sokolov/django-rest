@@ -35,9 +35,17 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python
 
 # Set working directory
 WORKDIR /app
+ENV DEV_DEPS=0
 
 COPY ./poetry.lock ./pyproject.toml ./
-RUN poetry install --no-root --only main
+
+# Check if DEV_DEPS=1 is set, if true, install both main and dev dependencies
+# Otherwise, install only main dependencies
+RUN if [ "$DEV_DEPS" = "1" ]; then \
+    poetry install --no-root; \
+    else \
+    poetry install --no-root --only main; \
+    fi
 
 # Install npm packages
 COPY ./package.json ./package-lock.json ./
