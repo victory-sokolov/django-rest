@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-debug-service
+spec:
+  selector:
+    app: django-app
+  ports:
+    - name: 'app'
+      protocol: TCP
+      port: 80
+      targetPort: 80 # Map the app's port
+    - name: 'debugpy'
+      protocol: TCP
+      port: 5678
+      targetPort: 5678 # Map the debugpy port
