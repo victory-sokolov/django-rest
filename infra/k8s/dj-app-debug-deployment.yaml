@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: django-app
-          image: victorysokolov/django-blog:$(GIT_COMMIT_HASH)
+          image: victorysokolov/django-blog:cf825f65ee3b119b77a3c45992ced5daba20caa0
           command:
             [
               'sh',
