@@ -377,14 +377,15 @@ USE_TZ = True
 
 ADMIN_LANGUAGE_CODE = "en-us"
 
-if settings.USE_GC_LOCAL:
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-        f"{BASE_DIR}/infra/terraform/gcp-creds.json",
-    )
-else:
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-        os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
-    )
+if settings.APP_ENV not in ["test", "local"]:
+    if settings.USE_GC_LOCAL:
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+            f"{BASE_DIR}/infra/terraform/gcp-creds.json",
+        )
+    else:
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+            os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
+        )
 
 STATIC_STORAGE = {
     "BACKEND": settings.STATIC_FILES_STORAGE,

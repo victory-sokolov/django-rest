@@ -40,7 +40,8 @@ test:
   APP_ENV: test
   DEBUG: True
   SECRET_KEY: '@format {env[SECRET_KEY]}'
-  USE_GC_LOCAL: True
+  USE_GC_LOCAL: False
+  STATIC_FILES_STORAGE: django.contrib.staticfiles.storage.ManifestStaticFilesStorage
   ALLOWED_HOSTS:
     - '.testserver'
     - testserver
