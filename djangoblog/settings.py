@@ -387,18 +387,9 @@ if settings.APP_ENV not in ["test", "local"]:
             os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
         )
 
-STATIC_STORAGE = {
-    "BACKEND": settings.STATIC_FILES_STORAGE,
-    "OPTIONS": {
-        "bucket_name": settings.GS_BUCKET_NAME,
-        "project_id": settings.GS_PROJECT_ID,
-        "querystring_auth": settings.GS_QUERYSTRING_AUTH,
-        "credentials": GS_CREDENTIALS,
-    },
-}
 STORAGES = {
-    "default": STATIC_STORAGE,
-    "staticfiles": STATIC_STORAGE,
+    "default": settings.STATIC_STORAGE,
+    "staticfiles": settings.STATIC_STORAGE,
 }
 
 # ELK setup
