@@ -6,14 +6,14 @@ data:
   GS_QUERYSTRING_AUTH: 'False'
   GS_BUCKET_NAME: django-cdn
   GS_PROJECT_ID: django-app-431708
-  COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CachedStorage
-  COMPRESS_STORAGE: djangoblog.storage.CachedStorage
-  STATIC_FILES_STORAGE: djangoblog.storage.CachedStorage
-  COMPRESS_OFFLINE_MANIFEST: manifest.json
+  COMPRESS_OFFLINE_MANIFEST_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  COMPRESS_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  STATIC_FILES_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  GS_FILE_OVERWRITE: 'False'
   COMPRESS_OFFLINE_MANIFEST_STORAGE_ALIAS: staticfiles
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/
-  COMPRESS_OFFLINE: 'False'
+  COMPRESS_OFFLINE: 'True'
   DJANGO_ALLOWED_HOSTS: '*'
   SECRET_KEY: Kr5E1qxqLZxTBXgbt66TzzfncPLLMRU1Yjt60TnOx4rplQa-iwBCThDi0mYlMd06C7-G_
 kind: ConfigMap
