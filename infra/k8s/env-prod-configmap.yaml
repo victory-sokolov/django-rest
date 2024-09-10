@@ -8,7 +8,7 @@ data:
   GS_PROJECT_ID: django-app-431708
   COMPRESS_OFFLINE_MANIFEST_STORAGE: storages.backends.gcloud.GoogleCloudStorage
   COMPRESS_STORAGE: storages.backends.gcloud.GoogleCloudStorage
-  GS_FILE_OVERWRITE: 'False'
+  # GS_FILE_OVERWRITE: 'False'
   COMPRESS_OFFLINE_MANIFEST_STORAGE_ALIAS: staticfiles
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/

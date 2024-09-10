@@ -89,7 +89,7 @@ production:
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/
   COMPRESS_OFFLINE_MANIFEST_STORAGE_ALIAS: staticfiles
-  GS_FILE_OVERWRITE: False
+  # GS_FILE_OVERWRITE: False
 
   # Database
   DATABASES:
