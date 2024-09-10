@@ -6,6 +6,10 @@ database: &database
   PORT: 5431
   HOST: localhost
 
+storage: &static_storage
+  STATIC_STORAGE:
+    BACKEND: django.contrib.staticfiles.storage.StaticFilesStorage
+
 bucket: &bucket
   GS_BUCKET_NAME: django-cdn
   GS_PROJECT_ID: django-app-431708
@@ -17,14 +21,13 @@ default: &default
   SENTRY_ENABLED: False
 
 local:
-  <<: *default
+  <<: [*default, *static_storage]
   APP_ENV: local
   DEBUG: True
   SECRET_KEY: '@format {env[SECRET_KEY]}'
   ALLOWED_HOSTS: ['*']
   USE_GC_LOCAL: True
-  STATIC_FILES_STORAGE: django.contrib.staticfiles.storage.ManifestStaticFilesStorage
-  STATIC_OPTIONS: {}
+
   # Celery
   CELERY_RESULT_BACKEND: redis://localhost:6379
   CELERY_BROKER_URL: redis://localhost:6379
@@ -37,9 +40,12 @@ local:
       <<: *database
 
 test:
+  <<: *static_storage
   APP_ENV: test
   DEBUG: True
   SECRET_KEY: '@format {env[SECRET_KEY]}'
+  USE_GC_LOCAL: False
+  COMPRESS_OFFLINE: False
   ALLOWED_HOSTS:
     - '.testserver'
     - testserver
@@ -69,13 +75,21 @@ production:
   SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
   ALLOWED_HOSTS: ['*']
 
-  STATIC_FILES_STORAGE: &static_storage djangoblog.storage.CachedStorage
+  STATIC_STORAGE:
+    BACKEND: storages.backends.gcloud.GoogleCloudStorage
+    OPTIONS:
+      bucket_name: '@GS_BUCKET_NAME'
+      project_id: '@GS_PROJECT_ID'
+      querystring_auth: False
+      credentials: '@GOOGLE_APPLICATION_CREDENTIALS'
 
   COMPRESS_OFFLINE: True
-  COMPRESS_OFFLINE_MANIFEST_STORAGE: *static_storage
-  COMPRESS_STORAGE: *static_storage
+  COMPRESS_OFFLINE_MANIFEST_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  COMPRESS_STORAGE: storages.backends.gcloud.GoogleCloudStorage
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/
+  COMPRESS_OFFLINE_MANIFEST_STORAGE_ALIAS: staticfiles
+  GS_FILE_OVERWRITE: False
 
   # Database
   DATABASES:

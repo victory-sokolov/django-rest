@@ -95,12 +95,8 @@ STATICFILES_FINDERS = [
 
 # Compressor
 COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = True
+COMPRESS_OFFLINE = False
 COMPRESS_CSS_HASHING_METHOD = "content"
-COMPRESS_CSS_FILTERS = [
-    "compressor.filters.css_default.CssAbsoluteFilter",
-    "compressor.filters.cssmin.CSSMinFilter",
-]
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Sets csrftoken cookie attributes to HttpOnly and secure
@@ -381,27 +377,19 @@ USE_TZ = True
 
 ADMIN_LANGUAGE_CODE = "en-us"
 
-if settings.USE_GC_LOCAL:
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-        f"{BASE_DIR}/infra/terraform/gcp-creds.json",
-    )
-else:
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-        os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
-    )
+if settings.APP_ENV not in ["test", "local"]:
+    if settings.USE_GC_LOCAL:
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+            f"{BASE_DIR}/infra/terraform/gcp-creds.json",
+        )
+    else:
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+            os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
+        )
 
-STATIC_STORAGE = {
-    "BACKEND": "djangoblog.storage.CachedStorage",
-    "OPTIONS": {
-        "bucket_name": settings.GS_BUCKET_NAME,
-        "project_id": settings.GS_PROJECT_ID,
-        "querystring_auth": settings.GS_QUERYSTRING_AUTH,
-        "credentials": GS_CREDENTIALS,
-    },
-}
 STORAGES = {
-    "default": STATIC_STORAGE,
-    "staticfiles": STATIC_STORAGE,
+    "default": settings.STATIC_STORAGE,
+    "staticfiles": settings.STATIC_STORAGE,
 }
 
 # ELK setup
