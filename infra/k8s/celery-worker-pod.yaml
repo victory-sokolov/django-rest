@@ -45,7 +45,7 @@ spec:
             configMapKeyRef:
               key: SENTRY_DSN
               name: env-prod
-      image: victorysokolov/django-blog:8c95523e86ae235351177bc58a5989f7b608bffe
+      image: victorysokolov/django-blog:1572991ea02a31fe61df8fd57f7b312d44c96c66
       volumeMounts:
         - name: google-credentials-volume
           mountPath: /secrets
