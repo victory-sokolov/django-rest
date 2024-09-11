@@ -76,7 +76,7 @@ production:
   ALLOWED_HOSTS: ['*']
 
   STATIC_STORAGE:
-    BACKEND: storages.backends.gcloud.GoogleCloudStorage
+    BACKEND: djangoblog.storage.CachedGCloudStorage
     OPTIONS:
       bucket_name: django-cdn
       project_id: django-app-431708
@@ -84,7 +84,7 @@ production:
 
   COMPRESS_OFFLINE: True
   COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CustomOfflineManifestStorage
-  COMPRESS_STORAGE: storages.backends.gcloud.GoogleCloudStorage
+  COMPRESS_STORAGE: djangoblog.storage.CachedGCloudStorage
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/
 
@@ -94,10 +94,12 @@ production:
       <<: *database
       HOST: dj-postgres
 
-  REDIS_URL: redis://dj-redis:6379/0
-
   # Celery
   CELERY_RESULT_BACKEND: 'redis://dj-redis:6379/0'
   CELERY_BROKER_URL: 'redis://dj-redis:6379/0'
   CELERY_TASK_ALWAYS_EAGER: False
   CELERY_TASK_EAGER_PROPAGATES: False
+
+  # Redis
+  REDIS_URL: redis://dj-redis:6379/0
+  CACHE_BACKEND: django_redis.cache.RedisCache

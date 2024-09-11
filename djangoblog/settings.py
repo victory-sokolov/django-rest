@@ -243,16 +243,16 @@ if "test" in sys.argv:
 
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
+        "BACKEND": settings.CACHE_BACKEND,
         "LOCATION": settings.REDIS_URL,
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     },
     "tasks": {
-        "BACKEND": "django_redis.cache.RedisCache",
+        "BACKEND": settings.CACHE_BACKEND,
         "LOCATION": "redis://localhost",
     },
     "collectfasta": {
-        "BACKEND": "django_redis.cache.RedisCache",
+        "BACKEND": settings.CACHE_BACKEND,
         "LOCATION": settings.REDIS_URL,
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     },
