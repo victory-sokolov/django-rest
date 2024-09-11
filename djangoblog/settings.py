@@ -106,6 +106,9 @@ COMPRESS_CSS_FILTERS = [
     "compressor.filters.css_default.CssAbsoluteFilter",
     "compressor.filters.cssmin.rCSSMinFilter",
 ]
+COMPRESS_JS_FILTERS = [
+    "compressor.filters.jsmin.JSMinFilter",
+]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
