@@ -76,7 +76,7 @@ production:
   ALLOWED_HOSTS: ['*']
 
   STATIC_STORAGE:
-    BACKEND: djangoblog.storage.CachedGCloudStorage
+    BACKEND: storages.backends.gcloud.GoogleCloudStorage
     OPTIONS:
       bucket_name: django-cdn
       project_id: django-app-431708
@@ -84,7 +84,7 @@ production:
 
   COMPRESS_OFFLINE: True
   COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CustomOfflineManifestStorage
-  COMPRESS_STORAGE: djangoblog.storage.CachedGCloudStorage
+  COMPRESS_STORAGE: storages.backends.gcloud.GoogleCloudStorage
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/
 
