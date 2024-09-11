@@ -506,6 +506,22 @@ prompt-toolkit = ">=3.0.36"
 testing = ["pytest (>=7.2.1)", "pytest-cov (>=4.0.0)", "tox (>=4.4.3)"]
 
 [[package]]
+name = "collectfasta"
+version = "3.2.0"
+description = "A Faster Collectstatic"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "Collectfasta-3.2.0-py2.py3-none-any.whl", hash = "sha256:d05d25c45f762d76b1f671b7469b9fd403516317c619253f1725f57b442661f5"},
+    {file = "collectfasta-3.2.0.tar.gz", hash = "sha256:63f306d5bebebcb806e22dd00c9c8556b5ee8b582287fa72f7a8b39842096a78"},
+]
+
+[package.dependencies]
+Django = ">=4.2"
+django-storages = ">=1.6"
+typing-extensions = "*"
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
@@ -4316,4 +4332,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12.5"
-content-hash = "e3e6d60c1efc4aef53d7cae62905cd255095a03ef95150c0dd071722f549165f"
+content-hash = "075b1ec35bfb0687d69585cd11eadb80c0e8e88c7c7d07c45a82c784c363b09f"

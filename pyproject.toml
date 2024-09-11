@@ -37,6 +37,7 @@ django-storages = {extras = ["google"], version = "^1.14.4"}
 google-auth = "^2.34.0"
 django-jazzmin = "^3.0.0"
 pyopenssl = "^24.2.1"
+collectfasta = "^3.2.0"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.4.1"
