@@ -43,7 +43,6 @@ DATE_FORMAT = "Y-m-d"
 # Application definition
 INSTALLED_APPS = [
     "jazzmin",
-    "sslserver",
     "rest_framework",
     "rest_framework.authtoken",
     "django.contrib.admin",
