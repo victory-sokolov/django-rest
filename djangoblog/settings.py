@@ -43,7 +43,7 @@ DATE_FORMAT = "Y-m-d"
 COLLECTFASTA_STRATEGY = "collectfasta.strategies.gcloud.GoogleCloudStrategy"
 COLLECTFASTA_CACHE = "collectfasta"
 COLLECTFASTA_DEBUG = True
-COLLECTFASTA_THREADS = 20
+COLLECTFASTA_THREADS = 10
 
 # Application definition
 INSTALLED_APPS = [
