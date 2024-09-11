@@ -387,6 +387,11 @@ if settings.APP_ENV not in ["test", "local"]:
             os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
         )
 
+    settings.STATIC_STORAGE = {
+        **settings.STATIC_STORAGE,
+        "credentials": GS_CREDENTIALS,
+    }
+
 STORAGES = {
     "default": settings.STATIC_STORAGE,
     "staticfiles": settings.STATIC_STORAGE,
