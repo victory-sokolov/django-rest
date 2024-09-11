@@ -40,9 +40,15 @@ DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
 DATE_INPUT_FORMATS = "%Y-%m-%d"
 DATE_FORMAT = "Y-m-d"
 
+COLLECTFASTA_STRATEGY = "collectfasta.strategies.gcloud.GoogleCloudStrategy"
+COLLECTFASTA_CACHE = "collectfasta"
+COLLECTFASTA_DEBUG = True
+COLLECTFASTA_THREADS = 20
+
 # Application definition
 INSTALLED_APPS = [
     "jazzmin",
+    "collectfasta",
     "rest_framework",
     "rest_framework.authtoken",
     "django.contrib.admin",
@@ -241,6 +247,11 @@ CACHES = {
     "tasks": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://localhost",
+    },
+    "collectfasta": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": settings.REDIS_URL,
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     },
 }
 # CACHE_TTL = 60 * 15
