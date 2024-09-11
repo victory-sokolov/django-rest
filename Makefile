@@ -10,7 +10,8 @@ make-migrations: migrate ## Create and run migrations
 	DJANGO_ENV=local poetry run python manage.py makemigrations
 
 dev: ## Run dev server
-	DJANGO_ENV=local poetry run python manage.py runsslserver 0.0.0.0:8000
+	# DJANGO_ENV=local poetry run python manage.py runsslserver 0.0.0.0:8000
+	DJANGO_ENV=local poetry run python manage.py runserver_plus --cert-file certs/cert.pem --key-file certs/certkey.pem
 
 worker: ## Run celery worker
 	DJANGO_ENV=local poetry run celery -A djangoblog worker -l info

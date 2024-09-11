@@ -3,7 +3,7 @@
 ## Install dependencies
 
 ```bash
-poetry env use 3.10.14
+poetry env use 3.12.5
 poetry install
 # Install npm dependencies
 npm install
@@ -11,10 +11,11 @@ npm install
 
 ## Start project
 
-1. Start Docker and run `docker-compose up -d` from `docker` directory. Run local version of docker-compose: `docker-compose -f docker-compose.yml -f docker-compose.local.yml up`
-2. Start Celery worker `make worker`
-3. Start Django app `poetry run python manage.py runserver` or `make dev`
-4. Visit `https://localhost:8000/`
+1. Create local certs to use server over HTTPS: `mkcert -cert-file cert.pem -key-file key.pem localhost 127.0.0.1`. Put generated files into `certs` directory
+2. Start Docker and run `docker-compose up -d` from `docker` directory. Run local version of docker-compose: `docker-compose -f docker-compose.yml -f docker-compose.local.yml up`
+3. Start Celery worker `make worker`
+4. Start Django app `poetry run python manage.py runserver` or `make dev`
+5. Visit `https://localhost:8000/`
 
 ## Create superuser
 

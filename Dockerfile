@@ -1,7 +1,7 @@
-ARG DEFAULT_PYTHON_VERSION=3.10.14
+ARG DEFAULT_PYTHON_VERSION=3.12.5
 ARG POETRY_VERSION="1.8.3"
 
-FROM --platform=linux/amd64 python:3.10.14-bookworm
+FROM --platform=linux/amd64 python:3.12.5-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \

@@ -7,7 +7,7 @@ package-mode = false
 
 [tool.poetry.dependencies]
 celery = "^5.3.6"
-dependency-injector = "^4.41.0"
+dependency-injector = "^4.42.0"
 django = "^5.0.2"
 django-ckeditor = "^6.7.1"
 django-compression-middleware = "^0.5.0"
@@ -25,18 +25,18 @@ ecs-logging = "^2.1.0"
 elasticsearch-dsl = "7.4.1"
 Pillow = "^10.2.0"
 psycopg2 = "^2.9.9"
-python = "^3.10.14"
+python = "^3.12.5"
 python-logstash = "^0.4.8"
 requests = "^2.31.0"
 rich = "^13.7.1"
 sentry-sdk = "^1.40.3"
-django-sslserver = "^0.22"
 django-compressor = "^4.5.1"
 dynaconf = "^3.2.6"
 gunicorn = "^23.0.0"
 django-storages = {extras = ["google"], version = "^1.14.4"}
 google-auth = "^2.34.0"
 django-jazzmin = "^3.0.0"
+pyopenssl = "^24.2.1"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.4.1"
