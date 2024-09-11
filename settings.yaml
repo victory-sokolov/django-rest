@@ -83,11 +83,10 @@ production:
       querystring_auth: False
 
   COMPRESS_OFFLINE: True
-  COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CachedGCloudStorage
+  COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CustomOfflineManifestStorage
   COMPRESS_STORAGE: djangoblog.storage.CachedGCloudStorage
   COMPRESS_URL: https://storage.googleapis.com/django-cdn/
   STATIC_URL: https://storage.googleapis.com/django-cdn/
-  COMPRESS_OFFLINE_MANIFEST_STORAGE_ALIAS: staticfiles
 
   # Database
   DATABASES:
