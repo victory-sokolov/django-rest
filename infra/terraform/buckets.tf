@@ -5,7 +5,7 @@ resource "google_storage_bucket" "bucket" {
   project                     = var.project_id
   uniform_bucket_level_access = true
   force_destroy               = false
-  storage_class               = "NEARLINE"
+  storage_class               = var.storage_class
   # public_access_prevention = "enforced" # Prevent public access tot the bucket
 
   lifecycle {

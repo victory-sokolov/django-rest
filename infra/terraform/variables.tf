@@ -107,3 +107,8 @@ variable "oauth_scopes" {
     "https://www.googleapis.com/auth/servicecontrol",
   ]
 }
+
+variable "storage_class" {
+  type    = string
+  default = "NEARLINE"
+}
