@@ -25,6 +25,11 @@ variable "gcp_region" {
   default = "europe-west4"
 }
 
+variable "gke_cluster_name" {
+  type    = string
+  default = "primary"
+}
+
 variable "gcp_zone" {
   type    = string
   default = "europe-west4-b"

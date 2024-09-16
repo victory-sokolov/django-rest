@@ -14,7 +14,7 @@ resource "google_compute_network" "main" {
 
 # Configure Control Plane
 resource "google_container_cluster" "primary" {
-  name                     = "primary" # Cluster name
+  name                     = var.gke_cluster_name
   location                 = var.gcp_zone
   remove_default_node_pool = true
   deletion_protection      = var.delete_protection
@@ -22,8 +22,8 @@ resource "google_container_cluster" "primary" {
   network                  = google_compute_network.main.self_link
   subnetwork               = google_compute_subnetwork.private.self_link
   logging_service          = "logging.googleapis.com/kubernetes"
-  monitoring_service       = "monitoring.googleapis.com/kubernetes"
-  networking_mode          = "VPC_NATIVE"
+  # monitoring_service       = "monitoring.googleapis.com/kubernetes"
+  networking_mode = "VPC_NATIVE"
 
   node_config {
     preemptible     = true
