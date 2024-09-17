@@ -34,6 +34,8 @@ local:
   CELERY_TASK_ALWAYS_EAGER: False
   CELERY_TASK_EAGER_PROPAGATES: False
 
+  CACHE_BACKEND: django_redis.cache.RedisCache
+
   # Database
   DATABASES:
     default:
