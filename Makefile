@@ -27,7 +27,7 @@ collectstatic:
 	DJANGO_ENV=local poetry run python manage.py collectstatic --noinput
 
 prod:
-	DJANGO_ENV=production gunicorn djangoblog:asgi:application -w 4 -k uvicorn.workers.UvicornWorker --log-file -
+	DJANGO_ENV=production gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:"${PORT:-80}"
 
 showoutdated: ## Show outdated Poetry packages
 	poetry show --outdated -T
