@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: django-static-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: django-static
+          image: victorysokolov/django-blog:084f3a97d30e39699bc583a27923852e8183e5c1
+          imagePullPolicy: Always
+          command: ['/bin/sh', '-c']
+          args:
+            - python manage.py collectstatic --noinput && python manage.py compress --force
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /secrets/key.json
+            - name: DEBUG
+              valueFrom:
+                configMapKeyRef:
+                  key: DEBUG
+                  name: env-prod
+            - name: DJANGO_ENV
+              valueFrom:
+                configMapKeyRef:
+                  key: DJANGO_ENV
+                  name: env-prod
+            - name: GS_BUCKET_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: GS_BUCKET_NAME
+                  name: env-prod
+            - name: SECRET_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: SECRET_KEY
+                  name: env-prod
+
+          volumeMounts:
+            - name: google-credentials-volume
+              mountPath: /secrets
+              readOnly: true
+            - name: static-storage
+              mountPath: /app/output/static/
+      volumes:
+        - name: google-credentials-volume
+          secret:
+            secretName: google-credentials
+        - name: static-storage
+          persistentVolumeClaim:
+            claimName: static-storage-pvc
+      restartPolicy: Never
+  backoffLimit: 1

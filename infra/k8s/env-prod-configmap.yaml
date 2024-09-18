@@ -3,6 +3,7 @@ data:
   DEBUG: 'False'
   SENTRY_DSN: ''
   DJANGO_ENV: production
+  DJANGO_SETTINGS_MODULE: djangoblog.settings
   GS_QUERYSTRING_AUTH: 'False'
   GS_BUCKET_NAME: django-cdn
   GS_PROJECT_ID: django-app-431708
