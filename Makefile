@@ -1,8 +1,5 @@
 GIT_COMMIT_HASH := $(shell git rev-parse HEAD)
 
-analyze: ## Run prospektor for static analysis
-	poetry run prospector --profile prospector djangoblog
-
 migrate: ## Run migrations
 	DJANGO_ENV=local poetry run python manage.py migrate
 
