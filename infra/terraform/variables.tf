@@ -113,3 +113,12 @@ variable "storage_class" {
   type    = string
   default = "NEARLINE"
 }
+
+variable "storage_bucket_roles" {
+  type = list(string)
+  default = [
+    "roles/storage.legacyBucketReader",
+    "roles/storage.objectAdmin",
+  ]
+  description = "List of storage bucket roles."
+}
