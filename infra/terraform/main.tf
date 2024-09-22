@@ -1,3 +1,10 @@
+# module "vault" {
+#   source     = "./vault"
+#   gcp_region = var.gcp_region
+#   project_id = var.project_id
+#   location   = var.location
+# }
+
 # Creating VM instance
 resource "google_compute_instance" "vm_instance" {
   name                = "terraform-instance"

@@ -3,6 +3,66 @@ variable "storage_class" {
   default = "NEARLINE"
 }
 
+variable "gcp_region" {
+  type = string
+}
+
+variable "location" {
+  type = string
+}
+
+variable "project_id" {
+  type = string
+}
+
+variable "project_prefix" {
+  type        = string
+  default     = "vault-"
+  description = "String value to prefix the generated project ID with."
+}
+
+# variable "billing_account" {
+#   type        = string
+#   description = "Billing account ID."
+# }
+
+# variable "org_id" {
+#   type        = string
+#   description = "Organization ID."
+# }
+
+variable "kubernetes_instance_type" {
+  type        = string
+  default     = "e2-micro"
+  description = "Instance type to use for the nodes."
+}
+
+variable "service_account_iam_roles" {
+  type = list(string)
+  default = [
+    "roles/logging.logWriter",
+    "roles/monitoring.metricWriter",
+    "roles/monitoring.viewer",
+  ]
+  description = "List of IAM roles to assign to the service account."
+}
+
+variable "service_account_custom_iam_roles" {
+  type        = list(string)
+  default     = []
+  description = "List of arbitrary additional IAM roles to attach to the service account on the Vault nodes."
+}
+
+
+variable "storage_bucket_roles" {
+  type = list(string)
+  default = [
+    "roles/storage.legacyBucketReader",
+    "roles/storage.objectAdmin",
+  ]
+  description = "List of storage bucket roles."
+}
+
 #
 # KMS options
 # ------------------------------
@@ -118,7 +178,7 @@ variable "vault_source_ranges" {
 
 variable "num_vault_pods" {
   type        = number
-  default     = 3
+  default     = 2
   description = "Number of Vault pods to run. Anti-affinity rules spread pods across available nodes. Please use an odd number for better availability."
 }
 
