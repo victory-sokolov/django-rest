@@ -12,6 +12,7 @@ variable "gcp_service_list" {
     "secretmanager.googleapis.com",
     "container.googleapis.com", # Enables GKE
     "compute.googleapis.com",
+    "dns.googleapis.com"
   ]
 }
 

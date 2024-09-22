@@ -1,5 +1,13 @@
 
 # # Create a private DNS zone
+
+# data "google_compute_instance" "vm_instance_data" {
+#   name = google_compute_instance.vm_instance.name
+#   zone = google_compute_instance.vm_instance.zone
+
+#   depends_on = [google_compute_instance.vm_instance]
+# }
+
 # resource "google_dns_managed_zone" "private_zone" {
 #   name        = "private-zone"
 #   dns_name    = "internal.local."
@@ -8,7 +16,7 @@
 
 #   private_visibility_config {
 #     networks {
-#       network_url = google_compute_network.main.self_link
+#       network_url = google_compute_network.main.id
 #     }
 #   }
 # }
@@ -19,5 +27,7 @@
 #   type         = "A"
 #   ttl          = 300
 #   managed_zone = google_dns_managed_zone.private_zone.name
-#   rrdatas      = [google_compute_instance.vm_instance.network_interface.0.access_config.0.nat_ip]
+#   rrdatas      = [data.google_compute_instance.vm_instance_data.network_interface[0].access_config[0].nat_ip]
+
+#   depends_on = [google_compute_instance.vm_instance]
 # }

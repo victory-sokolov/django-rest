@@ -273,7 +273,6 @@ resource "google_container_cluster" "vault" {
     # private endpoint (allow the public endpoint) and restrict which CIDRs
     # can talk to that endpoint.
     enable_private_endpoint = false
-
     enable_private_nodes   = true
     master_ipv4_cidr_block = var.kubernetes_masters_ipv4_cidr
   }
