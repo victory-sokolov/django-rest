@@ -120,6 +120,7 @@ ENV/
 env.bak/
 venv.bak/
 gcp-creds.json
+tls/
 
 # Spyder project settings
 .spyderproject
