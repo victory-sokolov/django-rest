@@ -13,7 +13,6 @@ data:
   STATIC_URL: https://storage.googleapis.com/django-cdn/
   COMPRESS_OFFLINE: 'True'
   DJANGO_ALLOWED_HOSTS: '*'
-  SECRET_KEY: Kr5E1qxqLZxTBXgbt66TzzfncPLLMRU1Yjt60TnOx4rplQa-iwBCThDi0mYlMd06C7-G_
 kind: ConfigMap
 metadata:
   labels:

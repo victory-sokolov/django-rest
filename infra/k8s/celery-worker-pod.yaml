@@ -17,35 +17,14 @@ spec:
         - sh
         - -c
         - DJANGO_ENV=production celery -A djangoblog worker -l info --uid=nobody --gid=nogroup
+      envFrom:
+        - secretRef:
+            name: djapp
       env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /secrets/key.json
-        - name: DEBUG
-          valueFrom:
-            configMapKeyRef:
-              key: DEBUG
-              name: env-prod
-        - name: DJANGO_ENV
-          valueFrom:
-            configMapKeyRef:
-              key: DJANGO_ENV
-              name: env-prod
-        - name: GS_BUCKET_NAME
-          valueFrom:
-            configMapKeyRef:
-              key: GS_BUCKET_NAME
-              name: env-prod
-        - name: SECRET_KEY
-          valueFrom:
-            configMapKeyRef:
-              key: SECRET_KEY
-              name: env-prod
-        - name: SENTRY_DSN
-          valueFrom:
-            configMapKeyRef:
-              key: SENTRY_DSN
-              name: env-prod
-      image: victorysokolov/django-blog:c3add1bfc3b9a4e13ebe8bf635df7b8bfc71cb63
+
+      image: victorysokolov/django-blog:e75ad3d65732d4a9d8980674f4a93dc9c5e14134
       volumeMounts:
         - name: google-credentials-volume
           mountPath: /secrets

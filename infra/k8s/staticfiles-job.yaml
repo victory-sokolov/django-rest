@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: django-static
-          image: victorysokolov/django-blog:084f3a97d30e39699bc583a27923852e8183e5c1
+          image: victorysokolov/django-blog:e75ad3d65732d4a9d8980674f4a93dc9c5e14134
           imagePullPolicy: Always
           command: ['/bin/sh', '-c']
           args:
@@ -15,27 +15,9 @@ spec:
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/key.json
-            - name: DEBUG
-              valueFrom:
-                configMapKeyRef:
-                  key: DEBUG
-                  name: env-prod
-            - name: DJANGO_ENV
-              valueFrom:
-                configMapKeyRef:
-                  key: DJANGO_ENV
-                  name: env-prod
-            - name: GS_BUCKET_NAME
-              valueFrom:
-                configMapKeyRef:
-                  key: GS_BUCKET_NAME
-                  name: env-prod
-            - name: SECRET_KEY
-              valueFrom:
-                configMapKeyRef:
-                  key: SECRET_KEY
-                  name: env-prod
-
+          envFrom:
+            - secretRef:
+                name: djapp
           volumeMounts:
             - name: google-credentials-volume
               mountPath: /secrets

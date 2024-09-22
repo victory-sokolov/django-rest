@@ -36,6 +36,9 @@ spec:
           ports:
             - containerPort: 80 # Django app port
             - containerPort: 5678 # Debugpy port
+          envFrom:
+            - secretRef:
+                name: djapp
           env:
             - name: DEV_DEPS
               value: '1' # Install development dependencies
