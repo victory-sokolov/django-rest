@@ -4,7 +4,7 @@ resource "google_compute_firewall" "firewall" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22", "8000", "8080", "31005"]
+    ports    = ["22", "8000", "8080", "31005", "5678"]
   }
 
   source_ranges = ["0.0.0.0/0"] # allow any ip to access port 22
