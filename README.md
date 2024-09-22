@@ -15,7 +15,7 @@ npm install
 2. Start Docker and run `docker-compose up -d` from `docker` directory. Run local version of docker-compose: `docker-compose -f docker-compose.yml -f docker-compose.local.yml up`
 3. Start Celery worker `make worker`
 4. Start Django app `poetry run python manage.py runserver` or `make dev`
-5. Visit `https://localhost:8000/`
+******5**. Visit `https://localhost:8000/`
 
 ## Create superuser
 
@@ -46,4 +46,8 @@ API documentation is available at: `/api/docs`
 For load testing we are using Locust
 `poetry run locust -f locustfile.py --host=http://localhost:9020`
 
-## Access Kibana logs
+## Terraform
+
+1. `terraform apply --parallelism=20`
+2. Create secret from file: `kubectl create secret generic google-credentials --from-file=infra/terraform/gcp-creds.json -n default`
+3. Apply kubernetes config `kubernetes apply -f infra/k8`
