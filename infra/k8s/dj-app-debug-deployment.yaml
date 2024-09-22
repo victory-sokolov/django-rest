@@ -23,6 +23,16 @@ spec:
               '-c',
               'pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:8000 --nothreading --noreload',
             ]
+          tty: true
+          stdin: true
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+            runAsGroup: 0
+            privileged: true
+            capabilities:
+              add:
+                - SYS_PTRACE
           ports:
             - containerPort: 80 # Django app port
             - containerPort: 5678 # Debugpy port
