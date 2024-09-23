@@ -59,6 +59,7 @@ test:
   CELERY_TASK_ALWAYS_EAGER: True
   CELERY_TASK_EAGER_PROPAGATES: True
 
+  CACHE_BACKEND: 'django.core.cache.backends.dummy.DummyCache'
   CACHES:
     default:
       'BACKEND': 'django.core.cache.backends.dummy.DummyCache'

@@ -12,6 +12,7 @@ services:
         DEV_DEPS: true
     volumes:
       - static_volume:/app/output/static
+      - .:/app
     networks:
       - default
     ports:
