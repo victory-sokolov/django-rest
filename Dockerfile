@@ -3,6 +3,8 @@ ARG POETRY_VERSION="1.8.3"
 
 FROM --platform=linux/amd64 python:3.12.5-bookworm
 
+ARG DEV_DEPS=false
+
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -19,8 +21,11 @@ RUN set -eux; \
     curl \
     build-essential \
     libpq-dev \
-    vim \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    vim; \
+    if [ "$DEV_DEPS" = "true" ]; then \
+    apt-get install --no-install-recommends -y make; \
+    fi; \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
@@ -35,15 +40,16 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python
 
 # Set working directory
 WORKDIR /app
-ENV DEV_DEPS=0
 
 COPY ./poetry.lock ./pyproject.toml ./
 
-# Check if DEV_DEPS=1 is set, if true, install both main and dev dependencies
+# Check if DEV_DEPS=true is set, if true, install both main and dev dependencies
 # Otherwise, install only main dependencies
-RUN if [ "$DEV_DEPS" = "1" ]; then \
+RUN if [ "$DEV_DEPS" = "true" ]; then \
+    echo "Installing all dependencies including dev"; \
     poetry install --no-root; \
     else \
+    echo "Installing production dependencies"; \
     poetry install --no-root --only main; \
     fi
 

@@ -395,11 +395,11 @@ USE_TZ = True
 
 ADMIN_LANGUAGE_CODE = "en-us"
 
-if settings.APP_ENV not in ["test", "local"]:
+if settings.APP_ENV not in ["test", "local", "development"]:
     if settings.USE_GC_LOCAL:
-        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-            f"{BASE_DIR}/infra/terraform/gcp-creds.json",
-        )
+        path = f"{BASE_DIR}/infra/terraform/gcp-creds.json"
+        print(f"Using local GCP creds from {path}")
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(path)
     else:
         GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
             os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),

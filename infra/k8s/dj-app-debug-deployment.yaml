@@ -41,5 +41,5 @@ spec:
                 name: djapp
           env:
             - name: DEV_DEPS
-              value: '1' # Install development dependencies
+              value: 'true' # Install development dependencies
       restartPolicy: Always

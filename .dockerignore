@@ -45,4 +45,3 @@ docker-compose.local.yml
 scripts/
 output/
 setup.cfg
-gcp-creds.json

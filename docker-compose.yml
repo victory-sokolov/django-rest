@@ -3,9 +3,12 @@ services:
   dj-app:
     container_name: dj-app
     env_file:
-      - .env.prod
+      - .env
     build:
       context: .
+      dockerfile: Dockerfile
+      args:
+        DEV_DEPS: true
     volumes:
       - static_volume:/app/output/static
     networks:
@@ -15,11 +18,6 @@ services:
     depends_on:
       - postgres
       - redis
-    deploy:
-      resources:
-        limits:
-          memory: 1g
-          cpus: '1'
 
   celery_worker:
     restart: on-failure
@@ -27,7 +25,7 @@ services:
     build:
       context: .
     env_file:
-      - .env.prod
+      - .env
     command:
       sh -c "DJANGO_ENV=production celery -A djangoblog worker -l info --uid=nobody --gid=nogroup"
     healthcheck:
@@ -40,11 +38,6 @@ services:
       - redis
       - postgres
       - nginx
-    deploy:
-      resources:
-        limits:
-          memory: 1g
-          cpus: '1'
 
   redis:
     container_name: dj-redis
