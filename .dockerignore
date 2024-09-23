@@ -6,9 +6,6 @@
 Dockerfile
 docker-compose.yml
 
-.idea
-.vscode
-
 .mypy_cache/
 .ruff_cache/
 __pycache__/
