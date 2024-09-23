@@ -40,9 +40,9 @@ security-check:
 
 test: ## Run tests with coverage
 	DJANGO_ENV=test poetry run coverage run --parallel-mode --concurrency=multiprocessing manage.py test --parallel -v 2
-	# DJANGO_ENV=test poetry run coverage combine
-	# DJANGO_ENV=test poetry run coverage report
-	# DJANGO_ENV=test poetry run coverage html
+	DJANGO_ENV=test poetry run coverage combine
+	DJANGO_ENV=test poetry run coverage report
+	DJANGO_ENV=test poetry run coverage html
 
 build-local: load-fixtures migrate
 	DJANGO_ENV=local poetry install --no-root
