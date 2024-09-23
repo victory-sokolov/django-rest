@@ -16,6 +16,7 @@ jobs:
       POSTGRES_PASSWORD: securepassword
       POSTGRES_USER: user
       SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
+      POSTGRES_HOST: postgres
 
     services:
       postgres:
@@ -25,6 +26,7 @@ jobs:
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ env.POSTGRES_DB }}
           PGPORT: ${{ env.PGPORT}}
+          POSTGRES_HOST: ${{ env.POSTGRES_HOST}}
         ports:
           - 5431:5431
         options: >-
