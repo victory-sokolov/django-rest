@@ -22,7 +22,7 @@ spec:
             - --raw
             - incr
             - ping
-      name: dj-redis
+      name: redis
       ports:
         - containerPort: 6379
           protocol: TCP

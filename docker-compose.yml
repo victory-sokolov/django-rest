@@ -1,7 +1,8 @@
+name: djangoblog
+
 services:
 
-  dj-app:
-    container_name: dj-app
+  app:
     env_file:
       - .env
     build:
@@ -19,28 +20,30 @@ services:
       - postgres
       - redis
 
-  celery_worker:
-    restart: on-failure
-    container_name: dj-celery-worker
+  worker:
+    restart: unless-stopped
     build:
       context: .
+      dockerfile: Dockerfile
+      args:
+        DEV_DEPS: true
     env_file:
       - .env
+    networks:
+      - default
     command:
-      sh -c "DJANGO_ENV=production celery -A djangoblog worker -l info --uid=nobody --gid=nogroup"
+      sh -c "DJANGO_ENV=local celery -A djangoblog worker -l info --uid=nobody --gid=nogroup"
     healthcheck:
       test: ["CMD-SHELL", "celery", "-A", "djangoblog", "inspect", "ping"]
       interval: 15s
       timeout: 10s
       retries: 5
     depends_on:
-      - dj-app
+      - app
       - redis
       - postgres
-      - nginx
 
   redis:
-    container_name: dj-redis
     restart: unless-stopped
     networks:
       - default
@@ -56,7 +59,7 @@ services:
     # vm.overcommit_memory setting
     privileged: true
     volumes:
-      - djredis:/data:rw
+      - redis:/data:rw
       - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
     deploy:
       resources:
@@ -66,7 +69,6 @@ services:
 
   nginx:
     restart: on-failure
-    container_name: dj-nginx
     build:
       context: docker/nginx/
     networks:
@@ -78,9 +80,10 @@ services:
       timeout: 25s
       retries: 5
     depends_on:
-      - dj-app
+      - app
     ports:
       - "8080:80"
+      - "443:443"
     deploy:
       resources:
         limits:
@@ -88,18 +91,17 @@ services:
           cpus: '1'
 
   postgres:
-    container_name: dj-postgres
     restart: on-failure
     networks:
       - default
     env_file:
       - .env
     build:
-      context: docker/postgres/
+      context: ./docker/postgres
     ports:
       - "5431:5431"
     volumes:
-      - djdata:/var/lib/postgresql/data
+      - data:/var/lib/postgresql/data
     environment:
       - TZ=Etc/GMT-3
     healthcheck:
@@ -107,14 +109,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-    deploy:
-      resources:
-        limits:
-          memory: 1g
-          cpus: '1'
 
   haproxy:
-    container_name: dj-haproxy
     networks:
       - default
     build:
@@ -123,13 +119,13 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - dj-app
+      - app
 
 networks:
   default:
     driver: bridge
 
 volumes:
-  djdata:
-  djredis:
+  data:
+  redis:
   static_volume:

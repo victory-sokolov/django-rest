@@ -5,8 +5,8 @@ metadata:
     kompose.cmd: kompose convert -f docker-compose.yml -o infra/k8s
     kompose.version: 1.34.0 (HEAD)
   labels:
-    io.kompose.service: dj-app
-  name: dj-app
+    io.kompose.service: app
+  name: app
 spec:
   type: LoadBalancer
   ports:
@@ -15,4 +15,4 @@ spec:
       port: 80 # External port
       targetPort: 80 # Django internal port
   selector:
-    io.kompose.service: dj-app
+    io.kompose.service: app

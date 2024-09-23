@@ -4,7 +4,7 @@ database: &database
   USER: user
   PASSWORD: securepassword
   PORT: 5431
-  HOST: localhost
+  HOST: postgres
 
 storage: &static_storage
   STATIC_STORAGE:
@@ -17,7 +17,7 @@ bucket: &bucket
   USE_GC_LOCAL: False # Use GC bucket locally
 
 default: &default
-  REDIS_URL: redis://dj-redis:6379/0
+  REDIS_URL: redis://redis:6379/0
   SENTRY_ENABLED: False
 
 local:
@@ -29,8 +29,8 @@ local:
   USE_GC_LOCAL: True
 
   # Celery
-  CELERY_RESULT_BACKEND: redis://localhost:6379
-  CELERY_BROKER_URL: redis://localhost:6379
+  CELERY_RESULT_BACKEND: redis://redis:6379
+  CELERY_BROKER_URL: redis://redis:6379
   CELERY_TASK_ALWAYS_EAGER: False
   CELERY_TASK_EAGER_PROPAGATES: False
 
@@ -94,14 +94,13 @@ production:
   DATABASES:
     default:
       <<: *database
-      HOST: dj-postgres
 
   # Celery
-  CELERY_RESULT_BACKEND: 'redis://dj-redis:6379/0'
-  CELERY_BROKER_URL: 'redis://dj-redis:6379/0'
+  CELERY_RESULT_BACKEND: 'redis://redis:6379/0'
+  CELERY_BROKER_URL: 'redis://redis:6379/0'
   CELERY_TASK_ALWAYS_EAGER: False
   CELERY_TASK_EAGER_PROPAGATES: False
 
   # Redis
-  REDIS_URL: redis://dj-redis:6379/0
+  REDIS_URL: redis://redis:6379/0
   CACHE_BACKEND: django_redis.cache.RedisCache

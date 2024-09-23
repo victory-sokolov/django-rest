@@ -40,7 +40,7 @@ spec:
         failureThreshold: 5
         periodSeconds: 15
         timeoutSeconds: 10
-      name: dj-celery-worker
+      name: celery-worker
       imagePullPolicy: Always
       # resources:
       #   limits:

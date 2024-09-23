@@ -23,7 +23,7 @@ spec:
       restartPolicy: Always
       containers:
         - image: haproxy:latest
-          name: dj-haproxy
+          name: haproxy
           ports:
             - containerPort: 80
               protocol: TCP

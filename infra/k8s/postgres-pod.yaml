@@ -9,7 +9,7 @@ metadata:
   name: postgres
 spec:
   containers:
-    - name: dj-postgres
+    - name: postgres
       image: postgres
       envFrom:
         - configMapRef:

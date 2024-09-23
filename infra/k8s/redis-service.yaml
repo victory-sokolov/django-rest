@@ -6,7 +6,7 @@ metadata:
     kompose.version: 1.34.0 (HEAD)
   labels:
     io.kompose.service: redis
-  name: dj-redis
+  name: redis
 spec:
   ports:
     - name: '6379'
