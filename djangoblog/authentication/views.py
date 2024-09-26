@@ -4,11 +4,16 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
-from django.http import HttpRequest, HttpResponse
+from django.http import (
+    HttpResponse,
+    HttpResponsePermanentRedirect,
+    HttpResponseRedirect,
+)
 from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
+from rest_framework.request import Request
 
 from djangoblog.authentication.forms import LoginForm, SignUpForm
 from djangoblog.models import UserProfile
@@ -20,7 +25,10 @@ class LoginView(FormView):
     form_class = LoginForm
     template_name = "login.html"
 
-    def post(self, request: HttpRequest):
+    def post(
+        self,
+        request: Request,
+    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         if "user" in request.session:
             return redirect("home")
 
@@ -43,13 +51,13 @@ class SignUpView(ListView):
     model = UserProfile
     template_name = "signup.html"
 
-    def get(self, request: HttpRequest) -> HttpResponse:
+    def get(self, request: Request) -> HttpResponseRedirect | HttpResponse:
         if "user" in request.session:
             return redirect("home")
 
         return render(request, "signup.html", {"form": self.form})
 
-    def post(self, request: HttpRequest) -> HttpResponse:
+    def post(self, request: Request) -> HttpResponseRedirect | HttpResponse:
         form = SignUpForm(request.POST)
 
         if form.is_valid():
