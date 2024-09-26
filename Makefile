@@ -1,5 +1,5 @@
 GIT_COMMIT_HASH := $(shell git rev-parse HEAD)
-EXCLUDED_DIRS = infra/k8s/haproxy infra/k8s/jobs
+EXCLUDED_DIRS = infra/k8s/haproxy
 
 migrate: ## Run migrations
 	DJANGO_ENV=local poetry run python manage.py migrate
@@ -75,7 +75,7 @@ docker-local:
 push-image:
 	docker buildx build -t victorysokolov/django-blog:$(GIT_COMMIT_HASH) --push --platform linux/amd64,linux/arm64 .
 
-deploy:
+deploy: push-image
 	# Modify image tag
 	sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/django/app-deployment.yaml
 	sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/celery/celery-worker-pod.yaml
