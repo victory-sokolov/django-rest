@@ -8,7 +8,6 @@ make-migrations: migrate ## Create and run migrations
 	DJANGO_ENV=local poetry run python manage.py makemigrations
 
 dev: ## Run dev server
-	# DJANGO_ENV=local poetry run python manage.py runsslserver 0.0.0.0:8000
 	DJANGO_ENV=local poetry run python manage.py runserver_plus --cert-file certs/cert.pem --key-file certs/certkey.pem
 
 worker: ## Run celery worker
@@ -80,9 +79,9 @@ deploy: push-image
 	sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/django/app-deployment.yaml
 	sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/celery/celery-worker-pod.yaml
 	sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/debugpy/app-debug-service.yaml
-	# sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/staticfiles-job.yaml
-
-	find infra/k8s -type f -name "*.yaml" | grep -v -E "$$(echo $$EXCLUDED_DIRS | sed 's/ /|/g')" | xargs -I {} kubectl apply -f {}
+	sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/jobs/staticfiles-job.yaml
+	kubectl apply -f infra/k8s --recursive
+	# find infra/k8s -type f -name "*.yaml" | grep -v -E "$$(echo $$EXCLUDED_DIRS | sed 's/ /|/g')" | xargs -I {} kubectl apply -f {}
 	kubectl get pods
 
 help:
