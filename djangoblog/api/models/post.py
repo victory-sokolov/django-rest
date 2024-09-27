@@ -1,5 +1,6 @@
 from datetime import datetime
 from uuid import uuid4
+from typing import Any
 
 from ckeditor.fields import RichTextField
 from django.db import models
@@ -48,7 +49,7 @@ class Post(TimeStampedModel):
         related_name="permissions",
     )
 
-    def save(self, *args, **kwargs):
+    def save(self, *args: Any, **kwargs: Any) -> None:
         if self.created_at is None:
             self.created_at = datetime.now()
 
