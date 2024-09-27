@@ -24,7 +24,7 @@ spec:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /secrets/key.json
 
-      image: victorysokolov/django-blog:097e60b8734223a55e3a742ac6289b6552d4d2c6
+      image: victorysokolov/django-blog:5a2fadd5cefdac9791935cc1c89dd5a3e18c4cb9
       volumeMounts:
         - name: google-credentials-volume
           mountPath: /secrets

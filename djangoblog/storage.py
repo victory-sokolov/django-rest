@@ -14,7 +14,7 @@ class CustomOfflineManifestStorage(CompressorFileStorage):
         try:
             with self.open(self.manifest_name) as manifest_file:
                 return json.load(manifest_file)
-        except IOError:
+        except OSError:
             return {}
 
 

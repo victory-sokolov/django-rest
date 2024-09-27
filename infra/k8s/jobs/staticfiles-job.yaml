@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: django-static
-          image: victorysokolov/django-blog:e75ad3d65732d4a9d8980674f4a93dc9c5e14134
+          image: victorysokolov/django-blog:5a2fadd5cefdac9791935cc1c89dd5a3e18c4cb9
           imagePullPolicy: Always
           command: ['/bin/sh', '-c']
           args:
