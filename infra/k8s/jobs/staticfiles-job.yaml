@@ -3,11 +3,12 @@ kind: Job
 metadata:
   name: django-static-job
 spec:
+  ttlSecondsAfterFinished: 120
   template:
     spec:
       containers:
         - name: django-static
-          image: victorysokolov/django-blog:5a2fadd5cefdac9791935cc1c89dd5a3e18c4cb9
+          image: victorysokolov/django-blog:dd988dd304d8816ee1bcb828bd83b66246b9ea20
           imagePullPolicy: Always
           command: ['/bin/sh', '-c']
           args:
