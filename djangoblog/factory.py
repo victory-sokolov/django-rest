@@ -23,5 +23,5 @@ class AccountFactory(factory.django.DjangoModelFactory):
     content = factory.Faker("sentence", nb_words=100)
 
     @factory.lazy_attribute
-    def created_at(self):
+    def created_at(self) -> datetime:
         return datetime.now() - timedelta(days=random.randint(0, 60))
