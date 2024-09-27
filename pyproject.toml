@@ -39,6 +39,7 @@ django-jazzmin = "^3.0.0"
 pyopenssl = "^24.2.1"
 collectfasta = "^3.2.0"
 gevent = "^24.2.1"
+psycopg = {extras = ["binary", "pool"], version = "^3.2.2"}
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.4.1"
