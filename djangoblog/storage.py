@@ -7,7 +7,10 @@ from storages.backends.gcloud import GoogleCloudStorage
 
 
 class CustomOfflineManifestStorage(CompressorFileStorage):
-    def read_manifest(self):
+    """CustomOfflineManifestStorage."""
+
+    def read_manifest(self) -> dict:
+        """ "Read manifest file."""
         try:
             with self.open(self.manifest_name) as manifest_file:
                 return json.load(manifest_file)
@@ -25,6 +28,7 @@ class CachedGCloudStorage(GoogleCloudStorage):
         )
 
     def save(self, name: str, content: str) -> str:
+        """Save data to local storage."""
         self.local_storage._save(name, content)
         super().save(name, self.local_storage._open(name))
         return name
