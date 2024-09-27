@@ -1,5 +1,6 @@
 import json
 import logging
+from typing import Any
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
@@ -18,7 +19,7 @@ class IndexView(ListView):
     template_name = "home.html"
     form_class = PostForm
 
-    def get(self, request: HttpRequest, **kwargs) -> HttpResponse:
+    def get(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         context = {
             "username": request.session.get("user"),
             "form": self.form_class,
@@ -51,7 +52,7 @@ class PostCreateView(CreateView):
     form_class = PostForm
 
     @method_decorator(login_required)
-    def post(self, request: HttpRequest, **kwargs):
+    def post(self, request: HttpRequest, **kwargs: Any):
         is_draft = True if request.POST.get("draft") == "on" else False
         tags = json.loads(request.POST.get("tags", []))
         data = {
@@ -65,7 +66,7 @@ class PostCreateView(CreateView):
         return redirect("get-all-posts")
 
 
-def handler404(request: HttpRequest, *args, **argv) -> HttpResponse:
+def handler404(request: HttpRequest, *args: Any, **argv: Any) -> HttpResponse:
     response = render(request, "404.html")
     response.status_code = 404
     return response
