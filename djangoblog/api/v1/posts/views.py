@@ -21,7 +21,7 @@ class ArticleListView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(description="Get all available blog posts")
-    def get(self, request: Request) -> Response:
+    def get(self, _request: Request) -> Response:
         """Get all posts"""
         posts = GetPostsTask().apply_async()
         return Response(status=status.HTTP_200_OK, data=posts.get())
@@ -61,7 +61,7 @@ class SingleArticleView(APIView):
         serializer = PostSerializer(post)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
-    def delete(self, request: Request, id: str) -> Response:
+    def delete(self, _request: Request, id: str) -> Response:
         """Delete post by id"""
         post = self.get_object(id)
         if not post:
