@@ -8,11 +8,11 @@ spec:
     spec:
       containers:
         - name: django-static
-          image: victorysokolov/django-blog:dd988dd304d8816ee1bcb828bd83b66246b9ea20
+          image: victorysokolov/django-blog:d5efd7260595bca0b468a0e1a65b33800ba3f3b9
           imagePullPolicy: Always
           command: ['/bin/sh', '-c']
           args:
-            - python manage.py collectstatic --noinput && python manage.py compress --force
+            - python manage.py collectstatic --noinput
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/key.json
