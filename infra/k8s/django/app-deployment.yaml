@@ -12,6 +12,11 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
   template:
     metadata:
       annotations:
@@ -23,7 +28,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: app
-          image: victorysokolov/django-blog:5a2fadd5cefdac9791935cc1c89dd5a3e18c4cb9
+          image: victorysokolov/django-blog:d5efd7260595bca0b468a0e1a65b33800ba3f3b9
           imagePullPolicy: Always
           ports:
             - name: http
@@ -35,6 +40,26 @@ spec:
           envFrom:
             - secretRef:
                 name: djapp
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            httpGet:
+              path: /
+              port: 80
+              scheme: HTTP
+            timeoutSeconds: 2
+            failureThreshold: 1
+            successThreshold: 1
+          readinessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            httpGet:
+              path: /
+              port: 80
+              scheme: HTTP
+            timeoutSeconds: 2
+            failureThreshold: 1
+            successThreshold: 1
           volumeMounts:
             - name: google-credentials-volume
               mountPath: /secrets
