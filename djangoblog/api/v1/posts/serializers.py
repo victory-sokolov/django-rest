@@ -32,7 +32,7 @@ class PostSerializer(serializers.ModelSerializer):
     content = serializers.CharField(required=True)
     tags = TagSerializer(many=True, required=False)
 
-    def create(self, validated_data: dict):
+    def create(self, validated_data: dict) -> Post:
         user = self.context["request"].user
         tags_data = validated_data.pop("tags", [])
         post, _ = Post.objects.update_or_create(
@@ -46,7 +46,7 @@ class PostSerializer(serializers.ModelSerializer):
             post.tags.add(tag)
         return post
 
-    def update(self, instance, validated_data: dict):
+    def update(self, instance, validated_data: dict) -> None:
         # extract the tags data from validated_data
         tags_data = validated_data.pop("tags", None)
         if tags_data is not None:
