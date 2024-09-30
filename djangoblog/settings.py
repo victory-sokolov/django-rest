@@ -357,6 +357,9 @@ DATABASES = {
         "PASSWORD": DB.PASSWORD,
         "PORT": DB.PORT,
         "HOST": DB.HOST,
+        "OPTIONS": {
+            "options": "-c jit=off"
+        }
     },
 }
 
@@ -409,14 +412,10 @@ if settings.APP_ENV not in ["test", "local", "development"]:
         path = f"{BASE_DIR}/infra/terraform/gcp-creds.json"
         print(f"Using local GCP creds from {path}")
         GS_CREDENTIALS = service_account.Credentials.from_service_account_file(path)
-    else:
-        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-            os.getenv("GOOGLE_APPLICATION_CREDENTIALS"),
-        )
+
 
     settings.STATIC_STORAGE = {
         **settings.STATIC_STORAGE,
-        "credentials": GS_CREDENTIALS,
     }
 
 STORAGES = {
