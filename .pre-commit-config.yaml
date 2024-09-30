@@ -83,3 +83,9 @@ repos:
         files: \.(yaml|yml)$
         args:
           - --config-file=.yamllint.yaml
+
+  - repo: https://github.com/adamchainz/djade-pre-commit
+    rev: '1.1.1'
+    hooks:
+      - id: djade
+        args: [--target-version, '5.0']
