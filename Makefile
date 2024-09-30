@@ -84,6 +84,9 @@ deploy: push-image
 	# find infra/k8s -type f -name "*.yaml" | grep -v -E "$$(echo $$EXCLUDED_DIRS | sed 's/ /|/g')" | xargs -I {} kubectl apply -f {}
 	kubectl get pods
 
+print-settings:
+	DJANGO_ENV=local poetry run  python manage.py print_settings
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sort \
