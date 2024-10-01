@@ -1,8 +1,6 @@
 .git
 .github
-.dockerignore
 .gitignore
-Dockerfile
 docker-compose.yml
 
 .mypy_cache/
