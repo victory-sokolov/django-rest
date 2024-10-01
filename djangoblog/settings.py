@@ -298,7 +298,7 @@ MIDDLEWARE = [
 # Only enable the browseable HTML API in dev (DEBUG=True)
 if settings.DEBUG and "test" not in sys.argv:
     DEFAULT_RENDERER_CLASSES += ("rest_framework.renderers.BrowsableAPIRenderer",)
-    INSTALLED_APPS += ["watchman", "debug_toolbar", "silk"]
+    INSTALLED_APPS += ["debug_toolbar", "silk"]
     MIDDLEWARE += [
         "debug_toolbar.middleware.DebugToolbarMiddleware",
         "silk.middleware.SilkyMiddleware",
@@ -358,8 +358,8 @@ DATABASES = {
         "PORT": DB.PORT,
         "HOST": DB.HOST,
         "OPTIONS": {
-            "options": "-c jit=off"
-        }
+            "options": "-c jit=off",
+        },
     },
 }
 
@@ -412,7 +412,6 @@ if settings.APP_ENV not in ["test", "local", "development"]:
         path = f"{BASE_DIR}/infra/terraform/gcp-creds.json"
         print(f"Using local GCP creds from {path}")
         GS_CREDENTIALS = service_account.Credentials.from_service_account_file(path)
-
 
     settings.STATIC_STORAGE = {
         **settings.STATIC_STORAGE,

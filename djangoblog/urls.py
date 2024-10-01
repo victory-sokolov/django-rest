@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import include, path, re_path
+from django.urls import include, path
 
 from djangoblog import view
 
@@ -34,7 +34,6 @@ urlpatterns += static(
 
 if settings.DEBUG:
     urlpatterns += [
-        re_path(r"^watchman/", include("watchman.urls")),
         path("silk/", include("silk.urls", namespace="silk")),
         path("__debug__/", include("debug_toolbar.urls")),
     ]
