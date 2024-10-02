@@ -4,7 +4,7 @@ database: &database
   USER: user
   PASSWORD: securepassword
   PORT: 5431
-  HOST: postgres
+  HOST: 127.0.0.1
 
 storage: &static_storage
   STATIC_STORAGE:
@@ -17,7 +17,6 @@ bucket: &bucket
   USE_GC_LOCAL: False # Use GC bucket locally
 
 default: &default
-  REDIS_URL: redis://redis:6379/0
   SENTRY_ENABLED: False
 
 local:
@@ -40,6 +39,17 @@ local:
   DATABASES:
     default:
       <<: *database
+
+# For Docker environment
+development:
+  APP_ENV: development
+  SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
+  REDIS_URL: redis://redis:6379/0
+
+  DATABASES:
+    default:
+      <<: *database
+      HOST: postgres
 
 test:
   <<: *static_storage
