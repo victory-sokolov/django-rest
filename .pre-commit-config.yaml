@@ -42,6 +42,15 @@ repos:
         types: [python] # hook only runs if a python file is staged
         pass_filenames: false
 
+  - repo: local
+    hooks:
+      - id: check-django
+        name: Run Check command for Django
+        entry: python manage.py check --settings=djangoblog.settings --deploy
+        language: system
+        types: [python] # hook only runs if a python file is staged
+        pass_filenames: false
+
   - repo: https://github.com/MarcoGorelli/absolufy-imports
     rev: v0.3.1
     hooks:
