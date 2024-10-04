@@ -15,7 +15,7 @@ class TestPostModel(TestCase):
             content="Blog post body text",
         )
 
-    def test_post_creation(self):
+    def test_post_creation(self) -> None:
         new_post = Post.objects.get(id=self.post.id)
         self.assertEqual(str(new_post), new_post.title)
         self.assertEqual(self.post.title, new_post.title)

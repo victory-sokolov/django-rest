@@ -11,7 +11,7 @@ class Cutsom(InvalidTokenError):
 
 
 class TokenSerializer(TokenObtainPairSerializer):
-    def validate(self, attrs):
+    def validate(self, attrs: dict) -> dict:
         data = super().validate(attrs)
         data["access_token"] = data.pop("access")
         data["refresh_token"] = data.pop("refresh")
@@ -20,7 +20,7 @@ class TokenSerializer(TokenObtainPairSerializer):
 
 
 class RefreshToken(TokenRefreshSerializer):
-    def validate(self, attrs):
+    def validate(self, attrs: dict) -> None:
         data = super().validate(attrs)
         data["access_token"] = data.pop("access")
         data["expiry_in"] = settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"].total_seconds()

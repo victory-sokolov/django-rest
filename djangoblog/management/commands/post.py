@@ -1,5 +1,6 @@
 import logging
 import random
+from typing import Any
 
 from django.core.management.base import BaseCommand, CommandParser
 from faker import Faker
@@ -20,20 +21,20 @@ class Command(BaseCommand):
             help="amount to generate",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args: Any, **options: Any) -> None:
         logging.info("Adding new posts")
         amount = int(options["amount"])
         run_seed(amount)
         self.stdout.write(f"Added {amount} posts")
 
 
-def clear_data():
+def clear_data() -> None:
     """Deletes all the table data"""
     logging.warning("Deleting all Posts")
     Post.objects.all().delete()
 
 
-def run_seed(amount: int):
+def run_seed(amount: int) -> None:
     fake = Faker()
     users = UserProfile.objects.all()
     posts = []

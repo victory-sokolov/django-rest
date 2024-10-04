@@ -22,7 +22,7 @@ class Tags(models.Model):
     class Meta:
         db_table = "post_tag"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.tag
 
 
@@ -65,6 +65,7 @@ class Post(TimeStampedModel):
 
 
 class PostComments(models.Model):
+    """PostComments."""
     id = models.UUIDField(primary_key=True, default=uuid4)
     post_id = models.ForeignKey(Post, null=True, on_delete=models.CASCADE)
     comment = models.TextField()
