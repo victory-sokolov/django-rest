@@ -100,7 +100,7 @@ STATICFILES_FINDERS = [
 ]
 
 # Compressor
-COMPRESS_ENABLED = True
+COMPRESS_ENABLED = False
 COMPRESS_OFFLINE = False
 COMPRESS_CSS_HASHING_METHOD = "content"
 COMPRESS_CSS_FILTERS = [
@@ -494,9 +494,6 @@ import dynaconf  # noqa
 
 settings = dynaconf.DjangoDynaconf(__name__)  # noqa
 # HERE ENDS DYNACONF EXTENSION LOAD (No more code below this line)
-
-if settings.APP_ENV in ["development", "local"]:
-    INSTALLED_APPS += ["django_watchfiles"]
 
 # if settings.APP_ENV == "production" and settings.SENTRY_ENABLED:
 #     sentry_sdk.init(
