@@ -1,5 +1,4 @@
 ARG DEFAULT_PYTHON_VERSION=3.12.5
-ARG POETRY_VERSION="1.8.3"
 
 FROM --platform=linux/amd64 python:3.12.5-bookworm
 
@@ -11,9 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_VIRTUALENVS_CREATE=true \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
-    POETRY_NO_INTERACTION=1 \
+    PYTHONHASHSEED=random \
     TZ=Etc/GMT-3
 
 RUN set -eux; \
@@ -32,27 +29,31 @@ RUN set -eux; \
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs
 
-# Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
-RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python && \
-    cd /usr/local/bin && \
-    ln -s /opt/poetry/bin/poetry && \
-    poetry config virtualenvs.create true
 
 # Set working directory
 WORKDIR /app
 
 USER root
 
-COPY ./poetry.lock ./pyproject.toml ./
+RUN python3 -m venv /opt/venv
+# Enable venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+RUN pip install uv
+COPY uv.lock pyproject.toml ./
+
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml
 
 # Check if DEV_DEPS=true is set, if true, install both main and dev dependencies
 # Otherwise, install only main dependencies
 RUN if [ "$DEV_DEPS" = "true" ]; then \
     echo "Installing all dependencies including dev"; \
-    poetry install --no-root; \
+    uv sync --no-install-project --extra dev --frozen; \
     else \
     echo "Installing production dependencies"; \
-    poetry install --no-root --only main; \
+    uv sync --no-install-project --frozen; \
     fi
 
 # Install npm packages

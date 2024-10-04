@@ -1,14 +1,20 @@
 database: &database
-  ENGINE: django.db.backends.postgresql_psycopg2
+  ENGINE: 'django.db.backends.postgresql_psycopg2'
   NAME: blog
   USER: user
   PASSWORD: securepassword
   PORT: 5431
-  HOST: 127.0.0.1
+  HOST: localhost
 
 storage: &static_storage
   STATIC_STORAGE:
     BACKEND: django.contrib.staticfiles.storage.StaticFilesStorage
+
+celery: &celery
+  CELERY_RESULT_BACKEND: redis://redis:6379
+  CELERY_BROKER_URL: redis://redis:6379
+  CELERY_TASK_ALWAYS_EAGER: False
+  CELERY_TASK_EAGER_PROPAGATES: False
 
 bucket: &bucket
   GS_BUCKET_NAME: django-cdn
@@ -20,31 +26,31 @@ default: &default
   SENTRY_ENABLED: False
 
 local:
-  <<: [*default, *static_storage]
+  <<: [*default, *static_storage, *celery]
   APP_ENV: local
   DEBUG: True
   SECRET_KEY: '@format {env[SECRET_KEY]}'
   ALLOWED_HOSTS: ['*']
   USE_GC_LOCAL: True
 
-  # Celery
-  CELERY_RESULT_BACKEND: redis://redis:6379
-  CELERY_BROKER_URL: redis://redis:6379
-  CELERY_TASK_ALWAYS_EAGER: False
-  CELERY_TASK_EAGER_PROPAGATES: False
-
   CACHE_BACKEND: django_redis.cache.RedisCache
+  REDIS_URL: redis://localhost:6379/0
 
   # Database
   DATABASES:
     default:
       <<: *database
+      HOST: 127.0.0.1
 
 # For Docker environment
 development:
+  <<: [*static_storage, *celery]
   APP_ENV: development
+  DEBUG: True
+  ALLOWED_HOSTS: ['*']
   SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
   REDIS_URL: redis://redis:6379/0
+  CACHE_BACKEND: django_redis.cache.RedisCache
 
   DATABASES:
     default:
@@ -105,6 +111,7 @@ production:
   DATABASES:
     default:
       <<: *database
+      HOST: postgres
 
   # Celery
   CELERY_RESULT_BACKEND: 'redis://redis:6379/0'

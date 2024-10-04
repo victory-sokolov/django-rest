@@ -14,8 +14,8 @@ npm install
 1. Create local certs to use server over HTTPS: `mkcert -cert-file cert.pem -key-file key.pem localhost 127.0.0.1`. Put generated files into `certs` directory
 2. Start Docker and run `docker-compose up -d` from `docker` directory. Run local version of docker-compose: `docker-compose -f docker-compose.yml -f docker-compose.local.yml up`
 3. Start Celery worker `make worker`
-4. Start Django app `poetry run python manage.py runserver` or `make dev`
-******5**. Visit `https://localhost:8000/`
+4. Start Django app `poetry run python manage.py runserver` or `make dev`.
+5. Visit `https://localhost:8000/`
 
 ## Create superuser
 
@@ -30,7 +30,7 @@ make create-superuser
 
 ## Populate Post database with some random data
 
-`DJANGO_ENV=local poetry run python manage.py shell`
+`DJANGO_ENV=local uv run python manage.py shell`
 
 ```python
 from djangoblog.factory import AccountFactory
@@ -44,7 +44,7 @@ API documentation is available at: `/api/docs`
 ## Load testing
 
 For load testing we are using Locust
-`poetry run locust -f locustfile.py --host=http://localhost:9020`
+`uv run locust -f locustfile.py --host=http://localhost:9020`
 
 ## Terraform
 

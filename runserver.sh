@@ -1,8 +1,11 @@
-#!/usr/bin/env sh
+#!/bin/bash
+
+set -e
 
 echo "Using $DJANGO_ENV environment"
 
-DJANGO_ENV=$DJANGO_ENV python manage.py collectstatic --noinput -i silk/*
-DJANGO_ENV=$DJANGO_ENV python manage.py compress --force
-DJANGO_ENV=$DJANGO_ENV python manage.py migrate
-DJANGO_ENV=$DJANGO_ENV gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:"${PORT:-80}"
+DJANGO_ENV=$DJANGO_ENV uv run python manage.py check --settings=djangoblog.settings --deploy
+DJANGO_ENV=$DJANGO_ENV uv run python manage.py collectstatic --noinput -i silk/*
+DJANGO_ENV=$DJANGO_ENV uv run python manage.py compress --force
+DJANGO_ENV=$DJANGO_ENV uv run python manage.py migrate
+DJANGO_ENV=$DJANGO_ENV uv run gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:"${PORT:-80}"

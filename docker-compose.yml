@@ -33,7 +33,7 @@ services:
     networks:
       - default
     command:
-      sh -c "DJANGO_ENV=local celery -A djangoblog worker -l info --uid=nobody --gid=nogroup"
+      sh -c "uv run celery -A djangoblog worker -l info --uid=nobody --gid=nogroup"
     healthcheck:
       test: ["CMD-SHELL", "celery", "-A", "djangoblog", "inspect", "ping"]
       interval: 15s

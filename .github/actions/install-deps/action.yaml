@@ -9,18 +9,18 @@ runs:
         python-version: 3.12.5
         cache: 'pip'
 
-    - name: Install poetry
+    - name: Install uv
       shell: sh
       run: |
-        pip install poetry==1.8.3
+        pip install uv==0.4.5
 
     - name: Cache the virtualenv
       uses: actions/cache@v4.0.2
       with:
         path: ./.venv
-        key: ${{ runner.os }}-venv-${{ hashFiles('**/poetry.lock') }}
+        key: ${{ runner.os }}-venv-${{ hashFiles('**/uv.lock') }}
 
     - name: Install dependencies
       shell: sh
       run: |
-        poetry install --no-interaction --no-root
+        uv sync --no-install-project --extra dev --frozen
