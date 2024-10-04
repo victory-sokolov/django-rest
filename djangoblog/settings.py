@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "ckeditor_uploader",
     "tagify",
     "dbbackup",
+    "django_watchfiles",
     # app based
     "djangoblog",
     "djangoblog.api",
@@ -494,6 +495,8 @@ import dynaconf  # noqa
 settings = dynaconf.DjangoDynaconf(__name__)  # noqa
 # HERE ENDS DYNACONF EXTENSION LOAD (No more code below this line)
 
+if settings.APP_ENV in ["development", "local"]:
+    INSTALLED_APPS += ["django_watchfiles"]
 
 # if settings.APP_ENV == "production" and settings.SENTRY_ENABLED:
 #     sentry_sdk.init(

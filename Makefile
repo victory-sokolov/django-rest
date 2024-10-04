@@ -8,7 +8,8 @@ make-migrations: migrate ## Create and run migrations
 	DJANGO_ENV=local uv run python manage.py makemigrations
 
 dev: ## Run dev server
-	DJANGO_ENV=local uv run python manage.py runserver_plus --cert-file certs/cert.pem --key-file certs/certkey.pem
+	# DJANGO_ENV=local uv run python manage.py runserver_plus --cert-file certs/cert.pem --key-file certs/certkey.pem
+	DJANGO_ENV=local uv run python manage.py runserver
 
 worker: ## Run celery worker
 	DJANGO_ENV=local uv run celery -A djangoblog worker -l info
