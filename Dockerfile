@@ -1,6 +1,6 @@
-ARG DEFAULT_PYTHON_VERSION=3.12.5
+ARG DEFAULT_PYTHON_VERSION=3.12.7
 
-FROM --platform=linux/amd64 python:3.12.5-bookworm
+FROM --platform=linux/amd64 python:3.12.7-bookworm
 
 ARG DEV_DEPS=false
 
