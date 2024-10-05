@@ -6,6 +6,7 @@ variable "gcp_service_list" {
     "cloudkms.googleapis.com",
     "storage.googleapis.com",
     "iam.googleapis.com",
+    "iap.googleapis.com",
     # "artifactregistry.googleapis.com",
     # "run.googleapis.com",
     # "cloudbuild.googleapis.com",
