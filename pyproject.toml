@@ -67,6 +67,7 @@ dev-dependencies = [
     "django-extensions ~=3.2",
     "debugpy ~=1.8.5",
     "django-stubs ~=5.1",
+    "selenium>=4.25.0",
 ]
 
 [tool.pycln]
