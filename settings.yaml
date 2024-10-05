@@ -73,6 +73,7 @@ test:
     - localhost
 
   # Celery
+  REDIS_URL: redis://localhost:6379/0
   CELERY_RESULT_BACKEND: 'cache+memory://'
   CELERY_BROKER_URL: 'memory://localhost/'
   CELERY_TASK_ALWAYS_EAGER: True
