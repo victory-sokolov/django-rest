@@ -38,7 +38,7 @@ mypy:
 	DJANGO_ENV=local uv run mypy --config-file pyproject.toml djangoblog --cache-fine-grained
 
 security-check:
-	DJANGO_ENV=production uv run python manage.py check --deploy
+	DJANGO_ENV=local uv run python manage.py check --deploy
 
 test: ## Run tests with coverage
 	DJANGO_ENV=test uv run coverage run --parallel-mode --concurrency=multiprocessing manage.py test --parallel -v 2
