@@ -5,7 +5,7 @@ resource "google_container_node_pool" "general" {
   location   = var.gcp_region
 
   management {
-    auto_repair  = true
+    auto_repair  = var.auto_repair
     auto_upgrade = true
   }
 
@@ -36,7 +36,7 @@ resource "google_container_node_pool" "spot" {
   location = var.gcp_region
 
   management {
-    auto_repair  = true
+    auto_repair  = var.auto_repair
     auto_upgrade = true
   }
 

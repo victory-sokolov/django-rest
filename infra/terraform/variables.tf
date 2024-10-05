@@ -110,6 +110,11 @@ variable "oauth_scopes" {
   ]
 }
 
+variable "auto_repair" {
+  type    = bool
+  default = true
+}
+
 variable "storage_class" {
   type    = string
   default = "NEARLINE"
