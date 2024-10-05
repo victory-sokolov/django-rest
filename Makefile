@@ -53,7 +53,7 @@ flush-db: ## Reset local DB
 
 create-superuser: ## Create a new superuser
 	DJANGO_ENV=local uv run python manage.py create_superuser \
-		--user=Admin \
+		--user=admin \
 		--password=superPassword12 \
 		--email=admin@gmail.com
 
