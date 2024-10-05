@@ -1,6 +1,6 @@
 import random
 from datetime import datetime, timedelta
-
+from django.utils import timezone
 import factory
 
 from djangoblog.api.models.post import Post
@@ -24,4 +24,5 @@ class AccountFactory(factory.django.DjangoModelFactory):
 
     @factory.lazy_attribute
     def created_at(self) -> datetime:
-        return datetime.now() - timedelta(days=random.randint(0, 60))
+        dt = datetime.now() - timedelta(days=random.randint(0, 60))
+        return timezone.make_aware(dt)
