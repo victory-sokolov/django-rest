@@ -29,7 +29,7 @@ class Command(BaseCommand):
             return
 
         user_model.objects.create_superuser(
-            username=username,
+            name=username,
             password=password,
             email=email,
         )

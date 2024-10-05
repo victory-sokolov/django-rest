@@ -25,7 +25,7 @@ class RedisLock:
         exc_type: Optional[Exception],
         exc_val: Optional[str],
         exc_tb: Optional[Traceback],
-    ) -> bools
+    ) -> bool:
         """Delete lock key on exit."""
         caches["tasks"].delete(self.lock_id)
         if exc_type:
