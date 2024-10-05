@@ -11,8 +11,10 @@ logger = logging.getLogger(__name__)
 
 
 class GetPostsTask(celery.Task):
+    """GetPostsTask."""
+
     name = "GetPostTask"
-    POST_PER_PAGE = 10
+    POST_PER_PAGE = 20
 
     def run(self):
         selected_posts = (
@@ -21,7 +23,7 @@ class GetPostsTask(celery.Task):
             .order_by("-created_at")
             .prefetch_related("tags")
         )
-        logger.info(f"Retrieving all posts. Found {selected_posts.count()} posts")
+        logger.info(f"Retrieving all posts. Found {selected_posts.count()} posts.")
         serializer = PostSerializer(selected_posts, many=True)
         try:
             return serializer.data
@@ -30,6 +32,8 @@ class GetPostsTask(celery.Task):
 
 
 class CreatePostsTask(celery.Task):
+    """CreatePostsTask."""
+    
     name = "CreatePostTask"
 
     def run(self, data: dict):

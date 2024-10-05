@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from djangoblog.api.models.post import Post
 from djangoblog.api.v1.posts.serializers import PostSerializer
-from djangoblog.tasks import GetPostsTask
+from djangoblog.tasks.post import GetPostsTask
 
 logger = logging.getLogger(__name__)
 

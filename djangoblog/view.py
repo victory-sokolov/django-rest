@@ -10,7 +10,7 @@ from django.views.generic import CreateView, DetailView, ListView
 
 from djangoblog.api.models.post import Post
 from djangoblog.forms import PostForm
-from djangoblog.tasks import CreatePostsTask, GetPostsTask
+from djangoblog.tasks.post import CreatePostsTask, GetPostsTask
 
 logger = logging.getLogger(__name__)
 
