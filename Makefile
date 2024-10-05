@@ -12,8 +12,12 @@ dev: ## Run dev server
 	DJANGO_ENV=local uv run python manage.py runserver
 
 worker: ## Run celery worker
-	DJANGO_ENV=local uv run celery -A djangoblog worker -l info
-	# DJANGO_ENV=uv run watchmedo auto-restart --directory=./ --pattern="*.py" --recursive -- uv run celery -A djangoblog worker -l info
+	DJANGO_ENV=local uv run watchmedo auto-restart \
+		--directory=./djangoblog \
+		--pattern="**/tasks/*.py" \
+		--recursive -- \
+		uv run celery -A djangoblog worker -l info
+	# DJANGO_ENV=local uv run celery -A djangoblog worker -l info
 
 start: ## Start project with uvicorn
 	DJANGO_ENV=local uvicorn djangoblog.asgi:application --port 8081 --reload
@@ -65,7 +69,7 @@ docker-build:
 	docker-compose up --build -d --remove-orphans
 
 docker-local:
-	​docker-compose -f docker-compose.yml -f docker-compose.local.yml up
+	​docker compose -f docker-compose.yml -f docker-compose.local.yml up -d
 
 push-image:
 	docker buildx build -t victorysokolov/django-blog:$(GIT_COMMIT_HASH) --push --platform linux/amd64,linux/arm64 .

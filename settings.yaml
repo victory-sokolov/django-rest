@@ -52,6 +52,9 @@ development:
   REDIS_URL: redis://redis:6379/0
   CACHE_BACKEND: django_redis.cache.RedisCache
 
+  CELERY_RESULT_BACKEND: redis://redis:6379
+  CELERY_BROKER_URL: redis://redis:6379
+
   DATABASES:
     default:
       <<: *database

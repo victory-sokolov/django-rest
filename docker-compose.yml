@@ -32,8 +32,19 @@ services:
       - .env
     networks:
       - default
-    command:
-      sh -c "uv run celery -A djangoblog worker -l info --uid=nobody --gid=nogroup"
+    command: >
+      sh -c "
+      uv run watchmedo auto-restart \
+      --directory=./djangoblog \
+      --pattern='**/tasks/*.py' \
+      --recursive -- \
+      uv run celery -A djangoblog worker -l info
+      "
+      # sh -c "uv run celery -A djangoblog worker -l info --uid=nobody --gid=nogroup"
+    volumes:
+      - type: bind
+        source: ./djangoblog
+        target: /app/djangoblog
     healthcheck:
       test: ["CMD-SHELL", "celery", "-A", "djangoblog", "inspect", "ping"]
       interval: 15s

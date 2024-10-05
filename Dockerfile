@@ -35,14 +35,14 @@ WORKDIR /app
 
 USER root
 
-RUN python3 -m venv /opt/venv
+RUN python -m venv /opt/venv
 # Enable venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 RUN pip install uv
 COPY uv.lock pyproject.toml ./
 
-RUN --mount=type=cache,target=/root/.cache/uv \
+RUN --mount=type=cache,target=/app/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml
 
