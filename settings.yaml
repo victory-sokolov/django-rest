@@ -11,8 +11,8 @@ storage: &static_storage
     BACKEND: django.contrib.staticfiles.storage.StaticFilesStorage
 
 celery: &celery
-  CELERY_RESULT_BACKEND: redis://redis:6379
-  CELERY_BROKER_URL: redis://redis:6379
+  CELERY_RESULT_BACKEND: redis://localhost:6379
+  CELERY_BROKER_URL: redis://localhost:6379
   CELERY_TASK_ALWAYS_EAGER: False
   CELERY_TASK_EAGER_PROPAGATES: False
 
