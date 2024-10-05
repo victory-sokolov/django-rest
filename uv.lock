@@ -1,5 +1,5 @@
 version = 1
-requires-python = ">=3.12.5, <4.0.0"
+requires-python = ">=3.12.7, <4.0.0"
 
 [[package]]
 name = "amqp"
@@ -144,7 +144,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "celery", specifier = "~=5.3" },
+    { name = "celery", specifier = "~=5.4" },
     { name = "collectfasta", specifier = "~=3.2.0" },
     { name = "dependency-injector", specifier = "~=4.42.0" },
     { name = "django", specifier = "~=5.0.2" },
