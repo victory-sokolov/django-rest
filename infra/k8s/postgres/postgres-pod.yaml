@@ -10,7 +10,7 @@ metadata:
 spec:
   containers:
     - name: postgres
-      image: postgres
+      image: postgres:16.4
       envFrom:
         - configMapRef:
             name: postgres-env

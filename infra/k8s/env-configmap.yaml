@@ -7,7 +7,7 @@ data:
   POSTGRES_MAX_CONNECTIONS: '200'
   POSTGRES_PASSWORD: securepassword
   POSTGRES_USER: user
-  POSTGRES_VERSION: '15.5'
+  POSTGRES_VERSION: '16.4'
   REDIS_VERSION: 7.2.3
 kind: ConfigMap
 metadata:

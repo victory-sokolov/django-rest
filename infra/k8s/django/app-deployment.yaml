@@ -26,7 +26,6 @@ spec:
         io.kompose.service: app
     spec:
       restartPolicy: Always
-      priorityClassName: high-priority
       containers:
         - name: app
           image: victorysokolov/django-blog:edaa5b46cbf4f897ceed7ebc27ea6b8a20f6ca0a

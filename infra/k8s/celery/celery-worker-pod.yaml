@@ -16,7 +16,7 @@ spec:
     - args:
         - sh
         - -c
-        - DJANGO_ENV=production celery -A djangoblog worker -l info --uid=nobody --gid=nogroup
+        - DJANGO_ENV=production uv run celery -A djangoblog worker -l info --uid=nobody --gid=nogroup
       envFrom:
         - secretRef:
             name: djapp

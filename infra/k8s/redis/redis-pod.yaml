@@ -14,7 +14,7 @@ spec:
           value: 'true'
         - name: TZ
           value: Etc/GMT-3
-      image: redis
+      image: redis:7.4.0
       livenessProbe:
         exec:
           command:
