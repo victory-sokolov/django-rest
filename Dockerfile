@@ -1,6 +1,6 @@
 ARG DEFAULT_PYTHON_VERSION=3.12.7
 
-FROM --platform=linux/amd64 python:3.12.7-bookworm
+FROM --platform=linux/amd64 python:3.12.7-bookworm AS base
 
 ARG DEV_DEPS=false
 
@@ -25,15 +25,20 @@ RUN set -eux; \
     fi; \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install node.js
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
-    apt-get install -y nodejs
 
+FROM node:22-alpine3.19 as frontend
+
+WORKDIR /frontend
+
+# Install npm packages
+COPY ./package.json ./package-lock.json ./
+RUN npm install
+
+
+FROM base as python_builder
 
 # Set working directory
 WORKDIR /app
-
-USER root
 
 RUN python -m venv /opt/venv
 # Enable venv
@@ -56,11 +61,14 @@ RUN if [ "$DEV_DEPS" = "true" ]; then \
     uv sync --no-install-project --frozen; \
     fi
 
-# Install npm packages
-COPY ./package.json ./package-lock.json ./
-RUN npm install
 
-# Copy project app
+FROM python_builder as production
+
+WORKDIR /app
+
+# Copy build python
+COPY --chown=app --from=python_builder /opt/venv /app/venv
+COPY --chown=app --from=frontend /frontend/node_modules /app/node_modules
 COPY . .
 
 ENV PORT=80
