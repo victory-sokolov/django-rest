@@ -1,33 +1,29 @@
 
-# # Create a private DNS zone
+# Create a private DNS zone
 
-# data "google_compute_instance" "vm_instance_data" {
-#   name = google_compute_instance.vm_instance.name
-#   zone = google_compute_instance.vm_instance.zone
+resource "google_dns_managed_zone" "dns_zone" {
+  name          = "private-zone"
+  dns_name      = "django.app."
+  visibility    = "private"
+  description   = "A private DNS zone for internal services."
+  force_destroy = true
 
-#   depends_on = [google_compute_instance.vm_instance]
-# }
+  private_visibility_config {
+    networks {
+      network_url = google_compute_network.main.id
+    }
+  }
+}
 
-# resource "google_dns_managed_zone" "private_zone" {
-#   name        = "private-zone"
-#   dns_name    = "internal.local."
-#   visibility  = "private"
-#   description = "A private DNS zone for internal services."
+# Create a DNS record in the private zone
+resource "google_dns_record_set" "internal_service" {
+  name         = "django.app."
+  type         = "A"
+  ttl          = 300
+  managed_zone = google_dns_managed_zone.dns_zone.name
+  rrdatas = [
+    google_compute_instance.vm_instance.network_interface[0].network_ip
+  ]
 
-#   private_visibility_config {
-#     networks {
-#       network_url = google_compute_network.main.id
-#     }
-#   }
-# }
-
-# # Create a DNS record in the private zone
-# resource "google_dns_record_set" "internal_service" {
-#   name         = "djangoapp.internal.local."
-#   type         = "A"
-#   ttl          = 300
-#   managed_zone = google_dns_managed_zone.private_zone.name
-#   rrdatas      = [data.google_compute_instance.vm_instance_data.network_interface[0].access_config[0].nat_ip]
-
-#   depends_on = [google_compute_instance.vm_instance]
-# }
+  depends_on = [google_compute_instance.vm_instance]
+}
