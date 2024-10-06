@@ -48,7 +48,7 @@ For load testing we are using Locust
 
 ## Terraform
 
-1. `terraform apply --parallelism=20`
+1. `terraform apply --parallelism=20 -auto-approve`
 2. Create secret from file: `kubectl create secret generic google-credentials --from-file=infra/terraform/gcp-creds.json -n default`
 3. Create secrets from `.env` file: `kubectl create secret generic app --from-env-file=<(env -i sh -c "set -a; . .test-secret; printenv | grep -v '^PWD='")`
 4. Apply kubernetes config `kubernetes apply -f infra/k8`
