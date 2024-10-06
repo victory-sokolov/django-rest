@@ -26,7 +26,7 @@ RUN set -eux; \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
-FROM node:22-alpine3.19 as frontend
+FROM node:22-alpine3.19 AS frontend
 
 WORKDIR /frontend
 
@@ -35,7 +35,7 @@ COPY ./package.json ./package-lock.json ./
 RUN npm install
 
 
-FROM base as python_builder
+FROM base AS python_builder
 
 # Set working directory
 WORKDIR /app
@@ -62,7 +62,7 @@ RUN if [ "$DEV_DEPS" = "true" ]; then \
     fi
 
 
-FROM python_builder as production
+FROM python_builder AS production
 
 WORKDIR /app
 
