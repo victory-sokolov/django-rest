@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from django.contrib import admin
 from django.contrib.auth.models import Group
@@ -13,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
+
     list_display = ("title", "user", "created_at")
     filter_horizontal = ("permissions",)
     readonly_fields = ["id", "user"]
@@ -25,14 +27,13 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ("-user", "title")
     readonly_fields = ("created_at", "id")
 
-    # form = PostForm
-
     class Meta:
         model = Post
 
 
 @admin.register(UserProfile)
 class UserAdmin(admin.ModelAdmin):
+    
     list_display = ("email", "name", "get_total_posts")
     fieldsets = (
         (
@@ -60,10 +61,10 @@ class UserAdmin(admin.ModelAdmin):
     )
 
     @admin.action(description="Total posts")
-    def get_total_posts(self, obj):
+    def get_total_posts(self, obj: Any) -> int:
         return obj.post_set.count()
 
-    def get_readonly_fields(self, request: HttpRequest, obj):
+    def get_readonly_fields(self, request: HttpRequest, obj) -> tuple[str]:
         if request.user.is_superuser:
             return (
                 "is_active",
