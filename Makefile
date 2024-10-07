@@ -61,9 +61,13 @@ create-superuser: ## Create a new superuser
 		--password=superPassword12 \
 		--email=admin@gmail.com
 
+print-settings:
+	DJANGO_ENV=local uv run python manage.py print_settings
 
 install-dev:
 	DJANGO_ENV=local python uv sync --no-install-project --extra dev --frozen
+
+# Infra commands
 
 docker-build:
 	docker-compose up --build -d --remove-orphans
@@ -84,8 +88,8 @@ deploy: push-image
 	# find infra/k8s -type f -name "*.yaml" | grep -v -E "$$(echo $$EXCLUDED_DIRS | sed 's/ /|/g')" | xargs -I {} kubectl apply -f {}
 	kubectl get pods
 
-print-settings:
-	DJANGO_ENV=local uv run python manage.py print_settings
+terraform-apply:
+	cd infra/terraform && terraform apply --parallelism=20 -auto-approve
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
