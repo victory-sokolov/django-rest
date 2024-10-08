@@ -4,13 +4,18 @@ FROM --platform=linux/amd64 python:3.12.7-bookworm AS base
 
 ARG DEV_DEPS=false
 
+WORKDIR /app
+
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
+    # PYTHONHASHSEED=random \
+    # PYTHONFAULTHANDLER=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    PYTHONHASHSEED=random \
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
     TZ=Etc/GMT-3
 
 RUN set -eux; \
@@ -37,13 +42,6 @@ RUN npm install
 
 FROM base AS python_builder
 
-# Set working directory
-WORKDIR /app
-
-RUN python -m venv /opt/venv
-# Enable venv
-ENV PATH="/opt/venv/bin:$PATH"
-
 RUN pip install uv
 COPY uv.lock pyproject.toml ./
 
@@ -61,16 +59,14 @@ RUN if [ "$DEV_DEPS" = "true" ]; then \
     uv sync --no-install-project --frozen; \
     fi
 
-
 FROM python_builder AS production
 
-WORKDIR /app
-
 # Copy build python
-COPY --chown=app --from=python_builder /opt/venv /app/venv
+COPY --chown=app --from=python_builder /app /app
 COPY --chown=app --from=frontend /frontend/node_modules /app/node_modules
 COPY . .
 
+ENV PATH="/app/.venv/bin:$PATH"
 ENV PORT=80
 EXPOSE 80
 
