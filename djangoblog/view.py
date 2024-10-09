@@ -70,3 +70,6 @@ def handler404(request: HttpRequest, *args: Any, **argv: Any) -> HttpResponse:
     response = render(request, "404.html")
     response.status_code = 404
     return response
+
+def healthcheck(request: HttpRequest, *args: Any, **argv: Any) -> HttpResponse:
+    return HttpResponse("OK")

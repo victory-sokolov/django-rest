@@ -25,6 +25,7 @@ urlpatterns = [
         auth_views.PasswordResetDoneView.as_view(),
         name="password_reset_done",
     ),
+    path("healthcheck", view.healthcheck, name="Health check"),
 ]
 
 urlpatterns += static(
