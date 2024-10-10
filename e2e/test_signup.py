@@ -1,7 +1,7 @@
 from playwright.sync_api import sync_playwright
 
 BASE_URL = "http://0.0.0.0:8000"
-HEADLESS = False
+HEADLESS = True
 
 
 with sync_playwright() as p:
