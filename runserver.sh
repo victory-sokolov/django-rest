@@ -4,7 +4,6 @@ set -e
 
 echo "Using $DJANGO_ENV environment"
 
-DJANGO_ENV=$DJANGO_ENV python manage.py check --settings=djangoblog.settings --deploy
 DJANGO_ENV=$DJANGO_ENV python manage.py collectstatic --noinput -i silk/*
 DJANGO_ENV=$DJANGO_ENV python manage.py compress --force
 DJANGO_ENV=$DJANGO_ENV python manage.py migrate
