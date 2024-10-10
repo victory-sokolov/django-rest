@@ -5,7 +5,9 @@
     <form method="POST" action="/auth/signup/">
         {% csrf_token %} {% for field in form %}
         <div class="mb-3">
-            <label class="form-label" for="{{ field.id }}"> {{ field.label_tag }} </label>
+            <label class="form-label" for="{{ field.id_for_label }}">
+                {{ field.label_tag }}
+            </label>
             {{ field }}
         </div>
         {% endfor %}
