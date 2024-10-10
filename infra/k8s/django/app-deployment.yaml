@@ -28,7 +28,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: app
-          image: victorysokolov/django-blog:4372f20bc87ac10637b6bf6c5e70fa5ef6bd36b0
+          image: victorysokolov/django-blog:6fd8fbd6e905308134e0912f827c19c93316b460
           imagePullPolicy: Always
           ports:
             - name: http
@@ -40,26 +40,6 @@ spec:
           envFrom:
             - secretRef:
                 name: djapp
-          livenessProbe:
-            initialDelaySeconds: 15
-            periodSeconds: 30
-            httpGet:
-              path: /
-              port: 80
-              scheme: HTTP
-            timeoutSeconds: 2
-            failureThreshold: 1
-            successThreshold: 1
-          readinessProbe:
-            initialDelaySeconds: 15
-            periodSeconds: 30
-            httpGet:
-              path: /
-              port: 80
-              scheme: HTTP
-            timeoutSeconds: 2
-            failureThreshold: 1
-            successThreshold: 1
           volumeMounts:
             - name: google-credentials-volume
               mountPath: /secrets
