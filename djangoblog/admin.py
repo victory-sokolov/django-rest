@@ -14,7 +14,6 @@ logger = logging.getLogger(__name__)
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-
     list_display = ("title", "user", "created_at")
     filter_horizontal = ("permissions",)
     readonly_fields = ["id", "user"]
@@ -33,7 +32,6 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserAdmin(admin.ModelAdmin):
-    
     list_display = ("email", "name", "get_total_posts")
     fieldsets = (
         (
