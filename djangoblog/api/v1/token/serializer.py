@@ -20,7 +20,7 @@ class TokenSerializer(TokenObtainPairSerializer):
 
 
 class RefreshToken(TokenRefreshSerializer):
-    def validate(self, attrs: dict) -> None:
+    def validate(self, attrs: dict) -> dict[str, str]:
         data = super().validate(attrs)
         data["access_token"] = data.pop("access")
         data["expiry_in"] = settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"].total_seconds()
