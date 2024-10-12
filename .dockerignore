@@ -28,6 +28,8 @@ node_modules
 
 .vscode
 .idea
+.cache
+.prettierrc
 .pre-commit-config.yaml
 prospektor.yaml
 data
@@ -39,3 +41,5 @@ docker-compose.local.yml
 scripts/
 output/
 setup.cfg
+.watchmanconfig
+e2e/
