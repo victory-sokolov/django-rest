@@ -16,9 +16,28 @@ from datetime import timedelta
 
 import dynaconf
 from django.contrib.messages import constants as messages
+from dynaconf import Validator
 from google.oauth2 import service_account
 
-settings = dynaconf.DjangoDynaconf(__name__)
+settings = dynaconf.DjangoDynaconf(
+    __name__,
+    environments=True,
+    validators=[
+        Validator(
+            "DATABASES.default.PORT",
+            must_exist=True,
+            required=True,
+            condition=lambda v: isinstance(v, int),
+        ),
+        Validator(
+            "DATABASES.default.NAME",
+            must_exist=True,
+            required=True,
+            condition=lambda v: isinstance(v, str),
+        ),
+    ],
+)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
