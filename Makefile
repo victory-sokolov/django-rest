@@ -72,6 +72,9 @@ install-dev:
 docker-build:
 	docker-compose up --build -d --remove-orphans
 
+compose-up: ## Docker compose up with watch
+	docker compose up --watch
+
 docker-local:
 	​docker compose -f docker-compose.yml -f docker-compose.local.yml up -d
 
