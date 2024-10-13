@@ -24,18 +24,25 @@ jobs:
       PGHOST: localhost
       SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
 
-    steps:
-      - uses: actions/checkout@master
-      - uses: ./.github/actions/install-deps
-
-      - name: Set up PostgreSQL
-        uses: ./.github/workflows/postgresql-setup.yaml
-        with:
+    services:
+      postgres:
+        image: postgres:15
+        env:
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ env.POSTGRES_DB }}
-          PGPORT: ${{ env.PGPORT }}
-          PGHOST: ${{ env.PGHOST }}
+          PGPORT: ${{ env.PGPORT}}
+        ports:
+          - 5431:5431
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: ./.github/actions/install-deps
 
       - name: Run Django Check
         shell: sh

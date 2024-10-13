@@ -1,50 +1,64 @@
 name: E2E Tests
 on:
-    workflow_dispatch:
-    workflow_call:
-        inputs:
-            environment:
-                type: string
-                required: true
-
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
 env:
-    SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
-    NAME: blog
-    USER: user
-    PASSWORD: securepassword
-    PORT: 5431
-    HOST: localhost
+  SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
+  PGPORT: 5431
+  POSTGRES_DB: blog
+  POSTGRES_PASSWORD: securepassword
+  POSTGRES_USER: user
+  PGHOST: localhost
 
 jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          PGPORT: ${{ env.PGPORT}}
+        ports:
+          - 5431:5431
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
-    test:
-        timeout-minutes: 60
-        runs-on: ubuntu-latest
-        environment: ${{ inputs.environment }}
-        steps:
-            - uses: actions/checkout@master
-            - id: setup
-              uses: ./.github/actions/install-deps
+    steps:
+      - uses: actions/checkout@master
+      - id: setup
+        uses: ./.github/actions/install-deps
 
-            - name: Set up PostgreSQL
-              uses: ./.github/workflows/postgresql-setup.yaml
+      - name: Set up PostgreSQL
+        uses: ./.github/workflows/postgresql-setup.yaml
 
-            - name: Start Django server
-              continue-on-error: false
-              run: |
-                set -v
-                uv run python manage.py runserver || exit 1
+      - name: Start Django server
+        continue-on-error: false
+        run: |
+          set -v
+          uv run python manage.py runserver || exit 1
 
-            - name: Run your tests
-              run: |
-                set -v
-                pip install playwright
-                playwright install --with-deps chromium
-                python e2e/test_signup.py
+      - name: Run your tests
+        run: |
+          set -v
+          pip install playwright
+          playwright install --with-deps chromium
+          python e2e/test_signup.py
 
-            - uses: actions/upload-artifact@v4
-              if: ${{ !cancelled() }}
-              with:
-                  name: playwright-traces
-                  path: test-results/
-                  retention-days: 5
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-traces
+          path: test-results/
+          retention-days: 5
