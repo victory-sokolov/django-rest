@@ -36,11 +36,15 @@ jobs:
       - id: setup
         uses: ./.github/actions/install-deps
 
+      - name: Apply Migrations
+        run: |
+            set -v
+            uv run python manage.py migrate
+
       - name: Start Django server
         continue-on-error: false
         run: |
           set -v
-          uv run python manage.py migrate
           uv run python manage.py runserver || exit 1
 
       - name: Run your tests
