@@ -10,24 +10,30 @@ services:
       dockerfile: Dockerfile
       args:
         DEV_DEPS: true
-    volumes:
-      - static_volume:/app/output/static
-      - .:/app
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - .venv/
+        - action: rebuild
+          path: ./pyproject.toml
     networks:
       - default
     ports:
       - 8001:80
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://0.0.0.0:80/healthcheck"]
-      interval: 30s
-      timeout: 30s
+      timeout: 40s
       retries: 3
-      start_period: 30s
+      start_period: 50s
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
+
   worker:
     restart: unless-stopped
     build:
@@ -45,7 +51,7 @@ services:
       --directory=./djangoblog \
       --pattern='**/tasks/*.py' \
       --recursive -- \
-      uv run celery -A djangoblog worker -l info
+      uv run celery -A djangoblog worker -l info --uid=nobody --gid=nogroup
       "
       # sh -c "uv run celery -A djangoblog worker -l info --uid=nobody --gid=nogroup"
     volumes:
