@@ -7,26 +7,21 @@ on:
       POSTGRES_USER:
         description: 'PostgreSQL user'
         type: string
-        required: true
         default: 'postgres'
       POSTGRES_PASSWORD:
         description: 'PostgreSQL password'
         type: string
-        required: true
         default: 'securepassword'
       POSTGRES_DB:
         description: 'PostgreSQL database'
         type: string
-        required: true
         default: 'blog'
       PGPORT:
         description: 'PostgreSQL Port'
-        required: true
         type: string
         default: '5431'
       PGHOST:
         description: 'PostgreSQL Host'
-        required: true
         type: string
         default: 'localhost'
 

@@ -8,6 +8,10 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
+
+  setup-db:
+    uses: ./.github/workflows/postgresql-setup.yaml
+
   vm-job:
     runs-on: ubuntu-latest
     concurrency:
@@ -22,15 +26,11 @@ jobs:
       PGHOST: localhost
       SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
 
+    needs: setup-db
     steps:
       - uses: actions/checkout@master
       - uses: ./.github/actions/install-deps
-      - uses: ./.github/actions/postgresql-setup
-        with:
-            POSTGRES_USER: ${{ env.POSTGRES_USER }}
-            POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-            POSTGRES_DB: ${{ env.POSTGRES_DB }}
-            PGPORT: ${{ env.PGPORT }}
+
 
       - name: Run Django Check
         shell: sh
