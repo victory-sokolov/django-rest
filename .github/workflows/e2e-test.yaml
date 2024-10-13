@@ -40,6 +40,7 @@ jobs:
         continue-on-error: false
         run: |
           set -v
+          uv run python manage.py migrate
           uv run python manage.py runserver || exit 1
 
       - name: Run your tests
