@@ -23,12 +23,12 @@ jobs:
       SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
 
     steps:
-      - name: Set up PostgreSQL
-        uses: ./.github/workflows/postgresql-setup.yml
-
       - uses: actions/checkout@master
       - id: setup
         uses: ./.github/actions/install-deps
+
+      - name: Set up PostgreSQL
+        uses: ./.github/workflows/postgresql-setup.yml
 
       - name: Run Django Check
         shell: sh

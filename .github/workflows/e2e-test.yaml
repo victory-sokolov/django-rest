@@ -22,12 +22,12 @@ jobs:
         runs-on: ubuntu-latest
         environment: ${{ inputs.environment }}
         steps:
-            - name: Set up PostgreSQL
-              uses: ./.github/workflows/postgresql-setup.yml
-
             - uses: actions/checkout@master
             - id: setup
               uses: ./.github/actions/install-deps
+
+            - name: Set up PostgreSQL
+              uses: ./.github/workflows/postgresql-setup.yml
 
             - name: Start Django server
               continue-on-error: false
