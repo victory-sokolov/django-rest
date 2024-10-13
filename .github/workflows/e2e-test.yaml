@@ -1,15 +1,26 @@
 name: E2E Tests
 on:
     workflow_dispatch:
+    workflow_call:
+        inputs:
+            environment:
+                type: string
+                required: true
 
 env:
     SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
+    PGPORT: 5431
+    POSTGRES_DB: blog
+    POSTGRES_PASSWORD: securepassword
+    POSTGRES_USER: user
+    PGHOST: localhost
 
 jobs:
 
     test:
         timeout-minutes: 60
         runs-on: ubuntu-latest
+        environment: ${{ inputs.environment }}
         steps:
             - uses: actions/checkout@master
             - id: setup
