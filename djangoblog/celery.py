@@ -23,12 +23,12 @@ d = {}
 
 @task_prerun.connect
 def task_prerun_handler(
-    _signal: Any,
-    _sender: Any,
+    signal: Any,
+    sender: Any,
     task_id: str,
-    _task: Any,
-    _args: Any,
-    _kwargs: Any,
+    task: Any,
+    args: Any,
+    kwargs: Any,
     **extras: Any,
 ):
     d[task_id] = time()
@@ -36,12 +36,12 @@ def task_prerun_handler(
 
 @task_postrun.connect
 def task_postrun_handler(
-    _signal: Any,
-    _sender: Any,
+    signal: Any,
+    sender: Any,
     task_id: str,
     task: Any,
-    _args: Any,
-    _kwargs: Any,
+    args: Any,
+    kwargs: Any,
     **extras: Any,
 ):
     try:
