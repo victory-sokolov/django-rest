@@ -22,6 +22,9 @@ jobs:
         runs-on: ubuntu-latest
         environment: ${{ inputs.environment }}
         steps:
+            - name: Set up PostgreSQL
+              uses: ./.github/workflows/postgresql-setup.yml
+
             - uses: actions/checkout@master
             - id: setup
               uses: ./.github/actions/install-deps
@@ -29,13 +32,15 @@ jobs:
             - name: Start Django server
               continue-on-error: false
               run: |
+                set -v
                 uv run python manage.py runserver || exit 1
 
             - name: Run your tests
               run: |
-                  pip install playwright
-                  playwright install --with-deps chromium
-                  python e2e/test_signup.py
+                set -v
+                pip install playwright
+                playwright install --with-deps chromium
+                python e2e/test_signup.py
 
             - uses: actions/upload-artifact@v4
               if: ${{ !cancelled() }}
