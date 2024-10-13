@@ -24,11 +24,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
-      - id: setup
-        uses: ./.github/actions/install-deps
-
-      - name: Set up PostgreSQL
-        uses: ./.github/workflows/postgresql-setup.yaml
+      - uses: ./.github/actions/install-deps
+      - uses: ./.github/workflows/postgresql-setup.yaml
         with:
             POSTGRES_USER: ${{ env.POSTGRES_USER }}
             POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
