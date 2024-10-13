@@ -1,5 +1,6 @@
 import logging
 from time import time
+from typing import Any
 
 from celery import Celery
 from celery.signals import task_postrun, task_prerun
@@ -21,21 +22,27 @@ d = {}
 
 
 @task_prerun.connect
-def task_prerun_handler(signal, sender, task_id, task, args, kwargs, **extras):
+def task_prerun_handler(
+    _signal: Any,
+    _sender: Any,
+    task_id: str,
+    _task: Any,
+    _args: Any,
+    _kwargs: Any,
+    **extras: Any,
+):
     d[task_id] = time()
 
 
 @task_postrun.connect
 def task_postrun_handler(
-    signal,
-    sender,
-    task_id,
-    task,
-    args,
-    kwargs,
-    retval,
-    state,
-    **extras,
+    _signal: Any,
+    _sender: Any,
+    task_id: str,
+    task: Any,
+    _args: Any,
+    _kwargs: Any,
+    **extras: Any,
 ):
     try:
         cost = time() - d.pop(task_id)
