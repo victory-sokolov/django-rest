@@ -28,7 +28,7 @@ jobs:
         uses: ./.github/actions/install-deps
 
       - name: Set up PostgreSQL
-        uses: ./.github/workflows/postgresql-setup.yml
+        uses: ./.github/workflows/postgresql-setup.yaml
 
       - name: Run Django Check
         shell: sh
