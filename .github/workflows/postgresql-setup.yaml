@@ -1,4 +1,3 @@
-# .github/workflows/postgresql-setup.yml
 name: Reusable PostgreSQL Setup
 
 on:
@@ -11,22 +10,22 @@ on:
         default: 'postgres'
       POSTGRES_PASSWORD:
         description: 'PostgreSQL password'
-        required: false
+        required: true
         type: string
         default: 'securepassword'
       POSTGRES_DB:
         description: 'PostgreSQL database'
-        required: false
+        required: true
         type: string
         default: 'blog'
       PGPORT:
         description: 'PostgreSQL Port'
-        required: false
+        required: true
         type: string
         default: '5431'
       PGHOST:
         description: 'PostgreSQL Host'
-        required: false
+        required: true
         type: string
         default: 'localhost'
 
