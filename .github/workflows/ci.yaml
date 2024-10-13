@@ -24,9 +24,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
-
-      - name: Install dependencies
-        id: setup
+      - id: setup
         uses: ./.github/actions/install-deps
 
       - name: Set up PostgreSQL
