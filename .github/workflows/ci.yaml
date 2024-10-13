@@ -9,11 +9,9 @@ on:
 
 jobs:
 
-  setup-db:
-    uses: ./.github/workflows/postgresql-setup.yaml
-
   vm-job:
     runs-on: ubuntu-latest
+
     concurrency:
         group: ${{ github.workflow }}-${{ github.ref }}
         cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
@@ -26,11 +24,12 @@ jobs:
       PGHOST: localhost
       SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
 
-    needs: setup-db
     steps:
       - uses: actions/checkout@master
       - uses: ./.github/actions/install-deps
 
+      - name: Set up PostgreSQL
+        uses: ./.github/workflows/postgresql-setup.yaml
 
       - name: Run Django Check
         shell: sh
