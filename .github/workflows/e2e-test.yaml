@@ -14,7 +14,7 @@ jobs:
             - name: Run your tests
               run: |
                   pip install playwright
-                  playwright install --with-deps
+                  playwright install --with-deps chromium
                   python e2e/test_signup.py
 
             - uses: actions/upload-artifact@v4
