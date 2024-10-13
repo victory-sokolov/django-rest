@@ -2,7 +2,11 @@ name: E2E Tests
 on:
     workflow_dispatch:
 
+env:
+    SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
+
 jobs:
+
     test:
         timeout-minutes: 60
         runs-on: ubuntu-latest
@@ -13,7 +17,7 @@ jobs:
 
             - name: Start Django server
               run: |
-                DJANGO_ENV=local uv run python manage.py runserver
+                DJANGO_ENV=development uv run python manage.py runserver
 
             - name: Run your tests
               run: |
