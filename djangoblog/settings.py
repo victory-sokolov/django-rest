@@ -30,6 +30,12 @@ settings = dynaconf.DjangoDynaconf(
             condition=lambda v: isinstance(v, int),
         ),
         Validator(
+            "DATABASES.default.HOST",
+            must_exist=True,
+            required=True,
+            condition=lambda v: isinstance(v, str),
+        ),
+        Validator(
             "DATABASES.default.NAME",
             must_exist=True,
             required=True,
