@@ -9,11 +9,11 @@ on:
 
 env:
     SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
-    PGPORT: 5431
-    POSTGRES_DB: blog
-    POSTGRES_PASSWORD: securepassword
-    POSTGRES_USER: user
-    PGHOST: localhost
+    NAME: blog
+    USER: user
+    PASSWORD: securepassword
+    PORT: 5431
+    HOST: localhost
 
 jobs:
 
@@ -27,8 +27,9 @@ jobs:
               uses: ./.github/actions/install-deps
 
             - name: Start Django server
+              continue-on-error: false
               run: |
-                DJANGO_ENV=development uv run python manage.py runserver
+                python manage.py runserver || exit 1
 
             - name: Run your tests
               run: |
