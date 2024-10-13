@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - uses: ./.github/actions/install-deps
-      - uses: ./.github/workflows/postgresql-setup.yaml
+      - uses: ./.github/actions/postgresql-setup
         with:
             POSTGRES_USER: ${{ env.POSTGRES_USER }}
             POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
