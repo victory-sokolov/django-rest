@@ -1,0 +1,25 @@
+name: E2E Tests
+on:
+    workflow_dispatch:
+
+jobs:
+    test:
+        timeout-minutes: 60
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - id: setup
+              uses: ./.github/actions/install-deps
+
+            - name: Run your tests
+              run: |
+                  pip install playwright
+                  playwright install --with-deps
+                  python e2e/test_signup.py
+
+            - uses: actions/upload-artifact@v4
+              if: ${{ !cancelled() }}
+              with:
+                  name: playwright-traces
+                  path: test-results/
+                  retention-days: 5
