@@ -1,4 +1,4 @@
-FROM haproxy:3.0.3
+FROM haproxy:3.0.5
 
 RUN useradd -m haproxy || true
 USER haproxy
