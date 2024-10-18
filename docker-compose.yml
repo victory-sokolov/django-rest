@@ -23,11 +23,11 @@ services:
       - default
     ports:
       - 8001:80
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://0.0.0.0:80/healthcheck"]
-      timeout: 40s
-      retries: 3
-      start_period: 50s
+    # healthcheck:
+    #   test: ["CMD", "curl", "--fail", "http://0.0.0.0:80/healthcheck"]
+    #   timeout: 5s
+    #   retries: 3
+    #   start_period: 50s
     depends_on:
       postgres:
         condition: service_healthy
@@ -64,8 +64,8 @@ services:
       timeout: 10s
       retries: 5
     depends_on:
-      app:
-        condition: service_healthy
+      # app:
+      #   condition: service_healthy
       redis:
         condition: service_healthy
       postgres:
@@ -145,7 +145,7 @@ services:
       context: docker/haproxy/
     restart: always
     ports:
-      - "8002:8002"
+      - 8002:8002
     depends_on:
       - app
 
