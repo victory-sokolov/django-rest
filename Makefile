@@ -1,5 +1,6 @@
 GIT_COMMIT_HASH := $(shell git rev-parse HEAD)
 EXCLUDED_DIRS = infra/k8s/haproxy
+ENV := $(or ${DJANGO_ENV}, local)
 
 migrate: ## Run migrations
 	DJANGO_ENV=local uv run python manage.py migrate
@@ -38,7 +39,7 @@ mypy:
 	DJANGO_ENV=local uv run mypy --config-file pyproject.toml djangoblog --cache-fine-grained
 
 security-check:
-	DJANGO_ENV=local uv run python manage.py check --deploy
+	DJANGO_ENV=$(ENV) uv run python manage.py check --deploy
 
 test: ## Run tests with coverage
 	DJANGO_ENV=test uv run coverage run --parallel-mode --concurrency=multiprocessing manage.py test --parallel -v 2 --failfast
