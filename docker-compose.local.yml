@@ -8,10 +8,44 @@ services:
     ports:
       - 8889:8889
 
-  rabbitmq:
-    image: rabbitmq:3.11.26-management
-    platform: linux/arm64
-    security_opt:
-      - no-new-privileges:true
+  prometheus:
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    container_name: prometheus
     ports:
-      - 5675:5675
+      - 9090:9090
+    networks:
+      - ocr-network
+    volumes:
+      - ./infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/infrastructure/prometheus
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    networks:
+      - ocr-network
+    depends_on:
+      - prometheus
+    ports:
+      - 3010:3000
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ./data/grafana/provisioning:/etc/grafana/provisioning
+      - ./data/grafana:/var/lib/grafana
+
+  # rabbitmq:
+  #   image: rabbitmq:3.11.26-management
+  #   platform: linux/arm64
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   ports:
+  #     - 5675:5675
+
+volumes:
+  grafana_data:
+  prometheus_data:
+  # rabbitmq_data:
