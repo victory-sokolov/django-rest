@@ -1,19 +1,20 @@
 GIT_COMMIT_HASH := $(shell git rev-parse HEAD)
 EXCLUDED_DIRS = infra/k8s/haproxy
 ENV := $(or ${DJANGO_ENV}, local)
+PORT := $(or ${PORT}, 80)
 
 migrate: ## Run migrations
-	DJANGO_ENV=local uv run python manage.py migrate
+	DJANGO_ENV=$(ENV) uv run python manage.py migrate
 
 make-migrations: migrate ## Create and run migrations
-	DJANGO_ENV=local uv run python manage.py makemigrations
+	DJANGO_ENV=$(ENV) uv run python manage.py makemigrations
 
 dev: ## Run dev server
 	# DJANGO_ENV=local uv run python manage.py runserver_plus --cert-file certs/cert.pem --key-file certs/certkey.pem
-	DJANGO_ENV=local uv run python manage.py runserver
+	DJANGO_ENV=$(ENV) uv run python manage.py runserver 0.0.0.0:$(PORT)
 
 worker: ## Run celery worker
-	DJANGO_ENV=local uv run watchmedo auto-restart \
+	DJANGO_ENV=$(ENV) uv run watchmedo auto-restart \
 		--directory=./djangoblog \
 		--pattern="**/tasks/*.py" \
 		--recursive -- \
@@ -21,22 +22,22 @@ worker: ## Run celery worker
 	# DJANGO_ENV=local uv run celery -A djangoblog worker -l info
 
 start: ## Start project with uvicorn
-	DJANGO_ENV=local uvicorn djangoblog.asgi:application --port 8081 --reload
+	DJANGO_ENV=$(ENV) uvicorn djangoblog.asgi:application --port 8081 --reload
 
 flower: ## Run Flower Celery monitoring system
 	DJANGO_ENV=local uv run celery -A djangoblog.celery.app flower
 
 collectstatic:
-	DJANGO_ENV=local uv run python manage.py collectstatic --noinput
+	DJANGO_ENV=$(ENV) uv run python manage.py collectstatic --noinput -i silk/*
 
 prod:
-	DJANGO_ENV=production gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:"${PORT:-80}"
+	DJANGO_ENV=$(ENV) gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:"${PORT:-80}"
 
 loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
 
 mypy:
-	DJANGO_ENV=local uv run mypy --config-file pyproject.toml djangoblog --cache-fine-grained
+	DJANGO_ENV=$(ENV) uv run mypy --config-file pyproject.toml djangoblog --cache-fine-grained
 
 security-check:
 	DJANGO_ENV=$(ENV) uv run python manage.py check --deploy
@@ -51,19 +52,19 @@ build-local: load-fixtures migrate
 	DJANGO_ENV=local uv install --no-root
 
 load-fixtures: ## Load local and test fixtures
-	DJANGO_ENV=local uv run python manage.py loaddata djangoblog/fixtures/*.yaml
+	DJANGO_ENV=$(ENV) uv run python manage.py loaddata djangoblog/fixtures/*.yaml
 
 flush-db: ## Reset local DB
 	DJANGO_ENV=local uv run python manage.py flush
 
 create-superuser: ## Create a new superuser
-	DJANGO_ENV=local uv run python manage.py create_superuser \
+	DJANGO_ENV=$(ENV) uv run python manage.py create_superuser \
 		--user=admin \
 		--password=superPassword12 \
 		--email=admin@gmail.com
 
 print-settings:
-	DJANGO_ENV=local uv run python manage.py print_settings
+	DJANGO_ENV=$(ENV) uv run python manage.py print_settings
 
 install-dev:
 	DJANGO_ENV=local python uv sync --no-install-project --extra dev --frozen
