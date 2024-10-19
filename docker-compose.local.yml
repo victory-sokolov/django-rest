@@ -15,7 +15,7 @@ services:
     ports:
       - 9090:9090
     networks:
-      - ocr-network
+      - default
     volumes:
       - ./infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/infrastructure/prometheus
@@ -25,7 +25,7 @@ services:
     container_name: grafana
     restart: unless-stopped
     networks:
-      - ocr-network
+      - default
     depends_on:
       - prometheus
     ports:
