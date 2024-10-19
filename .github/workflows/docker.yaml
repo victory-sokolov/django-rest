@@ -23,4 +23,4 @@ jobs:
                   quiet: true # Show only failed checks
                   container_user: 1000
                   # Skip adding User, healthcheck
-                  skip_check: CKV_DOCKER_2, CKV_DOCKER_3
+                  skip_check: CKV_DOCKER_2,CKV_DOCKER_3
