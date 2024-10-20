@@ -9,7 +9,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
-        DJANGO_ENV: "development"
+        DJANGO_ENV: local 
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         POSTGRES_DB: blog
         POSTGRES_PASSWORD: securepassword
