@@ -34,6 +34,12 @@ jobs:
       - id: setup
         uses: ./.github/actions/install-deps
 
+      - name: Run Django Checks
+        shell: sh
+        run: |
+          set -v
+          make run-checks
+
       - name: Check Database Connection
         run: |
             PGPASSWORD=${{ env.POSTGRES_PASSWORD }} psql -h ${{ env.PGHOST }} -U ${{ env.POSTGRES_USER }} -d ${{ env.POSTGRES_DB }} -c '\l'
