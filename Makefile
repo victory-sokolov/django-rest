@@ -4,7 +4,7 @@ ENV := $(or ${DJANGO_ENV}, local)
 PORT := $(or ${PORT}, 80)
 
 migrate: ## Run migrations
-	DJANGO_ENV=$(ENV) uv run python manage.py migrate
+	DJANGO_ENV=$(ENV) uv run python manage.py migrate --noinput
 
 make-migrations: migrate ## Create and run migrations
 	DJANGO_ENV=$(ENV) uv run python manage.py makemigrations
