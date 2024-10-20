@@ -22,7 +22,6 @@ jobs:
       POSTGRES_PASSWORD: securepassword
       POSTGRES_USER: user
       PGHOST: localhost
-      SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
 
     services:
       postgres:
@@ -32,6 +31,7 @@ jobs:
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ env.POSTGRES_DB }}
           PGPORT: ${{ env.PGPORT}}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         ports:
           - 5431:5431
         options: >-
@@ -49,7 +49,6 @@ jobs:
         env:
           SECRET_KEY: ${{ env.SECRET_KEY }}
         run: |
-          export SECRET_KEY=${{ env.SECRET_KEY }}
           set -v
           make run-checks
 
