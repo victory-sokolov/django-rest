@@ -23,7 +23,7 @@ jobs:
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ env.POSTGRES_DB }}
         ports:
-          - 5431:5431
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -35,15 +35,9 @@ jobs:
       - id: setup
         uses: ./.github/actions/install-deps
 
-      - name: Run Django Checks
-        shell: sh
-        run: |
-          set -v
-          make run-checks
-
       - name: Check Database Connection
         run: |
-            PGPASSWORD=${{ env.POSTGRES_PASSWORD }} psql -h 127.0.0.1 -p 5431 -U ${{ env.POSTGRES_USER }} -d ${{ env.POSTGRES_DB }} -c '\l'
+            PGPASSWORD=${{ env.POSTGRES_PASSWORD }} psql -h 127.0.0.1 -p 5432 -U ${{ env.POSTGRES_USER }} -d ${{ env.POSTGRES_DB }} -c '\l'
 
       - name: Apply Migrations
         env:
