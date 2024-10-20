@@ -2,17 +2,17 @@ name: E2E Tests
 on:
   workflow_dispatch:
 
-env:
-  PGPORT: 5431
-  POSTGRES_DB: blog
-  POSTGRES_PASSWORD: securepassword
-  POSTGRES_USER: user
-  PGHOST: localhost
-
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        PGPORT: 5431
+        POSTGRES_DB: blog
+        POSTGRES_PASSWORD: securepassword
+        POSTGRES_USER: user
+        PGHOST: localhost
 
     services:
       postgres:
