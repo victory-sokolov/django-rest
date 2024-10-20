@@ -53,6 +53,7 @@ jobs:
             POSTGRES_HOST: localhost
         run: |
             set -v
+            export DATABASE_URL=postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}}@${{ env.POSTGRES_HOST }}:5432/${{ env.POSTGRES_DB }}
             make migrate
 
       - name: Start Django server
