@@ -1,6 +1,8 @@
 name: E2E Tests
 on:
-  workflow_dispatch:
+#   workflow_dispatch:
+    pull_request:
+        types: [opened, reopened, synchronize]
 
 jobs:
   test:
@@ -53,6 +55,7 @@ jobs:
             POSTGRES_HOST: localhost
         run: |
             set -v
+            export SECRET_KEY=${{ secrets.SECRET_KEY }} 
             export DATABASE_URL=postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:5432/${{ env.POSTGRES_DB }}
             make migrate
 
