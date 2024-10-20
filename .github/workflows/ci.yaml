@@ -22,6 +22,7 @@ jobs:
       POSTGRES_PASSWORD: securepassword
       POSTGRES_USER: user
       PGHOST: localhost
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     services:
       postgres:

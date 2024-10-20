@@ -3,7 +3,7 @@ database: &database
   NAME: blog
   USER: user
   PASSWORD: securepassword
-  PORT: 5431
+  PORT: 5432
   HOST: 127.0.0.1
 
 storage: &static_storage
