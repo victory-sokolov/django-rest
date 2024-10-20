@@ -48,7 +48,7 @@ jobs:
             POSTGRES_DB: blog
             POSTGRES_PASSWORD: securepassword
             POSTGRES_USER: user
-            POSTGRES_HOST: localhost
+            POSTGRES_HOST: 127.0.0.1 
         run: |
             set -v
             export SECRET_KEY=${{ secrets.SECRET_KEY }}
