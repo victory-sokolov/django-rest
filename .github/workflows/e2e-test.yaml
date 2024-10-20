@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        PGPORT: 5431
+        PGPORT: 5432
         POSTGRES_DB: blog
         POSTGRES_PASSWORD: securepassword
         POSTGRES_USER: user
@@ -21,9 +21,8 @@ jobs:
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ env.POSTGRES_DB }}
-          PGPORT: ${{ env.PGPORT}}
         ports:
-          - 5431:5431
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -34,6 +33,10 @@ jobs:
       - uses: actions/checkout@master
       - id: setup
         uses: ./.github/actions/install-deps
+
+      - name: Check Database Connection
+        run: |
+            PGPASSWORD=${{ env.POSTGRES_PASSWORD }} psql -h ${{ env.PGHOST }} -U ${{ env.POSTGRES_USER }} -d ${{ env.POSTGRES_DB }} -c '\l'
 
       - name: Apply Migrations
         run: |
