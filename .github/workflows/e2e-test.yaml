@@ -28,7 +28,7 @@ jobs:
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
-          --health-timeout 5s
+          --health-timeout 8s
           --health-retries 5
 
     steps:
@@ -55,6 +55,7 @@ jobs:
             POSTGRES_HOST: localhost
         run: |
             set -v
+            source .venv/bin/activate
             export DEBUG=True
             export SECRET_KEY=${{ secrets.SECRET_KEY }}
             export DATABASE_URL=postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:5432/${{ env.POSTGRES_DB }}
