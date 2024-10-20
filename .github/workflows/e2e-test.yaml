@@ -55,7 +55,6 @@ jobs:
             POSTGRES_HOST: localhost
         run: |
             set -v
-            source .venv/bin/activate
             export DEBUG=True
             export DJANGO_SETTINGS_MODULE="djangoblog.settings"
             export SECRET_KEY=${{ secrets.SECRET_KEY }}
