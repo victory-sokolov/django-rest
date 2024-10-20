@@ -40,7 +40,6 @@ local:
   DATABASES:
     default:
       <<: *database
-      HOST: 127.0.0.1
 
 # For Docker environment
 development:
