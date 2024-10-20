@@ -54,7 +54,7 @@ jobs:
             export DEBUG=True
             export DJANGO_SETTINGS_MODULE="djangoblog.settings"
             export SECRET_KEY=${{ secrets.SECRET_KEY }}
-            export DATABASE_URL=postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:5432/${{ env.POSTGRES_DB }}
+            export DATABASE_URL=postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:5431/${{ env.POSTGRES_DB }}
             make migrate
 
       - name: Start Django server
