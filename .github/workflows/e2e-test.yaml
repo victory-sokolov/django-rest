@@ -7,6 +7,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
+        DJANGO_ENV: "development"
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         POSTGRES_DB: blog
         POSTGRES_PASSWORD: securepassword
@@ -52,13 +53,13 @@ jobs:
             POSTGRES_HOST: localhost
         run: |
             set -v
-            DJANGO_ENV=development uv run python manage.py migrate
+            make migrate
 
       - name: Start Django server
         continue-on-error: false
         run: |
           set -v
-          DJANGO_ENV=development uv run python manage.py runserver || exit 1
+          make dev
 
       - name: Run your tests
         run: |
