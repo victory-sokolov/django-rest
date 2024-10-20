@@ -26,6 +26,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
+          options: --mount type=tmpfs,destination=
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
@@ -55,6 +56,7 @@ jobs:
             POSTGRES_HOST: localhost
         run: |
             set -v
+            export DEBUG=True
             export SECRET_KEY=${{ secrets.SECRET_KEY }}
             export DATABASE_URL=postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:5432/${{ env.POSTGRES_DB }}
             make migrate
