@@ -39,8 +39,9 @@ loadtest: ## Load test app
 mypy:
 	DJANGO_ENV=$(ENV) uv run mypy --config-file pyproject.toml djangoblog --cache-fine-grained
 
-security-check:
+run-checks:
 	DJANGO_ENV=$(ENV) uv run python manage.py check --deploy
+	DJANGO_ENV=$(ENV) uv run python manage.py check
 
 test: ## Run tests with coverage
 	DJANGO_ENV=test uv run coverage run --parallel-mode --concurrency=multiprocessing manage.py test --parallel -v 2 --failfast
@@ -94,7 +95,7 @@ deploy: push-image
 	kubectl get pods
 
 terraform-apply:
-	cd infra/terraform && terraform apply --parallelism=20 -auto-approve
+	cd infra/terraform && terraform -chdir=infra/terraform/providers/gcloud apply --parallelism=20 -auto-approve
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \

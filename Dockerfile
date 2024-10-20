@@ -72,7 +72,7 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENV PORT=80
 EXPOSE 80
 
-RUN make security-check
+RUN make run-checks
 
 RUN chmod +x ./runserver.sh
 CMD ["./runserver.sh"]
