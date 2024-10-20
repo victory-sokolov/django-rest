@@ -14,7 +14,7 @@ jobs:
         POSTGRES_DB: blog
         POSTGRES_PASSWORD: securepassword
         POSTGRES_USER: user
-        PGHOST: 127.0.0.1
+        POSTGRES_HOST: 127.0.0.1
 
     services:
       postgres:
@@ -49,7 +49,7 @@ jobs:
             POSTGRES_PASSWORD: securepassword
             POSTGRES_USER: user
             POSTGRES_HOST: 127.0.0.1
-            PGPORT: 5431
+            POSTGRES_PORT: 5431
         run: |
             set -v
             export DJANGO_ENV=local 
