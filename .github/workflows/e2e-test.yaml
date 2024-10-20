@@ -42,10 +42,6 @@ jobs:
           set -v
           make run-checks
 
-      - name: Check Database Connection
-        run: |
-            PGPASSWORD=${{ env.POSTGRES_PASSWORD }} psql -h ${{ env.PGHOST }} -U ${{ env.POSTGRES_USER }} -d ${{ env.POSTGRES_DB }} -c '\l'
-
       - name: Apply Migrations
         env:
             SECRET_KEY: ${{ secrets.SECRET_KEY }}
