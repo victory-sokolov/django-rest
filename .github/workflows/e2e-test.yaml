@@ -47,11 +47,10 @@ jobs:
             POSTGRES_DB: blog
             POSTGRES_PASSWORD: securepassword
             POSTGRES_USER: user
-            POSTGRES_PORT: 5431
+            # POSTGRES_PORT: 5431
         run: |
             set -v
             export DJANGO_ENV=local 
-            export SECRET_KEY=${{ secrets.SECRET_KEY }}
             # export DATABASE_URL=postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:5431/${{ env.POSTGRES_DB }}
             make migrate
 
