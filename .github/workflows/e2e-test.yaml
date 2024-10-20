@@ -55,7 +55,7 @@ jobs:
             POSTGRES_HOST: localhost
         run: |
             set -v
-            export SECRET_KEY=${{ secrets.SECRET_KEY }} 
+            export SECRET_KEY=${{ secrets.SECRET_KEY }}
             export DATABASE_URL=postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:5432/${{ env.POSTGRES_DB }}
             make migrate
 
