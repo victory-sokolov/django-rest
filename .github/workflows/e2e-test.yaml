@@ -3,7 +3,6 @@ on:
   workflow_dispatch:
 
 env:
-  SECRET_KEY: yEEl2mN5lw-u2YEOW0k-jtc967R_W532mCGVYiZpwwMmcplQTGG2HIU0KbsHModx4Vgs
   PGPORT: 5431
   POSTGRES_DB: blog
   POSTGRES_PASSWORD: securepassword
