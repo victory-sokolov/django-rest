@@ -1,9 +1,6 @@
 name: E2E Tests
 on:
-#   workflow_dispatch:
-    pull_request:
-        types: [opened, reopened, synchronize]
-
+  workflow_dispatch:
 jobs:
   test:
     timeout-minutes: 60
