@@ -3,8 +3,8 @@ database: &database
   NAME: blog
   USER: user
   PASSWORD: securepassword
-  PORT: 5431
-  HOST: localhost
+  PORT: 5432
+  HOST: 127.0.0.1
 
 storage: &static_storage
   STATIC_STORAGE:
@@ -40,7 +40,6 @@ local:
   DATABASES:
     default:
       <<: *database
-      HOST: 127.0.0.1
 
 # For Docker environment
 development:

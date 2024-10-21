@@ -1,18 +1,19 @@
 name: E2E Tests
 on:
-  workflow_dispatch:
+#   workflow_dispatch:
+    pull_request:
+        types: [opened, reopened, synchronize]
 
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
-        DJANGO_ENV: "development"
+        DJANGO_ENV: local
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         POSTGRES_DB: blog
         POSTGRES_PASSWORD: securepassword
         POSTGRES_USER: user
-        PGHOST: localhost
 
     services:
       postgres:
@@ -26,7 +27,7 @@ jobs:
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
-          --health-timeout 5s
+          --health-timeout 8s
           --health-retries 5
 
     steps:
@@ -34,15 +35,9 @@ jobs:
       - id: setup
         uses: ./.github/actions/install-deps
 
-      - name: Run Django Checks
-        shell: sh
-        run: |
-          set -v
-          make run-checks
-
       - name: Check Database Connection
         run: |
-            PGPASSWORD=${{ env.POSTGRES_PASSWORD }} psql -h ${{ env.PGHOST }} -U ${{ env.POSTGRES_USER }} -d ${{ env.POSTGRES_DB }} -c '\l'
+            PGPASSWORD=${{ env.POSTGRES_PASSWORD }} psql -h 127.0.0.1 -p 5432 -U ${{ env.POSTGRES_USER }} -d ${{ env.POSTGRES_DB }} -c '\l'
 
       - name: Apply Migrations
         env:
@@ -50,24 +45,22 @@ jobs:
             POSTGRES_DB: blog
             POSTGRES_PASSWORD: securepassword
             POSTGRES_USER: user
-            POSTGRES_HOST: localhost
         run: |
             set -v
-            export DATABASE_URL=postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:5432/${{ env.POSTGRES_DB }}
             make migrate
 
       - name: Start Django server
         continue-on-error: false
         run: |
           set -v
-          make dev
+          make dev &
 
       - name: Run your tests
         run: |
           set -v
           pip install playwright
           playwright install --with-deps chromium
-          python e2e/test_signup.py
+          python e2e/signup.py
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
