@@ -4,7 +4,7 @@ database: &database
   USER: user
   PASSWORD: securepassword
   PORT: 5431
-  HOST: localhost
+  HOST: 127.0.0.1
 
 storage: &static_storage
   STATIC_STORAGE:
