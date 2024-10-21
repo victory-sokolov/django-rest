@@ -1,7 +1,7 @@
 GIT_COMMIT_HASH := $(shell git rev-parse HEAD)
 EXCLUDED_DIRS = infra/k8s/haproxy
 ENV := $(or ${DJANGO_ENV}, local)
-PORT := $(or ${PORT}, 80)
+PORT := $(or ${PORT}, 8080)
 
 migrate: ## Run migrations
 	DJANGO_ENV=$(ENV) uv run python manage.py migrate --no-input
