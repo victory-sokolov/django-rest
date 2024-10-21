@@ -20,6 +20,7 @@ jobs:
       POSTGRES_DB: blog
       POSTGRES_PASSWORD: securepassword
       POSTGRES_USER: user
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     services:
       postgres:
@@ -42,16 +43,11 @@ jobs:
 
       - name: Run Django Checks
         shell: sh
-        env:
-          SECRET_KEY: ${{ env.SECRET_KEY }}
         run: |
-          export SECRET_KEY=${{ env.SECRET_KEY }}
           set -v
           make run-checks
 
       - name: Run tests
-        env:
-          SECRET_KEY: ${{ env.SECRET_KEY }}
         run: |
           set -v
           make test
