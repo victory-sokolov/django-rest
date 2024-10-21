@@ -47,7 +47,6 @@ jobs:
             POSTGRES_USER: user
         run: |
             set -v
-            export DJANGO_ENV=local
             make migrate
 
       - name: Start Django server

@@ -17,11 +17,9 @@ jobs:
         cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
     env:
-      PGPORT: 5431
       POSTGRES_DB: blog
       POSTGRES_PASSWORD: securepassword
       POSTGRES_USER: user
-      PGHOST: localhost
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     services:
@@ -31,8 +29,6 @@ jobs:
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ env.POSTGRES_DB }}
-          PGPORT: ${{ env.PGPORT}}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         ports:
           - 5432:5432
         options: >-
