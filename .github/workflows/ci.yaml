@@ -34,7 +34,7 @@ jobs:
           PGPORT: ${{ env.PGPORT}}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
         ports:
-          - 5431:5431
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
