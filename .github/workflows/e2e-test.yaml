@@ -9,12 +9,11 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
-        DJANGO_ENV: local 
+        DJANGO_ENV: local
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         POSTGRES_DB: blog
         POSTGRES_PASSWORD: securepassword
         POSTGRES_USER: user
-        POSTGRES_HOST: localhost
 
     services:
       postgres:
@@ -48,27 +47,24 @@ jobs:
             POSTGRES_DB: blog
             POSTGRES_PASSWORD: securepassword
             POSTGRES_USER: user
-            POSTGRES_HOST: localhost 
+            POSTGRES_HOST: localhost
             POSTGRES_PORT: 5431
         run: |
             set -v
-            export DJANGO_ENV=local 
-            export SECRET_KEY=${{ secrets.SECRET_KEY }}
-            # export DATABASE_URL=postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:5431/${{ env.POSTGRES_DB }}
             make migrate
 
       - name: Start Django server
         continue-on-error: false
         run: |
           set -v
-          make dev
+          make dev &
 
       - name: Run your tests
         run: |
           set -v
           pip install playwright
           playwright install --with-deps chromium
-          python e2e/test_signup.py
+          python e2e/signup.py
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
