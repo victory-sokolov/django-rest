@@ -31,7 +31,7 @@ collectstatic:
 	DJANGO_ENV=$(ENV) uv run python manage.py collectstatic --noinput -i silk/*
 
 prod:
-	DJANGO_ENV=$(ENV) gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:"${PORT:-80}"
+	DJANGO_ENV=$(ENV) gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:$(PORT)
 
 loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
