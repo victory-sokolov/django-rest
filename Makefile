@@ -13,6 +13,9 @@ dev: ## Run dev server
 	# DJANGO_ENV=local uv run python manage.py runserver_plus --cert-file certs/cert.pem --key-file certs/certkey.pem
 	DJANGO_ENV=$(ENV) uv run python manage.py runserver 0.0.0.0:$(PORT)
 
+prod:
+	DJANGO_ENV=$(ENV) gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:$(PORT)
+
 worker: ## Run celery worker
 	DJANGO_ENV=$(ENV) uv run watchmedo auto-restart \
 		--directory=./djangoblog \
@@ -30,8 +33,6 @@ flower: ## Run Flower Celery monitoring system
 collectstatic:
 	DJANGO_ENV=$(ENV) uv run python manage.py collectstatic --noinput -i silk/*
 
-prod:
-	DJANGO_ENV=$(ENV) gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:$(PORT)
 
 loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
