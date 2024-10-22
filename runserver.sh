@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-echo "Using $DJANGO_ENV environment"
+echo "Using '$DJANGO_ENV' environment"
 
 make migrate
 make collectstatic
@@ -11,7 +11,7 @@ DJANGO_ENV=$DJANGO_ENV python manage.py compress --force
 # Create superuser
 make create-superuser
 # Generate posts
-DJANGO_ENV=$DJANGO_ENV python manage.py create_posts --count 100
+make create-posts
 
 if [ "$DJANGO_ENV" = "production" ]; then
     make prod

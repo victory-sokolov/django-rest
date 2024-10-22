@@ -65,6 +65,9 @@ create-superuser: ## Create a new superuser
 		--password=superPassword12 \
 		--email=admin@gmail.com
 
+create-posts: ## Generate random posts
+	DJANGO_ENV=$(ENV) uv run python manage.py create_posts --count 100
+
 print-settings:
 	DJANGO_ENV=$(ENV) uv run python manage.py print_settings
 
