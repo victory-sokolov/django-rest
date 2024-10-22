@@ -22,7 +22,7 @@ services:
     networks:
       - default
     ports:
-      - 8001:80
+      - 8001:8001
     # healthcheck:
     #   test: ["CMD", "curl", "--fail", "http://0.0.0.0:80/healthcheck"]
     #   timeout: 5s
@@ -97,6 +97,8 @@ services:
 
   nginx:
     restart: on-failure
+    profiles:
+      - donotstart
     build:
       context: docker/nginx/
     networks:
