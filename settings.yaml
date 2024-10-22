@@ -31,7 +31,7 @@ local:
   DEBUG: True
   SECRET_KEY: '@format {env[SECRET_KEY]}'
   ALLOWED_HOSTS: ['*']
-  USE_GC_LOCAL: True
+  USE_GC_LOCAL: False
 
   CACHE_BACKEND: django_redis.cache.RedisCache
   REDIS_URL: redis://localhost:6379/0
@@ -97,19 +97,24 @@ production:
   SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
   ALLOWED_HOSTS: ['*']
 
-  STATIC_STORAGE:
-    BACKEND: djangoblog.storage.CachedGCloudStorage
-    OPTIONS:
-      bucket_name: django-cdn
-      project_id: django-app-431708
-      querystring_auth: False
-
   COMPRESS_OFFLINE: True
   COMPRESS_ENABLED: True
-  COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CustomOfflineManifestStorage
-  COMPRESS_STORAGE: djangoblog.storage.CachedGCloudStorage
-  COMPRESS_URL: https://storage.googleapis.com/django-cdn/
-  STATIC_URL: https://storage.googleapis.com/django-cdn/
+
+  STATIC_STORAGE:
+    BACKEND: django.contrib.staticfiles.storage.StaticFilesStorage
+
+  # For Google cloud bucket enable this settings
+  # STATIC_STORAGE:
+  #   BACKEND: djangoblog.storage.CachedGCloudStorage
+  #   OPTIONS:
+  #     bucket_name: django-cdn
+  #     project_id: django-app-431708
+  #     querystring_auth: False
+
+  # COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CustomOfflineManifestStorage
+  # COMPRESS_STORAGE: djangoblog.storage.CachedGCloudStorage
+  # COMPRESS_URL: https://storage.googleapis.com/django-cdn/
+  # STATIC_URL: https://storage.googleapis.com/django-cdn/
 
   # Database
   DATABASES:
