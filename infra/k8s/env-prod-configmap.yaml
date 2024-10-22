@@ -4,14 +4,16 @@ data:
   SENTRY_DSN: ''
   DJANGO_ENV: production
   DJANGO_SETTINGS_MODULE: djangoblog.settings
-  GS_QUERYSTRING_AUTH: 'False'
-  GS_BUCKET_NAME: django-cdn
-  GS_PROJECT_ID: django-app-431708
-  COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CachedGCloudStorage
-  COMPRESS_STORAGE: djangoblog.storage.CachedGCloudStorage
-  COMPRESS_URL: https://storage.googleapis.com/django-cdn/
-  STATIC_URL: https://storage.googleapis.com/django-cdn/
   COMPRESS_OFFLINE: 'True'
+
+  # Uncomment for Google Cloud Bucket
+  # GS_QUERYSTRING_AUTH: 'False'
+  # GS_BUCKET_NAME: django-cdn
+  # GS_PROJECT_ID: django-app-431708
+  # COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CachedGCloudStorage
+  # COMPRESS_STORAGE: djangoblog.storage.CachedGCloudStorage
+  # COMPRESS_URL: https://storage.googleapis.com/django-cdn/
+  # STATIC_URL: https://storage.googleapis.com/django-cdn/
 kind: ConfigMap
 metadata:
   labels:
