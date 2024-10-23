@@ -32,6 +32,7 @@ flower: ## Run Flower Celery monitoring system
 
 collectstatic:
 	DJANGO_ENV=$(ENV) uv run python manage.py collectstatic --noinput -i silk/*
+	DJANGO_ENV=$(ENV) uv run python manage.py compress --force
 
 
 loadtest: ## Load test app

@@ -6,7 +6,7 @@ echo "Using '$DJANGO_ENV' environment"
 
 make migrate
 make collectstatic
-DJANGO_ENV=$DJANGO_ENV python manage.py compress --force
+
 
 # Create superuser
 make create-superuser
