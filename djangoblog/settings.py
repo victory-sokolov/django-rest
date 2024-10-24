@@ -125,8 +125,8 @@ STATICFILES_FINDERS = [
 ]
 
 # Compressor
-COMPRESS_ENABLED = False
-COMPRESS_OFFLINE = False
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = True
 COMPRESS_CSS_HASHING_METHOD = "content"
 COMPRESS_CSS_FILTERS = [
     "compressor.filters.css_default.CssAbsoluteFilter",
@@ -430,13 +430,10 @@ if settings.APP_ENV not in ["test", "local", "development"]:
         print(f"Using local GCP creds from {path}")
         GS_CREDENTIALS = service_account.Credentials.from_service_account_file(path)
 
-    settings.STATIC_STORAGE = {
-        **settings.STATIC_STORAGE,
-    }
 
 STORAGES = {
-    "default": settings.STATIC_STORAGE,
-    "staticfiles": settings.STATIC_STORAGE,
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 }
 
 # ELK setup
