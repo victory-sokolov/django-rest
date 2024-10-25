@@ -1,7 +1,7 @@
 .git
 .github
 .gitignore
-docker-compose.yml
+docker-compose*.yml
 
 .mypy_cache/
 .ruff_cache/
@@ -41,4 +41,6 @@ scripts/
 output/
 setup.cfg
 .watchmanconfig
+.yamllint.yaml
+cloudbuild.yaml
 e2e/
