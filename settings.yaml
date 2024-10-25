@@ -100,16 +100,20 @@ production:
   COMPRESS_OFFLINE: True
   COMPRESS_ENABLED: True
 
-  STATIC_STORAGE:
-    BACKEND: django.contrib.staticfiles.storage.StaticFilesStorage
+  STORAGES:
+    default:
+      BACKEND: django.core.files.storage.FileSystemStorage
+    staticfiles:
+      BACKEND: django.contrib.staticfiles.storage.StaticFilesStorage
 
   # For Google cloud bucket enable this settings
-  # STATIC_STORAGE:
-  #   BACKEND: djangoblog.storage.CachedGCloudStorage
-  #   OPTIONS:
-  #     bucket_name: django-cdn
-  #     project_id: django-app-431708
-  #     querystring_auth: False
+  # STORAGES:
+  #   staticfiles:
+  #     BACKEND: djangoblog.storage.CachedGCloudStorage
+  #     OPTIONS:
+  #       bucket_name: django-cdn
+  #       project_id: django-app-431708
+  #       querystring_auth: False
 
   # COMPRESS_OFFLINE_MANIFEST_STORAGE: djangoblog.storage.CustomOfflineManifestStorage
   # COMPRESS_STORAGE: djangoblog.storage.CachedGCloudStorage
