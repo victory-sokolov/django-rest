@@ -158,6 +158,8 @@ services:
       <<: *default-env
     build:
       context: docker/haproxy/
+    volumes:
+     - ./certs:/usr/local/etc/haproxy/certs
     restart: always
     ports:
       - 8080:8080
