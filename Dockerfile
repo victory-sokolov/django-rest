@@ -24,7 +24,7 @@ RUN set -eux; \
     if [ "$DEV_DEPS" = "true" ]; then \
     apt-get install --no-install-recommends -y make; \
     fi; \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
 
 FROM node:22-alpine3.19 AS frontend
