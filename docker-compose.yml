@@ -163,6 +163,7 @@ services:
     restart: always
     ports:
       - 8080:8080
+      - 8404:8404 # Haproxy stats
     depends_on:
       - app
 
