@@ -159,7 +159,7 @@ services:
     build:
       context: docker/haproxy/
     volumes:
-     - ./certs:/usr/local/etc/haproxy/certs
+     - ./certs:/usr/local/etc/haproxy/certs:ro
     restart: always
     ports:
       - 8080:8080
