@@ -156,13 +156,14 @@ services:
       - default
     environment:
       <<: *default-env
+      HAPROXY_PORT: 8080
     build:
       context: docker/haproxy/
     volumes:
      - ./certs:/usr/local/etc/haproxy/certs:ro
     restart: always
     ports:
-      - 8080:8080
+      - ${HAPROXY_PORT}:${HAPROXY_PORT}
       - 8404:8404 # Haproxy stats
     depends_on:
       - app
