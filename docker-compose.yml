@@ -116,6 +116,7 @@ services:
       - default
     volumes:
       - static_volume:/app/output/static
+      - ./certs:/etc/nginx/certs:ro
     healthcheck:
       test: ["CMD", "service", "nginx", "status"]
       timeout: 25s
@@ -154,9 +155,10 @@ services:
   haproxy:
     networks:
       - default
+    env_file:
+      - .env
     environment:
       <<: *default-env
-      HAPROXY_PORT: 8080
     build:
       context: docker/haproxy/
     volumes:
