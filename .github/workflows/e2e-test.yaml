@@ -56,11 +56,15 @@ jobs:
           set -v
           make dev &
 
-      - name: Run your tests
+      - name: Install deps
         run: |
           set -v
           pip install playwright
           playwright install --with-deps chromium
+
+      - name: Run tests
+        run: |
+          set -v
           python e2e/signup.py
 
       - uses: actions/upload-artifact@v4
