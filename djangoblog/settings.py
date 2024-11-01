@@ -55,7 +55,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "Overriden in envs"
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
+ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
 
 AUTH_USER_MODEL = "djangoblog.UserProfile"
 AUTHENTICATION_BACKENDS = ("djangoblog.auth_backends.CustomUserModelBackend",)
