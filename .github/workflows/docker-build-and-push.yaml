@@ -3,6 +3,9 @@ name: Build and Push Docker Image to Docker Registry
 on:
     push:
         branches: [main, master]
+        # paths:
+        #     - 'djangoblog/**/*'
+        #     - 'Dockerfile'
     pull_request:
         types: [opened, synchronize]
 
@@ -23,4 +26,7 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and Push Docker Image
         run: |
-          docker buildx build --platform linux/amd64,linux/arm64 --push -t $DOCKER_USERNAME/$DOCKER_REPOSITORY:$GITHUB_SHA -t $DOCKER_USERNAME/$DOCKER_REPOSITORY:latest -t $DOCKER_USERNAME/$DOCKER_REPOSITORY:${GITHUB_REF#refs/tags/}
+            set -v
+            docker buildx build --platform linux/amd64,linux/arm64 \
+                --push \
+                -t $DOCKER_USERNAME/$DOCKER_REPOSITORY:$GITHUB_SHA  .
