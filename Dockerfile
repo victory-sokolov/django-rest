@@ -3,6 +3,9 @@ ARG DEFAULT_PYTHON_VERSION=3.12.7
 FROM --platform=linux/amd64 python:3.12.7-bookworm AS base
 
 ARG DEV_DEPS=false
+ARG SECRET_KEY=${FOO}
+
+ENV SECRET_KEY=${SECRET_KEY}
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
