@@ -4,6 +4,9 @@ FROM --platform=linux/amd64 python:3.12.7-bookworm AS base
 
 ARG DEV_DEPS=false
 
+# Mount secret key
+RUN --mount=type=secret, SECRET_KEY=SECRET_KEY, target=/var/secrets
+
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
