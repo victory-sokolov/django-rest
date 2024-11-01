@@ -117,6 +117,10 @@ services:
     volumes:
       - static_volume:/app/output/static
       - ./certs:/etc/nginx/certs:ro
+    develop:
+      watch:
+        - action: rebuild
+          path: ./docker/nginx/nginx.conf
     healthcheck:
       test: ["CMD", "service", "nginx", "status"]
       timeout: 25s
@@ -164,6 +168,10 @@ services:
     volumes:
      - ./certs:/usr/local/etc/haproxy/certs:ro
     restart: always
+    develop:
+      watch:
+        - action: rebuild
+          path: ./docker/haproxy/haproxy.cfg
     ports:
       - ${HAPROXY_PORT}:${HAPROXY_PORT}
       - 8404:8404 # Haproxy stats
