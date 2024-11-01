@@ -39,7 +39,7 @@ jobs:
           tags: ${{ env.DOCKER_REPOSITORY }}:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
           secrets: |
-            "SECRET_KEY=${{ secrets.SECRET_KEY }}"
+            SECRET_KEY=${{ secrets.SECRET_KEY }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
