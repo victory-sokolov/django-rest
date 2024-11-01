@@ -1,4 +1,6 @@
-from django.http import Http404, HttpRequest
+from uuid import uuid4
+
+from django.http import Http404, HttpRequest, HttpResponse
 
 
 class RestrictStaffToAdminMiddleware:
@@ -13,3 +15,16 @@ class RestrictStaffToAdminMiddleware:
             and not request.user.is_superuser
         ):
             raise Http404
+
+
+class RequestIdMiddleware:
+    """If X-Request-ID is missing from headers - add generated uuid as Request-ID ."""
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request: HttpRequest) -> HttpResponse:
+        request_id = request.headers.get("x-request-id", uuid4())
+        response = self.get_response(request)
+        response["X-Request-ID"] = request_id
+        return response

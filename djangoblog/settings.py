@@ -318,6 +318,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "compression_middleware.middleware.CompressionMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "djangoblog.middleware.RequestIdMiddleware",
     # "django.middleware.cache.FetchFromCacheMiddleware"
 ]
 
