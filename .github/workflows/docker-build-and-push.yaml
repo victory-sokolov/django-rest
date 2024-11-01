@@ -3,9 +3,8 @@ name: Build and Push Docker Image to Docker Registry
 on:
     push:
         branches: [main, master]
-        # paths:
-        #     - 'djangoblog/**/*'
-        #     - 'Dockerfile'
+        paths:
+            - 'djangoblog/**/*'
     pull_request:
         types: [opened, synchronize]
 
@@ -16,6 +15,7 @@ jobs:
 
     env:
       DOCKER_REPOSITORY: "victorysokolov/django-blog"
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
       - uses: actions/checkout@master
