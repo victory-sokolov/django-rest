@@ -12,7 +12,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    TZ=Etc/GMT-3
+    TZ=Etc/GMT-3 \
+    LANG=C.UTF-8
 
 RUN set -eux; \
     apt-get update \
@@ -72,7 +73,15 @@ ENV PATH="/app/.venv/bin:$PATH"
 ENV PORT=80
 EXPOSE 80
 
-RUN make run-checks
+# Mount secret key
+RUN --mount=type=secret,id=SECRET_KEY,target=/run/secrets/SECRET_KEY,required=false \
+    if [ -f /run/secrets/SECRET_KEY ]; then \
+    export SECRET_KEY=$(cat /run/secrets/SECRET_KEY); \
+    echo "Secret key loaded successfully"; \
+    else \
+    echo "No secret key found"; \
+    fi && \
+    make run-checks
 
 RUN chmod +x ./runserver.sh
 CMD ["./runserver.sh"]
