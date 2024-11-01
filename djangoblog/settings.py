@@ -142,6 +142,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = False
+# TODO: Revisit this setting
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
+
 
 # Permissions
 STAFF_PERMISSIONS = ["view_post", "view_userprofile"]
