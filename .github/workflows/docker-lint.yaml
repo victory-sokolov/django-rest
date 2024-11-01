@@ -1,11 +1,7 @@
 name: docker
 
 on:
-    push:
-        branches: [main, master]
-
-    pull_request:
-        types: [opened, reopened, synchronize]
+  workflow_dispatch:
 
 jobs:
     docker:
