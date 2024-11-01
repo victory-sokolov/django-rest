@@ -107,7 +107,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
 LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "login"
+LOGOUT_REDIRECT_URL = "home"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
