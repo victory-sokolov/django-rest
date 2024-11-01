@@ -308,13 +308,13 @@ SPECTACULAR_SETTINGS = {
 
 MIDDLEWARE = [
     # "django.middleware.cache.UpdateCacheMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.middleware.locale.LocaleMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "compression_middleware.middleware.CompressionMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
