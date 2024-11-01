@@ -75,14 +75,7 @@ EXPOSE 80
 
 # Mount secret key
 RUN --mount=type=secret,id=SECRET_KEY,target=/run/secrets/SECRET_KEY,required=false \
-    if [ -f /run/secrets/SECRET_KEY ]; then \
-    export SECRET_KEY=$(cat /run/secrets/SECRET_KEY); \
-    echo "Secret key loaded"; \
-    else \
-    echo "No secret key provided"; \
-    fi
-
-RUN make run-checks
+    make run-checks
 
 RUN chmod +x ./runserver.sh
 CMD ["./runserver.sh"]
