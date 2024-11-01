@@ -3,7 +3,8 @@ name: Build and Push Docker Image to Docker Registry
 on:
     push:
         branches: [main, master]
-#   workflow_call:
+    pull_request:
+        types: [opened, synchronize]
 
 jobs:
   build_and_push:
