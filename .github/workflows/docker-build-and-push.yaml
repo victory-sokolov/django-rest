@@ -16,6 +16,7 @@ jobs:
     env:
       DOCKER_REPOSITORY: "victorysokolov/django-blog"
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DJANGO_ENV: production
 
     steps:
       - uses: actions/checkout@master
@@ -35,7 +36,7 @@ jobs:
           context: .
           file: ./Dockerfile 
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_REPOSITORY }}:${{ github.sha }}
+          tags: ${{ env.DOCKER_REPOSITORY }}:${{ github.sha }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
