@@ -74,9 +74,14 @@ ENV PORT=80
 EXPOSE 80
 
 # Mount secret key
-RUN --mount=type=secret,id=SECRET_KEY,required=false
-
-RUN make run-checks
+RUN --mount=type=secret,id=SECRET_KEY,target=/run/secrets/SECRET_KEY,required=false \
+    if [ -f /run/secrets/SECRET_KEY ]; then \
+    export SECRET_KEY=$(cat /run/secrets/SECRET_KEY); \
+    echo "Secret key loaded successfully"; \
+    else \
+    echo "No secret key found"; \
+    fi && \
+    make run-checks
 
 RUN chmod +x ./runserver.sh
 CMD ["./runserver.sh"]
