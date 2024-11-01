@@ -1,12 +1,9 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Image to Docker Registry
 
 on:
-  workflow_call:
-    secrets:
-      DOCKER_USERNAME:
-        required: true
-      DOCKER_PASSWORD:
-        required: true
+    push:
+        branches: [main, master]
+#   workflow_call:
 
 jobs:
   build_and_push:
