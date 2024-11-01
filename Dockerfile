@@ -74,7 +74,7 @@ ENV PORT=80
 EXPOSE 80
 
 # Mount secret key
-RUN --mount=type=secret,id=SECRET_KEY,target=/run/secrets/SECRET_KEY,required=false
+RUN --mount=type=secret,id=SECRET_KEY,required=false
 
 RUN make run-checks
 
