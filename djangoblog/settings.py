@@ -142,8 +142,16 @@ CORS_ALLOW_ALL_ORIGINS = True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = False
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# Prevent cookies from being sent in cross-site requests
+SESSION_COOKIE_SAMESITE = "Lax"
+
 # TODO: Revisit this setting
 CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
+
+# Sets X-Frame-Options header
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 
 # Permissions
@@ -380,6 +388,7 @@ DATABASES = {
         "HOST": DB.HOST,
         "OPTIONS": {
             "options": "-c jit=off",
+            "sslmode": "require",
         },
     },
 }
