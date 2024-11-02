@@ -5,8 +5,8 @@ on:
         branches: [main, master]
         paths:
             - 'djangoblog/**/*'
-    pull_request:
-        types: [opened, synchronize]
+    # pull_request:
+    #     types: [opened, synchronize]
 
 jobs:
   build_and_push:
