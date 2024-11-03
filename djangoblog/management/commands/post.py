@@ -1,5 +1,5 @@
 import logging
-import random
+import secrets
 from typing import Any
 
 from django.core.management.base import BaseCommand, CommandParser
@@ -41,7 +41,7 @@ def run_seed(amount: int) -> None:
     for _ in range(amount):
         title = f"{fake.company()} {fake.country()}"
         post = Post(
-            user=random.choice(users),
+            user=secrets.choice(users),
             title=title,
             content=fake.text(),
             slug=slugify(title),
