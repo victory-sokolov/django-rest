@@ -1,5 +1,5 @@
 database: &database
-  ENGINE: 'django.db.backends.postgresql_psycopg2'
+  ENGINE: django.db.backends.postgresql_psycopg2
   NAME: blog
   USER: user
   PASSWORD: securepassword

@@ -147,7 +147,7 @@ services:
     build:
       context: ./docker/postgres
     ports:
-      - "5431:5431"
+      - 5431:5431
     volumes:
       - data:/var/lib/postgresql/data
     healthcheck:
