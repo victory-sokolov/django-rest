@@ -1,4 +1,5 @@
 import logging
+from html import escape
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -10,7 +11,6 @@ from django.http import (
     HttpResponseRedirect,
 )
 from django.shortcuts import redirect, render
-from django.utils.safestring import mark_safe
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from rest_framework.request import Request
@@ -74,13 +74,13 @@ class SignUpView(ListView):
                 logger.warning(f"User with {email} already exists")
                 messages.warning(
                     request,
-                    mark_safe(f"User {email} already exists"),
+                    escape(f"User {email} already exists"),
                 )
                 return redirect("signup")
 
             messages.success(
                 request,
-                mark_safe(
+                escape(
                     "Account successfully created. \n You can <a href='/auth/login/'>Log In</a>",
                 ),
             )
