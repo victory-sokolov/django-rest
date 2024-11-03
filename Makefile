@@ -75,6 +75,10 @@ print-settings:
 install-dev:
 	DJANGO_ENV=local python uv sync --no-install-project --extra dev --frozen
 
+# Prepare project for local development
+install: install-dev
+	uv run pre-commit install
+
 # Infra commands
 
 docker-build:
