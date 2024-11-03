@@ -1,7 +1,8 @@
 import random
 from datetime import datetime, timedelta
-from django.utils import timezone
+
 import factory
+from django.utils import timezone
 
 from djangoblog.api.models.post import Post
 from djangoblog.models import UserProfile

@@ -103,8 +103,11 @@ repos:
     hooks:
       - id: bandit
         name: bandit
-        entry: uv run python bandit djangoblog/
-        language: python
-        language_version: python3
+        entry: uv run bandit -r djangoblog/
+        language: system
         types: [python]
-        require_serial: true
+        exclude: |
+          (?x)^(
+              migrations/.*|
+              tests/.*
+          )$

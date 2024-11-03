@@ -4,6 +4,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 
 from djangoblog.api.models.post import Post
+from djangoblog.factory import AccountFactory
 from djangoblog.forms import PostForm
 from djangoblog.models import UserProfile
 from djangoblog.utils.limit_test import TestCase
@@ -32,10 +33,11 @@ class HomePageTest(TestCase):
 class BlogPageTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.factory = AccountFactory()
         cls.user = UserProfile.objects.create(
             name="TestUser",
-            email="test@gmail.com",
-            password="pass",
+            email=cls.factory.user.email,
+            password=cls.factory.user.password,
         )
         cls.api_client = APIClient()
 

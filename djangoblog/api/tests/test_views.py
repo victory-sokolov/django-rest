@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
 from djangoblog.api.models.post import Post
+from djangoblog.factory import AccountFactory
 from djangoblog.models import UserProfile
 
 
@@ -82,6 +83,7 @@ class TestTokenApi(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
+        cls.factory = AccountFactory()
         cls.user = UserProfile.objects.get(pk=1)
         cls.api_client = APIClient()
 
@@ -94,12 +96,12 @@ class TestTokenApi(APITestCase):
         }
         UserProfile.objects.create(
             email="nick@test.com",
-            password="1234567",
+            password=self.factory.user.password,
             name="Nick",
         )
         self.api_client.credentials(
             email=self.user.email,
             password=self.user.password,
         )
-        self.api_client.login(email="nick@test.com", password="1234567")
+        self.api_client.login(email="nick@test.com", password=self.user.password)
         self.api_client.post(url, data=credentials)
