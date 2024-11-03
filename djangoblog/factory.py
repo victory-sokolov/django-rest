@@ -1,4 +1,4 @@
-import random
+import secrets
 from datetime import datetime, timedelta
 
 import factory
@@ -25,5 +25,6 @@ class AccountFactory(factory.django.DjangoModelFactory):
 
     @factory.lazy_attribute
     def created_at(self) -> datetime:
-        dt = datetime.now() - timedelta(days=random.randint(0, 60))
+        days = secrets.randbelow(61)
+        dt = datetime.now() - timedelta(days=days)
         return timezone.make_aware(dt)
