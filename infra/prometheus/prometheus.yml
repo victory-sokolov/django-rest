@@ -14,4 +14,4 @@ scrape_configs:
     tls_config:
       insecure_skip_verify: true
     static_configs:
-      - targets: ['ocrapp:8082']
+      - targets: ['app:8001']
