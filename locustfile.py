@@ -7,12 +7,18 @@ from locust import HttpUser, task
 
 class ListPostUser(HttpUser):
     base_url = "https://localhost:8000/api/v1"
-    headers = {"Authorization": f"Bearer f{os.getenv('TOKEN')}"}
+    headers = {
+        "Authorization": f"Bearer f{os.getenv('TOKEN')}",
+        "Connection:": "keep-alive",
+        "User-Agent": "Locust",
+    }
 
     @task
     def post_detail(self):
         response = self.client.get(
-            headers=self.headers, url=f"{self.base_url}/post/", verify=False
+            headers=self.headers,
+            url=f"{self.base_url}/post/",
+            verify=False,
         )
         print(response.json())
 
