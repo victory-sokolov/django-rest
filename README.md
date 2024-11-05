@@ -46,6 +46,11 @@ API documentation is available at: `/api/docs`
 For load testing we are using Locust
 `uv run locust -f locustfile.py --host=http://localhost:9020`
 
+## Launch Debugger
+
+- `docker-compose -f docker-compose.yml -f docker-compose.debug.yml up`
+
+
 ## Terraform
 
 1. `terraform apply --parallelism=20 -auto-approve`

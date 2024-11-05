@@ -1,65 +1,27 @@
 {
-    "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Django",
-            "type": "debugpy",
+            "name": "Docker: Python - Django",
+            "type": "docker",
             "request": "launch",
-            "stopOnEntry": false,
-            "redirectOutput": true,
-            "program": "${workspaceFolder}/manage.py",
-            "args": [
-                // "runsslserver", // for https
-                "runserver", // for http
-                "0.0.0.0:8000",
-                "--no-color",
-                "--noreload"
-            ],
-            "env": {
-                "DJANGO_ENV": "local",
-                "DJANGO_SETTINGS_MODULE": "djangoblog.settings"
+            "preLaunchTask": "docker-run: debug",
+            "python": {
+                "pathMappings": [
+                    {
+                        "localRoot": "${workspaceFolder}/djangoblog",
+                        "remoteRoot": "/app"
+                    }
+                ],
+                "projectType": "django",
+                "env": {
+                    "DJANGO_ENV": "local",
+                    "DJANGO_SETTINGS_MODULE": "djangoblog.settings",
+                    "DEBUGPY_PROCESS_SPAWN_TIMEOUT": 120
+                },
+                "autoReload": {
+                    "enable": true
+                },
             },
-            "autoReload": {
-                "enable": true
-            },
-            "django": true,
-            "justMyCode": true,
-            "jinja": true
-        },
-        {
-            "name": "Python: Celery",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "celery",
-            "console": "integratedTerminal",
-            "args": [
-                "-A",
-                "djangoblog",
-                "worker",
-                "-l",
-                "info",
-                "-P",
-                "solo"
-            ],
-            "env": {
-                "DJANGO_ENV": "local"
-            }
-        },
-        {
-            "name": "Python: Remote Attach",
-            "type": "debugpy",
-            "request": "attach",
-            "justMyCode": true,
-            "connect": {
-                "host": "localhost", // Because of port-forwarding
-                "port": 5678 // Debugpy port
-            },
-            "pathMappings": [
-                {
-                    "localRoot": "${workspaceFolder}", // Path on your local machine
-                    "remoteRoot": "." // Path inside the container
-                }
-            ]
         }
     ]
 }

@@ -1,17 +1,21 @@
 services:
-  django:
+  app:
     networks:
       - default
     build:
       context: .
       dockerfile: ./Dockerfile
+    environment:
+      - DEBUGPY_PROCESS_SPAWN_TIMEOUT=90
     command:
       - "sh"
       - "-c"
       - |
         pip install debugpy -t /tmp \
         && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 \
-        manage.py runserver 0.0.0.0:80
+        -m uv run gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:80
     ports:
-      - 80:80
+      - 8001:8001
       - 5678:5678
+    expose:
+      - 8001
