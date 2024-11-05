@@ -1,3 +1,5 @@
+name: djangoblog
+
 services:
 
   # Docker logs monitoring
@@ -14,18 +16,16 @@ services:
   prometheus:
     image: prom/prometheus:latest
     restart: unless-stopped
-    container_name: prometheus
     ports:
       - 9090:9090
     networks:
       - default
     volumes:
-      - ./infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus_data:/infrastructure/prometheus
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/infra/prometheus
 
   grafana:
     image: grafana/grafana
-    container_name: grafana
     restart: unless-stopped
     networks:
       - default
@@ -33,6 +33,10 @@ services:
       - prometheus
     ports:
       - 3010:3000
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost:3010/api/health && echo 'ready'"]
+      interval: 10s
+      retries: 30
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: admin
@@ -40,13 +44,15 @@ services:
       - ./data/grafana/provisioning:/etc/grafana/provisioning
       - ./data/grafana:/var/lib/grafana
 
-  # rabbitmq:
-  #   image: rabbitmq:3.11.26-management
-  #   platform: linux/arm64
-  #   security_opt:
-  #     - no-new-privileges:true
-  #   ports:
-  #     - 5675:5675
+  rabbitmq:
+    image: rabbitmq:3.11.26-management
+    profiles:
+      - donotstart
+    platform: linux/arm64
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 5675:5675
 
 volumes:
   grafana_data:
