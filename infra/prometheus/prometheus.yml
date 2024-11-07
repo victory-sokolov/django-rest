@@ -1,10 +1,9 @@
 global:
   scrape_interval: 15s
+  evaluation_interval: 15s
 
 scrape_configs:
   - job_name: 'prometheus'
-    scrape_interval: 15s
-    metrics_path: /metrics
     static_configs:
       - targets: ['localhost:9090']
 
@@ -15,3 +14,11 @@ scrape_configs:
       insecure_skip_verify: true
     static_configs:
       - targets: ['app:8001']
+
+  - job_name: 'haproxy-metrics'
+    static_configs:
+      - targets: ['haproxy:8405']
+    params:
+      scope:
+        - frontend
+        - backend
