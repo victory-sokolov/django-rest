@@ -42,7 +42,7 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: admin
       GF_LOG_LEVEL: debug
     volumes:
-      - ./data/grafana/provisioning:/etc/grafana/provisioning/
+      - ./infra/grafana/provisioning/:/etc/grafana/provisioning/
       - ./data/grafana:/var/lib/grafana
 
   rabbitmq:
