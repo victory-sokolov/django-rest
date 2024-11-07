@@ -1,0 +1,53 @@
+{
+   "description": "Djago App Metrics",
+   "panels": [
+      {
+         "datasource": {
+            "label": "Prometheus data source",
+            "name": "datasource",
+            "query": "Prometheus",
+            "type": "datasource"
+         },
+         "description": "This panel shows the Haproxy frontend sessions",
+         "fieldConfig": {
+            "defaults": {
+               "unit": "reqps"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 24
+         },
+         "id": 1,
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Frontend Sessions"
+               },
+               "expr": "sum(increase(haproxy_frontend_sessions_total{proxy=\"http-in\"}[30s]))"
+            }
+         ],
+         "title": "Haproxy Frontend Sessions",
+         "type": "timeseries"
+      }
+   ],
+   "schemaVersion": 39,
+   "templating": {
+      "list": [
+         {
+            "label": "Prometheus data source",
+            "name": "datasource",
+            "query": "Prometheus",
+            "type": "datasource"
+         }
+      ]
+   },
+   "time": {
+      "from": "now-6h",
+      "to": "now"
+   },
+   "timezone": "utc",
+   "title": "Django App Dashboard"
+}
