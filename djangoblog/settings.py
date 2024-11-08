@@ -41,6 +41,12 @@ settings = dynaconf.DjangoDynaconf(
             required=True,
             condition=lambda v: isinstance(v, str),
         ),
+        Validator(
+            "SECRET_KEY",
+            must_exist=True,
+            required=True,
+            condition=lambda v: isinstance(v, str) and v != "",
+        ),
     ],
 )
 
@@ -146,13 +152,13 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Prevent cookies from being sent in cross-site requests
 SESSION_COOKIE_SAMESITE = "Lax"
 
-# TODO: Revisit this setting
 CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
 
 # Sets X-Frame-Options header
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Permissions
 STAFF_PERMISSIONS = ["view_post", "view_userprofile"]
@@ -200,6 +206,7 @@ SIMPLE_JWT = {
     "USER_ID_CLAIM": "user_id",
     "BLACKLIST_AFTER_ROTATION": False,
     "JTI_CLAIM": "jti",
+    "JWK_URL": None,
 }
 
 LOGGING = {
