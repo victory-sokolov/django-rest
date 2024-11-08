@@ -11,7 +11,7 @@ class Cutsom(InvalidTokenError):
 
 
 class TokenSerializer(TokenObtainPairSerializer):
-    def validate(self, attrs: dict) -> dict:
+    def validate(self, attrs: dict[str, str]) -> dict[str, str]:
         data = super().validate(attrs)
         data["access_token"] = data.pop("access")
         data["refresh_token"] = data.pop("refresh")
