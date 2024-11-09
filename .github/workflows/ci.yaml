@@ -42,6 +42,9 @@ jobs:
       - uses: actions/checkout@master
       - uses: ./.github/actions/install-deps
 
+      - name: Run Dlint
+        uses: dlint-py/dlint-action@master
+
       - name: Run Django Checks
         shell: sh
         run: |
@@ -53,3 +56,6 @@ jobs:
           set -v
           make test
 
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
