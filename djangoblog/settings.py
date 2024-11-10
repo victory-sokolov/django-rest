@@ -71,7 +71,7 @@ DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
 DATE_INPUT_FORMATS = "%Y-%m-%d"
 DATE_FORMAT = "Y-m-d"
 
-COLLECTFASTA_STRATEGY = "collectfasta.strategies.gcloud.GoogleCloudStrategy"
+COLLECTFASTA_STRATEGY = "collectfasta.strategies.filesystem.FileSystemStrategy"
 COLLECTFASTA_CACHE = "collectfasta"
 COLLECTFASTA_DEBUG = True
 COLLECTFASTA_THREADS = 10
