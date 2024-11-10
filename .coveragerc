@@ -1,5 +1,7 @@
 [run]
 branch = True
+parallel = True
+concurrency = multiprocessing
 omit=
     */venv/*
     wsgi.py
@@ -10,9 +12,6 @@ omit=
     urls.py
     **/__init__.py
     **/settings.py
-
-parallel = True
-concurrency = multiprocessing
 
 [html]
 directory = coverage
