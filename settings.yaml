@@ -108,6 +108,7 @@ production:
       BACKEND: django.contrib.staticfiles.storage.StaticFilesStorage
 
   # For Google cloud bucket enable this settings
+  # COLLECTFASTA_STRATEGY: 'collectfasta.strategies.gcloud.GoogleCloudStrategy'
   # STORAGES:
   #   staticfiles:
   #     BACKEND: djangoblog.storage.CachedGCloudStorage
