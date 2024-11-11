@@ -15,10 +15,26 @@ g.dashboard.new('Django App Dashboard')
   g.util.grid.makeGrid([
     row.new('Haproxy')
     + row.withPanels([
-      panels.timeseries.haproxy_frontend('Frontend Sessions', queries.haproxy_frontend_sessions),
-      panels.timeseries.haproxy_backend('Backend Sessions', queries.haproxy_backend_sessions),
-      panels.timeseries.haproxy_avg_response_time('Haproxy Average Response Time', queries.haproxy_avg_response_time),
-      panels.timeseries.haproxy_avg_response_time('Status Codes', queries.haproxy_status_codes),
+      panels.timeseries.haproxy_frontend(
+        'Frontend Sessions',
+        'Haproxy Frontend Sessions',
+        queries.haproxy_frontend_sessions
+      ),
+      panels.timeseries.haproxy_backend(
+        'Backend Sessions',
+        'Haproxy Backend Sessions',
+        queries.haproxy_backend_sessions
+      ),
+      panels.timeseries.haproxy_avg_response_time(
+        'Average Response Time',
+        'Haproxy FAverage Response Time',
+        queries.haproxy_avg_response_time
+      ),
+      panels.timeseries.haproxy_avg_response_time(
+        'Status Codes',
+        'Haproxy Status Codes',
+        queries.haproxy_status_codes
+      ),
     ]),
   ], panelWidth=12)
 )

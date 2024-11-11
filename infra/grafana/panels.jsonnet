@@ -7,12 +7,13 @@ local g = import 'g.libsonnet';
     local custom = timeSeries.fieldConfig.defaults.custom,
     local options = timeSeries.options,
 
-    base(title, targets):
+    base(title, description, targets):
       timeSeries.new(title)
       + timeSeries.queryOptions.withTargets(targets)
       + timeSeries.queryOptions.withDatasource('datasource', 'prometheus')
       + timeSeries.queryOptions.withInterval('1m')
       + timeSeries.standardOptions.withUnit('reqps')
+      + timeSeries.panelOptions.withDescription(description)
       + timeSeries.gridPos.withW(24)
       + timeSeries.gridPos.withH(8)
       + options.legend.withDisplayMode('table')
