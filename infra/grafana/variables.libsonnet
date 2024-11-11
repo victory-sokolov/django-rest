@@ -3,8 +3,6 @@ local var = g.dashboard.variable;
 
 {
   datasource:
-    var.datasource.new('datasource', 'Prometheus') +
-    {
-      label: 'Prometheus data source',
-    },
+    var.datasource.new('datasource', 'prometheus')
+    + var.query.selectionOptions.withIncludeAll(),
 }

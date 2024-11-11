@@ -2,34 +2,105 @@
    "description": "Djago App Metrics",
    "panels": [
       {
-         "datasource": {
-            "label": "Prometheus data source",
-            "name": "datasource",
-            "query": "Prometheus",
-            "type": "datasource"
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 0
          },
-         "description": "This panel shows the Haproxy frontend sessions",
+         "id": 1,
+         "panels": [ ],
+         "title": "Haproxy",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "prometheus"
+         },
          "fieldConfig": {
             "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
                "unit": "reqps"
             }
          },
          "gridPos": {
             "h": 8,
-            "w": 24
+            "w": 12,
+            "x": 0,
+            "y": 1
          },
-         "id": 1,
+         "id": 2,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
          "pluginVersion": "v11.1.0",
          "targets": [
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "Frontend Sessions"
+                  "uid": "$datasource"
                },
-               "expr": "sum(increase(haproxy_frontend_sessions_total{proxy=\"http-in\"}[30s]))"
+               "expr": "sum(\n    increase(haproxy_frontend_current_sessions{proxy=\"http-in\"}[30s])\n)\n",
+               "intervalFactor": 2
             }
          ],
-         "title": "Haproxy Frontend Sessions",
+         "title": "Frontend Sessions",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "prometheus"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "unit": "reqps"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 1
+         },
+         "id": 3,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(\n    increase(haproxy_backend_current_sessions{proxy=\"http-in\"}[30s])\n)\n"
+            }
+         ],
+         "title": "Backend Sessions",
          "type": "timeseries"
       }
    ],
@@ -37,9 +108,9 @@
    "templating": {
       "list": [
          {
-            "label": "Prometheus data source",
+            "includeAll": true,
             "name": "datasource",
-            "query": "Prometheus",
+            "query": "prometheus",
             "type": "datasource"
          }
       ]
