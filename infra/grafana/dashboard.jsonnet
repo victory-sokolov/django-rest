@@ -17,6 +17,8 @@ g.dashboard.new('Django App Dashboard')
     + row.withPanels([
       panels.timeseries.haproxy_frontend('Frontend Sessions', queries.haproxy_frontend_sessions),
       panels.timeseries.haproxy_backend('Backend Sessions', queries.haproxy_backend_sessions),
+      panels.timeseries.haproxy_avg_response_time('Haproxy Average Response Time', queries.haproxy_avg_response_time),
+      panels.timeseries.haproxy_avg_response_time('Status Codes', queries.haproxy_status_codes),
     ]),
   ], panelWidth=12)
 )

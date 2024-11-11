@@ -34,8 +34,14 @@ local g = import 'g.libsonnet';
       + custom.scaleDistribution.withType('log')
       + custom.scaleDistribution.withLog(10),
 
+    // Haproxy
     haproxy_frontend: self.base,
     haproxy_backend: self.base,
+    haproxy_avg_response_time: self.base,
+    haproxy_status_codes: self.base,
+
+    // Django Metrics
+
 
     heatmap: {
       local heatmap = g.panel.heatmap,

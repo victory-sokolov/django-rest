@@ -52,7 +52,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "sum(\n    increase(haproxy_frontend_current_sessions{proxy=\"http-in\"}[30s])\n)\n",
+               "expr": "sum(\n    increase(haproxy_frontend_current_sessions{proxy=\"http-in\"}[30s])\n),\n\"name\", \"Total Sessions\", \"\", \"\"\n",
                "intervalFactor": 2
             }
          ],
@@ -101,6 +101,94 @@
             }
          ],
          "title": "Backend Sessions",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "prometheus"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "unit": "reqps"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 9
+         },
+         "id": 4,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "avg(\n haproxy_backend_response_time_average_seconds   \n)\n"
+            }
+         ],
+         "title": "Haproxy Average Response Time",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "prometheus"
+         },
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "unit": "reqps"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 9
+         },
+         "id": 5,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{proxy=\"http-in\"}[30s])\n) by (code)\n"
+            }
+         ],
+         "title": "Status Codes",
          "type": "timeseries"
       }
    ],

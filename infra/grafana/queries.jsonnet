@@ -25,4 +25,24 @@ local variables = import './variables.libsonnet';
       |||
     ),
 
+  haproxy_status_codes:
+    prometheusQuery.new(
+      '$' + variables.datasource.name,
+      |||
+        sum(
+            rate(haproxy_frontend_http_responses_total{proxy="http-in"}[30s])
+        ) by (code)
+      |||
+    ),
+
+  haproxy_avg_response_time:
+    prometheusQuery.new(
+      '$' + variables.datasource.name,
+      |||
+        avg(
+         haproxy_backend_response_time_average_seconds
+        )
+      |||
+    ),
+
 }
