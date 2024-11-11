@@ -13,17 +13,21 @@ local variables = import './variables.libsonnet';
         )
       |||
     )
-    + prometheusQuery.withIntervalFactor(2),
+    + prometheusQuery.withIntervalFactor(2)
+    + prometheusQuery.withLegendFormat(|||
+      Total sessions by (frontend)
+    |||),
 
   haproxy_backend_sessions:
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        sum(
-            increase(haproxy_backend_current_sessions{proxy="http-in"}[30s])
-        )
+        sum(haproxy_backend_current_sessions)
       |||
-    ),
+    )
+    + prometheusQuery.withLegendFormat(|||
+      Total sessions by (backend)
+    |||),
 
   haproxy_status_codes:
     prometheusQuery.new(
