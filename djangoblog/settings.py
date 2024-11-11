@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     "jazzmin",
     "collectfasta",
     "rest_framework",
+    "django_prometheus",
     "rest_framework.authtoken",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -325,6 +326,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 MIDDLEWARE = [
+    "django_prometheus.middleware.PrometheusBeforeMiddleware",
     # "django.middleware.cache.UpdateCacheMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
@@ -337,7 +339,8 @@ MIDDLEWARE = [
     "compression_middleware.middleware.CompressionMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "djangoblog.middleware.RequestIdMiddleware",
-    # "django.middleware.cache.FetchFromCacheMiddleware"
+    # "django.middleware.cache.FetchFromCacheMiddleware",
+    "django_prometheus.middleware.PrometheusAfterMiddleware",
 ]
 
 # Only enable the browseable HTML API in dev (DEBUG=True)

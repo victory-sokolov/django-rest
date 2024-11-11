@@ -26,6 +26,7 @@ urlpatterns = [
         name="password_reset_done",
     ),
     path("healthcheck", view.healthcheck, name="Health check"),
+    path("", include("django_prometheus.urls")),
 ]
 
 urlpatterns += static(

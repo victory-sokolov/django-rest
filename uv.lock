@@ -106,6 +106,7 @@ dependencies = [
     { name = "django-dbbackup" },
     { name = "django-extensions" },
     { name = "django-jazzmin" },
+    { name = "django-prometheus" },
     { name = "django-redis" },
     { name = "django-storages", extra = ["google"] },
     { name = "django-tagify2" },
@@ -172,6 +173,7 @@ requires-dist = [
     { name = "django-dbbackup", specifier = "~=4.2.1" },
     { name = "django-extensions", specifier = "~=3.2.3" },
     { name = "django-jazzmin", specifier = "~=3.0" },
+    { name = "django-prometheus", specifier = ">=2.3.1" },
     { name = "django-redis", specifier = "~=5.4" },
     { name = "django-storages", extras = ["google"], specifier = "~=1.14" },
     { name = "django-tagify2", specifier = "~=1.0.19" },
@@ -725,6 +727,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/28/bb/04accb19b0c0b6d835a393c20f04dfc379648e8cd6654c045e4d843ad527/django_js_asset-2.2.0.tar.gz", hash = "sha256:0c57a82cae2317e83951d956110ce847f58ff0cdc24e314dbc18b35033917e94", size = 7904 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/dc/4d/5bb8c351f2515a616576a4218c736af081edf0dd4d1eead1c7e880f74c0e/django_js_asset-2.2.0-py3-none-any.whl", hash = "sha256:7ef3e858e13d06f10799b56eea62b1e76706f42cf4e709be4e13356bc0ae30d8", size = 4704 },
+]
+
+[[package]]
+name = "django-prometheus"
+version = "2.3.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "prometheus-client" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e1/51/485b4122e00f2b8efec8a6d718ef4ce6b150231e49398e554ce1151f65c3/django-prometheus-2.3.1.tar.gz", hash = "sha256:f9c8b6c780c9419ea01043c63a437d79db2c33353451347894408184ad9c3e1e", size = 24718 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3a/75/fb3d4f056f9ed4f8848817d5afd7a1d949632ab117452ccd179e3839cfc4/django_prometheus-2.3.1-py2.py3-none-any.whl", hash = "sha256:cf9b26f7ba2e4568f08f8f91480a2882023f5908579681bcf06a4d2465f12168", size = 29081 },
 ]
 
 [[package]]
