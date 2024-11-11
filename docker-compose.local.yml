@@ -25,7 +25,7 @@ services:
       - prometheus_data:/infra/prometheus
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana-oss
     restart: unless-stopped
     networks:
       - default
@@ -43,7 +43,7 @@ services:
       GF_LOG_LEVEL: debug
     volumes:
       - ./infra/grafana/provisioning/:/etc/grafana/provisioning/
-      - ./data/grafana:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
 
   rabbitmq:
     image: rabbitmq:3.11.26-management
@@ -62,4 +62,4 @@ networks:
 volumes:
   grafana_data:
   prometheus_data:
-  # rabbitmq_data:
+  rabbitmq_data:
