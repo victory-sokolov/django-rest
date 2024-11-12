@@ -4,10 +4,12 @@ global:
 
 scrape_configs:
   - job_name: 'prometheus'
+    scheme: http
     static_configs:
       - targets: ['localhost:9090']
 
   - job_name: 'app'
+    scheme: http
     scrape_interval: 5s
     tls_config:
       insecure_skip_verify: true
@@ -15,6 +17,7 @@ scrape_configs:
       - targets: ['app:80']
 
   - job_name: 'haproxy-metrics'
+    scheme: http
     static_configs:
       - targets: ['haproxy:8405']
     params:
