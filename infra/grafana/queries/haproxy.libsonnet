@@ -1,7 +1,7 @@
-local g = import './g.libsonnet';
+local g = import '../g.libsonnet';
 local prometheusQuery = g.query.prometheus;
 
-local variables = import './variables.libsonnet';
+local variables = import '../variables.libsonnet';
 
 {
   haproxy_frontend_sessions:

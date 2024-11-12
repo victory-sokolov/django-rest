@@ -1,5 +1,5 @@
 local panels = import './panels.jsonnet';
-local queries = import './queries.jsonnet';
+local queries = import './queries/queries.libsonnet';
 local variables = import './variables.libsonnet';
 local g = import 'g.libsonnet';
 
