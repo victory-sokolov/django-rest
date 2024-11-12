@@ -9,7 +9,7 @@ local variables = import '../variables.libsonnet';
       '$' + variables.datasource.name,
       |||
         sum(
-            haproxy_frontend_current_sessions{job=~"$job", proxy="http-in"}
+            haproxy_frontend_current_sessions{job=~"$job", proxy="http-in", instance=~"$instance"}
         ) or vector(0)
       |||
     )
@@ -22,7 +22,7 @@ local variables = import '../variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        sum(haproxy_backend_current_sessions{job=~"$job"}) or vector(0)
+        sum(haproxy_backend_current_sessions{job=~"$job", instance=~"$instance"}) or vector(0)
       |||
     )
     + prometheusQuery.withLegendFormat(|||
@@ -34,7 +34,11 @@ local variables = import '../variables.libsonnet';
       '$' + variables.datasource.name,
       |||
         sum(
-            rate(haproxy_frontend_http_responses_total{job=~"$job", proxy="http-in"}[$__rate_interval])
+            rate(haproxy_frontend_http_responses_total{
+                job=~"$job",
+                proxy="http-in",
+                instance=~"$instance"
+            }[$__rate_interval])
         ) by (code) or vector(0)
       |||
     ),
@@ -44,7 +48,7 @@ local variables = import '../variables.libsonnet';
       '$' + variables.datasource.name,
       |||
         avg(
-         haproxy_backend_response_time_average_seconds{job=~"$job"}
+         haproxy_backend_response_time_average_seconds{job=~"$job", instance=~"$instance"}
         ) or vector(0)
       |||
     ),

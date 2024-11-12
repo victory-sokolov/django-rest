@@ -1,4 +1,6 @@
+local variables = import './variables.libsonnet';
 local g = import 'g.libsonnet';
+
 
 {
   timeseries: {
@@ -10,7 +12,10 @@ local g = import 'g.libsonnet';
     base(title, description, targets):
       timeSeries.new(title)
       + timeSeries.queryOptions.withTargets(targets)
-      + timeSeries.queryOptions.withDatasource('datasource', 'prometheus')
+      + timeSeries.queryOptions.withDatasource(
+        '$' + variables.datasource.type,
+        '$' + variables.datasource.name
+      )
       + timeSeries.queryOptions.withInterval('1m')
       + timeSeries.standardOptions.withUnit('reqps')
       + timeSeries.panelOptions.withDescription(description)

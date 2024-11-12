@@ -10,6 +10,8 @@ g.dashboard.new('Django App Dashboard')
 + g.dashboard.withDescription('Djago App Metrics')
 + g.dashboard.withVariables([
   variables.datasource,
+  variables.rate,
+  variables.instances,
 ])
 + g.dashboard.withPanels(
   g.util.grid.makeGrid([
