@@ -53,7 +53,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "sum(\n    increase(haproxy_frontend_current_sessions{proxy=\"http-in\"}[30s])\n)\n",
+               "expr": "sum(\n    increase(haproxy_frontend_current_sessions{\n        job=\"haproxy\" proxy=\"http-in\"}[30s]\n    )\n) or vector(0)\n",
                "intervalFactor": 2,
                "legendFormat": "Total sessions by (frontend)\n"
             }
@@ -100,7 +100,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "sum(haproxy_backend_current_sessions)\n",
+               "expr": "sum(haproxy_backend_current_sessions) or vector(0)\n",
                "legendFormat": "Total sessions by (backend)\n"
             }
          ],
@@ -146,7 +146,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "avg(\n haproxy_backend_response_time_average_seconds\n)\n"
+               "expr": "avg(\n haproxy_backend_response_time_average_seconds\n) or vector(0)\n"
             }
          ],
          "title": "Average Response Time",
@@ -191,7 +191,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{proxy=\"http-in\"}[30s])\n) by (code)\n"
+               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{job=\"haproxy\", proxy=\"http-in\"}[30s])\n) by (code) or vector(0)\n"
             }
          ],
          "title": "Status Codes",

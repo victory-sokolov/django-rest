@@ -10,7 +10,7 @@ local variables = import './variables.libsonnet';
       |||
         sum(
             increase(haproxy_frontend_current_sessions{proxy="http-in"}[30s])
-        )
+        ) or vector(0)
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
@@ -22,7 +22,7 @@ local variables = import './variables.libsonnet';
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        sum(haproxy_backend_current_sessions)
+        sum(haproxy_backend_current_sessions) or vector(0)
       |||
     )
     + prometheusQuery.withLegendFormat(|||
@@ -35,7 +35,7 @@ local variables = import './variables.libsonnet';
       |||
         sum(
             rate(haproxy_frontend_http_responses_total{proxy="http-in"}[30s])
-        ) by (code)
+        ) by (code) or vector(0)
       |||
     ),
 
@@ -45,7 +45,7 @@ local variables = import './variables.libsonnet';
       |||
         avg(
          haproxy_backend_response_time_average_seconds
-        )
+        ) or vector(0)
       |||
     ),
 
