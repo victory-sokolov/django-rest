@@ -146,7 +146,8 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "avg(\n haproxy_backend_response_time_average_seconds{job=~\"$job\", instance=~\"$instance\"}\n) or vector(0)\n"
+               "expr": "avg(\n haproxy_backend_response_time_average_seconds{job=~\"$job\", instance=~\"$instance\"}\n) or vector(0)\n",
+               "legendFormat": "Haproxy average response time\n"
             }
          ],
          "title": "Average Response Time",
@@ -191,11 +192,206 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{\n        job=~\"$job\", \n        proxy=\"http-in\", \n        instance=~\"$instance\"\n    }[$__rate_interval])\n) by (code) or vector(0)\n"
+               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{\n        job=~\"$job\",\n        proxy=\"http-in\",\n        instance=~\"$instance\"\n    }[$__rate_interval])\n) by (code) or vector(0)\n",
+               "legendFormat": "Haproxy status codes\n"
             }
          ],
          "title": "Status Codes",
          "type": "timeseries"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 17
+         },
+         "id": 6,
+         "panels": [ ],
+         "title": "Django",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$Prometheus"
+         },
+         "description": "Django DB Query Errors",
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 18
+         },
+         "id": 7,
+         "interval": "1m",
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$Prometheus"
+               },
+               "expr": "sum(\n    max_over_time(\n        django_db_errors_total{job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]\n    )\n)\n",
+               "intervalFactor": 2,
+               "legendFormat": "Django ORM DB errors count\n"
+            }
+         ],
+         "title": "DB Query Errors",
+         "type": "gauge"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$Prometheus"
+         },
+         "description": "Django Database Connection Errors",
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 18
+         },
+         "id": 8,
+         "interval": "1m",
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$Prometheus"
+               },
+               "expr": "sum(\n    max_over_time(\n        django_db_new_connection_errors_total{job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]\n    )\n)\n",
+               "intervalFactor": 2,
+               "legendFormat": "Django ORM DB errors count\n"
+            }
+         ],
+         "title": "DB Connection Errors",
+         "type": "gauge"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$Prometheus"
+         },
+         "description": "Django Request Latency",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "unit": "reqps"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 26
+         },
+         "id": 9,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$Prometheus"
+               },
+               "expr": "histogram_quantile(\n    0.50, \n    sum(irate(\n        django_http_requests_latency_seconds_by_view_method_bucket{\n            job=~\"$job\", instance=~\"$instance\"\n        }[$__rate_interval]\n    )) by (le)\n) or vector(0)\n",
+               "intervalFactor": 2,
+               "legendFormat": "Django Request latency\n"
+            }
+         ],
+         "title": "Django Request Latency",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$Prometheus"
+         },
+         "description": "Django Database Total Queries",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "unit": "reqps"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 26
+         },
+         "id": 10,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$Prometheus"
+               },
+               "expr": "sum(\n    irate(django_db_execute_total{job=~\"$job\", instance=~\"$instance\"}[$__rate_interval])\n) by (vendor) or vector(0)\n",
+               "intervalFactor": 2,
+               "legendFormat": "Database Total Queries\n"
+            }
+         ],
+         "title": "DB Total Queries",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$Prometheus"
+         },
+         "description": "Cache Hit Ratio",
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 34
+         },
+         "id": 11,
+         "interval": "1m",
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$Prometheus"
+               },
+               "expr": "sum(\n    django_cache_get_hits_total{\n        job=~\"$job\", instance=~\"$instance\"\n    }) by (backend) / sum(django_cache_get_total{\n        job=~\"$job\", instance=~\"$instance\"\n    }) by (backend)\n",
+               "intervalFactor": 2,
+               "legendFormat": "Cache Hit Ratio\n"
+            }
+         ],
+         "title": "Cache Hit Ratio",
+         "type": "gauge"
       }
    ],
    "schemaVersion": 39,
@@ -273,8 +469,8 @@
                ]
             },
             "datasource": {
-               "type": "$datasource",
-               "uid": "$Prometheus"
+               "type": "prometheus",
+               "uid": "${Prometheus}"
             },
             "description": "Instances",
             "label": "Instance",

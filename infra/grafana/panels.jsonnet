@@ -34,20 +34,15 @@ local g = import 'g.libsonnet';
       + timeSeries.standardOptions.withUnit('short')
       + timeSeries.standardOptions.withDecimals(0),
 
-    seconds(title, targets):
-      self.base(title, targets)
-      + timeSeries.standardOptions.withUnit('s')
-      + custom.scaleDistribution.withType('log')
-      + custom.scaleDistribution.withLog(10),
-
     // Haproxy
     haproxy_frontend: self.base,
     haproxy_backend: self.base,
     haproxy_avg_response_time: self.base,
     haproxy_status_codes: self.base,
 
-    // Django Metrics
-
+    // Django
+    request_latency: self.base,
+    database_total_queries: self.base,
 
     heatmap: {
       local heatmap = g.panel.heatmap,
@@ -68,5 +63,45 @@ local g = import 'g.libsonnet';
         + options.yAxis.withDecimals(0)
         + options.yAxis.withUnit('s'),
     },
+  },
+
+  gauge: {
+    local _gauge = g.panel.gauge,
+    local options = _gauge.options,
+
+    gauge(title, description, targets):
+      _gauge.new(title)
+      + _gauge.queryOptions.withTargets(targets)
+      + _gauge.queryOptions.withDatasource(
+        '$' + variables.datasource.type,
+        '$' + variables.datasource.name
+      )
+      + _gauge.queryOptions.withInterval('1m')
+      + _gauge.panelOptions.withDescription(description)
+      + _gauge.gridPos.withW(24)
+      + _gauge.gridPos.withH(8),
+
+    // Django Metrics
+    db_errors: self.gauge,
+    db_connection_errors: self.gauge,
+    django_cache_hits: self.gauge,
+  },
+
+  stat: {
+    local _stat = g.panel.stat,
+    local options = _stat.options,
+
+    gauge(title, description, targets):
+      _stat.new(title)
+      + _stat.queryOptions.withTargets(targets)
+      + _stat.queryOptions.withDatasource(
+        '$' + variables.datasource.type,
+        '$' + variables.datasource.name
+      )
+      + _stat.queryOptions.withInterval('1m')
+      + _stat.panelOptions.withDescription(description)
+      + _stat.gridPos.withW(24)
+      + _stat.gridPos.withH(8),
+
   },
 }

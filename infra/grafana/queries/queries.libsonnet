@@ -1,1 +1,0 @@
-import 'haproxy.libsonnet'
