@@ -41,7 +41,10 @@ local variables = import '../variables.libsonnet';
             }[$__rate_interval])
         ) by (code) or vector(0)
       |||
-    ),
+    )
+    + prometheusQuery.withLegendFormat(|||
+      Haproxy status codes
+    |||),
 
   haproxy_avg_response_time:
     prometheusQuery.new(
@@ -51,6 +54,9 @@ local variables = import '../variables.libsonnet';
          haproxy_backend_response_time_average_seconds{job=~"$job", instance=~"$instance"}
         ) or vector(0)
       |||
-    ),
+    )
+    + prometheusQuery.withLegendFormat(|||
+      Haproxy average response time
+    |||),
 
 }
