@@ -8,10 +8,10 @@ metadata:
     io.kompose.service: celery-worker
   name: celery-worker
 spec:
-  volumes:
-    - name: google-credentials-volume
-      secret:
-        secretName: google-credentials
+  # volumes:
+  #   - name: google-credentials-volume
+  #     secret:
+  #       secretName: google-credentials
   containers:
     - args:
         - sh
@@ -20,15 +20,15 @@ spec:
       envFrom:
         - secretRef:
             name: djapp
-      env:
-        - name: GOOGLE_APPLICATION_CREDENTIALS
-          value: /secrets/key.json
+      # env:
+      #   - name: GOOGLE_APPLICATION_CREDENTIALS
+      #     value: /secrets/key.json
 
       image: victorysokolov/django-blog:6fd8fbd6e905308134e0912f827c19c93316b460
-      volumeMounts:
-        - name: google-credentials-volume
-          mountPath: /secrets
-          readOnly: true
+      # volumeMounts:
+      #   - name: google-credentials-volume
+      #     mountPath: /secrets
+      #     readOnly: true
       livenessProbe:
         exec:
           command:

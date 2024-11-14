@@ -13,22 +13,22 @@ spec:
           command: ['/bin/sh', '-c']
           args:
             - python manage.py collectstatic --noinput
-          env:
-            - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: /secrets/key.json
+          # env:
+          #   - name: GOOGLE_APPLICATION_CREDENTIALS
+          #     value: /secrets/key.json
           envFrom:
             - secretRef:
                 name: djapp
           volumeMounts:
-            - name: google-credentials-volume
-              mountPath: /secrets
-              readOnly: true
+            # - name: google-credentials-volume
+            #   mountPath: /secrets
+            #   readOnly: true
             - name: static-storage
               mountPath: /app/output/static/
       volumes:
-        - name: google-credentials-volume
-          secret:
-            secretName: google-credentials
+        # - name: google-credentials-volume
+        #   secret:
+        #     secretName: google-credentials
         - name: static-storage
           persistentVolumeClaim:
             claimName: static-storage-pvc

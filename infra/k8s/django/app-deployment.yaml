@@ -34,25 +34,25 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-          env:
-            - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: /secrets/key.json
+          # env:
+          #   - name: GOOGLE_APPLICATION_CREDENTIALS
+          #     value: /secrets/key.json
           envFrom:
             - secretRef:
                 name: djapp
-          volumeMounts:
-            - name: google-credentials-volume
-              mountPath: /secrets
-              readOnly: true
-      volumes:
-        - name: google-credentials-volume
-          secret:
-            secretName: google-credentials
-
           # volumeMounts:
-          #   - name: static-storage
-          #     mountPath: /app/output/static/ # Ensure this is where your Django app writes static files
-        # volumes:
-        #   - name: static-storage # This should match the name in volumeMounts
-        #     persistentVolumeClaim:
-        #       claimName: static-storage-pvc
+          #   - name: google-credentials-volume
+          #     mountPath: /secrets
+          #     readOnly: true
+      # volumes:
+      #   - name: google-credentials-volume
+      #     secret:
+      #       secretName: google-credentials
+
+      # volumeMounts:
+      #   - name: static-storage
+      #     mountPath: /app/output/static/ # Ensure this is where your Django app writes static files
+      # volumes:
+      #   - name: static-storage # This should match the name in volumeMounts
+      #     persistentVolumeClaim:
+      #       claimName: static-storage-pvc
