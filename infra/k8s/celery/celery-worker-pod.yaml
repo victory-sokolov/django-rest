@@ -14,9 +14,10 @@ spec:
   #       secretName: google-credentials
   containers:
     - args:
-        - sh
-        - -c
-        - DJANGO_ENV=production uv run celery -A djangoblog worker -l info --uid=nobody --gid=nogroup
+      - sh
+      - -c
+      - DJANGO_ENV=production uv run celery -A djangoblog worker -l info --uid=nobody --gid=nogroup
+      image: victorysokolov/django-blog:89a365019c6c0124f41240ae956f7d7b56b29859
       envFrom:
         - secretRef:
             name: djapp
@@ -24,7 +25,6 @@ spec:
       #   - name: GOOGLE_APPLICATION_CREDENTIALS
       #     value: /secrets/key.json
 
-      image: victorysokolov/django-blog:6fd8fbd6e905308134e0912f827c19c93316b460
       # volumeMounts:
       #   - name: google-credentials-volume
       #     mountPath: /secrets
