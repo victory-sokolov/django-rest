@@ -17,7 +17,7 @@ local g = import 'g.libsonnet';
         '$' + variables.datasource.name
       )
       + timeSeries.queryOptions.withInterval('1m')
-      + timeSeries.standardOptions.withUnit('reqps')
+      //   + timeSeries.standardOptions.withUnit('reqps')
       + timeSeries.panelOptions.withDescription(description)
       + timeSeries.gridPos.withW(24)
       + timeSeries.gridPos.withH(8)
@@ -39,6 +39,7 @@ local g = import 'g.libsonnet';
     haproxy_backend: self.base,
     haproxy_avg_response_time: self.base,
     haproxy_status_codes: self.base,
+    haproxy_frontned_session_limit: self.base,
 
     // Django
     request_latency: self.base,
