@@ -11,7 +11,7 @@ spec:
   type: LoadBalancer
   ports:
     - name: 'http'
-      port: 80
-      targetPort: 80
+      port: 8080
+      targetPort: 8080
   selector:
     io.kompose.service: haproxy
