@@ -1,7 +1,7 @@
 name: djangoblog
 
 x-environment: &default-env
-  TZ: Etc/GMT-3
+  TZ: Europe/Riga
 
 services:
 
@@ -75,8 +75,6 @@ services:
       timeout: 10s
       retries: 5
     depends_on:
-      # app:
-      #   condition: service_healthy
       redis:
         condition: service_healthy
       postgres:
