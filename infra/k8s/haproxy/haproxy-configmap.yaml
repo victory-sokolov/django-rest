@@ -1,0 +1,96 @@
+apiVersion: v1
+data:
+  haproxy.cfg: |
+    global
+        log stdout format raw local0 debug
+        maxconn 60000
+
+    defaults
+        log     global
+        mode    http
+        option  dontlognull
+        option  log-separate-errors
+        timeout connect 40s
+        timeout server  45s
+        timeout http-request 40s
+        timeout http-keep-alive 40s
+
+        # Define a custom log format
+        log-format "haproxy_timestamp=\"%t\" client_ip_address=\"%[capture.req.hdr(2),regsub('[\,].+',)]\" headers__http_x_forwarded_proto=\"%[capture.req.hdr(0)]\" headers__http_x_forwarded_for=\"%[capture.req.hdr(2)]\" client_port=\"%cp\" duration_ms=%Tr haproxy_active_connections=%ac haproxy_backend=\"%b\" haproxy_backend_connections=%bc haproxy_backend_queue=%bq haproxy_backend_queue_name=\"%s\" haproxy_captured_request_headers=\"%hr\" haproxy_captured_response_headers=\"%hs\" haproxy_connection_wait_ms=%Tc haproxy_frontend=\"%ft\" haproxy_frontend_connections=%fc haproxy_queue_duration_ms=%Tw haproxy_response_wait_ms=%Tr haproxy_retries=%rc haproxy_server_connections=%sc haproxy_server_queue=%sq haproxy_termination_state=\"%ts\"  request_id=\"%ID\" trace_id=\"%[capture.req.hdr(0)]\" headers__http_host=\"%[capture.req.hdr(1)]\" headers__http_x_forwarded_host=\"%[capture.req.hdr(5)]\" status=%ST path=\"%HP\" tls_version=\"%sslv\" method=%HM haproxy_backend_path=%HU"
+
+
+    frontend http-in
+        # Haproxy port
+        bind :"${HAPROXY_PORT}"
+        option forwardfor
+        timeout client 60s
+
+        http-request set-header X-Forwarded-Host %[req.hdr(host)]
+
+        http-request capture req.hdr(X-Forwarded-Proto) len 20
+        http-request capture req.hdr(Host) len 10
+        http-request capture req.hdr(Referrer) len 64
+        http-request capture req.hdr(User-Agent) len 64
+        http-request capture req.hdr(Cookie) len 20
+        http-request capture ssl_fc_protocol len 10
+        http-request capture ssl_fc_cipher len 20
+        # http-request redirect scheme https unless { ssl_fc }
+        http-response set-header Strict-Transport-Security "max-age=16000000"
+        # http-request del-header X-Forwarded-Proto
+
+        # Set X-Forwarded-Proto to "https" only if the connection is SSL
+        http-request set-header X-Forwarded-Proto https if { ssl_fc }
+        # Set X-Forwarded-Proto to "http" otherwise
+        http-request set-header X-Forwarded-Proto http unless { ssl_fc }
+
+        use_backend server_backend
+
+
+    resolvers docker_resolver
+        nameserver dns 127.0.0.11:53
+
+    backend static_backend
+        server cdn-server storage.googleapis.com:443 ssl verify none
+
+    backend server_backend
+        balance roundrobin
+
+        option log-health-checks
+        option httpchk # Check if the backend server is healthy
+        http-check send meth GET uri /healthcheck
+        http-check expect status 200
+
+        # Compression
+        filter compression
+        compression algo gzip
+        compression type text/css text/html text/javascript application/javascript text/plain text/xml application/json
+        compression direction both
+
+        default-server inter 160s fastinter 3s downinter 3s fall 3 rise 5
+
+        http-request set-header X-Request-ID %[uuid()]
+
+        server-template backend 1 nginx:80 check resolvers docker_resolver resolve-prefer ipv4 init-addr none
+
+    frontend stats
+        bind :8404
+        mode http
+        log global
+        maxconn 10
+        timeout client  45s
+
+        stats enable
+        stats hide-version
+        stats refresh 30s
+        stats show-node
+        stats auth admin:password
+        stats uri /stats
+
+    frontend prometheus
+      bind *:8405
+      mode http
+      timeout client 45s
+      http-request use-service prometheus-exporter if { path /metrics }
+kind: ConfigMap
+metadata:
+  name: haproxy-configmap
