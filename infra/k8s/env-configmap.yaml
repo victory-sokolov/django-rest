@@ -9,7 +9,7 @@ data:
   POSTGRES_USER: user
   POSTGRES_VERSION: '16.4'
   REDIS_VERSION: 7.2.3
-  TZ: Etc/GMT-3
+  TZ: Europe/Riga
 kind: ConfigMap
 metadata:
   labels:
