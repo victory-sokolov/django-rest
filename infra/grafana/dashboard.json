@@ -52,7 +52,7 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "sum(\n    haproxy_frontend_current_sessions{job=~\"$job\", proxy=\"http-in\", instance=~\"$instance\"}\n) or vector(0)\n",
+               "expr": "sum(\n    haproxy_frontend_current_sessions{proxy=\"http-in\", instance=~\"$instance\"}\n) or vector(0)\n",
                "intervalFactor": 2,
                "legendFormat": "Total sessions by (frontend)\n"
             }
@@ -98,7 +98,7 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "sum(haproxy_backend_current_sessions{job=~\"$job\", instance=~\"$instance\"}) or vector(0)\n",
+               "expr": "sum(haproxy_backend_current_sessions{instance=~\"$instance\"}) or vector(0)\n",
                "legendFormat": "Total sessions by (backend)\n"
             }
          ],
@@ -143,7 +143,7 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "sum(\n    haproxy_frontend_limit_sessions{job=~\"$job\", proxy=\"http-in\", instance=~\"$instance\"}\n) or vector(0)\n",
+               "expr": "sum(\n    haproxy_frontend_limit_sessions{proxy=\"http-in\", instance=~\"$instance\"}\n) or vector(0)\n",
                "intervalFactor": 2,
                "legendFormat": "Frontned Session Limit\n"
             }
@@ -189,7 +189,7 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "avg(\n haproxy_backend_response_time_average_seconds{job=~\"$job\", instance=~\"$instance\"}\n) or vector(0)\n",
+               "expr": "avg(\n haproxy_backend_response_time_average_seconds{instance=~\"$instance\"}\n) or vector(0)\n",
                "legendFormat": "Haproxy average response time\n"
             }
          ],
@@ -234,7 +234,7 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{\n        job=~\"$job\",\n        proxy=\"http-in\",\n        instance=~\"$instance\"\n    }[$__rate_interval])\n) by (code) or vector(0)\n",
+               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{\n        proxy=\"http-in\",\n        instance=~\"$instance\"\n    }[$__rate_interval])\n) by (code) or vector(0)\n",
                "legendFormat": "Haproxy status codes\n"
             }
          ],
@@ -275,7 +275,7 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "sum(\n    max_over_time(\n        django_db_errors_total{job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]\n    )\n)\n",
+               "expr": "sum(\n    max_over_time(\n        django_db_errors_total{instance=~\"$instance\"}[$__rate_interval]\n    )\n)\n",
                "intervalFactor": 2,
                "legendFormat": "Django ORM DB errors count\n"
             }
@@ -304,7 +304,7 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "sum(\n    max_over_time(\n        django_db_new_connection_errors_total{job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]\n    )\n)\n",
+               "expr": "sum(\n    max_over_time(\n        django_db_new_connection_errors_total{instance=~\"$instance\"}[$__rate_interval]\n    )\n)\n",
                "intervalFactor": 2,
                "legendFormat": "Django ORM DB errors count\n"
             }
@@ -350,7 +350,7 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "histogram_quantile(\n    0.50,\n    sum(irate(\n        django_http_requests_latency_seconds_by_view_method_bucket{\n            job=~\"$job\", instance=~\"$instance\"\n        }[$__rate_interval]\n    )) by (le)\n) or vector(0)\n",
+               "expr": "histogram_quantile(\n    0.50,\n    sum(irate(\n        django_http_requests_latency_seconds_by_view_method_bucket{\n            instance=~\"$instance\"\n        }[$__rate_interval]\n    )) by (le)\n) or vector(0)\n",
                "intervalFactor": 2,
                "legendFormat": "Django Request latency\n"
             }
@@ -396,7 +396,7 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "sum(\n    irate(django_db_execute_total{job=~\"$job\", instance=~\"$instance\"}[$__rate_interval])\n) by (vendor) or vector(0)\n",
+               "expr": "sum(\n    irate(django_db_execute_total{instance=~\"$instance\"}[$__rate_interval])\n) by (vendor) or vector(0)\n",
                "intervalFactor": 2,
                "legendFormat": "Database Total Queries\n"
             }
@@ -425,7 +425,7 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "sum(\n    django_cache_get_hits_total{\n        job=~\"$job\", instance=~\"$instance\"\n    }) by (backend) / sum(django_cache_get_total{\n        job=~\"$job\", instance=~\"$instance\"\n    }) by (backend)\n",
+               "expr": "sum(\n    django_cache_get_hits_total{\n        instance=~\"$instance\"\n    }) by (backend) / sum(django_cache_get_total{\n        instance=~\"$instance\"\n    }) by (backend)\n",
                "intervalFactor": 2,
                "legendFormat": "Cache Hit Ratio\n"
             }

@@ -10,7 +10,7 @@ local variables = import '../variables.libsonnet';
       |||
         sum(
             max_over_time(
-                django_db_errors_total{job=~"$job", instance=~"$instance"}[$__rate_interval]
+                django_db_errors_total{instance=~"$instance"}[$__rate_interval]
             )
         )
       |||
@@ -26,7 +26,7 @@ local variables = import '../variables.libsonnet';
       |||
         sum(
             max_over_time(
-                django_db_new_connection_errors_total{job=~"$job", instance=~"$instance"}[$__rate_interval]
+                django_db_new_connection_errors_total{instance=~"$instance"}[$__rate_interval]
             )
         )
       |||
@@ -44,7 +44,7 @@ local variables = import '../variables.libsonnet';
             0.50,
             sum(irate(
                 django_http_requests_latency_seconds_by_view_method_bucket{
-                    job=~"$job", instance=~"$instance"
+                    instance=~"$instance"
                 }[$__rate_interval]
             )) by (le)
         ) or vector(0)
@@ -60,7 +60,7 @@ local variables = import '../variables.libsonnet';
       '$' + variables.datasource.name,
       |||
         sum(
-            irate(django_db_execute_total{job=~"$job", instance=~"$instance"}[$__rate_interval])
+            irate(django_db_execute_total{instance=~"$instance"}[$__rate_interval])
         ) by (vendor) or vector(0)
       |||
     )
@@ -75,9 +75,9 @@ local variables = import '../variables.libsonnet';
       |||
         sum(
             django_cache_get_hits_total{
-                job=~"$job", instance=~"$instance"
+                instance=~"$instance"
             }) by (backend) / sum(django_cache_get_total{
-                job=~"$job", instance=~"$instance"
+                instance=~"$instance"
             }) by (backend)
       |||
     )
