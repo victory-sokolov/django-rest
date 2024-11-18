@@ -23,6 +23,10 @@ services:
     volumes:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/infra/prometheus
+    develop:
+      watch:
+        - action: rebuild
+          path: ./infra/prometheus/
 
   grafana:
     image: grafana/grafana-oss
@@ -57,18 +61,16 @@ services:
       - no-new-privileges:true
     ports:
       - 5675:5675
-    develop:
-      watch:
-        - action: rebuild
-          path: ./infra/prometheus/
 
   statsd-exporter:
-    image: prom/statsd-exporter
+    image: prom/statsd-exporter:latest
     networks:
       - default
     ports:
-      - "9125:9125/udp"
-      - "9102:9102"
+      - 9125:9125/udp
+      - 9102:9102
+    volumes:
+      - ./statsd.yml:/statsd/statsd.yml
 
 
 networks:
