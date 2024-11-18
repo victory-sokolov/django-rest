@@ -11,6 +11,7 @@ make-migrations: migrate ## Create and run migrations
 
 dev: ## Run dev server
 	# DJANGO_ENV=local uv run python manage.py runserver_plus --cert-file certs/cert.pem --key-file certs/certkey.pem
+	echo "Using '$$DJANGO_ENV' environment"
 	DJANGO_ENV=$(ENV) uv run python manage.py runserver 0.0.0.0:$(PORT)
 
 prod:
