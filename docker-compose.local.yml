@@ -57,6 +57,19 @@ services:
       - no-new-privileges:true
     ports:
       - 5675:5675
+    develop:
+      watch:
+        - action: rebuild
+          path: ./infra/prometheus/
+
+  statsd-exporter:
+    image: prom/statsd-exporter
+    networks:
+      - default
+    ports:
+      - "9125:9125/udp"
+      - "9102:9102"
+
 
 networks:
   default:
