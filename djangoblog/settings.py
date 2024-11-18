@@ -132,8 +132,8 @@ STATICFILES_FINDERS = [
 ]
 
 # Compressor
-COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = True
+COMPRESS_ENABLED = False
+COMPRESS_OFFLINE = False
 COMPRESS_CSS_HASHING_METHOD = "content"
 COMPRESS_CSS_FILTERS = [
     "compressor.filters.css_default.CssAbsoluteFilter",
