@@ -42,6 +42,9 @@ loadtest: ## Load test app
 mypy:
 	DJANGO_ENV=$(ENV) uv run mypy --config-file pyproject.toml djangoblog --cache-fine-grained
 
+lint-html:
+	uv run djlint djangoblog --extension=html --lint
+
 run-checks:
 	DJANGO_ENV=$(ENV) uv run python manage.py check --deploy
 	DJANGO_ENV=$(ENV) uv run python manage.py check

@@ -70,6 +70,7 @@ dev-dependencies = [
     "django-stubs ~=5.1",
     "playwright>=1.47.0",
     "bandit>=1.7.10",
+    "djlint>=1.36.1",
 ]
 
 [tool.pycln]
