@@ -24,3 +24,9 @@ scrape_configs:
       scope:
         - frontend
         - backend
+        - server
+
+  - job_name: gunicorn
+    scheme: http
+    static_configs:
+      - targets: ['statsd-exporter:9102']
