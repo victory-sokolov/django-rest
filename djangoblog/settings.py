@@ -213,6 +213,11 @@ SIMPLE_JWT = {
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "filters": {
+        "exclude_logs": {
+            "()": "djangoblog.filter.LogFilter",
+        },
+    },
     "formatters": {
         "rich": {"datefmt": "[%X]"},
         "plain": {
@@ -232,6 +237,7 @@ LOGGING = {
             "class": "rich.logging.RichHandler",
             "formatter": "rich",
             "level": "INFO",
+            "filters": ["exclude_logs"],
         },
         "logstash": {
             "level": "INFO",
@@ -254,6 +260,7 @@ LOGGING = {
             "handlers": ["console"],
             "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
             "propagate": True,
+            "filters": ["exclude_logs"],
         },
         # Log DB queries
         "django.db.backends": {
@@ -265,6 +272,7 @@ LOGGING = {
         "handlers": ["console"],
         "level": "INFO",
         "propagate": True,
+        "filters": ["exclude_logs"],
     },
 }
 
