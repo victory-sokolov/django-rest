@@ -63,14 +63,13 @@ services:
       - 5675:5675
 
   statsd-exporter:
-    image: prom/statsd-exporter:latest
+    build:
+      context: docker/statsd
     networks:
       - default
     ports:
       - 9125:9125/udp
       - 9102:9102
-    volumes:
-      - ./statsd.yml:/statsd/statsd.yml
 
 
 networks:
