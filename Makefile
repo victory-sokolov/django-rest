@@ -15,7 +15,7 @@ dev: ## Run dev server
 	DJANGO_ENV=$(ENV) uv run python manage.py runserver 0.0.0.0:$(PORT)
 
 prod:
-	DJANGO_ENV=$(ENV) gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:$(PORT)
+	DJANGO_ENV=$(ENV) uv run gunicorn djangoblog.wsgi:application --config gunicorn.py --bind 0.0.0.0:$(PORT)
 
 worker: ## Run celery worker
 	DJANGO_ENV=$(ENV) uv run watchmedo auto-restart \
