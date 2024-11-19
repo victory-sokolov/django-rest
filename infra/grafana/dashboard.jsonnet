@@ -64,6 +64,11 @@ g.dashboard.new('Django App Dashboard')
           'Django Request Latency',
           django.request_latency
         ),
+        panels.timeseries.gunicorn_request_duration(
+          'Gunicorn request duration',
+          'Gunicorn request duration',
+          django.gunicorn_request_duration
+        ),
         panels.timeseries.database_total_queries(
           'DB Total Queries',
           'Django Database Total Queries',

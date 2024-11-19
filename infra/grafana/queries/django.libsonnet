@@ -86,4 +86,18 @@ local variables = import '../variables.libsonnet';
       Cache Hit Ratio
     |||),
 
+  gunicorn_request_duration:
+    prometheusQuery.new(
+      '$' + variables.datasource.name,
+      |||
+        sum(
+            app_gunicorn_request_duration or vector(0)
+        )
+      |||
+    )
+    + prometheusQuery.withIntervalFactor(2)
+    + prometheusQuery.withLegendFormat(|||
+      Request Duration
+    |||),
+
 }

@@ -363,7 +363,7 @@
             "type": "$datasource",
             "uid": "$Prometheus"
          },
-         "description": "Django Database Total Queries",
+         "description": "Gunicorn request duration",
          "fieldConfig": {
             "defaults": {
                "custom": {
@@ -379,6 +379,52 @@
             "y": 34
          },
          "id": 11,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$Prometheus"
+               },
+               "expr": "sum(\n    app_gunicorn_request_duration or vector(0)\n)\n",
+               "intervalFactor": 2,
+               "legendFormat": "Request Duration\n"
+            }
+         ],
+         "title": "Gunicorn request duration",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$Prometheus"
+         },
+         "description": "Django Database Total Queries",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               }
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 42
+         },
+         "id": 12,
          "interval": "1m",
          "options": {
             "legend": {
@@ -413,10 +459,10 @@
          "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
+            "x": 12,
             "y": 42
          },
-         "id": 12,
+         "id": 13,
          "interval": "1m",
          "pluginVersion": "v11.1.0",
          "targets": [
