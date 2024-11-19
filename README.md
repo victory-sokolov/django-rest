@@ -28,7 +28,7 @@ password: superPassword12
 make create-superuser
 ```
 
-## Populate Post database with some random data
+## Populate post table with some random data
 
 `DJANGO_ENV=local uv run python manage.py shell`
 
@@ -51,9 +51,13 @@ For load testing we are using Locust
 - `docker-compose -f docker-compose.yml -f docker-compose.debug.yml up`
 
 
+## Run with minikube
+
+1. `kubectl create secret generic djapp --from-env-file=.env`
+
 ## Terraform
 
 1. `terraform apply --parallelism=20 -auto-approve`
 2. Create secret from file: `kubectl create secret generic google-credentials --from-file=infra/terraform/gcp-creds.json -n default`
-3. Create secrets from `.env` file: `kubectl create secret generic app --from-env-file=<(env -i sh -c "set -a; . .test-secret; printenv | grep -v '^PWD='")`
+3. Create secrets from `.env` file: `kubectl create secret generic app --from-env-file=<(env -i sh -c "set -a; . .env; printenv | grep -v '^PWD='")`
 4. Apply kubernetes config `kubernetes apply -f infra/k8`
