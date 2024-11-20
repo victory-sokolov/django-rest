@@ -74,7 +74,8 @@ DATE_FORMAT = "Y-m-d"
 COLLECTFASTA_STRATEGY = "collectfasta.strategies.filesystem.FileSystemStrategy"
 COLLECTFASTA_CACHE = "collectfasta"
 COLLECTFASTA_DEBUG = True
-COLLECTFASTA_THREADS = 10
+COLLECTFASTA_ENABLED = True
+COLLECTFASTA_THREADS = 20
 
 # Application definition
 INSTALLED_APPS = [
