@@ -1,14 +1,18 @@
 import ctypes
 import os
 from multiprocessing import Value
+
 from djangoblog.metrics import SaturationMonitor
 
 workers = 3
 threads = 2
 worker_class = "gevent"
 timeout = 60
+# Timeout for graceful workers restart.
+graceful_timeout = 40
 loglevel = "info"
 proxy_protocol = True
+preload_app = True
 forwarded_allow_ips = "*"
 statsd_host = "localhost:9125"
 statsd_prefix = "app"
