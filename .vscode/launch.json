@@ -2,26 +2,18 @@
     "configurations": [
         {
             "name": "Docker: Python - Django",
-            "type": "docker",
-            "request": "launch",
-            "preLaunchTask": "docker-run: debug",
-            "python": {
-                "pathMappings": [
-                    {
-                        "localRoot": "${workspaceFolder}/djangoblog",
-                        "remoteRoot": "/app"
-                    }
-                ],
-                "projectType": "django",
-                "env": {
-                    "DJANGO_ENV": "local",
-                    "DJANGO_SETTINGS_MODULE": "djangoblog.settings",
-                    "DEBUGPY_PROCESS_SPAWN_TIMEOUT": 120
-                },
-                "autoReload": {
-                    "enable": true
-                },
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "127.0.0.1",
+                "port": 5678
             },
-        }
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "/app"
+                }
+            ],
+        },
     ]
 }
