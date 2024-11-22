@@ -12,10 +12,13 @@ timeout = 60
 graceful_timeout = 40
 loglevel = "info"
 proxy_protocol = True
-preload_app = True
+preload_app = False
 forwarded_allow_ips = "*"
 statsd_host = "localhost:9125"
 statsd_prefix = "app"
+
+# The maximum number of pending connections
+backlog = 2048
 
 # certfile = "certs/cert.crt"
 # keyfile = "certs/cert.key"
