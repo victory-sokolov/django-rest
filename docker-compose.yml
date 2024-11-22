@@ -86,7 +86,7 @@ services:
     networks:
       - default
     build:
-      context: docker/redis
+      context: docker/redis/
     environment:
       <<: *default-env
     ports:
@@ -98,7 +98,6 @@ services:
     privileged: true
     volumes:
       - redis:/data:rw
-      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
     deploy:
       resources:
         limits:
