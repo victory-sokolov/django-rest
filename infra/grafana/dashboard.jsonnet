@@ -5,6 +5,7 @@ local g = import 'g.libsonnet';
 // Queries
 local django = import './queries/django.libsonnet';
 local haproxy = import './queries/haproxy.libsonnet';
+local postgres = import './queries/postgres.libsonnet';
 
 local var = g.dashboard.variable;
 local row = g.panel.row;
@@ -78,6 +79,14 @@ g.dashboard.new('Django App Dashboard')
           'Cache Hit Ratio',
           'Cache Hit Ratio',
           django.django_cache_hits
+        ),
+      ]),
+      row.new('PostgreSQL')
+      + row.withPanels([
+        panels.statt.max_connections(
+          'Max connections',
+          'PostgreSQL Max connections',
+          postgres.max_connections
         ),
       ]),
     ], panelWidth=12

@@ -478,6 +478,47 @@
          ],
          "title": "Cache Hit Ratio",
          "type": "gauge"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 50
+         },
+         "id": 14,
+         "panels": [ ],
+         "title": "PostgreSQL",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "prometheus"
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 51
+         },
+         "id": 15,
+         "interval": "1m",
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$Prometheus"
+               },
+               "expr": "pg_settings_max_connections\n",
+               "intervalFactor": 2,
+               "legendFormat": "PostgreSQL max_connections\n"
+            }
+         ],
+         "title": "Max connections",
+         "type": "stat"
       }
    ],
    "schemaVersion": 39,
