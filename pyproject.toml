@@ -71,6 +71,7 @@ dev-dependencies = [
     "playwright>=1.47.0",
     "bandit>=1.7.10",
     "djlint>=1.36.1",
+    "memray>=1.14.0",
 ]
 
 [tool.pycln]
