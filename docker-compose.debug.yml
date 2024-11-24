@@ -9,6 +9,7 @@ services:
       - .env
     environment:
       - DEBUGPY_PROCESS_SPAWN_TIMEOUT=90
+      - DEBUGPY_LOG_DIR=/logs
     command: python -m debugpy --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:80 --noreload
     ports:
       - 8001:8001
