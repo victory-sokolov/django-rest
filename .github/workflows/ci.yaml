@@ -15,7 +15,7 @@ concurrency:
 jobs:
 
   vm-job:
-    if: ${{ !(github.event.label.name == 'EMERGENCY') }}
+    if: ${{ github.event.label.name == 'EMERGENCY' }}
     runs-on: ubuntu-latest
 
     env:
