@@ -5,11 +5,13 @@ on:
     branches: [main, master]
 
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened, synchronize, labeled]
 
 jobs:
 
   vm-job:
+
+    if: ${{ github.event.label.name != 'EMERGENCY'}}
     runs-on: ubuntu-latest
 
     concurrency:
