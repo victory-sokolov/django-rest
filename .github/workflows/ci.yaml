@@ -15,12 +15,7 @@ concurrency:
 jobs:
 
   vm-job:
-    if: >-
-      !(
-        github.event_name == 'pull_request' &&
-        github.event.action == 'labeled' &&
-        github.event.label.name == 'EMERGENCY'
-      )
+    if: ${{ !(github.event.label.name == 'EMERGENCY') }}
     runs-on: ubuntu-latest
 
     env:
@@ -46,6 +41,14 @@ jobs:
           --health-retries 5
 
     steps:
+      - name: Debug Event Context
+        run: |
+          echo "Event Name: ${{ github.event_name }}"
+          echo "Event Action: ${{ github.event.action }}"
+          echo "Label Name: ${{ github.event.label.name }}"
+          echo "Full Event Context:"
+          echo '${{ toJson(github.event) }}'
+
       - uses: actions/checkout@master
       - uses: ./.github/actions/install-deps
 
