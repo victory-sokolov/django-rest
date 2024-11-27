@@ -5,16 +5,18 @@ on:
     branches: [main, master]
 
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened, synchronize, labeled]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 
 jobs:
 
   vm-job:
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'EMERGENCY') }}
     runs-on: ubuntu-latest
-
-    concurrency:
-        group: ${{ github.workflow }}-${{ github.ref }}
-        cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
     env:
       POSTGRES_DB: blog
@@ -56,3 +58,15 @@ jobs:
       - uses: reviewdog/action-setup@v1
         with:
           reviewdog_version: latest
+
+  security-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Run Bandit Checks
+        shell: sh
+        run: |
+          set -v
+          pip install bandit && bandit -r djangoblog/
+
