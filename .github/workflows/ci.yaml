@@ -15,7 +15,12 @@ concurrency:
 jobs:
 
   vm-job:
-    if: ${{ !(github.event.action == 'labeled' && github.event.label.name == 'EMERGENCY') }}
+    if: >-
+      !(
+        github.event_name == 'pull_request' &&
+        github.event.action == 'labeled' &&
+        github.event.label.name == 'EMERGENCY'
+      )
     runs-on: ubuntu-latest
 
     env:
