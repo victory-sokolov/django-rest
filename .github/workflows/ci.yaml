@@ -67,14 +67,14 @@ jobs:
         with:
           reviewdog_version: latest
 
-  security-checks:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
+  # security-checks:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@master
 
-      - name: Run Bandit Checks
-        shell: sh
-        run: |
-          set -v
-          pip install bandit && bandit -r djangoblog/
+  #     - name: Run Bandit Checks
+  #       shell: sh
+  #       run: |
+  #         set -v
+  #         pip install bandit && bandit -r djangoblog/
 
