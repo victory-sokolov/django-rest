@@ -46,8 +46,6 @@ jobs:
           echo "Event Name: ${{ github.event_name }}"
           echo "Event Action: ${{ github.event.action }}"
           echo "Label Name: ${{ github.event.label.name }}"
-          echo "Full Event Context:"
-          echo '${{ toJson(github.event) }}'
 
       - uses: actions/checkout@master
       - uses: ./.github/actions/install-deps
@@ -67,14 +65,14 @@ jobs:
         with:
           reviewdog_version: latest
 
-  # security-checks:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@master
+  security-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
 
-  #     - name: Run Bandit Checks
-  #       shell: sh
-  #       run: |
-  #         set -v
-  #         pip install bandit && bandit -r djangoblog/
+      - name: Run Bandit Checks
+        shell: sh
+        run: |
+          set -v
+          pip install bandit && bandit -r djangoblog/
 
