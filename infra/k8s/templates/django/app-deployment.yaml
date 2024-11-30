@@ -28,7 +28,7 @@ spec:
             restartPolicy: Always
             containers:
                 - name: app
-                  image: victorysokolov/django-blog:89a365019c6c0124f41240ae956f7d7b56b29859
+                  image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
                   imagePullPolicy: Always
                   ports:
                       - name: http
