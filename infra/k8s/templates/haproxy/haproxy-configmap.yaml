@@ -49,9 +49,6 @@ data:
         resolvers docker_resolver
             nameserver dns 127.0.0.11:53
 
-        backend static_backend
-            server cdn-server storage.googleapis.com:443 ssl verify none
-
         backend server_backend
             balance roundrobin
 

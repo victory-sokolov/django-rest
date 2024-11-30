@@ -22,7 +22,7 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-        - image: haproxy:latest
+        - image: haproxy:3.0.6
           name: haproxy
           ports:
             - containerPort: 80
