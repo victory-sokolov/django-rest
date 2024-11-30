@@ -4,7 +4,7 @@ metadata:
   name: django-debug-service
 spec:
   selector:
-    app: django-app
+    app: {{ .Values.appName }}
   ports:
     - name: 'app'
       protocol: TCP

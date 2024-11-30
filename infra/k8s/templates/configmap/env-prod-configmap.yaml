@@ -2,7 +2,7 @@ apiVersion: v1
 data:
   DEBUG: 'False'
   SENTRY_DSN: ''
-  DJANGO_ENV: production
+  DJANGO_ENV: 'production'
   DJANGO_SETTINGS_MODULE: djangoblog.settings
   COMPRESS_OFFLINE: 'True'
 

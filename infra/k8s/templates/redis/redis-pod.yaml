@@ -15,6 +15,7 @@ spec:
         - name: TZ
           value: Europe/Riga
       image: redis:7.4.0
+      imagePullPolicy: IfNotPresent
       livenessProbe:
         exec:
           command:
@@ -22,6 +23,9 @@ spec:
             - --raw
             - incr
             - ping
+        failureThreshold: 3
+        periodSeconds: 15
+        timeoutSeconds: 10
       name: redis
       ports:
         - containerPort: 6379

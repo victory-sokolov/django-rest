@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o infra/k8s
+        kompose.version: 1.34.0 (HEAD)
+    labels:
+        io.kompose.service: celery-worker
+    name: celery-worker
+spec:
+    # volumes:
+    #   - name: google-credentials-volume
+    #     secret:
+    #       secretName: google-credentials
+    containers:
+        - args:
+              - sh
+              - -c
+              - DJANGO_ENV=production uv run celery -A djangoblog worker -l info --uid=nobody --gid=nogroup
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          envFrom:
+              - secretRef:
+                    name: djapp
+          # env:
+          #   - name: GOOGLE_APPLICATION_CREDENTIALS
+          #     value: /secrets/key.json
+
+          # volumeMounts:
+          #   - name: google-credentials-volume
+          #     mountPath: /secrets
+          #     readOnly: true
+          livenessProbe:
+              exec:
+                  command:
+                      - celery
+                      - -A
+                      - djangoblog
+                      - inspect
+                      - ping
+              failureThreshold: 5
+              periodSeconds: 15
+              timeoutSeconds: 10
+          name: celery-worker
+          imagePullPolicy: Always
+          # resources:
+          #   limits:
+          #     cpu: '2'
+          #     memory: '2Gi'
+    restartPolicy: OnFailure

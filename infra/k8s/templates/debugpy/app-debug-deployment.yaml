@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: django-app-debug
+  name: "{{ .Values.appName }}-debug"
   labels:
-    app: django-app
+    app: {{ .Values.appName }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: django-app
+      app: {{ .Values.appName }}
   template:
     metadata:
       labels:
-        app: django-app
+        app: {{ .Values.appName }}
     spec:
       containers:
-        - name: django-app
+        - name: {{ .Values.appName }}
           image: victorysokolov/django-blog:cf825f65ee3b119b77a3c45992ced5daba20caa0
           command:
             [

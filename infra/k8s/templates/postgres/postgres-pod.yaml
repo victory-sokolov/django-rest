@@ -11,6 +11,7 @@ spec:
   containers:
     - name: postgres
       image: postgres:16.4
+      imagePullPolicy: IfNotPresent
       envFrom:
         - configMapRef:
             name: postgres-env
@@ -19,8 +20,8 @@ spec:
           command:
             - 'pg_isready -p -U -d'
         failureThreshold: 3
-        periodSeconds: 10
-        timeoutSeconds: 5
+        periodSeconds: 15
+        timeoutSeconds: 10
       ports:
         - containerPort: 5431
           protocol: TCP
@@ -36,4 +37,4 @@ spec:
   volumes:
     - name: djdata
       persistentVolumeClaim:
-        claimName: djdata
+        claimName: postgres-pvc

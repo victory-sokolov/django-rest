@@ -94,6 +94,9 @@ compose-up: ## Docker compose up with watch
 docker-local:
 	​docker compose -f docker-compose.yml -f docker-compose.local.yml up -d
 
+helm-upgrade:
+	helm upgrade django-blog infra/k8s --values infra/k8s/values.yaml
+
 push-image:
 	docker buildx build -t victorysokolov/django-blog:$(GIT_COMMIT_HASH) --push --platform linux/amd64,linux/arm64 .
 

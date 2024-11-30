@@ -7,7 +7,6 @@ echo "Using '$DJANGO_ENV' environment"
 make migrate
 make collectstatic
 
-
 # Create superuser
 make create-superuser
 # Generate posts

@@ -3,12 +3,11 @@ data:
   DEBUG: 'False'
   PGPORT: '5431'
   POSTGRES_DB: blog
-  POSTGRES_HOST: 127.0.0.1
+  POSTGRES_HOST: postgres
   POSTGRES_MAX_CONNECTIONS: '200'
   POSTGRES_PASSWORD: securepassword
   POSTGRES_USER: user
   POSTGRES_VERSION: '16.4'
-  REDIS_VERSION: 7.2.3
   TZ: Europe/Riga
 kind: ConfigMap
 metadata:
