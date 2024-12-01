@@ -39,7 +39,7 @@ spec:
                   #     value: /secrets/key.json
                   envFrom:
                       - secretRef:
-                            name: djapp
+                            name: {{ .Values.appsecrets }}
                       - configMapRef:
                             name: postgres-env
                   # volumeMounts:

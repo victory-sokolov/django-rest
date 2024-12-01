@@ -18,7 +18,7 @@ spec:
           #     value: /secrets/key.json
           envFrom:
             - secretRef:
-                name: djapp
+                name: {{ .Values.appsecrets }}
           volumeMounts:
             # - name: google-credentials-volume
             #   mountPath: /secrets

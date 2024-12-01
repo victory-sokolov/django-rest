@@ -20,7 +20,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           envFrom:
               - secretRef:
-                    name: djapp
+                    name: {{ .Values.appsecrets }}
           # env:
           #   - name: GOOGLE_APPLICATION_CREDENTIALS
           #     value: /secrets/key.json

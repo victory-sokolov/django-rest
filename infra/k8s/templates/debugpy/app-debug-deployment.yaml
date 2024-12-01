@@ -38,7 +38,7 @@ spec:
             - containerPort: 5678 # Debugpy port
           envFrom:
             - secretRef:
-                name: djapp
+                name: {{ .Values.appsecrets }}
           env:
             - name: DEV_DEPS
               value: 'true' # Install development dependencies

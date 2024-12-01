@@ -4,6 +4,8 @@ image:
   tag: 89a365019c6c0124f41240ae956f7d7b56b29859
   pullPolicy: Always
 
+appsecrets: app-secret
+
 postgresql:
   persistence:
     enabled: true

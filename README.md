@@ -53,7 +53,7 @@ For load testing we are using Locust
 
 ## Run with minikube
 
-1. `kubectl create secret generic djapp --from-env-file=.env`
+1. `kubectl create secret generic app-secret --from-env-file=.env`
 
 ## Terraform
 
