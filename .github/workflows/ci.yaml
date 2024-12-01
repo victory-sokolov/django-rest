@@ -50,6 +50,12 @@ jobs:
           set -v
           make run-checks
 
+      - name: Test Gunicorn config
+        shell: sh
+        run: |
+          set -v
+          uv run gunicorn --check-config djangoblog.wsgi:application --config gunicorn.py
+
       - name: Run tests
         run: |
           set -v
