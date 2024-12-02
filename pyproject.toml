@@ -140,7 +140,17 @@ strict_settings = true
 
 [lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
-select = ["E", "F", "E4", "E7", "E9", "B", "I", "DJ"]
+select = [
+    "E",
+    "F",
+    "E4",
+    "E7",
+    "E9",
+    "B",
+    "I",
+    "DJ",
+    "C4", # flake8-datetimez
+]
 fixable = ["ALL"]
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
