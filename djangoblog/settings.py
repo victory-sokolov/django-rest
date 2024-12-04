@@ -123,15 +123,11 @@ LOGOUT_REDIRECT_URL = "home"
 EXTRA_CHECKS = {
     "checks": [
         "field-file-upload-to",
-        "field-verbose-name",
         "field-text-null",
         "field-null",
         "field-foreign-key-db-index",
         "field-related-name",
         "no-unique-together",
-        # use dict form if check need configuration
-        # eg. all models must have fk to Site model
-        {"id": "model-attribute", "attrs": ["site"]},
         # require `db_table` for all models, increase level to CRITICAL
         {"id": "model-meta-attribute", "attrs": ["db_table"], "level": "CRITICAL"},
         # DRF

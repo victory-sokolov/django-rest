@@ -8,7 +8,7 @@ from djangoblog.api.v1.posts.validators import SlugValidator, TagValidator
 class PostStatistics(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ["likes", "favorites", "views"]
+        read_only_fields = ["likes", "favorites", "views"]
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -18,6 +18,7 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tags
         fields = ["tag"]
         validators = [TagValidator()]
+        read_only_fields = []
 
 
 @extend_schema_serializer(exclude_fields=("title", "content", "user"))
@@ -60,4 +61,5 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ["id", "title", "slug", "tags", "user", "content"]
+        fields = ["id", "title", "slug", "user", "tags", "content"]
+        read_only_fields = ["user", "tags"]

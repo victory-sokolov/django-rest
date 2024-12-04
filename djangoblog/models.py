@@ -41,7 +41,7 @@ class UserProfile(AbstractUser, PermissionsMixin):
     email = models.EmailField(max_length=50, unique=True)
     email_verified = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
-    password = models.CharField(max_length=100, null=False)
+    password = models.CharField(max_length=100)
     profile_picture = models.ImageField(
         upload_to="avatars",
         default="avatars/default.png",
@@ -54,6 +54,9 @@ class UserProfile(AbstractUser, PermissionsMixin):
     REQUIRED_FIELDS = ["name"]
 
     objects = CustomAccountManager()
+
+    class Meta:
+        db_table = "user_profile"
 
     def is_member(self, group_name: Roles):
         return self.groups.filter(name=group_name.value).exists()
