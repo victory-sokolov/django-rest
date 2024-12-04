@@ -42,12 +42,13 @@ dependencies = [
     "psycopg[binary,pool] ~=3.2",
     "google-cloud-pubsub ~=2.25",
     "django-prometheus>=2.3.1",
+    "django-extra-checks>=0.15.1",
 ]
 
 [tool.uv]
 dev-dependencies = [
     "django-watchfiles ~= 0.2",
-    "watchdog[watchmedo] ~= 5.0.3",
+    "watchdog[watchmedo] ~= 6.0.0",
     "coverage ~=7.6.5",
     "Faker ~=23.1.0",
     "openapi-spec-validator ~=0.7.1",

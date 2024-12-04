@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_prometheus",
     "rest_framework.authtoken",
+    "extra_checks",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -117,13 +118,35 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
+# Enable extra checks
+# https://github.com/kalekseev/django-extra-checks
+EXTRA_CHECKS = {
+    "checks": [
+        "field-file-upload-to",
+        "field-verbose-name",
+        "field-text-null",
+        "field-null",
+        "field-foreign-key-db-index",
+        "field-related-name",
+        "no-unique-together",
+        # use dict form if check need configuration
+        # eg. all models must have fk to Site model
+        {"id": "model-attribute", "attrs": ["site"]},
+        # require `db_table` for all models, increase level to CRITICAL
+        {"id": "model-meta-attribute", "attrs": ["db_table"], "level": "CRITICAL"},
+        # DRF
+        "drf-model-serializer-extra-kwargs",
+        {"id": "drf-model-serializer-meta-attribute", "attrs": ["read_only_fields"]},
+    ],
+}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "output/static")
 COMPRESS_ROOT = STATIC_ROOT
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "djangoblog/static"),
+    os.path.join(BASE_DIR, "dmjangoblog/static"),
     os.path.join(BASE_DIR, "node_modules", "bootstrap", "dist"),
 ]
 STATICFILES_FINDERS = [
