@@ -475,12 +475,10 @@ USE_TZ = True
 
 ADMIN_LANGUAGE_CODE = "en-us"
 
-if settings.APP_ENV not in ["test", "local", "development"]:
-    if settings.USE_GC_LOCAL:
-        path = f"{BASE_DIR}/infra/terraform/gcp-creds.json"
-        print(f"Using local GCP creds from {path}")
-        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(path)
-
+if settings.APP_ENV == "production" and settings.USE_GC_LOCAL:
+    path = f"{BASE_DIR}/infra/terraform/gcp-creds.json"
+    print(f"Using local GCP creds from {path}")
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(path)
 
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
@@ -568,17 +566,20 @@ import dynaconf  # noqa
 settings = dynaconf.DjangoDynaconf(__name__)  # noqa
 # HERE ENDS DYNACONF EXTENSION LOAD (No more code below this line)
 
-# if settings.APP_ENV == "production" and settings.SENTRY_ENABLED:
-#     sentry_sdk.init(
-#         dsn=settings.SENTRY_DSN,
-#         integrations=[
-#             django.DjangoIntegration(),
-#             celery.CeleryIntegration(),
-#             redis.RedisIntegration(),
-#         ],
-#         # Set traces_sample_rate to 1.0 to capture 100%
-#         # of transactions for performance monitoring.
-#         # We recommend adjusting this value in production.
-#         traces_sample_rate=0.2,
-#         send_default_pii=True,
-#     )
+if settings.APP_ENV == "production" and settings.SENTRY_ENABLED:
+    import sentry_sdk
+    from sentry_sdk.integrations import celery, django, redis
+
+    sentry_sdk.init(
+        dsn=settings.SENTRY_DSN,
+        integrations=[
+            django.DjangoIntegration(),
+            celery.CeleryIntegration(),
+            redis.RedisIntegration(),
+        ],
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=0.2,
+        send_default_pii=True,
+    )

@@ -32,6 +32,7 @@ local:
   SECRET_KEY: '@format {env[SECRET_KEY]}'
   ALLOWED_HOSTS: ['*']
   USE_GC_LOCAL: False
+  SENTRY_ENABLED: True
 
   CACHE_BACKEND: django_redis.cache.RedisCache
   REDIS_URL: redis://localhost:6379/0
