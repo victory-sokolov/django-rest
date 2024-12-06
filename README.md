@@ -67,3 +67,13 @@ Run: `ls locustfile.py |entr -r uv run locust -f locustfile.py --host=http://loc
 2. Create secret from file: `kubectl create secret generic google-credentials --from-file=infra/terraform/gcp-creds.json -n default`
 3. Create secrets from `.env` file: `kubectl create secret generic app --from-env-file=<(env -i sh -c "set -a; . .env; printenv | grep -v '^PWD='")`
 4. Apply kubernetes config `kubernetes apply -f infra/k8`
+
+
+## ArgoCD
+
+1. Install Helm chart: `helm install argo-cd charts/argo-cd/`
+2. To access web UI: `kubectl port-forward svc/argo-cd-argocd-server 8089:443`
+Visit `http://localhost:8089`
+3. Username: `admin`.
+Get password: `kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
+4. From `infra/k8s/charts` directory run: `helm template root-app/ | kubectl apply -f -`

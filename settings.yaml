@@ -41,6 +41,7 @@ local:
   DATABASES:
     default:
       <<: *database
+      HOST: postgres
 
 # For Docker environment
 development:
