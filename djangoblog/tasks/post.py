@@ -14,6 +14,7 @@ class GetPostsTask(celery.Task):
     """GetPostsTask."""
 
     name = "GetPostTask"
+    expires = 600
     POST_PER_PAGE = 20
 
     def run(self):
@@ -33,7 +34,7 @@ class GetPostsTask(celery.Task):
 
 class CreatePostsTask(celery.Task):
     """CreatePostsTask."""
-    
+
     name = "CreatePostTask"
 
     def run(self, data: dict):
