@@ -76,4 +76,4 @@ Run: `ls locustfile.py |entr -r uv run locust -f locustfile.py --host=http://loc
 Visit `http://localhost:8089`
 3. Username: `admin`.
 Get password: `kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
-4. From `infra/k8s/charts` directory run: `helm template root-app/ | kubectl apply -f -`
+4. Apply manifest. From `infra/k8s/charts` directory run: `helm template root-app/ | kubectl apply -f -`
