@@ -8,7 +8,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/victory-sokolov/django-rest.git
-    path: infra/k8/charts/root-app/
+    path: infra/k8s/charts/root-app/
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
