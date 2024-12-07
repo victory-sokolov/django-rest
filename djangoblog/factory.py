@@ -1,14 +1,16 @@
 import secrets
 from datetime import datetime, timedelta
 
-import factory
 from django.utils import timezone
+from factory import Faker, LazyAttribute, lazy_attribute
+from factory.django import DjangoModelFactory
 
 from djangoblog.api.models.post import Post
 from djangoblog.models import UserProfile
+from djangoblog.utilities import slugify
 
 
-class AccountFactory(factory.django.DjangoModelFactory):
+class AccountFactory(DjangoModelFactory):
     class Meta:
         model = Post
 
@@ -17,13 +19,14 @@ class AccountFactory(factory.django.DjangoModelFactory):
         defaults={
             "email": "admin@gmail.com",
             "name": "Admin",
-            "password": factory.Faker("password", length=10),
+            "password": Faker("password", length=10),
         },
     )[0]
-    title = factory.Faker("sentence", nb_words=12)
-    content = factory.Faker("sentence", nb_words=100)
+    title = Faker("sentence", nb_words=12)
+    content = Faker("sentence", nb_words=100)
+    slug = LazyAttribute(lambda obj: slugify(obj.title))
 
-    @factory.lazy_attribute
+    @lazy_attribute
     def created_at(self) -> datetime:
         days = secrets.randbelow(61)
         dt = datetime.now() - timedelta(days=days)
