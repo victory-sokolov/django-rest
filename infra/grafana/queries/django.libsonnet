@@ -4,6 +4,23 @@ local prometheusQuery = g.query.prometheus;
 local variables = import '../variables.libsonnet';
 
 {
+
+  django_response_status:
+    prometheusQuery.new(
+      '$' + variables.datasource.name,
+      |||
+        sum(
+            increase(
+                django_http_responses_total_by_status_total{instance=~"$instance"}[$__rate_interval]
+            )
+        ) by (status) or vector(0)
+      |||
+    )
+    + prometheusQuery.withIntervalFactor(2)
+    + prometheusQuery.withLegendFormat(|||
+      {{status}}
+    |||),
+
   db_errors:
     prometheusQuery.new(
       '$' + variables.datasource.name,

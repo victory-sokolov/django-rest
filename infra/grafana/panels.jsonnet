@@ -46,6 +46,7 @@ local g = import 'g.libsonnet';
     request_latency: self.base,
     database_total_queries: self.base,
     gunicorn_request_duration: self.base,
+    django_response_status: self.base,
 
     heatmap: {
       local heatmap = g.panel.heatmap,

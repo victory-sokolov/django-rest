@@ -38,9 +38,9 @@ g.dashboard.new('Django App Dashboard')
           haproxy.haproxy_frontned_session_limit
         ),
         panels.timeseries.haproxy_requests(
-            'HAProxy Requests',
-            'HAProxy Requests',
-            haproxy.haproxy_requests
+          'HAProxy Requests',
+          'HAProxy Requests',
+          haproxy.haproxy_requests
         ),
         panels.timeseries.haproxy_avg_response_time(
           'Average Response Time',
@@ -69,6 +69,11 @@ g.dashboard.new('Django App Dashboard')
           'Django Request Latency',
           'Django Request Latency',
           django.request_latency
+        ),
+        panels.timeseries.django_response_status(
+          'Django Response Status',
+          'Django Response Status',
+          django.django_response_status
         ),
         panels.timeseries.gunicorn_request_duration(
           'Gunicorn request duration',
