@@ -37,13 +37,18 @@ g.dashboard.new('Django App Dashboard')
           'Frontend Session Limit',
           haproxy.haproxy_frontned_session_limit
         ),
+        panels.timeseries.haproxy_requests(
+            'HAProxy Requests',
+            'HAProxy Requests',
+            haproxy.haproxy_requests
+        ),
         panels.timeseries.haproxy_avg_response_time(
           'Average Response Time',
           'Haproxy FAverage Response Time',
           haproxy.haproxy_avg_response_time
         ),
         panels.timeseries.haproxy_avg_response_time(
-          'Status Codes',
+          'Frontend Status Codes',
           'Haproxy Status Codes',
           haproxy.haproxy_status_codes
         ),

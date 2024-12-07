@@ -156,7 +156,7 @@
             "type": "$datasource",
             "uid": "$Prometheus"
          },
-         "description": "Haproxy FAverage Response Time",
+         "description": "HAProxy Requests",
          "fieldConfig": {
             "defaults": {
                "custom": {
@@ -189,11 +189,12 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "avg(\n haproxy_backend_response_time_average_seconds{instance=~\"$instance\"}\n) or vector(0)\n",
-               "legendFormat": "Haproxy average response time\n"
+               "expr": "sum(\n    rate(\n        haproxy_frontend_http_requests_total{proxy=\"http-in\", instance=~\"$instance\"}[$__rate_interval]\n    )\n) by (code) or vector(0)\n",
+               "intervalFactor": 2,
+               "legendFormat": "HAProxy Requests\n"
             }
          ],
-         "title": "Average Response Time",
+         "title": "HAProxy Requests",
          "type": "timeseries"
       },
       {
@@ -201,7 +202,7 @@
             "type": "$datasource",
             "uid": "$Prometheus"
          },
-         "description": "Haproxy Status Codes",
+         "description": "Haproxy FAverage Response Time",
          "fieldConfig": {
             "defaults": {
                "custom": {
@@ -234,11 +235,56 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{\n        proxy=\"http-in\",\n        instance=~\"$instance\"\n    }[$__rate_interval])\n) by (code) or vector(0)\n",
-               "legendFormat": "Haproxy status codes\n"
+               "expr": "avg(\n haproxy_backend_response_time_average_seconds{instance=~\"$instance\"}\n) by (proxy) or vector(0)\n",
+               "legendFormat": "{{ proxy }} Response Time\n"
             }
          ],
-         "title": "Status Codes",
+         "title": "Average Response Time",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$Prometheus"
+         },
+         "description": "Haproxy Status Codes",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               }
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 17
+         },
+         "id": 7,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$Prometheus"
+               },
+               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{\n        proxy=\"http-in\",\n        instance=~\"$instance\"\n    }[$__rate_interval])\n) by (code) or vector(0)\n",
+               "legendFormat": "Frontend {{ code }}\n"
+            }
+         ],
+         "title": "Frontend Status Codes",
          "type": "timeseries"
       },
       {
@@ -249,7 +295,7 @@
             "x": 0,
             "y": 25
          },
-         "id": 7,
+         "id": 8,
          "panels": [ ],
          "title": "Django",
          "type": "row"
@@ -266,7 +312,7 @@
             "x": 0,
             "y": 26
          },
-         "id": 8,
+         "id": 9,
          "interval": "1m",
          "pluginVersion": "v11.1.0",
          "targets": [
@@ -295,7 +341,7 @@
             "x": 12,
             "y": 26
          },
-         "id": 9,
+         "id": 10,
          "interval": "1m",
          "pluginVersion": "v11.1.0",
          "targets": [
@@ -332,7 +378,7 @@
             "x": 0,
             "y": 34
          },
-         "id": 10,
+         "id": 11,
          "interval": "1m",
          "options": {
             "legend": {
@@ -378,7 +424,7 @@
             "x": 12,
             "y": 34
          },
-         "id": 11,
+         "id": 12,
          "interval": "1m",
          "options": {
             "legend": {
@@ -424,7 +470,7 @@
             "x": 0,
             "y": 42
          },
-         "id": 12,
+         "id": 13,
          "interval": "1m",
          "options": {
             "legend": {
@@ -462,7 +508,7 @@
             "x": 12,
             "y": 42
          },
-         "id": 13,
+         "id": 14,
          "interval": "1m",
          "pluginVersion": "v11.1.0",
          "targets": [
@@ -487,7 +533,7 @@
             "x": 0,
             "y": 50
          },
-         "id": 14,
+         "id": 15,
          "panels": [ ],
          "title": "PostgreSQL",
          "type": "row"
@@ -503,7 +549,7 @@
             "x": 0,
             "y": 51
          },
-         "id": 15,
+         "id": 16,
          "interval": "1m",
          "pluginVersion": "v11.1.0",
          "targets": [

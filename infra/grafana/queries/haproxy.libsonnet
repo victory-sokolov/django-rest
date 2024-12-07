@@ -5,6 +5,22 @@ local variables = import '../variables.libsonnet';
 
 {
 
+  haproxy_requests:
+    prometheusQuery.new(
+      '$' + variables.datasource.name,
+      |||
+        sum(
+            rate(
+                haproxy_frontend_http_requests_total{proxy="http-in", instance=~"$instance"}[$__rate_interval]
+            )
+        ) by (code) or vector(0)
+      |||
+    )
+    + prometheusQuery.withIntervalFactor(2)
+    + prometheusQuery.withLegendFormat(|||
+      HAProxy Requests
+    |||),
+
   haproxy_frontned_session_limit:
     prometheusQuery.new(
       '$' + variables.datasource.name,
@@ -57,7 +73,7 @@ local variables = import '../variables.libsonnet';
       |||
     )
     + prometheusQuery.withLegendFormat(|||
-      Haproxy status codes
+      Frontend {{ code }}
     |||),
 
   haproxy_avg_response_time:
@@ -66,11 +82,11 @@ local variables = import '../variables.libsonnet';
       |||
         avg(
          haproxy_backend_response_time_average_seconds{instance=~"$instance"}
-        ) or vector(0)
+        ) by (proxy) or vector(0)
       |||
     )
     + prometheusQuery.withLegendFormat(|||
-      Haproxy average response time
+      {{ proxy }} Response Time
     |||),
 
 }
