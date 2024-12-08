@@ -165,15 +165,12 @@ services:
     ports:
       - 5432:5432
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   haproxy:
     networks:
       - default
-    env_file:
-      - .env
-    environment:
-      <<: *default-env
     build:
       context: docker/haproxy/
     volumes:
@@ -184,7 +181,7 @@ services:
         - action: rebuild
           path: ./docker/haproxy/haproxy.cfg
     ports:
-      - ${HAPROXY_PORT}:${HAPROXY_PORT}
+      - 8080:8080
       - 8404:8404 # Haproxy stats
       - 8405:8405 # Prometheus metrics
     depends_on:

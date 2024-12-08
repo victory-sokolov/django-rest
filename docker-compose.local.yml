@@ -2,6 +2,14 @@ name: djangoblog
 
 services:
 
+  haproxy:
+    environment:
+      HAPROXY_PORT: 8082
+    ports: !override
+      - 8082:8082
+      - 8404:8404 # Haproxy stats
+      - 8405:8405 # Prometheus metrics
+
   # Docker logs monitoring
   dozzle:
     # Disable service
@@ -27,6 +35,11 @@ services:
       watch:
         - action: rebuild
           path: ./infra/prometheus/
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
   grafana:
     image: grafana/grafana-oss
@@ -84,6 +97,26 @@ services:
     links:
       - postgres
       - prometheus
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    privileged: true
+    ports:
+      - 9323:8080
+    networks:
+      - default
+    labels:
+      org.label-schema.group: "monitoring"
+    devices:
+      - /dev/kmsg:/dev/kmsg
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /etc/machine-id:/etc/machine-id:ro
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
 
 networks:
   default:
