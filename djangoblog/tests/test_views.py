@@ -51,6 +51,7 @@ class BlogPageTest(TestCase):
         post = Post.objects.create(
             title="Test post",
             content="Test post data",
+            slug="test-post",
             user=self.user,
         )
         response = self.api_client.get(
@@ -64,7 +65,8 @@ class BlogPageTest(TestCase):
         self.client.force_login(user=self.user)
         form_data = {
             "title": "Post Title",
-            "post": "Post body",
+            "content": "Post body",
+            "slug": "post-slug",
             "tags": json.dumps([{"value": "Python"}, {"value": "Django"}]),
         }
         response = self.client.post(

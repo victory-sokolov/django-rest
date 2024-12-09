@@ -13,6 +13,7 @@ class TestPostModel(TestCase):
             user=cls.user,
             title="My Blog post",
             content="Blog post body text",
+            slug="test-blog-post",
         )
 
     def test_post_creation(self) -> None:

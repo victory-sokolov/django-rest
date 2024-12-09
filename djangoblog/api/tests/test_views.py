@@ -8,6 +8,7 @@ from rest_framework.test import APIClient, APITestCase
 from djangoblog.api.models.post import Post
 from djangoblog.factory import AccountFactory
 from djangoblog.models import UserProfile
+from djangoblog.utilities import slugify
 
 
 class TestPostApi(APITestCase):
@@ -22,7 +23,8 @@ class TestPostApi(APITestCase):
         self.client.force_login(user=self.user)
 
     def test_create_new_post(self):
-        data = {"title": "JavaScript Fetch API", "content": "Fetch API Data"}
+        title = "JavaScript Fetch API"
+        data = {"title": title, "slug": slugify(title), "content": "Fetch API Data"}
         response = self.client.post("/api/v1/post/", data=data)
         self.assertEqual(201, response.status_code)
         self.assertEqual(Post.objects.count(), 2)
@@ -32,7 +34,11 @@ class TestPostApi(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_post_bad_request(self):
-        data = {"title": "JavaScript Fetch API", "content": "Fetch API Data"}
+        data = {
+            "title": "JavaScript Fetch API",
+            "content": "Fetch API Data",
+            "slug": "js-fetch",
+        }
         response = self.client.post("/api/v1/post/", data=data)
         post_id = json.loads(response.content)["id"]
 
@@ -42,14 +48,18 @@ class TestPostApi(APITestCase):
         self.assertEqual(response2.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_delete_post(self):
-        data = {"title": "JavaScript Fetch API", "content": "Fetch API Data"}
+        data = {
+            "title": "JavaScript Fetch API",
+            "content": "Fetch API Data",
+            "slug": uuid4(),
+        }
         post = self.client.post("/api/v1/post/", data=data)
         id = json.loads(post.content)["id"]
         response = self.client.delete(f"/api/v1/post/{id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_post_not_found(self):
-        data = {"title": "Title 2", "content": "Content 2"}
+        data = {"title": "Title 2", "content": "Content 2", "slug": "title-2"}
         update_post = self.client.put(f"/api/v1/post/{uuid4()}/", data=data)
         delete_post = self.client.delete(f"/api/v1/post/{uuid4()}/")
         get_post = self.client.get(f"/api/v1/post/{uuid4()}/")
@@ -59,8 +69,16 @@ class TestPostApi(APITestCase):
         self.assertEqual(get_post.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_update_post(self):
-        initial_data = {"title": "JavaScript Fetch", "content": "Fetch Data"}
-        new_data = {"title": "JavaScript Axios", "content": "Axios Data"}
+        initial_data = {
+            "title": "JavaScript Fetch",
+            "content": "Fetch Data",
+            "slug": "js-slug",
+        }
+        new_data = {
+            "title": "JavaScript Axios",
+            "content": "Axios Data",
+            "slug": "js-slug",
+        }
         create_post = self.client.post(
             "/api/v1/post/",
             data=initial_data,
