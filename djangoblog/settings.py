@@ -75,7 +75,7 @@ COLLECTFASTA_STRATEGY = "collectfasta.strategies.filesystem.FileSystemStrategy"
 COLLECTFASTA_CACHE = "collectfasta"
 COLLECTFASTA_DEBUG = True
 COLLECTFASTA_ENABLED = True
-COLLECTFASTA_THREADS = 20
+COLLECTFASTA_THREADS = 25
 
 # Application definition
 INSTALLED_APPS = [
