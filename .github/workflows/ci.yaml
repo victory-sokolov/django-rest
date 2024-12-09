@@ -54,7 +54,7 @@ jobs:
         shell: sh
         run: |
           set -v
-          uv run gunicorn --check-config djangoblog.wsgi:application --config gunicorn.py
+          uv run gunicorn --check-config djangoblog.wsgi:application --config gunicorn_config.py
 
       - name: Run tests
         run: |

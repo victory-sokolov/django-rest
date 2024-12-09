@@ -2,6 +2,7 @@ import sys
 from unittest import mock
 
 from django.test import SimpleTestCase
+
 from gunicorn.app.wsgiapp import run
 
 
@@ -11,8 +12,8 @@ class GunicornConfigTests(SimpleTestCase):
             "gunicorn",
             "--check-config",
             "--config",
-            "python:example.gunicorn",
-            "example.wsgi",
+            "gunicorn_config.py",
+            "djangoblog.wsgi:application",
         ]
         mock_argv = mock.patch.object(sys, "argv", argv)
 
