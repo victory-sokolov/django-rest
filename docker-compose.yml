@@ -20,17 +20,18 @@ services:
           path: ./uv.lock
     networks:
       - default
-    volumes:
-       - static_volume:/app/output/static
+    # volumes:
+    #    - static_volume:/app/output/static
     ports:
       - 8001:8001
     expose:
       - 8001
     # healthcheck:
-    #   test: ["CMD", "curl", "--fail", "http://0.0.0.0:80/healthcheck"]
-    #   timeout: 5s
-    #   retries: 3
-    #   start_period: 50s
+    #   test: ["CMD", "curl", "--fail", "http://0.0.0.0:8080/healthcheck"]
+    #   interval: 15s
+    #   timeout: 12s
+    #   retries: 5
+    #   start_period: 60s
 
   worker:
     extends:
@@ -56,8 +57,9 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "celery", "-A", "djangoblog", "inspect", "ping"]
       interval: 15s
-      timeout: 10s
+      timeout: 5s
       retries: 5
+      start_period: 60s
 
   redis:
     restart: unless-stopped
@@ -102,8 +104,8 @@ services:
       timeout: 25s
       retries: 5
     depends_on:
-      - app
-      - worker
+      worker:
+        condition: service_healthy
     ports:
       - 80:80
       - 443:443
