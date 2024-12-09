@@ -2,20 +2,13 @@ name: djangoblog
 
 x-environment: &default-env
   TZ: Europe/Riga
-  DJANGO_LOG_LEVEL: DEBUG
 
 services:
 
   app:
-    env_file:
-      - .env
-    environment:
-      <<: *default-env
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        DEV_DEPS: true
+    extends:
+      file: ./docker/docker-compose.common.yml
+      service: application
     develop:
       watch:
         - action: sync
@@ -38,32 +31,23 @@ services:
     #   timeout: 5s
     #   retries: 3
     #   start_period: 50s
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
 
   worker:
+    extends:
+      file: ./docker/docker-compose.common.yml
+      service: application
     restart: unless-stopped
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        DEV_DEPS: true
-    env_file:
-      - .env
     environment:
       <<: *default-env
     networks:
       - default
     command: >
       sh -c "
-      uv run watchmedo auto-restart \
+      watchmedo auto-restart \
       --directory=./djangoblog \
       --pattern='**/tasks/*.py' \
       --recursive -- \
-      uv run celery -A djangoblog worker -l info --uid=nobody --gid=nogroup
+      celery -A djangoblog worker -l info --uid=nobody --gid=nogroup
       "
     volumes:
       - type: bind
@@ -74,11 +58,6 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
-    depends_on:
-      redis:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
 
   redis:
     restart: unless-stopped
@@ -164,6 +143,8 @@ services:
       - .env
     ports:
       - 5432:5432
+    environment:
+      <<: *default-env
     depends_on:
       postgres:
         condition: service_healthy
@@ -180,6 +161,9 @@ services:
       watch:
         - action: rebuild
           path: ./docker/haproxy/haproxy.cfg
+    environment:
+      <<: *default-env
+      HAPROXY_PORT: 8080
     ports:
       - 8080:8080
       - 8404:8404 # Haproxy stats

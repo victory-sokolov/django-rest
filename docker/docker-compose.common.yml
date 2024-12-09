@@ -1,0 +1,17 @@
+services:
+  application:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+      args:
+        DEV_DEPS: true
+    env_file:
+      - ../.env
+    environment:
+      DJANGO_LOG_LEVEL: DEBUG
+      TZ: Europe/Riga
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
