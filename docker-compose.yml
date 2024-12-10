@@ -103,9 +103,6 @@ services:
       test: ["CMD", "service", "nginx", "status"]
       timeout: 25s
       retries: 5
-    depends_on:
-      worker:
-        condition: service_healthy
     ports:
       - 80:80
       - 443:443
