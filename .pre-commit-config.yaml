@@ -37,7 +37,7 @@ repos:
     hooks:
       - id: check-django-migrations
         name: Check django migrations
-        entry: python manage.py makemigrations --dry-run --check
+        entry: uv run python manage.py makemigrations --dry-run --check
         language: system
         types: [python] # hook only runs if a python file is staged
         pass_filenames: false
@@ -46,7 +46,7 @@ repos:
     hooks:
       - id: check-django
         name: Run Check command for Django
-        entry: python manage.py check --settings=djangoblog.settings --deploy
+        entry: uv run python manage.py check --settings=djangoblog.settings --deploy
         language: system
         types: [python] # hook only runs if a python file is staged
         pass_filenames: false
