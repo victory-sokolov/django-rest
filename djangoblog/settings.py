@@ -237,6 +237,10 @@ LOGGING = {
         #     "filename": BASE_DIR + "/var/logs/django_blog.log",
         #     "formatter": "plain",
         # },
+        "base": {
+            "class": "logging.StreamHandler",
+            "level": "INFO",
+        },
         "console": {
             "class": "rich.logging.RichHandler",
             "formatter": "rich",
@@ -278,24 +282,6 @@ LOGGING = {
         "filters": ["exclude_logs"],
     },
 }
-
-TEST_LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-        },
-    },
-    "root": {
-        "handlers": ["console"],
-        "level": "WARNING",
-    },
-}
-
-if "test" in sys.argv:
-    LOGGING = TEST_LOGGING
-
 
 CACHES = {
     "default": {
