@@ -20,8 +20,8 @@ services:
           path: ./uv.lock
     networks:
       - default
-    # volumes:
-    #    - static_volume:/app/output/static
+    volumes:
+       - static_volume:/app/output/static
     ports:
       - 8001:8001
     expose:
