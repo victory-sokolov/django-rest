@@ -20,6 +20,7 @@ services:
           path: ./uv.lock
     networks:
       - default
+      - docker-elk_elk
     volumes:
        - static_volume:/app/output/static
     ports:
@@ -42,6 +43,7 @@ services:
       <<: *default-env
     networks:
       - default
+      - docker-elk_elk
     command: >
       sh -c "
       watchmedo auto-restart \
@@ -92,6 +94,7 @@ services:
       <<: *default-env
     networks:
       - default
+      - docker-elk_elk
     volumes:
       - static_volume:/app/output/static
       - ./certs:/etc/nginx/certs:ro
@@ -116,6 +119,7 @@ services:
     restart: on-failure
     networks:
       - default
+      - docker-elk_elk
     env_file:
       - .env
     environment:
@@ -151,6 +155,7 @@ services:
   haproxy:
     networks:
       - default
+      - docker-elk_elk
     build:
       context: docker/haproxy/
     volumes:
@@ -173,6 +178,9 @@ services:
 networks:
   default:
     driver: bridge
+  # External elk docker network
+  docker-elk_elk:
+    external: true
 
 volumes:
   data:
