@@ -9,6 +9,7 @@ services:
       - ../.env
     environment:
       DJANGO_LOG_LEVEL: DEBUG
+      DJANGO_ENV: production
       TZ: Europe/Riga
     depends_on:
       redis:
