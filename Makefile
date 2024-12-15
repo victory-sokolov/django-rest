@@ -66,7 +66,7 @@ run-checks:
 	DJANGO_ENV=$(ENV) uv run python manage.py check
 
 test: ## Run tests with coverage
-	DJANGO_ENV=test uv run coverage run --parallel-mode --concurrency=multiprocessing manage.py test --parallel -v 2
+	DJANGO_ENV=test uv run coverage run manage.py test --parallel -v 2
 	DJANGO_ENV=test uv run coverage combine
 	DJANGO_ENV=test uv run coverage report
 	DJANGO_ENV=test uv run coverage html
