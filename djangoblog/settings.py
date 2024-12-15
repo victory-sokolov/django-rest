@@ -7,6 +7,8 @@ from django.contrib.messages import constants as messages
 from dynaconf import Validator
 from google.oauth2 import service_account
 
+from djangoblog.logger import date_fmt
+
 settings = dynaconf.DjangoDynaconf(
     __name__,
     environments=True,
@@ -45,7 +47,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = None
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 AUTH_USER_MODEL = "djangoblog.UserProfile"
 AUTHENTICATION_BACKENDS = ("djangoblog.auth_backends.CustomUserModelBackend",)
@@ -157,7 +159,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Prevent cookies from being sent in cross-site requests
 SESSION_COOKIE_SAMESITE = "Lax"
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8080", "http://0.0.0.0:8080"]
 
 # Sets X-Frame-Options header
 SECURE_BROWSER_XSS_FILTER = True
@@ -214,6 +216,93 @@ SIMPLE_JWT = {
     "JWK_URL": None,
 }
 
+# Logging
+
+FORMATTERS = {
+    "verbose": {
+        "format": "[{levelname}]: {asctime:s} {name} Thread: {threadName} {thread:d} | Module: {module} | File: {filename} {lineno:d} {name} {funcName} {process:d} {message}",
+        "datefmt": date_fmt,
+        "style": "{",
+    },
+    "simple": {
+        "format": "[{levelname}]: {asctime:s} {name} | Module: {module} | File: {filename} {lineno:d} {funcName} {message}",
+        "datefmt": date_fmt,
+        "style": "{",
+    },
+    "rich": {
+        "datefmt": date_fmt,
+    },
+}
+
+LOGGERS = {
+    "django": {
+        "handlers": ["console"],
+        "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+        "filters": ["exclude_logs"],
+        "propagate": True,
+    },
+    "django.request": {
+        "handlers": ["logstash", "console"],
+        "level": "INFO",
+        "propagate": True,
+    },
+    "django.template": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+        "propagate": True,
+    },
+    # Log DB queries
+    "django.db.backends": {
+        "level": "DEBUG",
+        "handlers": ["console"],
+        "propagate": True,
+    },
+    "gunicorn.error": {
+        "handlers": [
+            "console",
+            "logstash",
+        ],
+        "level": "INFO",
+    },
+    "gunicorn.access": {
+        "handlers": [
+            "console",
+            "logstash",
+        ],
+        "level": "INFO",
+    },
+}
+
+LOGGING_HANDLERS = {
+    "base": {
+        "class": "logging.StreamHandler",
+        "level": "INFO",
+        "formatter": "simple",
+    },
+    "console": {
+        "class": "logging.StreamHandler",
+        "formatter": "verbose",
+        "level": "INFO",
+        "filters": ["exclude_logs"],
+    },
+    "rich-console": {
+        "class": "rich.logging.RichHandler",
+        "formatter": "rich",
+        "level": "INFO",
+        "filters": ["exclude_logs"],
+    },
+    "logstash": {
+        "level": "INFO",
+        "class": "logstash.TCPLogstashHandler",
+        "host": "localhost",
+        "port": 50000,
+        "version": 1,
+        "message_type": "django",
+        "fqdn": False,
+        "tags": ["django.request"],
+    },
+}
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -222,59 +311,9 @@ LOGGING = {
             "()": "djangoblog.filter.LogFilter",
         },
     },
-    "formatters": {
-        "rich": {"datefmt": "[%X]"},
-        "plain": {
-            "format": "[%(asctime)s:%(levelname)s] | %(funcName)s | %(name)s | %(message)s",
-            "datefmt": "%Y-%m-%d %H:%M:%S",
-            "exclude_fileds": ["esc", "process.thread"],
-        },
-    },
-    "handlers": {
-        # "logger": {
-        #     "level": "DEBUG",
-        #     "class": "logging.handlers.RotatingFileHandler",
-        #     "filename": BASE_DIR + "/var/logs/django_blog.log",
-        #     "formatter": "plain",
-        # },
-        "base": {
-            "class": "logging.StreamHandler",
-            "level": "INFO",
-        },
-        "console": {
-            "class": "rich.logging.RichHandler",
-            "formatter": "rich",
-            "level": "INFO",
-            "filters": ["exclude_logs"],
-        },
-        "logstash": {
-            "level": "INFO",
-            "class": "logstash.TCPLogstashHandler",
-            "host": "localhost",
-            "port": 50000,
-            "message_type": "django",
-            "fqdn": False,
-            "tags": ["django.request"],
-        },
-    },
-    "loggers": {
-        "django.request": {
-            "handlers": ["logstash", "console"],
-            "level": "INFO",
-            "propagate": True,
-        },
-        "django": {
-            "handlers": ["console"],
-            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
-            "propagate": True,
-            "filters": ["exclude_logs"],
-        },
-        # Log DB queries
-        "django.db.backends": {
-            "level": "DEBUG",
-            "handlers": ["console"],
-        },
-    },
+    "formatters": FORMATTERS,
+    "handlers": LOGGING_HANDLERS,
+    "loggers": LOGGERS,
     "root": {
         "handlers": [],
         "level": "INFO",

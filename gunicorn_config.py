@@ -10,7 +10,6 @@ worker_class = "gevent"
 timeout = 60
 # Timeout for graceful workers restart.
 graceful_timeout = 40
-loglevel = "info"
 proxy_protocol = True
 preload_app = False
 forwarded_allow_ips = "*"
@@ -22,9 +21,10 @@ backlog = 2048
 
 # certfile = "certs/cert.crt"
 # keyfile = "certs/cert.key"
-# accesslog = "/path/to/gunicorn.access.log"
-# errorlog = "/path/to/gunicorn.error.log"
-
+loglevel = "info"
+capture_output = True
+accesslog = "-"
+errorlog = "-"
 
 METRIC_INTERVAL = os.environ.get("SATURATION_METRIC_INTERVAL", 5)
 

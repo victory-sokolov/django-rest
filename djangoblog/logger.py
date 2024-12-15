@@ -1,6 +1,8 @@
 import logging
 import ecs_logging
 
+date_fmt = "%Y-%m-%d %H:%M:%S"
+
 # Get the Logger
 logger = logging.getLogger("app")
 logger.setLevel(logging.DEBUG)

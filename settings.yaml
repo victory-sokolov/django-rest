@@ -10,8 +10,10 @@ file-logging: &file-logging
   LOGGING:
     dynaconf_merge: True
     root:
+      level: INFO
       handlers:
         - logstash
+        - console
 
 test-logger: &test-logger
   LOGGING:
