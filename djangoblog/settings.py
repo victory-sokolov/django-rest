@@ -236,13 +236,13 @@ FORMATTERS = {
 
 LOGGERS = {
     "django": {
-        "handlers": ["console"],
+        "handlers": ["console", "logstash"],
         "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
         "filters": ["exclude_logs"],
         "propagate": True,
     },
     "django.request": {
-        "handlers": ["logstash", "console"],
+        "handlers": ["console", "logstash"],
         "level": "INFO",
         "propagate": True,
     },
@@ -294,7 +294,7 @@ LOGGING_HANDLERS = {
     "logstash": {
         "level": "INFO",
         "class": "logstash.TCPLogstashHandler",
-        "host": "localhost",
+        "host": "logstash",
         "port": 50000,
         "version": 1,
         "message_type": "django",

@@ -6,11 +6,10 @@ database: &database
   PORT: 5431
   HOST: 127.0.0.1
 
-file-logging: &file-logging
+kibana-logging: &kibana-logging
   LOGGING:
     dynaconf_merge: True
     root:
-      level: INFO
       handlers:
         - logstash
         - console
@@ -77,7 +76,7 @@ development:
       HOST: postgres
 
 test:
-  <<: [*static_storage, *test-logger]
+  <<: [*static_storage]
   APP_ENV: test
   DEBUG: True
   SECRET_KEY: '@format {env[SECRET_KEY]}'
@@ -106,7 +105,7 @@ test:
       <<: *database
 
 production:
-  <<: [*default, *bucket, *file-logging]
+  <<: [*default, *bucket, *kibana-logging]
   APP_ENV: production
   DEBUG: False
   # SENTRY_DSN: '@format {env[SENTRY_DSN]}'
