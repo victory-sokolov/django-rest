@@ -1,5 +1,12 @@
 # Djangolog application
 
+- Run makefile commands in the Docker container
+```bash
+export RUN_IN_DOCKER=true
+make test
+```
+
+
 ## Install dependencies
 
 ```bash
@@ -71,9 +78,25 @@ Run: `ls locustfile.py |entr -r uv run locust -f locustfile.py --host=http://loc
 
 ## ArgoCD
 
-1. Install Helm chart: `helm install argo-cd charts/argo-cd/`
-2. To access web UI: `kubectl port-forward svc/argo-cd-argocd-server 8089:443`
+1. Install Helm Chart
+```bash
+helm repo add argo-cd https://argoproj.github.io/argo-helm
+helm dep update charts/argo-cd/
+```
+2. Install Helm chart: `helm install argo-cd charts/argo-cd/`
+3. To access web UI: `kubectl port-forward svc/argo-cd-argocd-server 8089:443`
 Visit `http://localhost:8089`
-3. Username: `admin`.
+4. Username: `admin`.
 Get password: `kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
-4. Apply manifest. From `infra/k8s/charts` directory run: `helm template root-app/ | kubectl apply -f -`
+5. Apply manifest. From `infra/k8s/charts` directory run: `helm template root-app/ | kubectl apply -f -`
+
+# Install Kibana and Elasticsearch
+
+## Elasticsearch
+
+
+
+## Kibana
+
+1. helm install kibana elastic/kibana
+2. kubectl port-forward deployment/kibana-kibana 5601

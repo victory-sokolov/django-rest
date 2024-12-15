@@ -2,9 +2,19 @@ GIT_COMMIT_HASH := $(shell git rev-parse HEAD)
 EXCLUDED_DIRS = infra/k8s/haproxy
 ENV := $(or ${DJANGO_ENV}, local)
 PORT := $(or ${PORT}, 8080)
-RUN_IN_DOCKER ?= true
+RUN_IN_DOCKER ?= false
+
+NPROCS := $(shell getconf _NPROCESSORS_ONLN)
+FAIL_TEST_UNDER := 100
+
 
 export DOCKER_BUILDKIT ?= 1
+
+ifeq ($(RUN_IN_DOCKER), true)
+	CMD := docker compose run --rm app
+else:
+	CMD :=
+endif
 
 shell: ## Django shell
 	DJANGO_ENV=$(ENV) uv run python manage.py shell_plus
