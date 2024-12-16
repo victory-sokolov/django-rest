@@ -25,6 +25,18 @@ loglevel = "info"
 capture_output = True
 accesslog = "-"
 errorlog = "-"
+access_log_format = '{ \
+    "remote_ip": "%(h)s", \
+    "request_id": "%({x-request-id}i)s", \
+    "response_code": "%(s)s", \
+    "request_method": "%(m)s", \
+    "request_path": "%(U)s", \
+    "request_querystring": "%(q)s", \
+    "request_timetaken": "%(D)s", \
+    "response_length": "%(B)s", \
+    "method": "%(m)s", \
+    "headers__http_referer": "%(f)s", \
+}'
 
 METRIC_INTERVAL = os.environ.get("SATURATION_METRIC_INTERVAL", 5)
 
