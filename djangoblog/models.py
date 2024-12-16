@@ -32,7 +32,13 @@ class CustomAccountManager(BaseUserManager):
         user = self.model(email=email, name=name, **other_fields)
         user.set_password(password)
         user.save()
-        logger.info(f"User with email {email} successfully created")
+        logger.info(
+            f"User with email {email} successfully created",
+            extra={
+                "user_id": user.id,
+                "user_email": user.email,
+            },
+        )
         return user
 
 

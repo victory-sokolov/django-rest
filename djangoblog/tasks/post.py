@@ -50,7 +50,10 @@ class CreatePostsTask(celery.Task):
         for tag in tag_set:
             post.tags.add(tag)
 
-        logger.info(f"New post with {post.id} has been created")
+        logger.info(
+            f"New post with {post.id} has been created",
+            extra={"post_id": post.id},
+        )
 
 
 app.register_task(GetPostsTask())
