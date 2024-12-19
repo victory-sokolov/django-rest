@@ -92,11 +92,6 @@ Get password: `kubectl get secret argocd-initial-admin-secret -o jsonpath="{.dat
 
 # Install Kibana and Elasticsearch
 
-## Elasticsearch
-
-
-
-## Kibana
-
-1. helm install kibana elastic/kibana
-2. kubectl port-forward deployment/kibana-kibana 5601
+1. Clone repo https://github.com/deviantony/docker-elk
+2. `docker compose up setup`
+3. `docker compose up`
