@@ -95,3 +95,7 @@ Get password: `kubectl get secret argocd-initial-admin-secret -o jsonpath="{.dat
 1. Clone repo https://github.com/deviantony/docker-elk
 2. `docker compose up setup`
 3. `docker compose up`
+4. Open Kibana: `http://localhost:5601/`
+5. Credentials:
+  - username: `elastic`
+  - password: `changeme`
