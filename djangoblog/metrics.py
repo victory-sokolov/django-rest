@@ -4,7 +4,7 @@ import struct
 import threading
 import time
 
-METRIC_INTERVAL = os.environ.get("SATURATION_METRIC_INTERVAL", 5)
+METRIC_INTERVAL = int(os.environ.get("SATURATION_METRIC_INTERVAL", 5))
 
 # Defaults to None, in which case no metrics will be sent.
 statsd_host = os.environ.get("STATSD_HOST")
