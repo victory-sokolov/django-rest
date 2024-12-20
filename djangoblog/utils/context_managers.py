@@ -17,7 +17,7 @@ class RedisLock:
 
     def __enter__(self) -> bool:
         """Acquire lock."""
-        self.lock_acquired = caches["tasks"].set(self.lock_id, self.oid)
+        self.lock_acquired = caches["tasks"].add(self.lock_id, self.oid)
         return self.lock_acquired
 
     def __exit__(
