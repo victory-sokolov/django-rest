@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 
 from djangoblog.api.models.post import Post
 from djangoblog.api.v1.posts.serializers import PostSerializer
+from djangoblog.api.v1.posts.types import PostId
 from djangoblog.tasks.post import GetPostsTask
 
 logger = logging.getLogger(__name__)
@@ -43,13 +44,13 @@ class ArticleListView(APIView):
 class SingleArticleView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get_object(self, post_id: str) -> Post:
+    def get_object(self, post_id: PostId) -> Post:
         try:
             return Post.objects.get(id=post_id, draft=False)
         except Post.DoesNotExist:
             raise Http404
 
-    def get(self, request: Request, id: str) -> Response:
+    def get(self, request: Request, id: PostId) -> Response:
         """Get single article."""
         post = Post.objects.filter(id=id).first()
         if not post:
@@ -61,7 +62,7 @@ class SingleArticleView(APIView):
         serializer = PostSerializer(post)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
-    def delete(self, _request: Request, id: str) -> Response:
+    def delete(self, _request: Request, id: PostId) -> Response:
         """Delete post by id"""
         post = self.get_object(id)
         if not post:
@@ -75,9 +76,9 @@ class SingleArticleView(APIView):
             status=status.HTTP_200_OK,
         )
 
-    def put(self, request: Request, id: str) -> Response:
+    def put(self, request: Request, id: PostId) -> Response:
         """Update article"""
-        post = self.get_object(post_id=str(id))
+        post = self.get_object(post_id=id)
         if not post:
             return Response(
                 {"response": f"Post with id {id} doesn't exists"},
