@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from django.contrib.auth.hashers import make_password
 from django.core.management.base import BaseCommand, CommandParser
@@ -18,14 +19,18 @@ class Command(BaseCommand):
             help="amount of users to generate",
         )
 
-    def handle(self, *args, **options):
+    def handle(
+        self,
+        amount: int,
+        *args: Any,
+        **kwargs: Any,
+    ):
         logging.info("Creating new users")
-        amount = int(options["amount"])
         run_seed(amount)
         self.stdout.write(f"Added {amount} users")
 
 
-def run_seed(amount: int):
+def run_seed(amount: int) -> None:
     fake = Faker()
     user_list = []
     for _ in range(amount):

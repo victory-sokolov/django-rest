@@ -47,7 +47,7 @@ class PostSerializer(serializers.ModelSerializer):
             post.tags.add(tag)
         return post
 
-    def update(self, instance, validated_data: dict) -> None:
+    def update(self, instance, validated_data: dict) -> Post:
         # extract the tags data from validated_data
         tags_data = validated_data.pop("tags", None)
         if tags_data is not None:

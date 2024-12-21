@@ -3,6 +3,7 @@ import socket
 import struct
 import threading
 import time
+from typing import Any
 
 METRIC_INTERVAL = int(os.environ.get("SATURATION_METRIC_INTERVAL", 5))
 
@@ -16,12 +17,12 @@ dogstatsd_tags = "hostname:{}".format(
 
 
 class SaturationMonitor(threading.Thread):
-    def __init__(self, server):
+    def __init__(self, server: Any):
         super().__init__()
         self.server = server
         self.daemon = True
 
-    def run(self):
+    def run(self) -> None:
         self.server.log.info(
             f"Started Saturation Monitor with interval {METRIC_INTERVAL}",
         )
@@ -57,7 +58,7 @@ class SaturationMonitor(threading.Thread):
                 )
             time.sleep(METRIC_INTERVAL)
 
-    def get_backlog(self):
+    def get_backlog(self) -> int:
         """Get the number of connections waiting to be accepted by a server"""
         total = 0
         # if sys.platform != "linux":

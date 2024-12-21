@@ -4,7 +4,7 @@ logger = logging.getLogger(__name__)
 
 
 class LogFilter(logging.Filter):
-    def filter(self, record):
+    def filter(self, record: logging.LogRecord) -> bool:
         excluded_paths = ["/metrics", "/healthcheck"]
         message = record.getMessage()
 

@@ -9,7 +9,7 @@ from storages.backends.gcloud import GoogleCloudStorage
 class CustomOfflineManifestStorage(CompressorFileStorage):
     """CustomOfflineManifestStorage."""
 
-    def read_manifest(self) -> dict:
+    def read_manifest(self) -> dict[str, str]:
         """ "Read manifest file."""
         try:
             with self.open(self.manifest_name) as manifest_file:
