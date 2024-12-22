@@ -110,7 +110,7 @@ compose-up: ## Docker compose up with watch
 	docker compose up --watch
 
 docker-local:
-	​docker compose -f docker-compose.yml -f docker-compose.local.yml up
+	docker compose -f docker-compose.yml -f docker-compose.local.yml up
 
 helm-upgrade:
 	helm upgrade django-blog infra/k8s --values infra/k8s/values.yaml
