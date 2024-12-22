@@ -62,8 +62,10 @@ lint-html:
 	uv run djlint djangoblog --extension=html --lint
 
 run-checks:
-	DJANGO_ENV=$(ENV) uv run python manage.py check --deploy
-	DJANGO_ENV=$(ENV) uv run python manage.py check
+	@$(CMD_PREFIX) sh -c ' \
+		DJANGO_ENV=$(ENV) uv run python manage.py check --deploy; \
+		DJANGO_ENV=$(ENV) uv run python manage.py check; \
+	'
 
 test: ## Run tests with coverage
 	DJANGO_ENV=test uv run coverage run manage.py test --parallel -v 2
