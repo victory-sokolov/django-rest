@@ -442,7 +442,7 @@
                   "type": "prometheus",
                   "uid": "$Prometheus"
                },
-               "expr": "sum(\n    increase(\n        django_http_responses_total_by_status_total{instance=~\"$instance\"}[$__rate_interval]\n    )\n) by (status)\n",
+               "expr": "sum(\n    increase(\n        django_http_responses_total_by_status_total{instance=~\"$instance\"}[$__rate_interval]\n    )\n) by (status) or vector(0)\n",
                "intervalFactor": 2,
                "legendFormat": "{{status}}\n"
             }
