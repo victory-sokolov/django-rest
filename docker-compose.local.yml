@@ -98,6 +98,23 @@ services:
       - postgres
       - prometheus
 
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    restart: always
+    command:
+      - '--path.sysfs=/host/sys'
+      - '--path.procfs=/host/proc'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+      - '--no-collector.ipvs'
+    networks:
+      - default
+    ports:
+      - 9100:9100
+    volumes:
+    - /:/rootfs:ro
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     privileged: true
@@ -110,9 +127,14 @@ services:
     devices:
       - /dev/kmsg:/dev/kmsg
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
       - /etc/machine-id:/etc/machine-id:ro
+      - /var/lib/docker:/var/lib/docker
+      - /dev/disk:/dev/disk:ro
+    command: -logtostderr -docker_only
     restart: unless-stopped
     depends_on:
       redis:
