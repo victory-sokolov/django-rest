@@ -27,12 +27,12 @@ services:
       - 8001:8001
     expose:
       - 8001
-    # healthcheck:
-    #   test: ["CMD", "curl", "--fail", "http://0.0.0.0:8080/healthcheck"]
-    #   interval: 15s
-    #   timeout: 12s
-    #   retries: 5
-    #   start_period: 60s
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://0.0.0.0:80/healthcheck"]
+      interval: 15s
+      timeout: 12s
+      retries: 5
+      start_period: 60s
 
   worker:
     extends:
@@ -114,6 +114,9 @@ services:
         limits:
           memory: 512M
           cpus: '1'
+    depends_on:
+      app:
+        condition: service_healthy
 
   postgres:
     restart: on-failure
@@ -173,12 +176,15 @@ services:
       - 8404:8404 # Haproxy stats
       - 8405:8405 # Prometheus metrics
     depends_on:
-      - app
+      app:
+        condition: service_healthy
+
 
 networks:
   default:
     driver: bridge
   # External elk docker network
+  # docker network create docker-elk_elk
   docker-elk_elk:
     external: true
 
