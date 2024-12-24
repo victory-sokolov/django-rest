@@ -49,3 +49,9 @@ releases:
     chart: ./charts/postgres
     values:
       - ./charts/postgres/values.yaml
+
+  - name: static-files
+    <<: *default
+    chart: ./charts/static-files
+    values:
+      - values.yaml
