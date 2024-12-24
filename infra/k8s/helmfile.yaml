@@ -1,0 +1,51 @@
+templates:
+  default: &default
+    namespace: default
+    wait: true
+
+releases:
+  - name: configmap
+    <<: *default
+    chart: ./charts/configmap
+
+  - name: debugpy
+    <<: *default
+    chart: ./charts/debugpy
+    values:
+      - values.yaml
+
+  - name: celery
+    <<: *default
+    chart: ./charts/celery
+    values:
+      - values.yaml
+
+  - name: haproxy
+    <<: *default
+    chart: ./charts/haproxy
+    values:
+      - ./charts/haproxy/values.yaml
+
+  - name: nginx
+    <<: *default
+    chart: ./charts/nginx
+    values:
+      - ./charts/nginx/values.yaml
+
+  - name: redis
+    chart: ./charts/redis
+    <<: *default
+    values:
+      - ./charts/redis/values.yaml
+
+  - name: django
+    <<: *default
+    chart: ./charts/django
+    values:
+      - values.yaml
+
+  - name: postgres
+    <<: *default
+    chart: ./charts/postgres
+    values:
+      - ./charts/postgres/values.yaml

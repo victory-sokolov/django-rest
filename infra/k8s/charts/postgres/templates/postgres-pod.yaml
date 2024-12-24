@@ -10,7 +10,7 @@ metadata:
 spec:
   containers:
     - name: postgres
-      image: postgres:16.4
+      image: 'postgres:{{ .Values.image_tag}}'
       imagePullPolicy: IfNotPresent
       envFrom:
         - configMapRef:

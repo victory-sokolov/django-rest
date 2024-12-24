@@ -1,0 +1,4 @@
+apiVersion: v2
+name: debugpy
+version: 1.0.0
+appVersion: 1.0.0

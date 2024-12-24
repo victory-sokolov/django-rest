@@ -22,7 +22,7 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-        - image: haproxy:3.0.6
+        - image: 'haproxy:{{ .Values.image_tag}}'
           name: haproxy
           ports:
             - containerPort: 80

@@ -14,7 +14,7 @@ spec:
           value: 'true'
         - name: TZ
           value: Europe/Riga
-      image: redis:7.4.0
+      image: redis:{{ .Values.image_tag}}
       imagePullPolicy: IfNotPresent
       livenessProbe:
         exec:
