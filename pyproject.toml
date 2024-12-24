@@ -152,6 +152,7 @@ select = [
     "I",
     "DJ",
     "C4", # flake8-datetimez
+    "DTZ", # flake8-datetimez
 ]
 fixable = ["ALL"]
 # Allow unused variables when underscore-prefixed.

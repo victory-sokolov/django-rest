@@ -1,9 +1,9 @@
-from datetime import datetime
 from typing import Any
 from uuid import uuid4
 
 from ckeditor.fields import RichTextField
 from django.db import models
+from django.utils.timezone import now
 
 from djangoblog.api.models.managers import TagQuerySet
 from djangoblog.base import TimeStampedModel
@@ -59,7 +59,7 @@ class Post(TimeStampedModel):
 
     def save(self, *args: Any, **kwargs: Any) -> None:
         if self.created_at is None:
-            self.created_at = datetime.now()
+            self.created_at = now()
 
         super().save(*args, **kwargs)
 
