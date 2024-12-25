@@ -36,7 +36,6 @@ data
 schema.yml
 infra/
 docker/
-docker-compose.local.yml
 scripts/
 output/
 setup.cfg
