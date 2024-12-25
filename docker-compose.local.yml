@@ -137,7 +137,7 @@ services:
     command: -logtostderr -docker_only
     restart: unless-stopped
     depends_on:
-      redis:
+      app:
         condition: service_healthy
 
 networks:
