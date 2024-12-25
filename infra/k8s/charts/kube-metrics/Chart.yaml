@@ -1,0 +1,8 @@
+apiVersion: v2
+name: kubernets-metrics
+version: 1.0.0
+appVersion: 1.0.0
+dependencies:
+  - name: kube-state-metrics
+    version: 2.13.3
+    repository: https://kubernetes.github.io/kube-state-metrics

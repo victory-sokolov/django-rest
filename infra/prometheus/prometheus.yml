@@ -27,6 +27,11 @@ scrape_configs:
     static_configs:
       - targets: ['node_exporter:9100']
 
+  - job_name: 'kube-metrics'
+    scheme: http
+    static_configs:
+      - targets: ['host.docker.internal:8085']
+
   - job_name: 'app'
     scheme: http
     tls_config:
