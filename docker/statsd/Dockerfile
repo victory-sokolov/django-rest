@@ -1,4 +1,4 @@
-FROM prom/statsd-exporter:latest
+FROM prom/statsd-exporter:master
 
 COPY ./statsd.yml /statsd/statsd.yml
 
