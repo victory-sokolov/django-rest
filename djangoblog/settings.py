@@ -232,6 +232,9 @@ FORMATTERS = {
     "rich": {
         "datefmt": date_fmt,
     },
+    "json": {
+        "class": "djangoblog.formatters.FilebeatFormatter",
+    },
 }
 
 LOGGERS = {
@@ -284,6 +287,12 @@ LOGGING_HANDLERS = {
         "formatter": "verbose",
         "level": "INFO",
         "filters": ["exclude_logs"],
+    },
+    "file": {
+        "class": "logging.FileHandler",
+        "formatter": "json",
+        "filename": "/var/log/djangoblog.log",
+        "delay": True,
     },
     "rich-console": {
         "class": "rich.logging.RichHandler",
