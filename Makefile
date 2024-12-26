@@ -131,6 +131,9 @@ deploy: push-image
 terraform-apply:
 	cd infra/terraform && terraform -chdir=infra/terraform/providers/gcloud apply --parallelism=20 -auto-approve
 
+kube-secrets: ## Create secrets for kubernetes from .env file
+	kubectl create secret generic app-secret --from-env-file=.env
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sort \
