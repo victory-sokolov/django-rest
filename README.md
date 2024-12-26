@@ -76,20 +76,6 @@ Run: `ls locustfile.py |entr -r uv run locust -f locustfile.py --host=http://loc
 4. Apply kubernetes config `kubernetes apply -f infra/k8`
 
 
-## ArgoCD
-
-1. Install Helm Chart
-```bash
-helm repo add argo-cd https://argoproj.github.io/argo-helm
-helm dep update charts/argo-cd/
-```
-2. Install Helm chart: `helm install argo-cd charts/argo-cd/`
-3. To access web UI: `kubectl port-forward svc/argo-cd-argocd-server 8089:443`
-Visit `http://localhost:8089`
-4. Username: `admin`.
-Get password: `kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
-5. Apply manifest. From `infra/k8s/charts` directory run: `helm template root-app/ | kubectl apply -f -`
-
 # Install Kibana and Elasticsearch
 
 1. Clone repo https://github.com/deviantony/docker-elk
