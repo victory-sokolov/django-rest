@@ -30,6 +30,7 @@ scrape_configs:
   - job_name: 'kube-metrics'
     scheme: http
     static_configs:
+      # Will not work on Linux
       - targets: ['host.docker.internal:8085']
 
   - job_name: 'app'
