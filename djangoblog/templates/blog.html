@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% block content %} {% load static %}
+{% extends 'base.html' %}
+
+{% block content %} {% load static %}
 <div class="row">
     <div class="blog-container">
         <h1>Latest Posts</h1>
@@ -9,11 +11,11 @@
                 {% for post in posts %}
                 <div class="card blog-post">
                     <div class="card-body">
-                        <a href="{{post.id}}">
+                        <a href="{{ post.id }}">
                             <h2 class="card-title">{{ post.title }}</h2>
                         </a>
                         <div class="blog-meta">
-                            <p>Date: {{ post.created_at}}</p>
+                            <p>Date: {{ post.created_at }}</p>
                             <p>Author: {{ post.user }}</p>
                         </div>
                         <p class="card-text">{{ post.content|safe }}</p>
@@ -37,4 +39,4 @@
     </div>
 </div>
 <script src="{% static 'script.js' %}"></script>
-{% endblock %}
+{% endblock content %}

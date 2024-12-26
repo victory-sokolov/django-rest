@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 
 from django.db.models import QuerySet
 
@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 class TagQuerySet(QuerySet):
     """Custom TagQuerySet implementation."""
 
-    def create_if_not_exist(self, tags: List[str]) -> QuerySet[Tags]:
+    def create_if_not_exist(self, tags: list[str]) -> QuerySet[Tags]:
         """Create Tag if it doesn't exists."""
         tag_set = list(self.values_list("tag", flat=True))
 

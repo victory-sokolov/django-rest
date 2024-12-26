@@ -1,13 +1,15 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+
+{% block content %}
 <div class="row">
     <div class="blog-container">
         <div class="post">
-            <h1>{{post.title}}</h1>
+            <h1>{{ post.title }}</h1>
             <div class="meta-info">
                 <p>Date published: {{ post.created_at }}</p>
             </div>
-            {{post.content|safe}}
+            {{ post.content|safe }}
         </div>
     </div>
 </div>
-{% endblock %}
+{% endblock content %}
