@@ -39,7 +39,7 @@ class CreatePostsTask(celery.Task):
 
     def run(self, data: dict):
         user = UserProfile.objects.get(id=data["user_id"])
-        post = Post.objects.create(
+        post = Post.objects.using("read_replica").create(
             title=data["title"],
             content=data["content"],
             user=user,

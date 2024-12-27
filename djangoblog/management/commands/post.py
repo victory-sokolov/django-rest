@@ -48,4 +48,4 @@ def run_seed(amount: int) -> None:
         )
         posts.append(post)
 
-    Post.objects.bulk_create(posts)
+    Post.objects.using("read_replica").bulk_create(posts)

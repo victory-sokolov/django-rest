@@ -56,6 +56,9 @@ local:
   DATABASES:
     default:
       <<: *database
+    read_replica:
+      <<: *database
+      NAME: blog_read_replica
 
 # For Docker environment
 development:
@@ -72,6 +75,9 @@ development:
 
   DATABASES:
     default:
+      <<: *database
+      HOST: postgres
+    read_replica:
       <<: *database
       HOST: postgres
 
@@ -141,6 +147,9 @@ production:
   # Database
   DATABASES:
     default:
+      <<: *database
+      HOST: postgres
+    read_replica:
       <<: *database
       HOST: postgres
 

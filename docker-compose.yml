@@ -127,12 +127,13 @@ services:
       - .env
     environment:
       <<: *default-env
+      POSTGRES_MULTIPLE_DATABASES: "blog, blog_read_replica"
     build:
       context: ./docker/postgres
     ports:
       - 5431:5431
     volumes:
-      - data:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -p ${PGPORT} -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
@@ -189,6 +190,6 @@ networks:
     external: true
 
 volumes:
-  data:
+  postgres:
   redis:
   static_volume:
