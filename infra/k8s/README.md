@@ -15,7 +15,7 @@
 
 1. `cd infra/k8` install dependencies `helm dependency update`
 2. `helm install kube-state-metrics .`
-3. Forward port to acess metrics from local machine: `kubectl port-forward svc/kube-state-metrics 8085:8080`
+3. Forward port to acess metrics from local machine: `kubectl port-forward svc/kube-state-metrics 8085:8080 --address=0.0.0.0`
 
 ## ArgoCD
 
