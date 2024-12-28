@@ -59,8 +59,8 @@ services:
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: admin
-      GF_LOG_LEVEL: info
-      GF_LOG_FILTERS: "rendering:info"
+      GF_LOG_LEVEL: warn
+      GF_LOG_FILTERS: "rendering:warn,rendering:error"
       RENDERING_MODE: "reusable"
       ENABLE_METRICS: true
     volumes:
@@ -101,10 +101,11 @@ services:
       - prometheus
 
   node_exporter:
-    image: quay.io/prometheus/node-exporter:master
+    image: quay.io/prometheus/node-exporter
     restart: always
     command:
       - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/host'
       - '--path.procfs=/host/proc'
       - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
       - '--no-collector.ipvs'
@@ -119,6 +120,7 @@ services:
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
+    attach: false
     privileged: true
     ports:
       - 9323:8080
