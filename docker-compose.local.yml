@@ -99,7 +99,7 @@ services:
       - prometheus
 
   node_exporter:
-    image: quay.io/prometheus/node-exporter:latest
+    image: quay.io/prometheus/node-exporter:master
     restart: always
     command:
       - '--path.sysfs=/host/sys'
