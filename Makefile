@@ -110,6 +110,9 @@ docker-build:
 compose-up: ## Docker compose up with watch
 	docker compose up --watch
 
+compose-down: ## Remove main docker containers and local containers
+	docker compose -f docker-compose.yml -f docker-compose.local.yml down --remove-orphans
+
 docker-local:
 	docker compose -f docker-compose.yml -f docker-compose.local.yml up
 
