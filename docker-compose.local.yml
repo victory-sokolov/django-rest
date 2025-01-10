@@ -32,6 +32,7 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./infra/prometheus/rules.yml:/etc/prometheus/rules.yml
       - prometheus_data:/infra/prometheus
     develop:
       watch:
@@ -100,6 +101,19 @@ services:
       - postgres
       - prometheus
 
+  alertmanager:
+    image: quay.io/prometheus/alertmanager
+    restart: unless-stopped
+    ports:
+      - 9093:9093
+    networks:
+      - default
+    env_file:
+      - .env
+    volumes:
+      - ./infra/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - alertmanager_data:/data
+
   node_exporter:
     image: quay.io/prometheus/node-exporter
     restart: always
@@ -152,3 +166,4 @@ volumes:
   grafana_data:
   prometheus_data:
   rabbitmq_data:
+  alertmanager_data:
