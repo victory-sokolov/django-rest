@@ -194,7 +194,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "avg(\n haproxy_backend_response_time_average_seconds{job=~\"$job\", proxy=\"server_backend\", instance=~\"$instance\"}\n) by (proxy) or vector(0)\n",
+               "expr": "avg(\n haproxy_backend_response_time_average_seconds{job=~\"$job\", proxy=\"server_backend\", instance=~\"$instance\"}\n) by (proxy)\n",
                "legendFormat": "{{ proxy }} Response Time\n"
             }
          ],

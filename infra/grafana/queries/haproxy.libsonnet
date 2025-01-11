@@ -67,7 +67,7 @@ local variables = import '../variables.libsonnet';
                 proxy="http-in",
                 instance=~"$instance"
             }[$__rate_interval])
-        ) by (code) or vector(0)
+        ) by (code)
       |||
     )
     + prometheusQuery.withLegendFormat(|||
@@ -80,7 +80,7 @@ local variables = import '../variables.libsonnet';
       |||
         avg(
          haproxy_backend_response_time_average_seconds{job=~"$job", proxy="server_backend", instance=~"$instance"}
-        ) by (proxy) or vector(0)
+        ) by (proxy)
       |||
     )
     + prometheusQuery.withLegendFormat(|||
