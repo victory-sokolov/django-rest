@@ -19,19 +19,19 @@ local variables = import '../variables.libsonnet';
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat('{{code}}'),
 
-//   haproxy_frontned_session_limit:
-//     prometheusQuery.new(
-//       '$' + variables.datasource.name,
-//       |||
-//         sum(
-//             haproxy_frontend_limit_sessions{proxy="http-in", instance=~"$instance"}
-//         ) or vector(0)
-//       |||
-//     )
-//     + prometheusQuery.withIntervalFactor(2)
-//     + prometheusQuery.withLegendFormat(|||
-//       Frontned Session Limit
-//     |||),
+  //   haproxy_frontned_session_limit:
+  //     prometheusQuery.new(
+  //       '$' + variables.datasource.name,
+  //       |||
+  //         sum(
+  //             haproxy_frontend_limit_sessions{proxy="http-in", instance=~"$instance"}
+  //         ) or vector(0)
+  //       |||
+  //     )
+  //     + prometheusQuery.withIntervalFactor(2)
+  //     + prometheusQuery.withLegendFormat(|||
+  //       Frontned Session Limit
+  //     |||),
 
   haproxy_frontend_sessions:
     prometheusQuery.new(
@@ -50,7 +50,7 @@ local variables = import '../variables.libsonnet';
       '$' + variables.datasource.name,
       |||
         sum(
-            haproxy_backend_current_sessions{job=~"$job", proxy="app", instance=~"$instance"}
+            haproxy_backend_current_sessions{job="haproxy-metrics", instance=~"$instance", proxy="server_backend"}
         ) or vector(0)
       |||
     )
@@ -63,7 +63,7 @@ local variables = import '../variables.libsonnet';
       |||
         sum(
             rate(haproxy_frontend_http_responses_total{
-                job=~"$job",
+                job="haproxy-metrics",
                 proxy="http-in",
                 instance=~"$instance"
             }[$__rate_interval])
@@ -79,7 +79,7 @@ local variables = import '../variables.libsonnet';
       '$' + variables.datasource.name,
       |||
         avg(
-         haproxy_backend_response_time_average_seconds{job=~"$job", proxy="app", instance=~"$instance"}
+         haproxy_backend_response_time_average_seconds{job=~"$job", proxy="server_backend", instance=~"$instance"}
         ) by (proxy) or vector(0)
       |||
     )

@@ -100,7 +100,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "sum(\n    haproxy_backend_current_sessions{job=~\"$job\", proxy=\"app\", instance=~\"$instance\"}\n) or vector(0)\n",
+               "expr": "sum(\n    haproxy_backend_current_sessions{job=\"haproxy-metrics\", instance=~\"$instance\", proxy=\"server_backend\"}\n) or vector(0)\n",
                "intervalFactor": 2,
                "legendFormat": "Total sessions by (backend)"
             }
@@ -194,7 +194,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "avg(\n haproxy_backend_response_time_average_seconds{job=~\"$job\", proxy=\"app\", instance=~\"$instance\"}\n) by (proxy) or vector(0)\n",
+               "expr": "avg(\n haproxy_backend_response_time_average_seconds{job=~\"$job\", proxy=\"server_backend\", instance=~\"$instance\"}\n) by (proxy) or vector(0)\n",
                "legendFormat": "{{ proxy }} Response Time\n"
             }
          ],
@@ -240,7 +240,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{\n        job=~\"$job\",\n        proxy=\"http-in\",\n        instance=~\"$instance\"\n    }[$__rate_interval])\n) by (code) or vector(0)\n",
+               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{\n        job=\"haproxy-metrics\",\n        proxy=\"http-in\",\n        instance=~\"$instance\"\n    }[$__rate_interval])\n) by (code) or vector(0)\n",
                "legendFormat": "Frontend {{ code }}\n"
             }
          ],
@@ -686,7 +686,7 @@
             "label": "Instance",
             "multi": true,
             "name": "instance",
-            "query": "label_values({__name__=~\".+\"}, instance)",
+            "query": "label_values({job=~\"$job\"}, instance)",
             "refresh": 2,
             "type": "query"
          }

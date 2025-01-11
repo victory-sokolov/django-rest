@@ -35,7 +35,7 @@ local var = g.dashboard.variable;
     + var.query.withDatasourceFromVariable(self.datasource)
     + var.query.queryTypes.withLabelValues(
       'instance',
-      '{__name__=~".+"}'
+      '{job=~"$job"}'
     )
     + var.query.selectionOptions.withIncludeAll()
     + var.query.selectionOptions.withMulti()
