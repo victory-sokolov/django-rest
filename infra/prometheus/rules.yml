@@ -1,5 +1,5 @@
- groups:
-  - name: instance_down
+groups:
+  - name: Instance Down
     rules:
       - alert: InstanceDown
         expr: up == 0
@@ -9,3 +9,17 @@
         annotations:
           summary: 'Instance {{ $labels.instance }} down'
           description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes'
+
+  - name: Haproxy
+    rules:
+      - alert: Haproxy response time
+        expr: |
+          avg by(proxy) (
+            haproxy_backend_response_time_average_seconds{proxy="http-in"} offset 1m
+          ) > 3
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Haproxy response time degraded'
+          description: 'Haproxy {{ $labels.instance }} of job {{ $labels.job }} has been degraded'
