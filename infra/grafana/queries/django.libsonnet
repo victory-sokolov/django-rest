@@ -113,8 +113,6 @@ local variables = import '../variables.libsonnet';
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
-    + prometheusQuery.withLegendFormat(|||
-      Request Duration
-    |||),
+    + prometheusQuery.withLegendFormat('Average Request Duration'),
 
 }
