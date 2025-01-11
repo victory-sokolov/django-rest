@@ -3,9 +3,9 @@ local var = g.dashboard.variable;
 
 {
   datasource:
-    var.datasource.new('Prometheus', 'prometheus')
+    var.datasource.new('datasource', 'prometheus')
     + var.query.selectionOptions.withIncludeAll()
-    + var.custom.generalOptions.withLabel('Prometheus data source'),
+    + var.custom.generalOptions.withLabel('Data source'),
 
   rate:
     var.custom.new(
@@ -19,16 +19,16 @@ local var = g.dashboard.variable;
 
 
   instances:
-    var.custom.new(
-      'instance',
-      values=['haproxy:8405', 'app:80'],
-    )
-    + var.custom.generalOptions.withDescription(
-      'Instances'
-    )
+    var.query.new('instance')
     + var.query.withDatasourceFromVariable(self.datasource)
-    + var.custom.generalOptions.withLabel('Instance')
-    + var.custom.selectionOptions.withMulti()
+    + var.query.queryTypes.withLabelValues(
+      'instance',
+      '',
+    )
+    + var.query.selectionOptions.withIncludeAll()
+    + var.query.selectionOptions.withMulti()
+    + var.query.refresh.onTime()
+    + var.query.generalOptions.withLabel('Instance')
     + { allValue: '.+' },
 
 
