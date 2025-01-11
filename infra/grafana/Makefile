@@ -4,8 +4,8 @@ setup:
 	jb install
 
 build-lint:
-	jsonnet -J vendor dashboard.jsonnet -o dashboard.json
-	dashboard-linter lint dashboard.json
+	jsonnet -J vendor dashboard.jsonnet -o provisioning/dashboards/dashboard.json
+	dashboard-linter lint provisioning/dashboards/dashboard.json
 
 
 help:
