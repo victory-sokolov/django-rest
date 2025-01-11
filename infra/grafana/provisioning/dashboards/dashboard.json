@@ -110,7 +110,7 @@
             "type": "$datasource",
             "uid": "$Prometheus"
          },
-         "description": "Frontend Session Limit",
+         "description": "HAProxy Requests",
          "fieldConfig": {
             "defaults": {
                "custom": {
@@ -126,52 +126,6 @@
             "y": 9
          },
          "id": 4,
-         "interval": "1m",
-         "options": {
-            "legend": {
-               "calcs": [
-                  "lastNotNull",
-                  "max"
-               ],
-               "displayMode": "table"
-            }
-         },
-         "pluginVersion": "v11.1.0",
-         "targets": [
-            {
-               "datasource": {
-                  "type": "prometheus",
-                  "uid": "$Prometheus"
-               },
-               "expr": "sum(\n    haproxy_frontend_limit_sessions{proxy=\"http-in\", instance=~\"$instance\"}\n) or vector(0)\n",
-               "intervalFactor": 2,
-               "legendFormat": "Frontned Session Limit\n"
-            }
-         ],
-         "title": "Frontend Session Limit",
-         "type": "timeseries"
-      },
-      {
-         "datasource": {
-            "type": "$datasource",
-            "uid": "$Prometheus"
-         },
-         "description": "HAProxy Requests",
-         "fieldConfig": {
-            "defaults": {
-               "custom": {
-                  "fillOpacity": 10,
-                  "showPoints": "never"
-               }
-            }
-         },
-         "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 9
-         },
-         "id": 5,
          "interval": "1m",
          "options": {
             "legend": {
@@ -214,10 +168,10 @@
          "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 0,
-            "y": 17
+            "x": 12,
+            "y": 9
          },
-         "id": 6,
+         "id": 5,
          "interval": "1m",
          "options": {
             "legend": {
@@ -259,10 +213,10 @@
          "gridPos": {
             "h": 8,
             "w": 12,
-            "x": 12,
+            "x": 0,
             "y": 17
          },
-         "id": 7,
+         "id": 6,
          "interval": "1m",
          "options": {
             "legend": {
@@ -295,7 +249,7 @@
             "x": 0,
             "y": 25
          },
-         "id": 8,
+         "id": 7,
          "panels": [ ],
          "title": "Django",
          "type": "row"
@@ -312,7 +266,7 @@
             "x": 0,
             "y": 26
          },
-         "id": 9,
+         "id": 8,
          "interval": "1m",
          "pluginVersion": "v11.1.0",
          "targets": [
@@ -341,7 +295,7 @@
             "x": 12,
             "y": 26
          },
-         "id": 10,
+         "id": 9,
          "interval": "1m",
          "pluginVersion": "v11.1.0",
          "targets": [
@@ -378,7 +332,7 @@
             "x": 0,
             "y": 34
          },
-         "id": 11,
+         "id": 10,
          "interval": "1m",
          "options": {
             "legend": {
@@ -424,7 +378,7 @@
             "x": 12,
             "y": 34
          },
-         "id": 12,
+         "id": 11,
          "interval": "1m",
          "options": {
             "legend": {
@@ -470,7 +424,7 @@
             "x": 0,
             "y": 42
          },
-         "id": 13,
+         "id": 12,
          "interval": "1m",
          "options": {
             "legend": {
@@ -516,7 +470,7 @@
             "x": 12,
             "y": 42
          },
-         "id": 14,
+         "id": 13,
          "interval": "1m",
          "options": {
             "legend": {
@@ -554,7 +508,7 @@
             "x": 0,
             "y": 50
          },
-         "id": 15,
+         "id": 14,
          "interval": "1m",
          "pluginVersion": "v11.1.0",
          "targets": [
@@ -579,7 +533,7 @@
             "x": 0,
             "y": 58
          },
-         "id": 16,
+         "id": 15,
          "panels": [ ],
          "title": "PostgreSQL",
          "type": "row"
@@ -595,7 +549,7 @@
             "x": 0,
             "y": 59
          },
-         "id": 17,
+         "id": 16,
          "interval": "1m",
          "pluginVersion": "v11.1.0",
          "targets": [

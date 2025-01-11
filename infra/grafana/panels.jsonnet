@@ -39,7 +39,7 @@ local g = import 'g.libsonnet';
     haproxy_backend: self.base,
     haproxy_avg_response_time: self.base,
     haproxy_status_codes: self.base,
-    haproxy_frontned_session_limit: self.base,
+    // haproxy_frontned_session_limit: self.base,
     haproxy_requests: self.base,
 
     // Django

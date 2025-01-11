@@ -32,11 +32,11 @@ g.dashboard.new('Django App Dashboard')
           'Haproxy Backend Sessions',
           haproxy.haproxy_backend_sessions
         ),
-        panels.timeseries.haproxy_frontned_session_limit(
-          'Frontend Session Limit',
-          'Frontend Session Limit',
-          haproxy.haproxy_frontned_session_limit
-        ),
+        // panels.timeseries.haproxy_frontned_session_limit(
+        //   'Frontend Session Limit',
+        //   'Frontend Session Limit',
+        //   haproxy.haproxy_frontned_session_limit
+        // ),
         panels.timeseries.haproxy_requests(
           'HAProxy Requests',
           'HAProxy Requests',
@@ -44,7 +44,7 @@ g.dashboard.new('Django App Dashboard')
         ),
         panels.timeseries.haproxy_avg_response_time(
           'Average Response Time',
-          'Haproxy FAverage Response Time',
+          'Haproxy Average Response Time',
           haproxy.haproxy_avg_response_time
         ),
         panels.timeseries.haproxy_avg_response_time(
