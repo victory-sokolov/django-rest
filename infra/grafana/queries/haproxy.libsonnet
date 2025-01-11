@@ -11,15 +11,13 @@ local variables = import '../variables.libsonnet';
       |||
         sum(
             rate(
-                haproxy_frontend_http_requests_total{proxy="http-in", instance=~"$instance"}[$__rate_interval]
+                haproxy_frontend_http_requests_total{job=~"$job", proxy="http-in", instance=~"$instance"}[$__rate_interval]
             )
         ) by (code) or vector(0)
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
-    + prometheusQuery.withLegendFormat(|||
-      HAProxy Requests
-    |||),
+    + prometheusQuery.withLegendFormat('{{code}}'),
 
 //   haproxy_frontned_session_limit:
 //     prometheusQuery.new(
@@ -40,25 +38,24 @@ local variables = import '../variables.libsonnet';
       '$' + variables.datasource.name,
       |||
         sum(
-            haproxy_frontend_current_sessions{proxy="http-in", instance=~"$instance"}
+            haproxy_frontend_current_sessions{job=~"$job", proxy="http-in", instance=~"$instance"}
         ) or vector(0)
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
-    + prometheusQuery.withLegendFormat(|||
-      Total sessions by (frontend)
-    |||),
+    + prometheusQuery.withLegendFormat('Total sessions by (frontend)'),
 
   haproxy_backend_sessions:
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
-        sum(haproxy_backend_current_sessions{instance=~"$instance"}) or vector(0)
+        sum(
+            haproxy_backend_current_sessions{job=~"$job", proxy="app", instance=~"$instance"}
+        ) or vector(0)
       |||
     )
-    + prometheusQuery.withLegendFormat(|||
-      Total sessions by (backend)
-    |||),
+    + prometheusQuery.withIntervalFactor(2)
+    + prometheusQuery.withLegendFormat('Total sessions by (backend)'),
 
   haproxy_status_codes:
     prometheusQuery.new(
@@ -66,6 +63,7 @@ local variables = import '../variables.libsonnet';
       |||
         sum(
             rate(haproxy_frontend_http_responses_total{
+                job=~"$job",
                 proxy="http-in",
                 instance=~"$instance"
             }[$__rate_interval])
@@ -81,7 +79,7 @@ local variables = import '../variables.libsonnet';
       '$' + variables.datasource.name,
       |||
         avg(
-         haproxy_backend_response_time_average_seconds{instance=~"$instance"}
+         haproxy_backend_response_time_average_seconds{job=~"$job", proxy="app", instance=~"$instance"}
         ) by (proxy) or vector(0)
       |||
     )
