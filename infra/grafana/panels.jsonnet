@@ -107,18 +107,9 @@ local g = import 'g.libsonnet';
       + _stat.gridPos.withW(24)
       + _stat.gridPos.withH(8),
 
-  },
-
-  statt: {
-    local _stat = g.panel.stat,
-
-    base(title, description, targets):
-      _stat.new(title)
-      + _stat.queryOptions.withTargets(targets)
-      + _stat.queryOptions.withDatasource('datasource', 'prometheus')
-      + _stat.queryOptions.withInterval('1m'),
 
     // PostgreSQL
-    max_connections: self.base,
+    max_connections: self.gauge,
   },
+
 }

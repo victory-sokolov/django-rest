@@ -28,6 +28,8 @@ local var = g.dashboard.variable;
     )
     + var.query.withDatasourceFromVariable(self.datasource)
     + var.custom.generalOptions.withLabel('Instance')
-    + var.custom.selectionOptions.withMulti(),
+    + var.custom.selectionOptions.withMulti()
+    + { allValue: '.+' },
+
 
 }

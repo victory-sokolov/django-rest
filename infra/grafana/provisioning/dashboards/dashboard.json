@@ -156,7 +156,7 @@
             "type": "$datasource",
             "uid": "$Prometheus"
          },
-         "description": "Haproxy FAverage Response Time",
+         "description": "Haproxy Average Response Time",
          "fieldConfig": {
             "defaults": {
                "custom": {
@@ -540,9 +540,10 @@
       },
       {
          "datasource": {
-            "type": "datasource",
-            "uid": "prometheus"
+            "type": "$datasource",
+            "uid": "$Prometheus"
          },
+         "description": "Shows the maximum number of concurrent connections to the PostgreSQL database",
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -632,6 +633,7 @@
             "type": "custom"
          },
          {
+            "allValue": ".+",
             "current": {
                "selected": false,
                "text": [

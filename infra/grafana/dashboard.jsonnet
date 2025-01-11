@@ -93,9 +93,9 @@ g.dashboard.new('Django App Dashboard')
       ]),
       row.new('PostgreSQL')
       + row.withPanels([
-        panels.statt.max_connections(
+        panels.stat.max_connections(
           'Max connections',
-          'PostgreSQL Max connections',
+          'Shows the maximum number of concurrent connections to the PostgreSQL database',
           postgres.max_connections
         ),
       ]),
