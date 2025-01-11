@@ -461,9 +461,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "sum(\n    app_gunicorn_request_duration or vector(0)\n)\n",
+               "expr": "sum(\n    app_gunicorn_request_duration{\n        instance=~\"$instance\",\n        job=~\"$job\"\n    } or vector(0)\n)\n",
                "intervalFactor": 2,
-               "legendFormat": "Average Request Duration"
+               "legendFormat": "Request Duration"
             }
          ],
          "title": "Gunicorn request duration",
@@ -542,9 +542,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "sum(\n    django_cache_get_hits_total{\n        instance=~\"$instance\"\n        job=~\"$job\",\n    }) by (backend) / sum(django_cache_get_total{\n        instance=~\"$instance\"\n    }) by (backend)\n",
+               "expr": "sum(\n    django_cache_get_hits_total{\n        instance=~\"$instance\",\n        job=~\"$job\"\n    }) by (backend) / sum(django_cache_get_total{\n        instance=~\"$instance\",\n        job=~\"$job\"\n    }) by (backend)\n",
                "intervalFactor": 2,
-               "legendFormat": "Cache Hit Ratio\n"
+               "legendFormat": "Cache Hit Ratio"
             }
          ],
          "title": "Cache Hit Ratio",
@@ -589,7 +589,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "pg_settings_max_connections",
+               "expr": "pg_settings_max_connections{job=~\"$job\", instance=~\"$instance\"}",
                "intervalFactor": 2,
                "legendFormat": "PostgreSQL max_connections"
             }

@@ -102,28 +102,30 @@ local variables = import '../variables.libsonnet';
       |||
         sum(
             django_cache_get_hits_total{
-                instance=~"$instance"
-                job=~"$job",
+                instance=~"$instance",
+                job=~"$job"
             }) by (backend) / sum(django_cache_get_total{
-                instance=~"$instance"
+                instance=~"$instance",
+                job=~"$job"
             }) by (backend)
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
-    + prometheusQuery.withLegendFormat(|||
-      Cache Hit Ratio
-    |||),
+    + prometheusQuery.withLegendFormat('Cache Hit Ratio'),
 
   gunicorn_request_duration:
     prometheusQuery.new(
       '$' + variables.datasource.name,
       |||
         sum(
-            app_gunicorn_request_duration or vector(0)
+            app_gunicorn_request_duration{
+                instance=~"$instance",
+                job=~"$job"
+            } or vector(0)
         )
       |||
     )
     + prometheusQuery.withIntervalFactor(2)
-    + prometheusQuery.withLegendFormat('Average Request Duration'),
+    + prometheusQuery.withLegendFormat('Request Duration'),
 
 }
