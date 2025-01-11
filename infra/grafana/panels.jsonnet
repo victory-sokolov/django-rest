@@ -17,6 +17,7 @@ local g = import 'g.libsonnet';
         '$' + variables.datasource.name
       )
       + timeSeries.queryOptions.withInterval('1m')
+      + timeSeries.standardOptions.withUnit('none')
       //   + timeSeries.standardOptions.withUnit('reqps')
       + timeSeries.panelOptions.withDescription(description)
       + timeSeries.gridPos.withW(24)
