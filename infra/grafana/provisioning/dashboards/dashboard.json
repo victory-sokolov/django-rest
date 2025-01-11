@@ -462,7 +462,7 @@
                },
                "expr": "sum(\n    app_gunicorn_request_duration or vector(0)\n)\n",
                "intervalFactor": 2,
-               "legendFormat": "Request Duration\n"
+               "legendFormat": "Average Request Duration"
             }
          ],
          "title": "Gunicorn request duration",
@@ -588,9 +588,9 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "pg_settings_max_connections\n",
+               "expr": "pg_settings_max_connections",
                "intervalFactor": 2,
-               "legendFormat": "PostgreSQL max_connections\n"
+               "legendFormat": "PostgreSQL max_connections"
             }
          ],
          "title": "Max connections",
@@ -606,6 +606,20 @@
             "name": "datasource",
             "query": "prometheus",
             "type": "datasource"
+         },
+         {
+            "allValue": ".+",
+            "datasource": {
+               "type": "prometheus",
+               "uid": "${datasource}"
+            },
+            "includeAll": true,
+            "label": "Job",
+            "multi": true,
+            "name": "job",
+            "query": "label_values(job)",
+            "refresh": 2,
+            "type": "query"
          },
          {
             "current": {
@@ -671,7 +685,7 @@
             "label": "Instance",
             "multi": true,
             "name": "instance",
-            "query": "label_values(instance)",
+            "query": "label_values({__name__=~\".+\"}, instance)",
             "refresh": 2,
             "type": "query"
          }

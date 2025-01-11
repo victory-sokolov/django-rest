@@ -7,6 +7,19 @@ local var = g.dashboard.variable;
     + var.query.selectionOptions.withIncludeAll()
     + var.custom.generalOptions.withLabel('Data source'),
 
+  job:
+    var.query.new('job')
+    + var.query.withDatasourceFromVariable(self.datasource)
+    + var.query.queryTypes.withLabelValues(
+      'job',
+      '',
+    )
+    + var.query.selectionOptions.withIncludeAll()
+    + var.query.selectionOptions.withMulti()
+    + var.query.refresh.onTime()
+    + var.query.generalOptions.withLabel('Job')
+    + { allValue: '.+' },
+
   rate:
     var.custom.new(
       'rate',
@@ -17,19 +30,16 @@ local var = g.dashboard.variable;
     )
     + var.custom.generalOptions.withLabel('Rate'),
 
-
   instances:
     var.query.new('instance')
     + var.query.withDatasourceFromVariable(self.datasource)
     + var.query.queryTypes.withLabelValues(
       'instance',
-      '',
+      '{__name__=~".+"}'
     )
     + var.query.selectionOptions.withIncludeAll()
     + var.query.selectionOptions.withMulti()
     + var.query.refresh.onTime()
     + var.query.generalOptions.withLabel('Instance')
     + { allValue: '.+' },
-
-
 }

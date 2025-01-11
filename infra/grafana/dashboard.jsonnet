@@ -14,6 +14,7 @@ g.dashboard.new('Django App Dashboard')
 + g.dashboard.withDescription('Djago App Metrics')
 + g.dashboard.withVariables([
   variables.datasource,
+  variables.job,
   variables.rate,
   variables.instances,
 ])
