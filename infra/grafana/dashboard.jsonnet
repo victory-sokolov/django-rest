@@ -33,11 +33,6 @@ g.dashboard.new('Django App Dashboard')
           'Haproxy Backend Sessions',
           haproxy.haproxy_backend_sessions
         ),
-        // panels.timeseries.haproxy_frontned_session_limit(
-        //   'Frontend Session Limit',
-        //   'Frontend Session Limit',
-        //   haproxy.haproxy_frontned_session_limit
-        // ),
         panels.timeseries.haproxy_requests(
           'HAProxy Requests',
           'HAProxy Requests',

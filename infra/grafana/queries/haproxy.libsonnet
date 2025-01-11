@@ -19,20 +19,6 @@ local variables = import '../variables.libsonnet';
     + prometheusQuery.withIntervalFactor(2)
     + prometheusQuery.withLegendFormat('{{code}}'),
 
-  //   haproxy_frontned_session_limit:
-  //     prometheusQuery.new(
-  //       '$' + variables.datasource.name,
-  //       |||
-  //         sum(
-  //             haproxy_frontend_limit_sessions{proxy="http-in", instance=~"$instance"}
-  //         ) or vector(0)
-  //       |||
-  //     )
-  //     + prometheusQuery.withIntervalFactor(2)
-  //     + prometheusQuery.withLegendFormat(|||
-  //       Frontned Session Limit
-  //     |||),
-
   haproxy_frontend_sessions:
     prometheusQuery.new(
       '$' + variables.datasource.name,

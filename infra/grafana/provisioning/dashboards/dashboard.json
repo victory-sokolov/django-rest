@@ -240,7 +240,7 @@
                   "type": "prometheus",
                   "uid": "$datasource"
                },
-               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{\n        job=\"haproxy-metrics\",\n        proxy=\"http-in\",\n        instance=~\"$instance\"\n    }[$__rate_interval])\n) by (code) or vector(0)\n",
+               "expr": "sum(\n    rate(haproxy_frontend_http_responses_total{\n        job=\"haproxy-metrics\",\n        proxy=\"http-in\",\n        instance=~\"$instance\"\n    }[$__rate_interval])\n) by (code)\n",
                "legendFormat": "Frontend {{ code }}\n"
             }
          ],
