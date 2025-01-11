@@ -53,11 +53,9 @@ API documentation is available at: `/api/docs`
 For load testing we are using Locust
 `uv run locust -f locustfile.py --host=http://localhost:9020`
 
-
-
 Run with entr to reload on changes
 Install: `brew install entr`
-Run: `ls locustfile.py |entr -r uv run locust -f locustfile.py --host=http://localhost:9020`
+Run: `ls locustfile.py | entr -r uv run locust -f locustfile.py --host=http://localhost:9020`
 
 ## Launch Debugger
 
