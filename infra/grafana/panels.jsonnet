@@ -82,6 +82,7 @@ local g = import 'g.libsonnet';
         '$' + variables.datasource.name
       )
       + _gauge.queryOptions.withInterval('1m')
+      + _gauge.standardOptions.withUnit('none')
       + _gauge.panelOptions.withDescription(description)
       + _gauge.gridPos.withW(24)
       + _gauge.gridPos.withH(8),
@@ -99,6 +100,7 @@ local g = import 'g.libsonnet';
     gauge(title, description, targets):
       _stat.new(title)
       + _stat.queryOptions.withTargets(targets)
+      + _stat.standardOptions.withUnit('none')
       + _stat.queryOptions.withDatasource(
         '$' + variables.datasource.type,
         '$' + variables.datasource.name

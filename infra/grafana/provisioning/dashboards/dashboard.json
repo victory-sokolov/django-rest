@@ -265,6 +265,11 @@
             "uid": "$Prometheus"
          },
          "description": "Django DB Query Errors",
+         "fieldConfig": {
+            "defaults": {
+               "unit": "none"
+            }
+         },
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -294,6 +299,11 @@
             "uid": "$Prometheus"
          },
          "description": "Django Database Connection Errors",
+         "fieldConfig": {
+            "defaults": {
+               "unit": "none"
+            }
+         },
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -511,6 +521,11 @@
             "uid": "$Prometheus"
          },
          "description": "Cache Hit Ratio",
+         "fieldConfig": {
+            "defaults": {
+               "unit": "none"
+            }
+         },
          "gridPos": {
             "h": 8,
             "w": 12,
@@ -553,6 +568,11 @@
             "uid": "$Prometheus"
          },
          "description": "Shows the maximum number of concurrent connections to the PostgreSQL database",
+         "fieldConfig": {
+            "defaults": {
+               "unit": "none"
+            }
+         },
          "gridPos": {
             "h": 8,
             "w": 12,
