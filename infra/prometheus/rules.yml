@@ -13,8 +13,8 @@ groups:
       - alert: Haproxy response time
         expr: |
           avg by(proxy) (
-            haproxy_backend_response_time_average_seconds{proxy="server_backend"} offset 1m
-          ) > 3
+            haproxy_backend_response_time_average_seconds{proxy="server_backend"} offset 5m
+          ) > 10
         for: 1m
         labels:
           severity: critical
