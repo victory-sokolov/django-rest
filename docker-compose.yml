@@ -149,9 +149,15 @@ services:
     env_file:
       - .env
     ports:
-      - 5432:5432
+      - 6432:6432
     environment:
       <<: *default-env
+    healthcheck:
+      test: ["CMD-SHELL", 'psql -p 6432 -U ${POSTGRES_USER} pgbouncer -b -c "SHOW USERS" >/dev/null']
+      interval: 5s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
     depends_on:
       postgres:
         condition: service_healthy
