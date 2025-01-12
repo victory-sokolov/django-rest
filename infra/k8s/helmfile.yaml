@@ -19,6 +19,9 @@ releases:
     chart: ./charts/celery
     values:
       - values.yaml
+    needs:
+      - redis
+      - postgres
 
   - name: haproxy
     <<: *default
@@ -37,18 +40,25 @@ releases:
     <<: *default
     values:
       - ./charts/redis/values.yaml
+    needs:
+      - configmap
 
   - name: django
     <<: *default
     chart: ./charts/django
     values:
       - values.yaml
+    needs:
+      - postgres
+      - redis
 
   - name: postgres
     <<: *default
     chart: ./charts/postgres
     values:
       - ./charts/postgres/values.yaml
+    needs:
+      - configmap
 
   - name: static-files
     <<: *default
