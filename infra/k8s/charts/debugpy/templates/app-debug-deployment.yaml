@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.appName }}
-          image: victorysokolov/django-blog:cf825f65ee3b119b77a3c45992ced5daba20caa0
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           command:
             [
               'sh',
@@ -39,6 +39,8 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.appsecrets }}
+            - configMapRef:
+                name: postgres-env
           env:
             - name: DEV_DEPS
               value: 'true' # Install development dependencies
