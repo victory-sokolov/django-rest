@@ -41,7 +41,7 @@ spec:
             - secretRef:
                 name: {{ .Values.appsecrets }}
             - configMapRef:
-              name: postgres-env
+                name: postgres-env
           # volumeMounts:
           #   - name: google-credentials-volume
           #     mountPath: /secrets
