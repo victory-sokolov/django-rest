@@ -20,7 +20,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           envFrom:
               - secretRef:
-                    name: {{ .Values.appsecrets }}
+                name: {{ .Values.appsecrets }}
+              - configMapRef:
+                name: postgres-env
           # env:
           #   - name: GOOGLE_APPLICATION_CREDENTIALS
           #     value: /secrets/key.json
@@ -40,6 +42,7 @@ spec:
               failureThreshold: 5
               periodSeconds: 15
               timeoutSeconds: 10
+              initialDelaySeconds: 20
           name: celery-worker
           imagePullPolicy: Always
           # resources:
