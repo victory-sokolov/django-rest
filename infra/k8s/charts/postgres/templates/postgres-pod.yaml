@@ -18,7 +18,13 @@ spec:
       livenessProbe:
         exec:
           command:
-            - 'pg_isready -p -U -d'
+            - pg_isready
+            - -p
+            - "5431"
+            - -U
+            - user
+            - -d
+            - blog
         failureThreshold: 3
         periodSeconds: 15
         timeoutSeconds: 10
