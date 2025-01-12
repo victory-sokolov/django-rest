@@ -27,7 +27,7 @@ spec:
             - blog
         failureThreshold: 3
         periodSeconds: 15
-        timeoutSeconds: 10
+        timeoutSeconds: 12
       ports:
         - containerPort: 5431
           protocol: TCP

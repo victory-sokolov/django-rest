@@ -42,7 +42,7 @@ spec:
               failureThreshold: 5
               periodSeconds: 15
               timeoutSeconds: 10
-              initialDelaySeconds: 20
+              initialDelaySeconds: 10
           name: celery-worker
           imagePullPolicy: Always
           # resources:

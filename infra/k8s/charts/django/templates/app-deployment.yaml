@@ -46,7 +46,11 @@ spec:
           #   - name: google-credentials-volume
           #     mountPath: /secrets
           #     readOnly: true
-      # volumes:
+      volumes:
+        - name: static-storage
+          persistentVolumeClaim:
+          claimName: static-storage-pvc
+
       #   - name: google-credentials-volume
       #     secret:
       #       secretName: google-credentials
