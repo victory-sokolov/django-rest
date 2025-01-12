@@ -23,9 +23,9 @@ spec:
             - --raw
             - incr
             - ping
-        failureThreshold: 3
+        failureThreshold: 5
         periodSeconds: 15
-        timeoutSeconds: 10
+        timeoutSeconds: 12
       name: redis
       ports:
         - containerPort: 6379

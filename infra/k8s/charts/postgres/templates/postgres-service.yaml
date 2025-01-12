@@ -6,6 +6,8 @@ metadata:
     kompose.version: 1.34.0 (HEAD)
   labels:
     io.kompose.service: postgres
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
   name: postgres
 spec:
   ports:

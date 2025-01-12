@@ -6,6 +6,8 @@ metadata:
     kompose.version: 1.34.0 (HEAD)
   labels:
     io.kompose.service: app
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
   name: app
 spec:
   type: LoadBalancer
@@ -14,5 +16,9 @@ spec:
       protocol: TCP
       port: 80 # External port
       targetPort: 80 # Django internal port
+      nodePort: 30002 # External port accessible through localhost
+  externalIPs:
+    # minikube IP
+    - 192.168.64.2
   selector:
     io.kompose.service: app

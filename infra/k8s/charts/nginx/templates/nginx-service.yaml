@@ -6,6 +6,8 @@ metadata:
     kompose.version: 1.34.0 (HEAD)
   labels:
     io.kompose.service: nginx
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
   name: nginx
 spec:
   type: LoadBalancer
@@ -13,5 +15,9 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+      nodePort: 30004 # External port accessible through localhost
+  externalIPs:
+    # minikube IP
+    - 192.168.64.2
   selector:
     io.kompose.service: nginx

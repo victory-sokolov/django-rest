@@ -8,8 +8,13 @@ appsecrets: app-secret
 
 postgresql:
   persistence:
-    enabled: true
+    enabled: false
     existingClaim: postgres-pvc
+
+django:
+  persistence:
+    enabled: false
+    existingClaim: static-storage-pvc
 
 gcp:
   enabled: false

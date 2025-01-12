@@ -2,6 +2,9 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: django-static-job
+  labels:
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
 spec:
   ttlSecondsAfterFinished: 120
   template:
@@ -18,7 +21,7 @@ spec:
           #     value: /secrets/key.json
           envFrom:
             - secretRef:
-                name: {{ .Values.appsecrets }}
+                name: "{{ .Values.appsecrets }}"
           volumeMounts:
             # - name: google-credentials-volume
             #   mountPath: /secrets

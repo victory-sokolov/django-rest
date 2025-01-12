@@ -9,15 +9,3 @@ spec:
     - ReadWriteMany
   hostPath:
     path: /app/output/static/
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: static-storage-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi

@@ -4,6 +4,8 @@ metadata:
   name: nginx
   labels:
     app: nginx
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
 spec:
   selector:
     matchLabels:

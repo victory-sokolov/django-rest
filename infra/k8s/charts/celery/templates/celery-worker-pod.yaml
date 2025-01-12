@@ -20,7 +20,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           envFrom:
               - secretRef:
-                  name: {{ .Values.appsecrets }}
+                  name: "{{ .Values.appsecrets }}"
               - configMapRef:
                   name: postgres-env
           # env:
@@ -41,8 +41,8 @@ spec:
                       - ping
               failureThreshold: 5
               periodSeconds: 15
-              timeoutSeconds: 10
-              initialDelaySeconds: 10
+              timeoutSeconds: 15
+              initialDelaySeconds: 25
           name: celery-worker
           imagePullPolicy: Always
           # resources:

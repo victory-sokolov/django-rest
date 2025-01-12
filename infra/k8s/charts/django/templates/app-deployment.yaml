@@ -6,6 +6,8 @@ metadata:
     kompose.version: 1.34.0 (HEAD)
   labels:
     io.kompose.service: app
+    app.kubernetes.io/instance: '{{ .Release.Name }}'
+    app.kubernetes.io/managed-by: '{{ .Release.Service }}'
   name: app
 spec:
   replicas: 1
@@ -27,7 +29,7 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-        - name: app
+        - name: django
           image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
           imagePullPolicy: Always
           ports:
@@ -39,18 +41,13 @@ spec:
           #     value: /secrets/key.json
           envFrom:
             - secretRef:
-                name: {{ .Values.appsecrets }}
+                name: "{{ .Values.appsecrets }}"
             - configMapRef:
                 name: postgres-env
           # volumeMounts:
           #   - name: google-credentials-volume
           #     mountPath: /secrets
           #     readOnly: true
-      volumes:
-        - name: static-storage
-          persistentVolumeClaim:
-          claimName: static-storage-pvc
-
       #   - name: google-credentials-volume
       #     secret:
       #       secretName: google-credentials
