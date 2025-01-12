@@ -61,11 +61,6 @@ Run: `ls locustfile.py | entr -r uv run locust -f locustfile.py --host=http://lo
 
 - `docker-compose -f docker-compose.yml -f docker-compose.debug.yml up`
 
-
-## Run with minikube
-
-1. `kubectl create secret generic app-secret --from-env-file=.env`
-
 ## Terraform
 
 1. `terraform apply --parallelism=20 -auto-approve`
