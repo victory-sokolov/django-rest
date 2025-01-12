@@ -1,9 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-compose.temp.yml
-    kompose.version: 1.34.0 (HEAD)
   labels:
     io.kompose.service: haproxy
     app.kubernetes.io/instance: '{{ .Release.Name }}'
@@ -16,9 +13,6 @@ spec:
       io.kompose.service: haproxy
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert -f docker-compose.temp.yml
-        kompose.version: 1.34.0 (HEAD)
       labels:
         io.kompose.service: haproxy
     spec:
