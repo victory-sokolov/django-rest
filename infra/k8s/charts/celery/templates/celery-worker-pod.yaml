@@ -20,9 +20,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           envFrom:
               - secretRef:
-                name: {{ .Values.appsecrets }}
+                  name: {{ .Values.appsecrets }}
               - configMapRef:
-                name: postgres-env
+                  name: postgres-env
           # env:
           #   - name: GOOGLE_APPLICATION_CREDENTIALS
           #     value: /secrets/key.json

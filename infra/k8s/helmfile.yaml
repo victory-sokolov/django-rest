@@ -8,11 +8,13 @@ releases:
     <<: *default
     chart: ./charts/configmap
 
-  - name: debugpy
+  - name: postgres
     <<: *default
-    chart: ./charts/debugpy
+    chart: ./charts/postgres
     values:
-      - values.yaml
+      - ./charts/postgres/values.yaml
+    needs:
+      - configmap
 
   - name: celery
     <<: *default
@@ -20,20 +22,37 @@ releases:
     values:
       - values.yaml
     needs:
+      - configmap
       - redis
       - postgres
+
+  - name: django
+    <<: *default
+    chart: ./charts/django
+    values:
+      - values.yaml
+    needs:
+      - configmap
+      - postgres
+      - redis
 
   - name: haproxy
     <<: *default
     chart: ./charts/haproxy
     values:
       - ./charts/haproxy/values.yaml
+    needs:
+      - configmap
+      - django
 
   - name: nginx
     <<: *default
     chart: ./charts/nginx
     values:
       - ./charts/nginx/values.yaml
+    needs:
+      - configmap
+      - django
 
   - name: redis
     chart: ./charts/redis
@@ -43,25 +62,19 @@ releases:
     needs:
       - configmap
 
-  - name: django
+  - name: debugpy
     <<: *default
-    chart: ./charts/django
+    chart: ./charts/debugpy
     values:
       - values.yaml
     needs:
-      - postgres
-      - redis
-
-  - name: postgres
-    <<: *default
-    chart: ./charts/postgres
-    values:
-      - ./charts/postgres/values.yaml
-    needs:
-      - configmap
+      - django
 
   - name: static-files
     <<: *default
     chart: ./charts/static-files
     values:
       - values.yaml
+    needs:
+      - configmap
+      - django
