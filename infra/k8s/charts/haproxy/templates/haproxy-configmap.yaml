@@ -45,6 +45,8 @@ data:
 
     resolvers kube_dns
       nameserver dns 10.96.0.10:53
+      resolve_retries 3
+      timeout retry   1s
 
     backend server_backend
       balance roundrobin
@@ -64,7 +66,7 @@ data:
 
       http-request set-header X-Request-ID %[uuid()]
 
-      server-template backend 1 nginx.default.svc.cluster.local:80 check resolvers kube_dns resolve-prefer ipv4 init-addr none
+      server-template backend 1 nginx.default.svc.cluster.local:80
 
     frontend stats
       bind :8404
