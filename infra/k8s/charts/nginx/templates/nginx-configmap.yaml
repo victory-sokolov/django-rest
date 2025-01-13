@@ -26,36 +26,36 @@ data:
     }
   nginx-custom.conf: |
     upstream app {
-        server app:80;
+      server app:80;
     }
 
     server {
       listen 80;
 
       location / {
-          proxy_pass http://app;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Proto $scheme;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header Host $host;
-          proxy_redirect off;
+        proxy_pass http://app;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $host;
+        proxy_redirect off;
       }
 
       location /static/ {
         types {
-              text/html                                        html htm shtml;
-              text/css                                         css;
-              application/javascript                           js;
-              image/jpeg                                       jpeg jpg;
-              image/png                                        png;
-              application/json                                 json;
-          }
-          autoindex off;
-          alias /app/output/static/;
+          text/html                                        html htm shtml;
+          text/css                                         css;
+          application/javascript                           js;
+          image/jpeg                                       jpeg jpg;
+          image/png                                        png;
+          application/json                                 json;
+        }
+        autoindex off;
+        alias /app/output/static/;
       }
 
       location /media/ {
-          alias /app/output/mediafiles/;
+        alias /app/output/mediafiles/;
       }
     }
 kind: ConfigMap
