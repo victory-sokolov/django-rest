@@ -14,6 +14,7 @@ class CeleryConfig:
     event_serializer = "json"
     accept_content = ["json"]
     broker_connection_retry_on_startup = (True,)
+    hijack_root_logger = False
     broker_connection_max_retries = (5,)
     imports = ("djangoblog.tasks",)
     result_backend = settings.CELERY_RESULT_BACKEND
