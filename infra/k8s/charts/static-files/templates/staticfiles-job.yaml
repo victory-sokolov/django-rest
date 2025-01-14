@@ -15,7 +15,7 @@ spec:
           imagePullPolicy: Always
           command: ['/bin/sh', '-c']
           args:
-            - python manage.py collectstatic --noinput
+            - python manage.py collectstatic --noinput && python manage.py compress --force
           envFrom:
             - secretRef:
                 name: "{{ .Values.appsecrets }}"
