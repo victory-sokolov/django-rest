@@ -464,7 +464,7 @@ DATABASES = {
     # },
 }
 
-DATABASE_ROUTERS = ["djangoblog.db_router.CustomRouter"]
+# DATABASE_ROUTERS = ["djangoblog.db_router.CustomRouter"]
 
 FIXTURE_DIRS = [
     "djangoblog/fixtures",
