@@ -77,9 +77,6 @@ development:
     default:
       <<: *database
       HOST: postgres
-    read_replica:
-      <<: *database
-      HOST: postgres
 
 test:
   <<: [*static_storage]

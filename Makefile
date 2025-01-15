@@ -21,7 +21,7 @@ shell: ## Django shell
 
 migrate: ## Run migrations
 	DJANGO_ENV=$(ENV) uv run python manage.py migrate --no-input
-	DJANGO_ENV=$(ENV) uv run python manage.py migrate --database=read_replica
+	# DJANGO_ENV=$(ENV) uv run python manage.py migrate --database=read_replica
 
 make-migrations: migrate ## Create and run migrations
 	DJANGO_ENV=$(ENV) uv run python manage.py makemigrations

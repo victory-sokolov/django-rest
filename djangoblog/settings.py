@@ -25,12 +25,13 @@ settings = dynaconf.DjangoDynaconf(
             required=True,
             condition=lambda v: isinstance(v, str),
         ),
-        Validator(
-            "DATABASES.read_replica.NAME",
-            must_exist=True,
-            required=True,
-            condition=lambda v: isinstance(v, str),
-        ),
+        # Validator(
+        #     "DATABASES.read_replica.NAME",
+        #     env=("production", "development"),
+        #     must_exist=True,
+        #     required=True,
+        #     condition=lambda v: isinstance(v, str),
+        # ),
         Validator(
             "DATABASES.default.NAME",
             must_exist=True,
