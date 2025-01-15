@@ -109,6 +109,9 @@ test:
   DATABASES:
     default:
       <<: *database
+    read_replica:
+      <<: *database
+      HOST: postgres
 
 production:
   <<: [*default, *bucket, *kibana-logging]
