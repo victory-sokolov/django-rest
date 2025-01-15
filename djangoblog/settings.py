@@ -439,7 +439,7 @@ WSGI_APPLICATION = "djangoblog.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 DB = settings.DATABASES.default
-DB_REPLICA = settings.DATABASES.read_replica
+# DB_REPLICA = settings.DATABASES.read_replica
 
 DATABASES = {
     "default": {
@@ -454,14 +454,14 @@ DATABASES = {
             "sslmode": "require",
         },
     },
-    "read_replica": {
-        "ENGINE": DB.ENGINE,
-        "PORT": DB.PORT,
-        "NAME": DB_REPLICA.NAME,
-        "HOST": DB_REPLICA.HOST,
-        "USER": DB.USER,
-        "PASSWORD": DB.PASSWORD,
-    },
+    # "read_replica": {
+    #     "ENGINE": DB.ENGINE,
+    #     "PORT": DB.PORT,
+    #     "NAME": DB_REPLICA.NAME,
+    #     "HOST": DB_REPLICA.HOST,
+    #     "USER": DB.USER,
+    #     "PASSWORD": DB.PASSWORD,
+    # },
 }
 
 DATABASE_ROUTERS = ["djangoblog.db_router.CustomRouter"]
