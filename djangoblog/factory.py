@@ -22,8 +22,8 @@ class AccountFactory(DjangoModelFactory):
             "password": Faker("password", length=10),
         },
     )[0]
-    title = Faker("sentence", nb_words=12)
-    content = Faker("sentence", nb_words=100)
+    title = Faker("sentence", nb_words=15)
+    content = Faker("sentence", nb_words=10000)
     slug = LazyAttribute(lambda obj: slugify(obj.title))
 
     @lazy_attribute
