@@ -1,4 +1,4 @@
-FROM ubuntu:24.10 AS builder
+FROM ubuntu:oracular-20241120 AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
