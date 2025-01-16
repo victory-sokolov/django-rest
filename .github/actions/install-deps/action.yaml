@@ -20,7 +20,7 @@ runs:
         pip install uv==0.4.7
 
     - name: Cache the virtualenv
-      uses: actions/cache@v4.1.2
+      uses: actions/cache@v4.2.0
       with:
         path: ./.venv
         key: ${{ runner.os }}-venv-${{ hashFiles('**/uv.lock') }}
