@@ -2,5 +2,11 @@
     "lockFileMaintenance": {
         "enabled": true
     },
+    "packageRules": [
+        {
+            "matchManagers": [ "uv" ],
+            "enabled": true
+        }
+    ],
     "prConcurrentLimit": 10
 }
