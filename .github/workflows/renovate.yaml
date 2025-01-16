@@ -1,10 +1,16 @@
 name: Renovate
+
 on:
   workflow_dispatch:
   schedule:
     # The "*" (#42, asterisk) character has special semantics in YAML, so this
     # string has to be quoted.
     - cron: '0/30 * * * *'
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   renovate:
     runs-on: ubuntu-latest
@@ -14,6 +20,8 @@ jobs:
 
       - name: Renovate Bot GitHub Action
         uses: renovatebot/github-action@v41.0.9
+        env:
+          LOG_LEVEL: debug
         with:
           configurationFile: renovate.json5
           token: ${{ github.token }}
