@@ -1,0 +1,6 @@
+{
+    "lockFileMaintenance": {
+        "enabled": true
+    },
+    "prConcurrentLimit": 10
+}
