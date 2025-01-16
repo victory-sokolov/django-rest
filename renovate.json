@@ -9,5 +9,6 @@
             "versioning": "semver"
         }
     ],
-    "prConcurrentLimit": 10
+    "prConcurrentLimit": 10,
+    "prHourlyLimit": 10
 }
