@@ -9,7 +9,7 @@
         {
             "matchManagers": [ "pep621" ],
             "enabled": true,
-            "versioning": "semver"
+            "versioning": "pep440"
         }
     ],
     "prConcurrentLimit": 10,
