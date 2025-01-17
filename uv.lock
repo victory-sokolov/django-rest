@@ -201,7 +201,7 @@ requires-dist = [
     { name = "pillow", specifier = ">=11.0.0" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = "~=3.2" },
     { name = "psycopg2", specifier = "~=2.9.9" },
-    { name = "pyopenssl", specifier = "~=24.2" },
+    { name = "pyopenssl", specifier = "~=25.0" },
     { name = "python-logstash", specifier = "~=0.4.8" },
     { name = "requests", specifier = "~=2.32.0" },
     { name = "rich", specifier = "~=13.9.4" },
@@ -2285,14 +2285,15 @@ wheels = [
 
 [[package]]
 name = "pyopenssl"
-version = "24.2.1"
+version = "25.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cryptography" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5d/70/ff56a63248562e77c0c8ee4aefc3224258f1856977e0c1472672b62dadb8/pyopenssl-24.2.1.tar.gz", hash = "sha256:4247f0dbe3748d560dcbb2ff3ea01af0f9a1a001ef5f7c4c647956ed8cbf0e95", size = 184323 }
+sdist = { url = "https://files.pythonhosted.org/packages/9f/26/e25b4a374b4639e0c235527bbe31c0524f26eda701d79456a7e1877f4cc5/pyopenssl-25.0.0.tar.gz", hash = "sha256:cd2cef799efa3936bb08e8ccb9433a575722b9dd986023f1cabc4ae64e9dac16", size = 179573 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d9/dd/e0aa7ebef5168c75b772eda64978c597a9129b46be17779054652a7999e4/pyOpenSSL-24.2.1-py3-none-any.whl", hash = "sha256:967d5719b12b243588573f39b0c677637145c7a1ffedcd495a487e58177fbb8d", size = 58390 },
+    { url = "https://files.pythonhosted.org/packages/ca/d7/eb76863d2060dcbe7c7e6cccfd95ac02ea0b9acc37745a0d99ff6457aefb/pyOpenSSL-25.0.0-py3-none-any.whl", hash = "sha256:424c247065e46e76a37411b9ab1782541c23bb658bf003772c3405fbaa128e90", size = 56453 },
 ]
 
 [[package]]
