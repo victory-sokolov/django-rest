@@ -65,7 +65,7 @@ name = "bandit"
 version = "1.7.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "platform_system == 'Windows'" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
     { name = "pyyaml" },
     { name = "rich" },
     { name = "stevedore" },
@@ -221,7 +221,7 @@ dev = [
     { name = "djangorestframework-stubs", specifier = "~=3.15.0" },
     { name = "djlint", specifier = ">=1.36.1" },
     { name = "factory-boy", specifier = "~=3.3" },
-    { name = "faker", specifier = "~=23.1.0" },
+    { name = "faker", specifier = "~=23.3.0" },
     { name = "flower", specifier = "~=2.0" },
     { name = "locust", specifier = "~=2.32.3" },
     { name = "memray", specifier = ">=1.14.0" },
@@ -385,7 +385,7 @@ name = "click"
 version = "8.1.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "platform_system == 'Windows'" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/96/d3/f04c7bfcf5c1862a2a5b845c6b2b360488cf47af55dfa79c98f6a6bf98b5/click-8.1.7.tar.gz", hash = "sha256:ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b9ca6de", size = 336121 }
 wheels = [
@@ -1032,14 +1032,14 @@ wheels = [
 
 [[package]]
 name = "faker"
-version = "23.1.0"
+version = "23.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "python-dateutil" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/06/b2/653fdb4110f555e18d78c0da57567a86ee91fda4d56c42a0a8db813b1028/Faker-23.1.0.tar.gz", hash = "sha256:b7f76bb1b2ac4cdc54442d955e36e477c387000f31ce46887fb9722a041be60b", size = 1708228 }
+sdist = { url = "https://files.pythonhosted.org/packages/ca/7a/4e82e3779db11c6d926be950919dcc4d96e48b3c15e0035fd1cd0faf2dcd/Faker-23.3.0.tar.gz", hash = "sha256:458d93580de34403a8dec1e8d5e6be2fee96c4deca63b95d71df7a6a80a690de", size = 1716346 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/f4/0f8391297cdd8fdf15cac9895b844514024bc4d784023419d4ad9d6acf50/Faker-23.1.0-py3-none-any.whl", hash = "sha256:60e89e5c0b584e285a7db05eceba35011a241954afdab2853cb246c8a56700a2", size = 1747144 },
+    { url = "https://files.pythonhosted.org/packages/58/d9/b24e100915b85df8aa0e0ea88c7cc470d74b0909b6eab2ca020cbf896fdc/Faker-23.3.0-py3-none-any.whl", hash = "sha256:117ce1a2805c1bc5ca753b3dc6f9d567732893b2294b827d3164261ee8f20267", size = 1756666 },
 ]
 
 [[package]]
@@ -1047,7 +1047,7 @@ name = "fancycompleter"
 version = "0.9.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "pyreadline", marker = "platform_system == 'Windows'" },
+    { name = "pyreadline", marker = "sys_platform == 'win32'" },
     { name = "pyrepl" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a9/95/649d135442d8ecf8af5c7e235550c628056423c96c4bc6787348bdae9248/fancycompleter-0.9.1.tar.gz", hash = "sha256:09e0feb8ae242abdfd7ef2ba55069a46f011814a80fe5476be48f51b00247272", size = 10866 }
@@ -2721,7 +2721,7 @@ name = "tqdm"
 version = "4.67.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "platform_system == 'Windows'" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/e8/4f/0153c21dc5779a49a0598c445b1978126b1344bab9ee71e53e44877e14e0/tqdm-4.67.0.tar.gz", hash = "sha256:fe5a6f95e6fe0b9755e9469b77b9c3cf850048224ecaa8293d7d2d31f97d869a", size = 169739 }
 wheels = [
