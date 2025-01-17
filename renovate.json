@@ -9,10 +9,10 @@
         {
             "matchManagers": [ "pep621" ],
             "enabled": true,
-            "versioning": "pep440",
             "updateTypes": [ "major", "minor", "patch" ]
         },
         {
+            "matchManagers": [ "pep621" ],
             "matchDepTypes": [ "devDependencies" ],
             "automerge": true,
             "labels": [ "dependencies", "dev" ]
