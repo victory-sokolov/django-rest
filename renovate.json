@@ -13,7 +13,6 @@
             "updateTypes": [ "major", "minor", "patch" ]
         },
         {
-            "matchManagers": [ "pep621" ],
             "matchDepTypes": [ "devDependencies" ],
             "automerge": true,
             "labels": [ "dependencies", "dev" ]
