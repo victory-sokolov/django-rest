@@ -14,8 +14,8 @@
         },
         {
             "matchManagers": [ "pep621" ],
-            "matchDepTypes": [ "devDependencies" ], // Only dev dependencies
-            "automerge": true, // Enable auto-merge for dev dependencies
+            "matchDepTypes": [ "devDependencies" ],
+            "automerge": true,
             "labels": [ "dependencies", "dev" ]
         }
     ],
