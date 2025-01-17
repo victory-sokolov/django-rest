@@ -3,13 +3,13 @@
         "enabled": true
     },
     "extends": [
-        "config:recommended"
+        "config:best-practices"
     ],
     "packageRules": [
         {
             "matchManagers": [ "pep621" ],
             "enabled": true,
-            "updateTypes": [ "major", "minor", "patch" ]
+            "matchUpdateTypes": [ "major", "minor", "patch" ]
         },
         {
             "matchManagers": [ "pep621" ],
