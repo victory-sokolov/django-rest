@@ -192,7 +192,7 @@ requires-dist = [
     { name = "drf-spectacular", specifier = "~=0.28.0" },
     { name = "drf-writable-nested", specifier = "~=0.7" },
     { name = "dynaconf", specifier = "~=3.2.6" },
-    { name = "ecs-logging", specifier = "~=2.1.0" },
+    { name = "ecs-logging", specifier = "~=2.2.0" },
     { name = "elasticsearch-dsl", specifier = "~=7.4.1" },
     { name = "gevent", specifier = "~=24.2" },
     { name = "google-auth", specifier = "~=2.34" },
@@ -978,11 +978,11 @@ wheels = [
 
 [[package]]
 name = "ecs-logging"
-version = "2.1.0"
+version = "2.2.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/86/07/8c19f87a15f4d96fde7231ad7225710c579a924070074d67f7ba36306358/ecs_logging-2.1.0.tar.gz", hash = "sha256:222cc158d4331157d128bc903629010f7724eab8ba4b642efbffd0cb482f4cde", size = 7916 }
+sdist = { url = "https://files.pythonhosted.org/packages/40/9d/49b6b8ecd9b42ee61691ceea6b8757391f371f11df87315bf64240c04d2b/ecs_logging-2.2.0.tar.gz", hash = "sha256:1dc9e216f614129db0e6a2f9f926da4e4cf8edf8de16d1045a20aa8e950291d3", size = 7769 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0f/ff/ab225eaa1f5d4c0feadfd52c07a77dc07e5f856cd8dc48372d67daab09e0/ecs_logging-2.1.0-py3-none-any.whl", hash = "sha256:02581a56b7fc6cbae2de121a4a398ba3bd73d7bb2d67cd029a8a03df0b144098", size = 10560 },
+    { url = "https://files.pythonhosted.org/packages/26/b4/cdc7961ef5979080766c806b6da014352cbbc4ef6194785e6886988bf48e/ecs_logging-2.2.0-py3-none-any.whl", hash = "sha256:f6e22d267770b06f797076f49b5fcc9d97108b22f452f5f9ed4b5367b1e61b5b", size = 10443 },
 ]
 
 [[package]]
