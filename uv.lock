@@ -221,7 +221,7 @@ dev = [
     { name = "djangorestframework-stubs", specifier = "~=3.15.0" },
     { name = "djlint", specifier = ">=1.36.1" },
     { name = "factory-boy", specifier = "~=3.3" },
-    { name = "faker", specifier = "~=23.3.0" },
+    { name = "faker", specifier = "~=33.3.1" },
     { name = "flower", specifier = "~=2.0" },
     { name = "locust", specifier = "~=2.32.3" },
     { name = "memray", specifier = ">=1.14.0" },
@@ -1032,14 +1032,15 @@ wheels = [
 
 [[package]]
 name = "faker"
-version = "23.3.0"
+version = "33.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "python-dateutil" },
+    { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ca/7a/4e82e3779db11c6d926be950919dcc4d96e48b3c15e0035fd1cd0faf2dcd/Faker-23.3.0.tar.gz", hash = "sha256:458d93580de34403a8dec1e8d5e6be2fee96c4deca63b95d71df7a6a80a690de", size = 1716346 }
+sdist = { url = "https://files.pythonhosted.org/packages/9c/50/48ab6ba3f07ee7d0eac367695aeb8bc9eb9c3debc0445a67cd07e2d62b44/faker-33.3.1.tar.gz", hash = "sha256:49dde3b06a5602177bc2ad013149b6f60a290b7154539180d37b6f876ae79b20", size = 1854895 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/58/d9/b24e100915b85df8aa0e0ea88c7cc470d74b0909b6eab2ca020cbf896fdc/Faker-23.3.0-py3-none-any.whl", hash = "sha256:117ce1a2805c1bc5ca753b3dc6f9d567732893b2294b827d3164261ee8f20267", size = 1756666 },
+    { url = "https://files.pythonhosted.org/packages/c2/01/6acc8b4dba4154cd93b444382a9ad3c099557aac577bdc7d66373e0a0c68/Faker-33.3.1-py3-none-any.whl", hash = "sha256:ac4cf2f967ce02c898efa50651c43180bd658a7707cfd676fcc5410ad1482c03", size = 1894842 },
 ]
 
 [[package]]
