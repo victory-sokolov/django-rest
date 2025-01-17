@@ -9,7 +9,8 @@
         {
             "matchManagers": [ "pep621" ],
             "enabled": true,
-            "versioning": "pep440"
+            "versioning": "pep440",
+            "updateTypes": [ "major", "minor", "patch" ]
         },
         {
             "matchManagers": [ "pep621" ],
