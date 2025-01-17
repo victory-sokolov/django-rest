@@ -193,7 +193,7 @@ requires-dist = [
     { name = "drf-writable-nested", specifier = "~=0.7" },
     { name = "dynaconf", specifier = "~=3.2.6" },
     { name = "ecs-logging", specifier = "~=2.2.0" },
-    { name = "elasticsearch-dsl", specifier = "~=7.4.1" },
+    { name = "elasticsearch-dsl", specifier = "~=8.17.1" },
     { name = "gevent", specifier = "~=24.2" },
     { name = "google-auth", specifier = "~=2.34" },
     { name = "google-cloud-pubsub", specifier = "~=2.25" },
@@ -992,30 +992,43 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/3d/85/7b5c2fac7fdc37d959fab714b13b9acb75884490dcc0e8b1dc5e64105084/EditorConfig-0.12.4.tar.gz", hash = "sha256:24857fa1793917dd9ccf0c7810a07e05404ce9b823521c7dce22a4fb5d125f80", size = 13278 }
 
 [[package]]
-name = "elasticsearch"
-version = "7.17.12"
+name = "elastic-transport"
+version = "8.17.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "certifi" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/07/ee/68fdc04a4ef1a5026d6331196109714c8569ee70d072af8a479fa60f33c8/elasticsearch-7.17.12.tar.gz", hash = "sha256:a1f5733ae8cf1dbf0a78593389f2503c87dd97429976099832bf0626cdfaac8b", size = 248018 }
+sdist = { url = "https://files.pythonhosted.org/packages/d7/82/2a544ac3d9c4ae19acc7f53117251bee20dd65dc3dff01fe55ea45ae9bd9/elastic_transport-8.17.0.tar.gz", hash = "sha256:e755f38f99fa6ec5456e236b8e58f0eb18873ac8fe710f74b91a16dd562de2a5", size = 73304 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b0/9b/3dbb82aa27b4cbafd2600dcd74c88c4c710cfdacc3249d9c581916cfe359/elasticsearch-7.17.12-py2.py3-none-any.whl", hash = "sha256:468fd5eef703c0d9238e29bcaf3a6fe4d6b092f917959fbf41f48f8fea3df2f8", size = 385970 },
+    { url = "https://files.pythonhosted.org/packages/2a/0d/2dd25c06078070973164b661e0d79868e434998391f9aed74d4070aab270/elastic_transport-8.17.0-py3-none-any.whl", hash = "sha256:59f553300866750e67a38828fede000576562a0e66930c641adb75249e0c95af", size = 64523 },
+]
+
+[[package]]
+name = "elasticsearch"
+version = "8.17.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "elastic-transport" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/38/57/f61579940df4771971aede5b355f64c758f56d8cc9bd4407d669c2f0dd2f/elasticsearch-8.17.0.tar.gz", hash = "sha256:c1069bf2204ba8fab29ff00b2ce6b37324b2cc6ff593283b97df43426ec13053", size = 460268 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1e/82/832ff4bdb53429af0025f5032c8b4f3ba18915e08ce16fc55aa09e900e26/elasticsearch-8.17.0-py3-none-any.whl", hash = "sha256:15965240fe297279f0e68b260936d9ced9606aa7ef8910b9b56727f96ef00d5b", size = 571182 },
 ]
 
 [[package]]
 name = "elasticsearch-dsl"
-version = "7.4.1"
+version = "8.17.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
+    { name = "elastic-transport" },
     { name = "elasticsearch" },
     { name = "python-dateutil" },
-    { name = "six" },
+    { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0c/7d/dcd5493c707db180c5fc71f0d69b34b590418ee4fd1b06284df552926609/elasticsearch-dsl-7.4.1.tar.gz", hash = "sha256:07ee9c87dc28cc3cae2daa19401e1e18a172174ad9e5ca67938f752e3902a1d5", size = 56722 }
+sdist = { url = "https://files.pythonhosted.org/packages/bf/57/d375ce8915f289f1f032e001010cd901c2f1be4a14246e7506af63ba34f7/elasticsearch_dsl-8.17.1.tar.gz", hash = "sha256:d8170699bfdb4fe7fab3854cdac319a2d6dddbaa29c9ea7993d2ec22056db5a0", size = 151630 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7a/35/5be0558cb93b69d8da5235d0f9448b8fdaccb988b60c8e18f332632d3d9b/elasticsearch_dsl-7.4.1-py2.py3-none-any.whl", hash = "sha256:97f79239a252be7c4cce554c29e64695d7ef6a4828372316a5e5ff815e7a7498", size = 64110 },
+    { url = "https://files.pythonhosted.org/packages/ad/b4/5e707bca39062ba0b5227696a767db09767e5f09e869c6cb14aeb36e4b9d/elasticsearch_dsl-8.17.1-py3-none-any.whl", hash = "sha256:49ee12a6a8d43fcfc0af42b49649531a6ef228c9e4795325de27f6b309b62b6d", size = 158294 },
 ]
 
 [[package]]
