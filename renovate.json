@@ -10,6 +10,12 @@
             "matchManagers": [ "pep621" ],
             "enabled": true,
             "versioning": "pep440"
+        },
+        {
+            "matchManagers": [ "pep621" ],
+            "matchDepTypes": [ "devDependencies" ], // Only dev dependencies
+            "automerge": true, // Enable auto-merge for dev dependencies
+            "labels": [ "dependencies", "dev" ]
         }
     ],
     "prConcurrentLimit": 10,
