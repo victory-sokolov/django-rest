@@ -44,6 +44,7 @@ dependencies = [
     "django-extra-checks>=0.15.1",
     # Required for ImageField
     "pillow>=11.0.0",
+    "vstils>=0.1.0",
 ]
 
 [tool.uv]
