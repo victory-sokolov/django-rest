@@ -3,7 +3,7 @@ name: Renovate
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0/50 * * * *'
+    - cron: '0 0 * * *' # Runs at midnight UTC every day
 
 permissions:
   contents: write
