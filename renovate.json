@@ -9,7 +9,12 @@
         {
             "matchManagers": [ "pep621" ],
             "enabled": true,
-            "matchUpdateTypes": [ "major", "minor", "patch" ]
+            "matchUpdateTypes": [ "major", "minor" ]
+        },
+        {
+            "matchManagers": [ "pep621" ],
+            "matchUpdateTypes": [ "patch" ],
+            "automerge": true
         }
     ],
     "prConcurrentLimit": 10,
