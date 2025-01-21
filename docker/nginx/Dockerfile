@@ -2,7 +2,7 @@ FROM ubuntu:24.10 AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG NGINX_VERSION=1.27.2
+ARG NGINX_VERSION=1.27.3
 
 RUN echo "Acquire::http::Pipeline-Depth 0;" > /etc/apt/apt.conf.d/99custom && \
     echo "Acquire::http::No-Cache true;" >> /etc/apt/apt.conf.d/99custom && \

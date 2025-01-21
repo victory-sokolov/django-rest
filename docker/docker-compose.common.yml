@@ -11,6 +11,15 @@ services:
       DJANGO_LOG_LEVEL: DEBUG
       DJANGO_ENV: production
       TZ: Europe/Riga
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - .venv/
+        - action: rebuild
+          path: ./uv.lock
     depends_on:
       redis:
         condition: service_healthy
