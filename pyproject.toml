@@ -75,6 +75,7 @@ dev-dependencies = [
     "bandit>=1.7.10",
     "djlint>=1.36.1",
     "memray>=1.14.0",
+    "vulture>=2.14",
 ]
 
 [tool.pycln]
@@ -154,6 +155,7 @@ select = [
     "DJ",
     "C4", # flake8-datetimez
     "DTZ", # flake8-datetimez
+    "PIE800", # flake8-pie
 ]
 fixable = ["ALL"]
 # Allow unused variables when underscore-prefixed.
@@ -176,3 +178,48 @@ plugins = [
     "mypy_django_plugin.main",
     "mypy_drf_plugin.main",
 ]
+
+[tool.vulture]
+exclude = [
+    "*settings.py",
+    "*/migrations/*.py",
+    "celery.py",
+]
+ignore_decorators = [
+  # Django
+  "@receiver",
+  "@register.filter",
+  "@register.inclusion_tag",
+  "@register.simple_tag",
+  # django.contrib.admin
+  "@admin.action",
+  "@admin.display",
+  "@admin.register",
+  # pytest
+  "@pytest.fixture",
+]
+ignore_names = [
+  # Django
+  "*Config",  # AppConfig subclasses
+  "*Middleware",
+  "clean_*",
+  "Meta",
+  "urlpatterns",
+  # django.contrib.admin
+  "get_extra",
+  "get_fieldsets",
+  "has_add_permission",
+  "has_change_permission",
+  "has_delete_permission",
+  "has_view_permission",
+  "lookups",
+  "list_display",
+  "filter_horizontal",
+  "readonly_fields",
+  "list_filter",
+  "search_fields",
+  "exclude",
+  "ordering",
+  "fieldsets"
+]
+sort_by_size = true
