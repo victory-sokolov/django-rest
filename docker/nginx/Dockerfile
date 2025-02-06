@@ -18,7 +18,7 @@ RUN git clone --recurse-submodules -j8 https://github.com/google/ngx_brotli
 RUN cd nginx-${NGINX_VERSION} && ./configure --with-compat --add-dynamic-module=../ngx_brotli \
     && make modules
 
-FROM nginx:1.27.3
+FROM nginx:1.27.4@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
 
 ARG NGINX_VERSION
 
