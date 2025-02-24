@@ -61,6 +61,7 @@ class PostCreateView(CreateView):
             "is_draft": is_draft,
             "title": request.POST.get("title"),
             "content": request.POST.get("content"),
+            "slug": request.POST.get("slug"),
             "user_id": request.user.id,
         }
         CreatePostsTask().delay(data)

@@ -42,6 +42,7 @@ class CreatePostsTask(celery.Task):
         post = Post.objects.create(
             title=data["title"],
             content=data["content"],
+            slug=data["slug"],
             user=user,
             draft=data.get("is_draft"),
         )
