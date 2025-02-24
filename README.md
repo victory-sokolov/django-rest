@@ -78,3 +78,10 @@ Run: `ls locustfile.py | entr -r uv run locust -f locustfile.py --host=http://lo
 5. Credentials:
   - username: `elastic`
   - password: `changeme`
+
+
+## Perform test mutation
+
+1. Initialise session `uv run cosmic-ray init test_mutation.toml test.sqlite`
+2. `uv run cosmic-ray --verbosity=INFO baseline test_mutation.toml`
+3. `uv run cosmic-ray exec test_mutation.toml test.sqlite`

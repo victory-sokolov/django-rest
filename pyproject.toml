@@ -76,6 +76,7 @@ dev-dependencies = [
     "djlint>=1.36.1",
     "memray>=1.14.0",
     "vulture>=2.14",
+    "cosmic-ray>=8.4.1",
 ]
 
 [tool.pycln]
@@ -223,3 +224,7 @@ ignore_names = [
   "fieldsets"
 ]
 sort_by_size = true
+
+[tool.mutmut]
+paths_to_mutate = [ "djangoblog/" ]
+tests_dir = [ "tests/" ]
