@@ -24,6 +24,8 @@ class LimitTestCaseMixing:
 
 
 class TestCase(LimitTestCaseMixing, test.TestCase):
+    fixtures = ["test"]
+
     pass
 
 

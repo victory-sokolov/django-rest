@@ -1,4 +1,5 @@
 import json
+from uuid import uuid4
 
 from django.urls import reverse
 from rest_framework.test import APIClient
@@ -66,7 +67,7 @@ class BlogPageTest(TestCase):
         form_data = {
             "title": "Post Title",
             "content": "Post body",
-            "slug": "post-slug",
+            "slug": uuid4(),
             "tags": json.dumps([{"value": "Python"}, {"value": "Django"}]),
         }
         response = self.client.post(

@@ -5,8 +5,6 @@ from djangoblog.utils.limit_test import TestCase
 
 
 class TestAuth(TestCase):
-    fixtures = ["test"]
-
     @classmethod
     def setUpTestData(cls):
         cls.user = UserProfile.objects.get(pk=1)
