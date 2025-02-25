@@ -9,6 +9,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoblog.settings")
 class CeleryConfig:
     enable_utc = True
     timezone = "Europe/Kiev"
+    worker_pool = "gevent"
+    worker_concurrency = 100
     task_serializer = "json"
     result_serializer = "json"
     event_serializer = "json"
