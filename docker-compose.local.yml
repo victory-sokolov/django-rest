@@ -69,7 +69,7 @@ services:
       - grafana_data:/var/lib/grafana
 
   rabbitmq:
-    image: rabbitmq:4.0.5-management
+    image: rabbitmq:4.0.6-management@sha256:c2f5153a7759bf6a675ff0b2544f09fc24775c76448e585e58802e29925d435d
     profiles:
       - donotstart
     platform: linux/arm64
