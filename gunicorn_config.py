@@ -8,6 +8,8 @@ workers = 8
 threads = 4
 worker_class = "gevent"
 worker_connections = 1000
+max_requests = 120
+max_requests_jitter = 50
 timeout = 60
 # Timeout for graceful workers restart.
 graceful_timeout = 40
