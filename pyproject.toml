@@ -24,7 +24,6 @@ dependencies = [
     "drf-writable-nested ~=0.7",
     "ecs-logging ~=2.2.0",
     "elasticsearch-dsl ~=8.17.1",
-    "psycopg2 ~=2.9",
     "python-logstash ~=0.4.8",
     "requests ~=2.32.0",
     "rich ~=13.9.4",

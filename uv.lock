@@ -211,7 +211,6 @@ dependencies = [
     { name = "gunicorn" },
     { name = "pillow" },
     { name = "psycopg", extra = ["binary", "pool"] },
-    { name = "psycopg2" },
     { name = "pyopenssl" },
     { name = "python-logstash" },
     { name = "requests" },
@@ -283,7 +282,6 @@ requires-dist = [
     { name = "gunicorn", specifier = "~=23.0.0" },
     { name = "pillow", specifier = ">=11.0.0" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = "~=3.2" },
-    { name = "psycopg2", specifier = "~=2.9" },
     { name = "pyopenssl", specifier = "~=25.0" },
     { name = "python-logstash", specifier = "~=0.4.8" },
     { name = "requests", specifier = "~=2.32.0" },
@@ -2289,16 +2287,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ad/a6/efa7fa8204d2dedf5f1b53b24154c8da0291788e99b7fb544fcaf4a3a29c/psycopg_pool-3.2.3.tar.gz", hash = "sha256:bb942f123bef4b7fbe4d55421bd3fb01829903c95c0f33fd42b7e94e5ac9b52a", size = 29661 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/3b/30/7bc6c070ef1135a44005fe39dd749a6bde41c5770fed7349b544f277fa78/psycopg_pool-3.2.3-py3-none-any.whl", hash = "sha256:53bd8e640625e01b2927b2ad96df8ed8e8f91caea4597d45e7673fc7bbb85eb1", size = 38141 },
-]
-
-[[package]]
-name = "psycopg2"
-version = "2.9.9"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c9/5e/dc6acaf46d78979d6b03458b7a1618a68e152a6776fce95daac5e0f0301b/psycopg2-2.9.9.tar.gz", hash = "sha256:d1454bde93fb1e224166811694d600e746430c006fbb031ea06ecc2ea41bf156", size = 384926 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/13/13/f74ffe6b6f58822e807c70391dc5679a53feb92ce119ccb8a6546c3fb893/psycopg2-2.9.9-cp312-cp312-win32.whl", hash = "sha256:d735786acc7dd25815e89cc4ad529a43af779db2e25aa7c626de864127e5a024", size = 1024634 },
-    { url = "https://files.pythonhosted.org/packages/58/4b/c4a26e191882b60150bfcb639e416524ae7f8249ab7ee854fb5247f16c40/psycopg2-2.9.9-cp312-cp312-win_amd64.whl", hash = "sha256:a7653d00b732afb6fc597e29c50ad28087dcb4fbfb28e86092277a559ae4e693", size = 1163789 },
 ]
 
 [[package]]
