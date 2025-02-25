@@ -184,6 +184,7 @@ DBBACKUP_STORAGE_OPTIONS = {"location": os.path.join(BASE_DIR, "backup")}
 DBBACKUP_FILENAME_TEMPLATE = "{datetime}-{databasename}.{extension}"
 DBBACKUP_MEDIA_FILENAME_TEMPLATE = "{datetime}-media.{extension}"
 
+CONN_MAX_AGE = 120
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.RemoteUserBackend",
