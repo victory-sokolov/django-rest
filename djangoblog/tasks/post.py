@@ -18,11 +18,12 @@ class GetPostsTask(celery.Task):
     POST_PER_PAGE = 20
 
     def run(self):
+        fields = ["id", "title", "slug", "user", "tags", "content"]
         selected_posts = (
             Post.objects.select_related("user")
-            .all()
-            .order_by("-created_at")
             .prefetch_related("tags")
+            .only(*fields)
+            .order_by("-created_at")
         )
         logger.info(f"Retrieving all posts. Found {selected_posts.count()} posts.")
         serializer = PostSerializer(selected_posts, many=True)
