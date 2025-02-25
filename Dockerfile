@@ -19,6 +19,7 @@ RUN set -eux; \
     apt-get update \
     && apt-get install --no-install-recommends -y \
     curl \
+    iputils-ping \
     build-essential \
     libpq-dev \
     vim; \
@@ -54,10 +55,10 @@ RUN --mount=type=cache,target=/app/.cache/uv \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     if [ "$DEV_DEPS" = "true" ]; then \
     echo "Installing all dependencies including dev"; \
-    python -m uv sync --no-install-project --extra dev --frozen; \
+    python -m uv sync --no-install-project --frozen; \
     else \
     echo "Installing production dependencies"; \
-    python -m uv sync --no-install-project --frozen; \
+    python -m uv sync --no-install-project --frozen --no-editable --no-dev; \
     fi
 
 FROM python_builder AS production

@@ -148,7 +148,9 @@ production:
   DATABASES:
     default:
       <<: *database
-      HOST: postgres
+      PORT: 6432 # PG bouncer port
+      HOST: pgbouncer
+      USER: pgbouncer
     read_replica:
       <<: *database
       HOST: postgres

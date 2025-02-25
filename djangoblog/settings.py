@@ -453,7 +453,10 @@ DATABASES = {
         "OPTIONS": {
             "options": "-c jit=off",
             "sslmode": "require",
+            "pool": True,
         },
+        # required for pgbouncer
+        "DISABLE_SERVER_SIDE_CURSORS": True,
     },
     # "read_replica": {
     #     "ENGINE": DB.ENGINE,

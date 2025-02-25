@@ -13,7 +13,7 @@ class ListPostUser(HttpUser):
     base_url = "http://0.0.0.0:80/api/v1"
     headers = {
         "Authorization": f"Bearer {os.getenv('TOKEN')}",
-        "Connection": "keep-alive",
+        # "Connection": "keep-alive",
         "User-Agent": "Locust",
     }
 
