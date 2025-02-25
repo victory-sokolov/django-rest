@@ -185,6 +185,7 @@ DBBACKUP_FILENAME_TEMPLATE = "{datetime}-{databasename}.{extension}"
 DBBACKUP_MEDIA_FILENAME_TEMPLATE = "{datetime}-media.{extension}"
 
 CONN_MAX_AGE = 120
+CONN_HEALTH_CHECKS = True
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.RemoteUserBackend",
