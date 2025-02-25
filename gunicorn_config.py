@@ -4,8 +4,8 @@ from multiprocessing import Value
 
 from djangoblog.metrics import SaturationMonitor
 
-workers = 3
-threads = 2
+workers = 8
+threads = 4
 worker_class = "gevent"
 timeout = 60
 # Timeout for graceful workers restart.
