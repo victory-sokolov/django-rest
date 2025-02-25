@@ -10,7 +10,7 @@ class ListPostUser(HttpUser):
     # base_url = "http://localhost:8000/api/v1"
 
     # Docker base_url
-    base_url = "http://0.0.0.0:8082/api/v1"
+    base_url = "http://0.0.0.0:80/api/v1"
     headers = {
         "Authorization": f"Bearer {os.getenv('TOKEN')}",
         "Connection": "keep-alive",
