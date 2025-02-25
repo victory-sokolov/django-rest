@@ -1,5 +1,6 @@
 database: &database
-  ENGINE: django_prometheus.db.backends.postgresql
+  # ENGINE: django_prometheus.db.backends.postgresql
+  ENGINE: django.db.backends.postgresql
   NAME: blog
   USER: user
   PASSWORD: securepassword

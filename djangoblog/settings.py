@@ -454,9 +454,13 @@ DATABASES = {
         "OPTIONS": {
             "options": "-c jit=off",
             "sslmode": "require",
-            "pool": True,
+            "keepalives": 1,
+            "keepalives_idle": 30,
+            "keepalives_interval": 15,
+            "keepalives_count": 5,
         },
-        # required for pgbouncer
+        "CONN_MAX_AGE": 120,
+        "CONN_HEALTH_CHECKS": True,
         "DISABLE_SERVER_SIDE_CURSORS": True,
     },
     # "read_replica": {
