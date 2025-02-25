@@ -7,6 +7,7 @@ from djangoblog.metrics import SaturationMonitor
 workers = 8
 threads = 4
 worker_class = "gevent"
+worker_connections = 1000
 timeout = 60
 # Timeout for graceful workers restart.
 graceful_timeout = 40
