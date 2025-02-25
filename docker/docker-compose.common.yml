@@ -25,3 +25,5 @@ services:
         condition: service_healthy
       postgres:
         condition: service_healthy
+      pgbouncer:
+        condition: service_healthy

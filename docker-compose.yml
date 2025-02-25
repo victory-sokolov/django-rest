@@ -41,7 +41,7 @@ services:
       --directory=./djangoblog \
       --pattern='**/tasks/*.py' \
       --recursive -- \
-      celery -A djangoblog worker -l info --uid=nobody --gid=nogroup
+      celery -A djangoblog worker -P gevent -c 1000 -l info --uid=nobody --gid=nogroup
       "
     volumes:
       - type: bind
@@ -131,10 +131,10 @@ services:
       timeout: 5s
       retries: 3
 
+
   pgbouncer:
-    image: edoburu/pgbouncer:latest
-    volumes:
-      - ./docker/postgres/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
+    build:
+      context: ./docker/pgbouncer
     networks:
       - default
     env_file:
@@ -144,10 +144,10 @@ services:
     environment:
       <<: *default-env
     healthcheck:
-      test: ["CMD-SHELL", 'psql -p 6432 -U ${POSTGRES_USER} pgbouncer -b -c "SHOW USERS" >/dev/null']
+      test: ["CMD-SHELL", 'PGPASSWORD=${POSTGRES_PASSWORD} psql -h 127.0.0.1 -p 6432 -U pgbouncer -d ${POSTGRES_DB}']
       interval: 5s
       timeout: 5s
-      retries: 6
+      retries: 3
       start_period: 30s
     depends_on:
       postgres:
