@@ -41,7 +41,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      redis:
+      redis-master:
         condition: service_healthy
 
   grafana:

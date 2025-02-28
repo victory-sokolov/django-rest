@@ -54,7 +54,7 @@ services:
       retries: 5
       start_period: 60s
 
-  redis:
+  redis-master:
     restart: unless-stopped
     networks:
       - default
@@ -76,6 +76,20 @@ services:
         limits:
           memory: 2g
           cpus: '1'
+
+  redis-sentinel:
+    image: redis:7.4.2
+    container_name: redis-sentinel
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+    ports:
+      - 26379:26379
+    volumes:
+      - ./docker/redis/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    command: ["redis-sentinel", "/usr/local/etc/redis/sentinel.conf"]
 
   nginx:
     restart: on-failure
