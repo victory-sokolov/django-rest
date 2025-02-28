@@ -10,4 +10,4 @@ metadata:
     use-subpath: 'true'
   labels:
     io.kompose.service: redis
-  name: redis-cm1
+  name: redis-config
