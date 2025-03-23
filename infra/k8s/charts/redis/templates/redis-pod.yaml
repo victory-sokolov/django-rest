@@ -28,10 +28,10 @@ spec:
       ports:
         - containerPort: 6379
           protocol: TCP
-      # resources:
-      #   limits:
-      #     cpu: '1'
-      #     memory: '512Mi'
+      resources:
+        limits:
+          cpu: '1'
+          memory: '512Mi'
       securityContext:
         readOnlyRootFilesystem: false
       volumeMounts:
