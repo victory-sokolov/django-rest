@@ -8,6 +8,20 @@ resolution-markers = [
 ]
 
 [[package]]
+name = "adrf"
+version = "0.1.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "async-property" },
+    { name = "django" },
+    { name = "djangorestframework" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b5/95/965b424766d934c024125499856267a84896ed0882e22bcda30549627dd2/adrf-0.1.9.tar.gz", hash = "sha256:e2f59fd84960a564b0385d9201c55531a30c6118eb40c86c5356c077f279af23", size = 17251 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f6/76/745ce39c9d0b53a08f99ad9912c2dedabc4801b05353b835267e1dd766ac/adrf-0.1.9-py3-none-any.whl", hash = "sha256:fd6c45df908e042c91571fdcff1ea54180c871ec18659b639cf3217d67ce97d5", size = 20980 },
+]
+
+[[package]]
 name = "aiohappyeyeballs"
 version = "2.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -124,6 +138,15 @@ wheels = [
 ]
 
 [[package]]
+name = "async-property"
+version = "0.2.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a7/12/900eb34b3af75c11b69d6b78b74ec0fd1ba489376eceb3785f787d1a0a1d/async_property-0.2.2.tar.gz", hash = "sha256:17d9bd6ca67e27915a75d92549df64b5c7174e9dc806b30a3934dc4ff0506380", size = 16523 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c7/80/9f608d13b4b3afcebd1dd13baf9551c95fc424d6390e4b1cfd7b1810cd06/async_property-0.2.2-py2.py3-none-any.whl", hash = "sha256:8924d792b5843994537f8ed411165700b27b2bd966cefc4daeefc1253442a9d7", size = 9546 },
+]
+
+[[package]]
 name = "attrs"
 version = "24.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -182,6 +205,7 @@ name = "blog-application"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "adrf" },
     { name = "celery" },
     { name = "collectfasta" },
     { name = "dependency-injector" },
@@ -216,6 +240,7 @@ dependencies = [
     { name = "requests" },
     { name = "rich" },
     { name = "sentry-sdk" },
+    { name = "uvicorn-worker" },
     { name = "vstils" },
 ]
 
@@ -253,6 +278,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "adrf", specifier = ">=0.1.9" },
     { name = "celery", specifier = "~=5.4" },
     { name = "collectfasta", specifier = "~=3.2.0" },
     { name = "dependency-injector", specifier = "~=4.42" },
@@ -287,6 +313,7 @@ requires-dist = [
     { name = "requests", specifier = "~=2.32.0" },
     { name = "rich", specifier = "~=13.9.4" },
     { name = "sentry-sdk", specifier = "~=2.20.0" },
+    { name = "uvicorn-worker", specifier = ">=0.3.0" },
     { name = "vstils", specifier = ">=0.1.0" },
 ]
 
@@ -2961,6 +2988,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ea/fa/362dc074f4c886e4bff1d994ed1929ed2c2a5ba85827d8f1d745fbe66de2/uvicorn-0.21.1.tar.gz", hash = "sha256:0fac9cb342ba099e0d582966005f3fdba5b0290579fed4a6266dc702ca7bb032", size = 37176 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/8c/f1/7c45fe2a09133e103dcf0621831545c268cd3f7a5d58dc7e470be91b2cd0/uvicorn-0.21.1-py3-none-any.whl", hash = "sha256:e47cac98a6da10cd41e6fd036d472c6f58ede6c5dbee3dbee3ef7a100ed97742", size = 57824 },
+]
+
+[[package]]
+name = "uvicorn-worker"
+version = "0.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "gunicorn" },
+    { name = "uvicorn" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/37/c0/b5df8c9a31b0516a47703a669902b362ca1e569fed4f3daa1d4299b28be0/uvicorn_worker-0.3.0.tar.gz", hash = "sha256:6baeab7b2162ea6b9612cbe149aa670a76090ad65a267ce8e27316ed13c7de7b", size = 9181 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f7/1f/4e5f8770c2cf4faa2c3ed3c19f9d4485ac9db0a6b029a7866921709bdc6c/uvicorn_worker-0.3.0-py3-none-any.whl", hash = "sha256:ef0fe8aad27b0290a9e602a256b03f5a5da3a9e5f942414ca587b645ec77dd52", size = 5346 },
 ]
 
 [[package]]

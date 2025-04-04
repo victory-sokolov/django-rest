@@ -1,6 +1,22 @@
+from typing import Callable
 from uuid import uuid4
 
+from asgiref.sync import iscoroutinefunction, markcoroutinefunction
 from django.http import Http404, HttpRequest, HttpResponse
+
+
+class AsyncMiddleware:
+    async_capable = True
+    sync_capable = False
+
+    def __init__(self, get_response: Callable):
+        self.get_response = get_response
+        if iscoroutinefunction(self.get_response):
+            markcoroutinefunction(self)
+
+    async def __call__(self, request):
+        response = await self.get_response(request)
+        return response
 
 
 class RestrictStaffToAdminMiddleware:

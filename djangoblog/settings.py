@@ -97,6 +97,7 @@ INSTALLED_APPS = [
     "djangoblog",
     "djangoblog.api",
     "djangoblog.authentication",
+    "adrf",
 ]
 
 MESSAGE_TAGS = {
@@ -135,7 +136,7 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "output/static")
 COMPRESS_ROOT = STATIC_ROOT
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "dmjangoblog/static"),
+    os.path.join(BASE_DIR, "djangoblog/static"),
     os.path.join(BASE_DIR, "node_modules", "bootstrap", "dist"),
 ]
 STATICFILES_FINDERS = [

@@ -43,6 +43,8 @@ dependencies = [
     # Required for ImageField
     "pillow>=11.0.0",
     "vstils>=0.1.0",
+    "adrf>=0.1.9",
+    "uvicorn-worker>=0.3.0",
 ]
 
 [tool.uv]
