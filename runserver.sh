@@ -14,7 +14,9 @@ make create-posts
 
 echo "App is running on PORT: $PORT"
 if [ "$DJANGO_ENV" = "production" ]; then
+    echo "Running with prod config"
     make prod
 else
+    echo "Running with dev config"
     make dev
 fi
