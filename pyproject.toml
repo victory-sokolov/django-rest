@@ -103,9 +103,7 @@ warn_unused_configs = true
 no_implicit_optional = true
 local_partial_types = true
 follow_imports = "skip"
-exclude = ["tests/*", "migrations", "djangoblog/storage.py"]
-
-
+exclude = ["tests/*", "migrations", "djangoblog/storage.py", "settings.py"]
 
 [tool.ruff]
 exclude = [

@@ -35,8 +35,8 @@ dev-async: ## Run dev server with uvicorn
 	DJANGO_ENV=$(ENV) uv run uvicorn djangoblog.asgi:application
 
 prod:
-	# DJANGO_ENV=$(ENV) uv run gunicorn djangoblog.wsgi:application --config gunicorn_config.py --bind 0.0.0.0:$(PORT)
-	DJANGO_ENV=$(ENV) uv run gunicorn djangoblog:app -w 4 -k uvicorn.workers.UvicornWorker --config gunicorn_config.py --bind 0.0.0.0:$(PORT)
+	DJANGO_ENV=$(ENV) uv run gunicorn djangoblog.wsgi:application --config gunicorn_config.py --bind 0.0.0.0:$(PORT)
+	# DJANGO_ENV=$(ENV) uv run gunicorn djangoblog:app -w 4 -k uvicorn.workers.UvicornWorker --config gunicorn_config.py --bind 0.0.0.0:$(PORT)
 
 worker: ## Run celery worker
 	DJANGO_ENV=$(ENV) uv run watchmedo auto-restart \
