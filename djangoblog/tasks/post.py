@@ -2,10 +2,8 @@ import logging
 
 import celery
 
-from djangoblog.api.models.post import Post, Tags
-from djangoblog.api.v1.posts.serializers import PostSerializer
 from djangoblog.celery import app
-from djangoblog.models import UserProfile
+from djangoblog.services.post import PostService
 
 logger = logging.getLogger(__name__)
 
@@ -17,20 +15,11 @@ class GetPostsTask(celery.Task):
     expires = 600
     POST_PER_PAGE = 20
 
+    def __init__(self) -> None:
+        self.post_service = PostService()
+
     def run(self):
-        fields = ["id", "title", "slug", "user", "tags", "content"]
-        selected_posts = (
-            Post.objects.select_related("user")
-            .prefetch_related("tags")
-            .only(*fields)
-            .order_by("-created_at")
-        )
-        logger.info(f"Retrieving all posts. Found {selected_posts.count()} posts.")
-        serializer = PostSerializer(selected_posts, many=True)
-        try:
-            return serializer.data
-        except Exception as e:
-            logger.error("Failed to fetch posts", exc_info=e)
+        return self.post_service.get_all()
 
 
 class CreatePostsTask(celery.Task):
@@ -38,24 +27,11 @@ class CreatePostsTask(celery.Task):
 
     name = "CreatePostTask"
 
+    def __init__(self) -> None:
+        self.post_service = PostService()
+
     def run(self, data: dict):
-        user = UserProfile.objects.get(id=data["user_id"])
-        post = Post.objects.create(
-            title=data["title"],
-            content=data["content"],
-            slug=data["slug"],
-            user=user,
-            draft=data.get("is_draft"),
-        )
-
-        tag_set = Tags.objects.create_if_not_exist(data["tags"])
-        for tag in tag_set:
-            post.tags.add(tag)
-
-        logger.info(
-            f"New post with {post.id} has been created",
-            extra={"post_id": post.id},
-        )
+        return self.post_service.create(data["user_id"], data["tags"], data)
 
 
 app.register_task(GetPostsTask())
