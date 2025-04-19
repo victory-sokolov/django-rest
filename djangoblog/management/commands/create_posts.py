@@ -1,6 +1,8 @@
 from sys import stdout
 from typing import Any
+
 from django.core.management.base import BaseCommand, CommandParser
+
 from djangoblog.factory import AccountFactory
 
 
@@ -13,4 +15,4 @@ class Command(BaseCommand):
     def handle(self, *args: Any, **options: Any) -> None:
         count = int(options["count"])
         AccountFactory.create_batch(count)
-        stdout.write(f"Generated {count} posts")
+        stdout.write(f"Generated {count} posts\n")
