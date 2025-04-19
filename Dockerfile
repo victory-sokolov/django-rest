@@ -22,6 +22,8 @@ RUN set -eux; \
     iputils-ping \
     build-essential \
     libpq-dev \
+    gettext \
+    wait-for-it \
     vim; \
     if [ "$DEV_DEPS" = "true" ]; then \
     apt-get install --no-install-recommends -y make; \
