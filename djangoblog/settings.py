@@ -1,3 +1,4 @@
+# ruff: noqa: F403
 import os
 import sys
 from datetime import timedelta
@@ -7,7 +8,7 @@ from django.contrib.messages import constants as messages
 from dynaconf import Validator
 from google.oauth2 import service_account
 
-from djangoblog.logger import date_fmt
+from djangoblog.custom_settings import *
 
 settings = dynaconf.DjangoDynaconf(
     __name__,
@@ -226,121 +227,6 @@ SIMPLE_JWT = {
     "JWK_URL": None,
 }
 
-# Logging
-
-FORMATTERS = {
-    "verbose": {
-        "format": "[{levelname}]: {asctime:s} {name} Thread: {threadName} {thread:d} | Module: {module} | File: {filename} {lineno:d} {name} {funcName} {process:d} {message}",
-        "datefmt": date_fmt,
-        "style": "{",
-    },
-    "simple": {
-        "format": "[{levelname}]: {asctime:s} {name} | Module: {module} | File: {filename} {lineno:d} {funcName} {message}",
-        "datefmt": date_fmt,
-        "style": "{",
-    },
-    "rich": {
-        "datefmt": date_fmt,
-    },
-    "json": {
-        "class": "djangoblog.formatters.FilebeatFormatter",
-    },
-}
-
-LOGGERS = {
-    "django": {
-        "handlers": ["console", "logstash"],
-        "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
-        "filters": ["exclude_logs"],
-        "propagate": True,
-    },
-    "django.request": {
-        "handlers": ["console", "logstash"],
-        "level": "INFO",
-        "propagate": True,
-    },
-    "django.template": {
-        "handlers": ["console"],
-        "level": "DEBUG",
-        "propagate": True,
-    },
-    # Log DB queries
-    "django.db.backends": {
-        "level": "DEBUG",
-        "handlers": ["console"],
-        "propagate": True,
-    },
-    "gunicorn.error": {
-        "handlers": [
-            "console",
-            "logstash",
-        ],
-        "level": "INFO",
-    },
-    "gunicorn.access": {
-        "handlers": [
-            "console",
-            "logstash",
-        ],
-        "level": "INFO",
-    },
-}
-
-LOGGING_HANDLERS = {
-    "base": {
-        "class": "logging.StreamHandler",
-        "level": "INFO",
-        "formatter": "simple",
-    },
-    "console": {
-        "class": "logging.StreamHandler",
-        "formatter": "verbose",
-        "level": "INFO",
-        "filters": ["exclude_logs"],
-    },
-    "file": {
-        "class": "logging.FileHandler",
-        "formatter": "json",
-        "filename": "/var/log/djangoblog.log",
-        "delay": True,
-    },
-    "rich-console": {
-        "class": "rich.logging.RichHandler",
-        "formatter": "rich",
-        "level": "INFO",
-        "filters": ["exclude_logs"],
-    },
-    "logstash": {
-        "level": "INFO",
-        "class": "logstash.TCPLogstashHandler",
-        "host": "logstash",
-        "port": 50000,
-        "version": 1,
-        "message_type": "django",
-        "fqdn": False,
-        "tags": ["django.request"],
-    },
-}
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "filters": {
-        "exclude_logs": {
-            "()": "djangoblog.filter.LogFilter",
-        },
-    },
-    "formatters": FORMATTERS,
-    "handlers": LOGGING_HANDLERS,
-    "loggers": LOGGERS,
-    "root": {
-        "handlers": [],
-        "level": "INFO",
-        "propagate": True,
-        "filters": ["exclude_logs"],
-    },
-}
-
 CACHES = {
     "default": {
         "BACKEND": settings.CACHE_BACKEND,
@@ -539,69 +425,6 @@ ELASTICSEARCH_DSL = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-JAZZMIN_SETTINGS = {
-    "site_title": "Django Blog",
-    "site_icon": "images/favicon.png",
-    # Add your own branding here
-    "site_logo": None,
-    "welcome_sign": "Welcome to the Django Blog",
-    # Copyright on the footer
-    "copyright": "Django Blog",
-    "user_avatar": None,
-    ############
-    # Top Menu #
-    ############
-    # Links to put along the top menu
-    "topmenu_links": [
-        # Url that gets reversed (Permissions can be added)
-        {
-            "name": "Django Blog",
-            "url": "home",
-            "permissions": ["auth.view_user"],
-        },
-        # model admin to link to (Permissions checked against model)
-        {"model": "auth.User"},
-    ],
-    #############
-    # Side Menu #
-    #############
-    # Whether to display the side menu
-    "show_sidebar": True,
-    # Whether to aut expand the menu
-    "navigation_expanded": True,
-    # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery
-    # for the full list of 5.13.0 free icon classes
-    "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "users.User": "fas fa-user",
-        "auth.Group": "fas fa-users",
-        "admin.LogEntry": "fas fa-file",
-    },
-    # # Icons that are used when one is not manually specified
-    "default_icon_parents": "fas fa-chevron-circle-right",
-    "default_icon_children": "fas fa-arrow-circle-right",
-    #################
-    # Related Modal #
-    #################
-    # Use modals instead of popups
-    "related_modal_active": False,
-    #############
-    # UI Tweaks #
-    #############
-    # Whether to show the UI customizer on the sidebar
-    "show_ui_builder": False,
-    ###############
-    # Change view #
-    ###############
-    "changeform_format": "horizontal_tabs",
-    # override change forms on a per modeladmin basis
-    # "changeform_format_overrides": {
-    #     "auth.user": "collapsible",
-    #     "auth.group": "vertical_tabs",
-    # },
-}
 
 
 # HERE STARTS DYNACONF EXTENSION LOAD (Keep at the very bottom of settings.py)
