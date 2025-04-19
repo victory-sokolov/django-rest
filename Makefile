@@ -56,6 +56,8 @@ collectstatic:
 	DJANGO_ENV=$(ENV) uv run python manage.py collectstatic --noinput -i silk/*
 	DJANGO_ENV=$(ENV) uv run python manage.py compress --force
 
+messages:
+	DJANGO_ENV=$(ENV) uv run python manage.py compilemessages
 
 loadtest: ## Load test app
 	loadtest -n 300 -k  http://localhost:8081/post/
@@ -109,7 +111,7 @@ install: install-dev
 # Infra commands
 
 docker-build:
-	docker-compose up --build -d --remove-orphans
+	docker-compose up --build --remove-orphans
 
 compose-up: ## Docker compose up with watch
 	docker compose up --watch
