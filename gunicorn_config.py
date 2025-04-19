@@ -1,15 +1,15 @@
 import ctypes
 import os
-from multiprocessing import Value
+from multiprocessing import Value, cpu_count
 
 from djangoblog.metrics import SaturationMonitor
 
-workers = 8
+workers = cpu_count() * 2 + 1
 threads = 4
 worker_class = "gevent"
 worker_connections = 1000
-max_requests = 120
-max_requests_jitter = 50
+max_requests = 2000
+max_requests_jitter = 200
 timeout = 60
 # Timeout for graceful workers restart.
 graceful_timeout = 40
