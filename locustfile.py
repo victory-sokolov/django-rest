@@ -1,8 +1,12 @@
+import logging
 import os
 import random
 import string
 
 from locust import HttpUser, task
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class ListPostUser(HttpUser):
@@ -24,7 +28,7 @@ class ListPostUser(HttpUser):
             url=f"{self.base_url}/post/",
             verify=False,
         )
-        print(response.status_code)
+        logger.info(response.status_code)
 
     def generate_random_slug(self, length: int):
         letters_and_digits = string.ascii_letters + string.digits
@@ -43,4 +47,4 @@ class ListPostUser(HttpUser):
                 "slug": self.generate_random_slug(10),
             },
         )
-        print(response.status_code)
+        logger.info(response.status_code)
