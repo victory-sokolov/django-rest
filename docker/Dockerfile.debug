@@ -1,5 +1,9 @@
 FROM python:3.12.10-slim-buster
-RUN apt-get update && apt install -y gdb
+
+RUN apt-get update \ 
+    apt install -y gdb \
+    && apt-get clean
+
 RUN pip install debugpy
 
 ENV DEBUGPY_LOG_DIR=/logs
