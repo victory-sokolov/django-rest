@@ -27,4 +27,4 @@ runs:
     - name: Install dependencies
       shell: sh
       run: |
-        uv sync --no-install-project --extra dev --frozen
+        make install-dev
