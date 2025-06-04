@@ -14,8 +14,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 2
-      maxUnavailable: 1
+      maxSurge: 4
+      maxUnavailable: 2
   template:
     metadata:
       labels:
@@ -32,9 +32,12 @@ spec:
               protocol: TCP
           envFrom:
             - secretRef:
-                name: "{{ .Values.appsecrets }}"
+                name: '{{ .Values.appsecrets }}'
             - configMapRef:
                 name: postgres-env
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
 
       volumeMounts:
         - name: static-storage
