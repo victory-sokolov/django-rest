@@ -22,6 +22,7 @@ jobs:
       POSTGRES_USER: user
       POSTGRES_FSYNC: 'off'
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DJANGO_ENV: 'dev'
 
     services:
       postgres:
@@ -57,7 +58,10 @@ jobs:
 
       - name: Load fixtures
         env:
-          DJANGO_ENV: development
+          DJANGO_ENV: ${{ env.DJANGO_ENV }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
         run: |
           set -v
           make load-fixtures
