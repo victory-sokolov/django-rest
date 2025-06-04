@@ -11,9 +11,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
-
 jobs:
-
   vm-job:
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'EMERGENCY') }}
     runs-on: ubuntu-latest
@@ -22,7 +20,7 @@ jobs:
       POSTGRES_DB: blog
       POSTGRES_PASSWORD: securepassword
       POSTGRES_USER: user
-      POSTGRES_FSYNC: "off"
+      POSTGRES_FSYNC: 'off'
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     services:
@@ -57,6 +55,13 @@ jobs:
           set -v
           uv run gunicorn --check-config djangoblog.wsgi:application --config gunicorn_config.py
 
+      - name: Load fixtures
+        env:
+          DJANGO_ENV: development
+        run: |
+          set -v
+          make load-fixtures
+
       - name: Run tests
         run: |
           set -v
@@ -76,4 +81,3 @@ jobs:
         run: |
           set -v
           pip install bandit && bandit -r djangoblog/
-
