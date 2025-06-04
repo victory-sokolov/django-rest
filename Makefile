@@ -19,6 +19,9 @@ endif
 shell: ## Django shell
 	DJANGO_ENV=$(ENV) uv run python manage.py shell_plus
 
+check-migrations:
+	DJANGO_ENV=$(ENV) uv run python manage.py makemigrations --check
+
 migrate: ## Run migrations
 	DJANGO_ENV=$(ENV) uv run python manage.py migrate --no-input
 	# DJANGO_ENV=$(ENV) uv run python manage.py migrate --database=read_replica

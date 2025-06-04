@@ -55,6 +55,18 @@ jobs:
           set -v
           uv run gunicorn --check-config djangoblog.wsgi:application --config gunicorn_config.py
 
+      - name: Check migrations
+        shell: sh
+        run: |
+          set -v
+          make check-migrations
+
+      - name: Apply migrations
+        shell: sh
+        run: |
+          set -v
+          make migrate
+
       - name: Load fixtures
         env:
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
