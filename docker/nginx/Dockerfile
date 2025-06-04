@@ -1,4 +1,4 @@
-FROM ubuntu:24.10 AS builder
+FROM ubuntu:oracular-20250428@sha256:707879280c0bbfe6cbeb3ae1a85b564ea2356b5310a122c225b92cb3d1ed131b AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
