@@ -102,7 +102,7 @@ print-settings:
 	DJANGO_ENV=$(ENV) uv run python manage.py print_settings
 
 install-dev:
-	DJANGO_ENV=local python uv sync --no-install-project --extra dev --frozen
+	DJANGO_ENV=local uv sync --no-install-project --group dev --frozen
 
 # Prepare project for local development
 install: install-dev
