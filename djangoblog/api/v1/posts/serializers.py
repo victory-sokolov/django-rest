@@ -12,11 +12,12 @@ class PostStatistics(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
-    tag = serializers.CharField(min_length=3)
+    value = serializers.CharField(min_length=3)
+    slug = serializers.CharField(min_length=3)
 
     class Meta:
         model = Tags
-        fields = ["tag"]
+        fields = ["value", "slug"]
         validators = [TagValidator()]
         read_only_fields = []
 

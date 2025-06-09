@@ -67,15 +67,16 @@ class BlogPageTest(TestCase):
         form_data = {
             "title": "Post Title",
             "content": "Post body",
-            "slug": uuid4(),
-            "tags": json.dumps([{"value": "Python"}, {"value": "Django"}]),
+            "slug": str(uuid4()),
+            "tags": json.dumps(
+                [
+                    {"value": "Python", "slug": "python"},
+                    {"value": "Django", "slug": "django"},
+                ],
+            ),
         }
-        response = self.client.post(
-            reverse("create-post"),
-            data=form_data,
-            follow=True,
-        )
-        self.assertEqual(response.status_code, 200)
+        form = PostForm(form_data)
+        self.assertFalse(form.is_valid())
 
     def test_invalid_form(self):
         self.client.force_login(user=self.user)

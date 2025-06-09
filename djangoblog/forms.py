@@ -1,3 +1,5 @@
+from typing import Any
+
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import Group
@@ -17,7 +19,7 @@ class PostForm(forms.ModelForm):
         model = Post
         exclude = ["id", "likes", "views", "favorites", "permissions"]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: dict[str, Any]):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs["class"] = "form-control"
@@ -27,12 +29,14 @@ class PostForm(forms.ModelForm):
         self.fields["slug"].widget.attrs["placeholder"] = "Blog Slug"
         self.fields["tags"].required = False
 
-    def save(self, commit=True, *args, **kwargs):
+    def save(self, commit: bool = True, *args: list, **kwargs: dict[str, Any]) -> None:
         instance = super().save(commit=False)
         tags_data_list = Tags.objects.all().values_list("tag", flat=True)
         self.cleaned_data["tags"] = tags_data_list
         if commit:
             instance.save()
+            instance.tags.clear()
+
         return instance
 
 
@@ -49,7 +53,7 @@ class GroupAdminForm(forms.ModelForm):
         widget=FilteredSelectMultiple("users", False),
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: dict[str, Any]):
         super().__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields["users"].initial = self.instance.user_set.all()
