@@ -83,6 +83,9 @@ test: ## Run tests with coverage
 	DJANGO_ENV=test uv run coverage report
 	DJANGO_ENV=test uv run coverage html
 
+test-single:
+	DJANGO_ENV=test uv run python manage.py test
+
 build-local: load-fixtures migrate
 	DJANGO_ENV=local uv install --no-root
 
