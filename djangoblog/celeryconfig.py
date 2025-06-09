@@ -17,6 +17,7 @@ class CeleryConfig:
     hijack_root_logger = False
     broker_connection_max_retries = (5,)
     imports = ("djangoblog.tasks",)
+    task_default_queue = "blog"
     result_backend = settings.CELERY_RESULT_BACKEND
     broker_url = settings.CELERY_BROKER_URL
     task_always_eager = settings.CELERY_TASK_ALWAYS_EAGER
