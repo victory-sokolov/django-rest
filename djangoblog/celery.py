@@ -5,7 +5,7 @@ from typing import Any
 from celery import Celery
 from celery.signals import task_postrun, task_prerun
 
-from djangoblog.config import CeleryConfig
+from djangoblog.celeryconfig import CeleryConfig
 
 logger = logging.getLogger(__name__)
 

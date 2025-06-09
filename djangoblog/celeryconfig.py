@@ -22,5 +22,9 @@ class CeleryConfig:
     task_always_eager = settings.CELERY_TASK_ALWAYS_EAGER
     task_eager_propagates = settings.CELERY_TASK_EAGER_PROPAGATES
     task_ack_late = True
+    # Send task-related events so that tasks can be monitored using tools like flower
+    worker_send_task_events = True
+    # The SENT event indicates when a task is sent
+    task_send_sent_event = True
     worker_max_tasks_per_child = 100
     worker_max_memory_per_child = 200000  # 200 MB
