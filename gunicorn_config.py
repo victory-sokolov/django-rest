@@ -2,7 +2,7 @@ import ctypes
 import os
 from multiprocessing import Value, cpu_count
 
-from djangoblog.metrics import SaturationMonitor
+from djangoblog.metrics.gunicorn import SaturationMonitor
 
 workers = cpu_count() * 2 + 1
 threads = 4
@@ -65,13 +65,13 @@ def when_ready(server):
     )
 
 
-def pre_fork(server, worker):
+def pre_fork(server, worker) -> None:
     worker.busy = Value(ctypes.c_bool, False)
 
 
-def pre_request(worker, req):
+def pre_request(worker, req) -> None:
     worker.busy.value = True
 
 
-def post_request(worker, req, environ, resp):
+def post_request(worker, req, environ, resp) -> None:
     worker.busy.value = False
