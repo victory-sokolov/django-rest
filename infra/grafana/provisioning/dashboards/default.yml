@@ -1,0 +1,22 @@
+apiVersion: 1
+
+providers:
+  # an unique provider name. Required
+  - name: 'TEST TELEGRAF Provising test'
+    # Org id. Default to 1
+    orgId: 1
+    # name of the dashboard folder.
+    folder: 'Service'
+    # folder UID. will be automatically generated if not specified
+    folderUid: ''
+    # provider type. Default to 'file'
+    type: file
+    # how often Grafana will scan for changed dashboards
+    updateIntervalSeconds: 10
+    # allow updating provisioned dashboards from the UI
+    # allowUiUpdates: false you can set this value as per your need
+    options:
+      # path to dashboard files on disk. Required when using the 'file' type
+      # though as per the documentation it says that the path for Linux is /var/lib/grafana
+      # but in docker (see step 1) it is like this.
+      path: /etc/grafana/provisioning/dashboards
