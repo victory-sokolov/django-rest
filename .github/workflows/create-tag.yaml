@@ -21,8 +21,6 @@ jobs:
       - name: Check if VERSION.txt changed
         id: version_changed
         run: |
-          git remote set-url origin git@github.com:$GITHUB_REPOSITORY
-          git fetch origin main
           CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
           echo "Changed files: $CHANGED_FILES"
           if echo "$CHANGED_FILES" | grep -w "VERSION.txt"; then
@@ -43,6 +41,10 @@ jobs:
       - name: Create and push tag
         if: steps.version_changed.outputs.result == 'true'
         run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
           TAG_NAME="v${{ steps.read_version.outputs.version }}"
 
           # Check if tag already exists
