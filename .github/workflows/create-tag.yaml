@@ -25,10 +25,10 @@ jobs:
           echo "Changed files: $CHANGED_FILES"
           if echo "$CHANGED_FILES" | grep -w "VERSION.txt"; then
             echo "VERSION.txt has been changed."
-            echo "true" >> $GITHUB_OUTPUT
+            echo "result=true" >> $GITHUB_OUTPUT
           else
             echo "VERSION.txt not changed."
-            echo "false" >> $GITHUB_OUTPUT
+            echo "result=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Read version from VERSION.txt
@@ -41,14 +41,14 @@ jobs:
       - name: Create and push tag
         if: steps.version_changed.outputs.result == 'true'
         run: |
+          TAG_NAME="v${{ steps.read_version.outputs.version }}"
+
           # Configure git
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          TAG_NAME="v${{ steps.read_version.outputs.version }}"
-
           # Check if tag already exists
-          if git tag -l "$TAG_NAME" >/dev/null 2>&1; then
+          if git tag -l "$TAG_NAME" | grep -q "$TAG_NAME"; then
             echo "Tag $TAG_NAME already exists."
           else
             git tag "$TAG_NAME"
