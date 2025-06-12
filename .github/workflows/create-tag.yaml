@@ -1,0 +1,55 @@
+name: Tag Release on VERSION.txt Change
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Check if VERSION.txt changed
+        id: version_changed
+        run: |
+          git remote set-url origin git@github.com:$GITHUB_REPOSITORY
+          git fetch origin main
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+          echo "Changed files: $CHANGED_FILES"
+          if echo "$CHANGED_FILES" | grep -w "VERSION.txt"; then
+            echo "VERSION.txt has been changed."
+            echo "true" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION.txt not changed."
+            echo "false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Read version from VERSION.txt
+        if: steps.version_changed.outputs.result == 'true'
+        id: read_version
+        run: |
+          VERSION=$(cat VERSION.txt)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create and push tag
+        if: steps.version_changed.outputs.result == 'true'
+        run: |
+          TAG_NAME="v${{ steps.read_version.outputs.version }}"
+
+          # Check if tag already exists
+          if git tag -l "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists."
+          else
+            git tag "$TAG_NAME"
+            git push origin "$TAG_NAME"
+            echo "Created and pushed tag $TAG_NAME"
+          fi
