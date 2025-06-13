@@ -272,7 +272,7 @@ dev = [
 requires-dist = [
     { name = "adrf", specifier = ">=0.1.9" },
     { name = "celery", specifier = "~=5.4" },
-    { name = "collectfasta", specifier = "~=3.2.0" },
+    { name = "collectfasta", specifier = "~=3.3.0" },
     { name = "dependency-injector", specifier = "~=4.42" },
     { name = "django", specifier = "~=5.2.3" },
     { name = "django-ckeditor", specifier = "~=6.7.1" },
@@ -545,16 +545,16 @@ wheels = [
 
 [[package]]
 name = "collectfasta"
-version = "3.2.1"
+version = "3.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
     { name = "django-storages" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/84/40/dfbb4d3b46b12a9c52d11c200aac2127111c5477c1061c2a587f1985f9c8/collectfasta-3.2.1.tar.gz", hash = "sha256:b49ce38fbd6de23eab0ccaaa2a240ba68824c027347821ed5fbf7dcb0a8e8046", size = 20133, upload-time = "2024-12-26T10:58:41.349Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/12/1a/7e41fd680b50a792983202cb48e8769bb913f66e0844065206777a3367e4/collectfasta-3.3.0.tar.gz", hash = "sha256:ff8d4e4b5158c5dc765b1e90f65c10787821995adf25d0d1a16cbc9a524c9c7e", size = 21534, upload-time = "2025-06-10T17:12:50.284Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a1/aa/7237f49b993027fb0543e5c5c2c98a3d0c21f711e8f5cdf066213726e9da/Collectfasta-3.2.1-py2.py3-none-any.whl", hash = "sha256:b2281ddf0e8172792d169944b83953818c4497753699ac450e319ffe8f60faac", size = 26534, upload-time = "2024-12-26T10:58:39.673Z" },
+    { url = "https://files.pythonhosted.org/packages/4f/51/852864fe6d7435e3350d396aa302ffe30d83dd366260f203ba09a5cc723b/collectfasta-3.3.0-py2.py3-none-any.whl", hash = "sha256:6a8097472ef16a942f61eeda3c00c5b55ea63800195e9b7c180abf8f725f6dbd", size = 28369, upload-time = "2025-06-10T17:12:48.591Z" },
 ]
 
 [[package]]
