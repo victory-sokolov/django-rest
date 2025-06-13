@@ -1,6 +1,6 @@
-FROM python:3.12.10-slim-buster
+FROM python:3.12.11-slim-buster
 
-RUN apt-get update \ 
+RUN apt-get update \
     apt install -y gdb \
     && apt-get clean
 
