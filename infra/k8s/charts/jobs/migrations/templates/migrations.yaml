@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: django-migrations-job
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: run-migrations
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: ["python", "manage.py", "migrate"]
+      envFrom:
+        - secretRef:
+            name: "{{ .Values.appsecrets }}"
+        - configMapRef:
+            name: postgres-env
+  backoffLimit: 1
