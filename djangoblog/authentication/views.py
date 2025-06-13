@@ -13,7 +13,7 @@ from django.http import (
 from django.shortcuts import redirect, render
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
-from rest_framework.request import Request
+from django.http import HttpRequest
 
 from djangoblog.authentication.forms import LoginForm, SignUpForm
 from djangoblog.models import UserProfile
@@ -27,7 +27,7 @@ class LoginView(FormView):
 
     def post(
         self,
-        request: Request,
+        request: HttpRequest,
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         if "user" in request.session:
             return redirect("home")
@@ -51,13 +51,13 @@ class SignUpView(ListView):
     model = UserProfile
     template_name = "signup.html"
 
-    def get(self, request: Request) -> HttpResponseRedirect | HttpResponse:
+    def get(self, request: HttpRequest) -> HttpResponseRedirect | HttpResponse:
         if "user" in request.session:
             return redirect("home")
 
         return render(request, "signup.html", {"form": self.form})
 
-    def post(self, request: Request) -> HttpResponseRedirect | HttpResponse:
+    def post(self, request: HttpRequest) -> HttpResponseRedirect | HttpResponse:
         form = SignUpForm(request.POST)
 
         if form.is_valid():

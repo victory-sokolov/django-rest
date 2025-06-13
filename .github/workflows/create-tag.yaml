@@ -6,8 +6,6 @@ on:
       - master
       - main
 
-permissions:
-  contents: write
 
 jobs:
   create-tag:

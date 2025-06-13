@@ -58,11 +58,11 @@ class GroupAdminForm(forms.ModelForm):
         if self.instance.pk:
             self.fields["users"].initial = self.instance.user_set.all()
 
-    def save_m2m(self):
+    def save_m2m(self) -> None:
         """Save m2m."""
         self.instance.user_set.set(self.cleaned_data["users"])
 
-    def save(self, *args, **kwargs):
+    def save(self, *args: list[Any], **kwargs: dict[str, Any]) -> Group:
         """Save data."""
         instance = super().save(commit=True)
         self.save_m2m()
