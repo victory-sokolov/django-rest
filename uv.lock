@@ -272,15 +272,15 @@ dev = [
 requires-dist = [
     { name = "adrf", specifier = ">=0.1.9" },
     { name = "celery", specifier = "~=5.4" },
-    { name = "collectfasta", specifier = "~=3.2.0" },
+    { name = "collectfasta", specifier = "~=3.3.0" },
     { name = "dependency-injector", specifier = "~=4.42" },
-    { name = "django", specifier = "~=5.1.2" },
+    { name = "django", specifier = "~=5.2.3" },
     { name = "django-ckeditor", specifier = "~=6.7.1" },
     { name = "django-compression-middleware", specifier = "~=0.5.0" },
     { name = "django-compressor", specifier = "~=4.5.1" },
     { name = "django-cors-headers", specifier = "~=4.7.0" },
     { name = "django-csp", specifier = "~=3.7" },
-    { name = "django-dbbackup", specifier = "~=4.2.1" },
+    { name = "django-dbbackup", specifier = "~=4.3.0" },
     { name = "django-extensions", specifier = "~=3.2" },
     { name = "django-extra-checks", specifier = ">=0.15.1" },
     { name = "django-jazzmin", specifier = "~=3.0" },
@@ -288,7 +288,7 @@ requires-dist = [
     { name = "django-redis", specifier = "~=5.4" },
     { name = "django-storages", extras = ["google"], specifier = "~=1.14" },
     { name = "django-tagify2", specifier = "~=1.0.19" },
-    { name = "djangorestframework", specifier = "~=3.15.2" },
+    { name = "djangorestframework", specifier = "~=3.16.0" },
     { name = "djangorestframework-simplejwt", specifier = "~=5.4.0" },
     { name = "drf-spectacular", specifier = "~=0.28.0" },
     { name = "drf-writable-nested", specifier = "~=0.7" },
@@ -316,7 +316,7 @@ dev = [
     { name = "cosmic-ray", specifier = ">=8.4.1" },
     { name = "coverage", specifier = "~=7.6" },
     { name = "debugpy", specifier = "~=1.8.7" },
-    { name = "django-debug-toolbar", specifier = "~=5.0.1" },
+    { name = "django-debug-toolbar", specifier = "~=5.2.0" },
     { name = "django-extensions", specifier = "~=3.2" },
     { name = "django-silk", specifier = "~=5.1" },
     { name = "django-stubs", specifier = "~=5.1" },
@@ -545,16 +545,16 @@ wheels = [
 
 [[package]]
 name = "collectfasta"
-version = "3.2.1"
+version = "3.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
     { name = "django-storages" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/84/40/dfbb4d3b46b12a9c52d11c200aac2127111c5477c1061c2a587f1985f9c8/collectfasta-3.2.1.tar.gz", hash = "sha256:b49ce38fbd6de23eab0ccaaa2a240ba68824c027347821ed5fbf7dcb0a8e8046", size = 20133, upload-time = "2024-12-26T10:58:41.349Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/12/1a/7e41fd680b50a792983202cb48e8769bb913f66e0844065206777a3367e4/collectfasta-3.3.0.tar.gz", hash = "sha256:ff8d4e4b5158c5dc765b1e90f65c10787821995adf25d0d1a16cbc9a524c9c7e", size = 21534, upload-time = "2025-06-10T17:12:50.284Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a1/aa/7237f49b993027fb0543e5c5c2c98a3d0c21f711e8f5cdf066213726e9da/Collectfasta-3.2.1-py2.py3-none-any.whl", hash = "sha256:b2281ddf0e8172792d169944b83953818c4497753699ac450e319ffe8f60faac", size = 26534, upload-time = "2024-12-26T10:58:39.673Z" },
+    { url = "https://files.pythonhosted.org/packages/4f/51/852864fe6d7435e3350d396aa302ffe30d83dd366260f203ba09a5cc723b/collectfasta-3.3.0-py2.py3-none-any.whl", hash = "sha256:6a8097472ef16a942f61eeda3c00c5b55ea63800195e9b7c180abf8f725f6dbd", size = 28369, upload-time = "2025-06-10T17:12:48.591Z" },
 ]
 
 [[package]]
@@ -744,16 +744,16 @@ wheels = [
 
 [[package]]
 name = "django"
-version = "5.1.9"
+version = "5.2.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asgiref" },
     { name = "sqlparse" },
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/10/08/2e6f05494b3fc0a3c53736846034f882b82ee6351791a7815bbb45715d79/django-5.1.9.tar.gz", hash = "sha256:565881bdd0eb67da36442e9ac788bda90275386b549070d70aee86327781a4fc", size = 10710887, upload-time = "2025-05-07T14:06:45.257Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c6/af/77b403926025dc6f7fd7b31256394d643469418965eb528eab45d0505358/django-5.2.3.tar.gz", hash = "sha256:335213277666ab2c5cac44a792a6d2f3d58eb79a80c14b6b160cd4afc3b75684", size = 10850303, upload-time = "2025-06-10T10:14:05.174Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e1/d1/d8b6b8250b84380d5a123e099ad3298a49407d81598faa13b43a2c6d96d7/django-5.1.9-py3-none-any.whl", hash = "sha256:2fd1d4a0a66a5ba702699eb692e75b0d828b73cc2f4e1fc4b6a854a918967411", size = 8277363, upload-time = "2025-05-07T14:06:37.426Z" },
+    { url = "https://files.pythonhosted.org/packages/1b/11/7aff961db37e1ea501a2bb663d27a8ce97f3683b9e5b83d3bfead8b86fa4/django-5.2.3-py3-none-any.whl", hash = "sha256:c517a6334e0fd940066aa9467b29401b93c37cec2e61365d663b80922542069d", size = 8301935, upload-time = "2025-06-10T10:13:58.993Z" },
 ]
 
 [[package]]
@@ -837,28 +837,28 @@ wheels = [
 
 [[package]]
 name = "django-dbbackup"
-version = "4.2.1"
+version = "4.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
     { name = "pytz" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6e/93/180d0fcf0d7da8bcaca7aeb6ba27490bd18132d8c625b2c1a1c8f03516bf/django_dbbackup-4.2.1.tar.gz", hash = "sha256:157a2ec10d482345cd75092e510ac40d6e2ee6084604a1d17abe178c2f06bc69", size = 44876, upload-time = "2024-08-23T22:18:05.061Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fb/26/45caf29882db46117b053dfc79229d6e97cb080486c504d42edfe54b133b/django_dbbackup-4.3.0.tar.gz", hash = "sha256:3549c8ccfdb167f20ca2c26eb0dfa55c79aa3f31ea4e4dbfa0816bc18ceec6dc", size = 43016, upload-time = "2025-05-09T19:12:57.455Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5c/56/269824e8ae46772c3506c72ece58148f13e65a2ffaed42c5bd428960a729/django_dbbackup-4.2.1-py3-none-any.whl", hash = "sha256:b23265600ead0780ca781b1b4b594949aaa8a20d74f08701f91ee9d7eb1f08cd", size = 59133, upload-time = "2024-08-23T22:18:03.825Z" },
+    { url = "https://files.pythonhosted.org/packages/4d/ef/d49ca67fefe5a933cf46e56a108cbdb064a26a47dc00c2ad15a21f7d35fd/django_dbbackup-4.3.0-py3-none-any.whl", hash = "sha256:b4003b353d49d914ffbc033c793198426572d0a2b137ec795ddb2fb82225b960", size = 58505, upload-time = "2025-05-09T19:12:56.034Z" },
 ]
 
 [[package]]
 name = "django-debug-toolbar"
-version = "5.0.1"
+version = "5.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
     { name = "sqlparse" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/93/f6/022cffde1ec6daf3d1418d03a69ddc4f760151f75664dcc9fd2167b2997f/django_debug_toolbar-5.0.1.tar.gz", hash = "sha256:296f6f18a80710e84fbb8361538ae5ec522a75ebe9ab67db34bcf1026cbeb420", size = 295982, upload-time = "2025-01-14T02:34:12.227Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2a/9f/97ba2648f66fa208fc7f19d6895586d08bc5f0ab930a1f41032e60f31a41/django_debug_toolbar-5.2.0.tar.gz", hash = "sha256:9e7f0145e1a1b7d78fcc3b53798686170a5b472d9cf085d88121ff823e900821", size = 297901, upload-time = "2025-04-29T05:23:57.533Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/36/f7/3b406dc871d88c938d2bd967e65acf725b46c4e7c9add6a1f1bbaff9bdcf/django_debug_toolbar-5.0.1-py3-none-any.whl", hash = "sha256:7456cc2e951db37dab335686db7803c4a0ecb6736d120705f6668db9548bf49f", size = 260038, upload-time = "2025-01-14T02:34:09.447Z" },
+    { url = "https://files.pythonhosted.org/packages/fa/c2/ed3cb815002664349e9e50799b8c00ef15941f4cad797247cadbdeebab02/django_debug_toolbar-5.2.0-py3-none-any.whl", hash = "sha256:15627f4c2836a9099d795e271e38e8cf5204ccd79d5dbcd748f8a6c284dcd195", size = 262834, upload-time = "2025-04-29T05:23:55.472Z" },
 ]
 
 [[package]]
@@ -1018,14 +1018,14 @@ wheels = [
 
 [[package]]
 name = "djangorestframework"
-version = "3.15.2"
+version = "3.16.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2c/ce/31482eb688bdb4e271027076199e1aa8d02507e530b6d272ab8b4481557c/djangorestframework-3.15.2.tar.gz", hash = "sha256:36fe88cd2d6c6bec23dca9804bab2ba5517a8bb9d8f47ebc68981b56840107ad", size = 1067420, upload-time = "2024-06-19T07:59:32.891Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7d/97/112c5a72e6917949b6d8a18ad6c6e72c46da4290c8f36ee5f1c1dcbc9901/djangorestframework-3.16.0.tar.gz", hash = "sha256:f022ff46613584de994c0c6a4aebbace5fd700555fbe9d33b865ebf173eba6c9", size = 1068408, upload-time = "2025-03-28T14:18:42.065Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7c/b6/fa99d8f05eff3a9310286ae84c4059b08c301ae4ab33ae32e46e8ef76491/djangorestframework-3.15.2-py3-none-any.whl", hash = "sha256:2b8871b062ba1aefc2de01f773875441a961fefbf79f5eed1e32b2f096944b20", size = 1071235, upload-time = "2024-06-19T07:59:26.106Z" },
+    { url = "https://files.pythonhosted.org/packages/eb/3e/2448e93f4f87fc9a9f35e73e3c05669e0edd0c2526834686e949bb1fd303/djangorestframework-3.16.0-py3-none-any.whl", hash = "sha256:bea7e9f6b96a8584c5224bfb2e4348dfb3f8b5e34edbecb98da258e892089361", size = 1067305, upload-time = "2025-03-28T14:18:39.489Z" },
 ]
 
 [[package]]
