@@ -321,7 +321,7 @@ dev = [
     { name = "django-silk", specifier = "~=5.1" },
     { name = "django-stubs", specifier = "~=5.1" },
     { name = "django-watchfiles", specifier = "~=1.0" },
-    { name = "djangorestframework-stubs", specifier = "~=3.15.0" },
+    { name = "djangorestframework-stubs", specifier = "~=3.16.0" },
     { name = "djlint", specifier = ">=1.36.1" },
     { name = "factory-boy", specifier = "~=3.3" },
     { name = "faker", specifier = "~=33.3.1" },
@@ -1044,7 +1044,7 @@ wheels = [
 
 [[package]]
 name = "djangorestframework-stubs"
-version = "3.15.4"
+version = "3.16.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django-stubs" },
@@ -1053,9 +1053,9 @@ dependencies = [
     { name = "types-requests" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/63/96/e5043d07b5b37755a09a0d57864b68544db172a6b5ce8f28b8239e7a2004/djangorestframework_stubs-3.15.4.tar.gz", hash = "sha256:0028a34c498f6c209e28c83e798166800082af86f47d4d51101f7485df80146a", size = 34733, upload-time = "2025-04-27T11:49:15.815Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/47/2b/45a1c9ccb7c4a1f79112a2b4b65a1abd3ee9d4ed1a80d21736bd8f999750/djangorestframework_stubs-3.16.0.tar.gz", hash = "sha256:8c5ccdfe9271b1a37946a3564dc3714d521cd3f2f8695e528808e0c700538243", size = 34818, upload-time = "2025-04-27T12:19:22.706Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8a/c8/6d998b660ed34e7cb2c13b366a71ee5efeb1e4065821055c7353ff2f7327/djangorestframework_stubs-3.15.4-py3-none-any.whl", hash = "sha256:a958277096f44fc1427189ea2a86666504301a5628012c6f8c9af1529ee9066e", size = 54613, upload-time = "2025-04-27T11:49:14.327Z" },
+    { url = "https://files.pythonhosted.org/packages/23/f8/50be82c084173adb95f2a925f6336aa53b97ea7ce6fe1dc943ddc20b1193/djangorestframework_stubs-3.16.0-py3-none-any.whl", hash = "sha256:2085a6e023de65843d4d53fe5abc73fbbc3ef380a59919ad9801182f6bb435de", size = 54703, upload-time = "2025-04-27T12:19:18.098Z" },
 ]
 
 [[package]]
