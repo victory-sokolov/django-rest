@@ -5,6 +5,7 @@ on:
     workflows: ['vm-job']
     types:
       - completed
+    branches: [main, master]
 
 jobs:
   create-tag:
