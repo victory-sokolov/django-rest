@@ -4,7 +4,7 @@ from typing import Any
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.http import HttpRequest
-
+from django_stubs_ext.db.models import TypedModelMeta
 from djangoblog.api.models.post import Post
 from djangoblog.forms import GroupAdminForm
 from djangoblog.models import UserProfile
@@ -26,7 +26,7 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ("-user", "title")
     readonly_fields = ("created_at", "id")
 
-    class Meta:
+    class Meta(TypedModelMeta):
         model = Post
 
 

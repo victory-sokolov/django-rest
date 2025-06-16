@@ -1,3 +1,4 @@
+from django_stubs_ext.db.models import TypedModelMeta
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 
@@ -6,7 +7,7 @@ from djangoblog.api.v1.posts.validators import SlugValidator, TagValidator
 
 
 class PostStatistics(serializers.ModelSerializer):
-    class Meta:
+    class Meta(TypedModelMeta):
         model = Post
         read_only_fields = ["likes", "favorites", "views"]
 
@@ -15,7 +16,7 @@ class TagSerializer(serializers.ModelSerializer):
     value = serializers.CharField(min_length=3)
     slug = serializers.CharField(min_length=3)
 
-    class Meta:
+    class Meta(TypedModelMeta):
         model = Tags
         fields = ["value", "slug"]
         validators = [TagValidator()]
@@ -60,7 +61,7 @@ class PostSerializer(serializers.ModelSerializer):
 
         return super().update(instance, validated_data)
 
-    class Meta:
+    class Meta(TypedModelMeta):
         model = Post
         fields = ["id", "title", "slug", "user", "tags", "content"]
         read_only_fields = ["user", "tags"]

@@ -1,11 +1,11 @@
-from typing import Any, Protocol, TypeVar
+from typing import Protocol, TypeVar, TypeVarTuple, Unpack
 
 T = TypeVar("T", covariant=True)
+ARGS = TypeVarTuple("ARGS")
 
 
-class IRepository(Protocol[T]):
+class IRepository(Protocol[T, Unpack[ARGS]]):
     def get(self) -> T: ...
 
-    def get_all(self) -> T: ...
-
-    def create(self, **kwargs: Any) -> T: ...
+    def get_all(self, *args: Unpack[ARGS]) -> T: ...
+    def create(self, *args: Unpack[ARGS]) -> T: ...

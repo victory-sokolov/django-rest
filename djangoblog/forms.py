@@ -3,6 +3,7 @@ from typing import Any
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import Group
+from django_stubs_ext.db.models import TypedModelMeta
 from tagify.fields import TagField
 
 from djangoblog.api.models.post import Post, Tags
@@ -15,7 +16,7 @@ class PostForm(forms.ModelForm):
         delimiters=" ",
     )
 
-    class Meta:
+    class Meta(TypedModelMeta):
         model = Post
         fields = ["draft", "title", "slug", "content", "tags"]
 
@@ -62,7 +63,7 @@ class GroupAdminForm(forms.ModelForm):
         """Save m2m."""
         self.instance.user_set.set(self.cleaned_data["users"])
 
-    def save(self, *args: list[Any], **kwargs: dict[str, Any]) -> Group:
+    def save(self, commit: bool) -> Any:
         """Save data."""
         instance = super().save(commit=True)
         self.save_m2m()
