@@ -17,9 +17,9 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        exclude = ["id", "likes", "views", "favorites", "permissions"]
+        fields = ["draft", "title", "slug", "content", "tags"]
 
-    def __init__(self, *args: Any, **kwargs: dict[str, Any]):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs["class"] = "form-control"
@@ -53,7 +53,7 @@ class GroupAdminForm(forms.ModelForm):
         widget=FilteredSelectMultiple("users", False),
     )
 
-    def __init__(self, *args: Any, **kwargs: dict[str, Any]):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields["users"].initial = self.instance.user_set.all()

@@ -1,7 +1,13 @@
 from copy import deepcopy
+from typing import Any
 
 
-def remove_schema_endpoints(result, generator, request, public):
+def remove_schema_endpoints(
+    result: dict[str, Any],
+    generator: Any,
+    request: Any,
+    public: Any,
+) -> dict[str, Any]:
     exclude_paths = [
         "/api/schema/",
         "/schema/",

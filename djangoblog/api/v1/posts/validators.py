@@ -10,7 +10,7 @@ class TitleValidator:
     MIN_TITLE_LENGTH = 10
 
     def __call__(self, title: str) -> None:
-        logger.info("Validating title", title)
+        logger.info(f"Validating title: {title}")
         if len(title) < self.MIN_TITLE_LENGTH:
             raise PostException.validation_error(
                 f"Min title length is {self.MIN_TITLE_LENGTH}",
@@ -31,8 +31,8 @@ class SlugValidator:
 
 
 class TagValidator:
-    def __call__(self, tags: OrderedDict) -> None:
-        logger.info("Validating Tags", tags)
+    def __call__(self, tags: OrderedDict[str, str]) -> None:
+        logger.info(f"Validating Tags: {tags}")
         tag = list(tags.values())[0]
         errors = []
 

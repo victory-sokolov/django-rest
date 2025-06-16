@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 from django.db import models
@@ -10,7 +11,13 @@ logger = logging.getLogger(__name__)
 
 
 class CustomAccountManager(BaseUserManager):
-    def create_superuser(self, email, name, password, **other_fields):
+    def create_superuser(
+        self,
+        email: str,
+        name: str,
+        password: str,
+        **other_fields: Any,
+    ) -> "UserProfile":
         other_fields.setdefault("is_staff", True)
         other_fields.setdefault("is_superuser", True)
         other_fields.setdefault("is_active", True)
@@ -24,7 +31,13 @@ class CustomAccountManager(BaseUserManager):
 
         return self.create_user(email, name, password, **other_fields)
 
-    def create_user(self, email, name, password, **other_fields):
+    def create_user(
+        self,
+        email: str,
+        name: str,
+        password: str,
+        **other_fields: Any,
+    ) -> "UserProfile":
         if not email:
             raise ValueError("You must provide an email address")
 
@@ -64,10 +77,10 @@ class UserProfile(AbstractUser, PermissionsMixin):
     class Meta:
         db_table = "user_profile"
 
-    def is_member(self, group_name: Roles):
+    def is_member(self, group_name: Roles) -> bool:
         return self.groups.filter(name=group_name.value).exists()
 
-    def save(self, *args, **kwargs):
+    def save(self, *args: list[Any], **kwargs: Any) -> None:
         # if self.is_member(Roles.STAFF):
         # permissions = Permission.objects.filter(codename__in=settings.STAFF_PERMISSIONS)
         # self.user_permissions.add(*permissions)

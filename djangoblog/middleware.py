@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Any, Callable
 from uuid import uuid4
 
 from asgiref.sync import iscoroutinefunction, markcoroutinefunction
@@ -36,7 +36,7 @@ class RestrictStaffToAdminMiddleware:
 class RequestIdMiddleware:
     """If X-Request-ID is missing from headers - add generated uuid as Request-ID ."""
 
-    def __init__(self, get_response):
+    def __init__(self, get_response: Any) -> None:
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest) -> HttpResponse:
