@@ -2,7 +2,7 @@ name: Create GitHub Release
 
 on:
   workflow_run:
-    workflows: ['Build and Tag']
+    workflows: ['Tag Release on VERSION.txt Change']
     types:
       - completed
     branches: [main, master]

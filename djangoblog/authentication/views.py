@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
 from django.http import (
+    HttpRequest,
     HttpResponse,
     HttpResponsePermanentRedirect,
     HttpResponseRedirect,
@@ -13,17 +14,19 @@ from django.http import (
 from django.shortcuts import redirect, render
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
-from django.http import HttpRequest
 
 from djangoblog.authentication.forms import LoginForm, SignUpForm
 from djangoblog.models import UserProfile
 
 logger = logging.getLogger(__name__)
 
+SIGNUP_TEMPLATE = "signup.html"
+LOGIN_TEMPLATE = "login.html"
+
 
 class LoginView(FormView):
     form_class = LoginForm
-    template_name = "login.html"
+    template_name = LOGIN_TEMPLATE
 
     def post(
         self,
@@ -49,13 +52,13 @@ class LoginView(FormView):
 class SignUpView(ListView):
     form = SignUpForm()
     model = UserProfile
-    template_name = "signup.html"
+    template_name = SIGNUP_TEMPLATE
 
     def get(self, request: HttpRequest) -> HttpResponseRedirect | HttpResponse:
         if "user" in request.session:
             return redirect("home")
 
-        return render(request, "signup.html", {"form": self.form})
+        return render(request, SIGNUP_TEMPLATE, {"form": self.form})
 
     def post(self, request: HttpRequest) -> HttpResponseRedirect | HttpResponse:
         form = SignUpForm(request.POST)
@@ -87,4 +90,4 @@ class SignUpView(ListView):
             logger.info(f"User with id: {user.id} successfully created.")
             return redirect("signup")
 
-        return render(request, "signup.html", {"form": form})
+        return render(request, SIGNUP_TEMPLATE, {"form": form})
