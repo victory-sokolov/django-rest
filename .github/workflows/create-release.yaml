@@ -1,7 +1,11 @@
 name: Create GitHub Release
 
 on:
-  create:
+  workflow_run:
+    workflows: ['Build and Tag']
+    types:
+      - completed
+    branches: [main, master]
 
 jobs:
   create-release:
