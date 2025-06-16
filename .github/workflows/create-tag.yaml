@@ -2,10 +2,9 @@ name: Tag Release on VERSION.txt Change
 
 on:
   workflow_run:
-    workflows: ["CI-checks"]
+    workflows: ['vm-job']
     types:
       - completed
-
 
 jobs:
   create-tag:
