@@ -1,4 +1,4 @@
-from typing import Any, Callable
+from typing import Awaitable, Callable
 from uuid import uuid4
 
 from asgiref.sync import iscoroutinefunction, markcoroutinefunction
@@ -9,14 +9,16 @@ class AsyncMiddleware:
     async_capable = True
     sync_capable = False
 
-    def __init__(self, get_response: Callable):
+    def __init__(
+        self,
+        get_response: Callable[[HttpRequest], Awaitable[HttpResponse]],
+    ) -> None:
         self.get_response = get_response
         if iscoroutinefunction(self.get_response):
             markcoroutinefunction(self)
 
-    async def __call__(self, request):
-        response = await self.get_response(request)
-        return response
+    async def __call__(self, request) -> HttpResponse:
+        return await self.get_response(request)
 
 
 class RestrictStaffToAdminMiddleware:
@@ -36,11 +38,11 @@ class RestrictStaffToAdminMiddleware:
 class RequestIdMiddleware:
     """If X-Request-ID is missing from headers - add generated uuid as Request-ID ."""
 
-    def __init__(self, get_response: Any) -> None:
+    def __init__(self, get_response: Callable[[HttpRequest], HttpResponse]) -> None:
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest) -> HttpResponse:
-        request_id = request.headers.get("x-request-id", uuid4())
+        request_id = request.headers.get("x-request-id", str(uuid4()))
         response = self.get_response(request)
         response["X-Request-ID"] = request_id
         return response

@@ -6,7 +6,7 @@ class UserRepository(IRepository):
     def __init__(self) -> None:
         self.user = UserProfile.objects
 
-    def get(self, user_id: str):
+    def get(self, user_id: str) -> UserProfile:
         return self.user.get(user_id)
 
     def create(self) -> None: ...
