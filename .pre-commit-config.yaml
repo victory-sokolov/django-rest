@@ -10,13 +10,13 @@ repos:
       - id: check-merge-conflict
 
   - repo: https://github.com/asottile/add-trailing-comma
-    rev: v3.1.0
+    rev: v3.2.0
     hooks:
       - id: add-trailing-comma
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.11.6
+    rev: v0.11.13
     hooks:
       # Run the linter.
       - id: ruff
@@ -57,18 +57,18 @@ repos:
       - id: absolufy-imports
 
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: '1.23.1'
+    rev: '1.25.0'
     hooks:
       - id: django-upgrade
         args: [--target-version, '5.0']
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.19.1
+    rev: v3.20.0
     hooks:
       - id: pyupgrade
 
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.35.1
+    rev: v1.37.1
     hooks:
       - id: yamllint
         files: \.(yaml|yml)$
@@ -76,7 +76,7 @@ repos:
           - --config-file=.yamllint.yaml
 
   - repo: https://github.com/adamchainz/djade-pre-commit
-    rev: '1.3.2'
+    rev: '1.4.0'
     hooks:
       - id: djade
         args: [--target-version, '5.0']
@@ -97,6 +97,6 @@ repos:
   # Check if uv.lock is up to date
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
-    rev: 0.7.10
+    rev: 0.7.13
     hooks:
       - id: uv-lock

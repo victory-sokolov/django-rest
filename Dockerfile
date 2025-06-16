@@ -1,6 +1,6 @@
-ARG DEFAULT_PYTHON_VERSION=3.12.10
+ARG DEFAULT_PYTHON_VERSION=3.12.11
 
-FROM --platform=$BUILDPLATFORM python:3.12.10-bookworm AS base
+FROM --platform=$BUILDPLATFORM python:3.12.11-bookworm AS base
 
 ARG DEV_DEPS=false
 
