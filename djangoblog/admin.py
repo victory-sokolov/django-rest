@@ -62,7 +62,11 @@ class UserAdmin(admin.ModelAdmin):
     def get_total_posts(self, obj: Any) -> int:
         return obj.post_set.count()
 
-    def get_readonly_fields(self, request: HttpRequest, obj) -> tuple[str]:
+    def get_readonly_fields(
+        self,
+        request: HttpRequest,
+        obj: UserProfile,
+    ) -> list[str] | tuple[str, ...]:
         if request.user.is_superuser:
             return (
                 "is_active",
