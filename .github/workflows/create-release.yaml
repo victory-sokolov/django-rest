@@ -8,71 +8,13 @@ on:
         required: true
         default: 'master'
   workflow_run:
-    workflows: ["CI-checks"]
+    workflows: ['CI-checks']
     branches: [master]
     types: [completed]
 
 jobs:
   create-tag:
-    runs-on: ubuntu-latest
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      (github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.head_branch == 'master')
-    outputs:
-      tag_created: ${{ steps.create_tag.outputs.tag_created || 'false' }}
-      tag_name: ${{ steps.create_tag.outputs.tag_name || '' }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.2.2
-        with:
-          fetch-depth: 0
-
-      - name: Check if VERSION.txt changed
-        id: version_changed
-        run: |
-          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
-          echo "Changed files: $CHANGED_FILES"
-          if echo "$CHANGED_FILES" | grep -w "VERSION.txt"; then
-            echo "VERSION.txt has been changed."
-            echo "result=true" >> $GITHUB_OUTPUT
-          else
-            echo "VERSION.txt not changed."
-            echo "result=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Read version from VERSION.txt
-        if: steps.version_changed.outputs.result == 'true'
-        id: read_version
-        run: |
-          VERSION=$(cat VERSION.txt)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Create and push tag
-        if: steps.version_changed.outputs.result == 'true'
-        id: create_tag
-        env:
-          VERSION: ${{ steps.read_version.outputs.version }}
-        run: |
-          TAG_NAME="v$VERSION"
-          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
-          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
-
-          # Configure git
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Check if tag already exists
-          if git tag -l "$TAG_NAME" | grep -q "$TAG_NAME"; then
-            echo "tag_created=false" >> $GITHUB_OUTPUT
-            echo "Tag $TAG_NAME already exists."
-          else
-            git tag "$TAG_NAME"
-            git push origin "$TAG_NAME"
-            echo "tag_created=true" >> $GITHUB_OUTPUT
-            echo "Created and pushed tag $TAG_NAME"
-          fi
+    uses: victory-sokolov/githooks/.github/workflows/create-tag-from-version-txt.yml@master
 
   create-release:
     runs-on: ubuntu-latest
