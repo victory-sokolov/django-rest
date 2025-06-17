@@ -2,12 +2,18 @@ name: Create GitHub Tag & Release
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ["CI-checks"]
+    branches: [master]
+    types:
+      - completed
   push:
-    branches: [main, master]
+    branches: [master]
 
 jobs:
   create-tag:
-    if: ${{ startsWith(github.event.workflow_run.head_branch, 'master') }}
+    # This job will only run when triggered by a successful workflow_run event on the master branch
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'master' }}
     runs-on: ubuntu-latest
 
     steps:
