@@ -21,8 +21,7 @@ jobs:
       (github.event_name == 'workflow_run' &&
        github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.event == 'push' &&
-       (github.event.workflow_run.head_branch == 'master' ||
-        github.event.workflow_run.head_branch == 'refs/heads/master'))
+       github.event.workflow_run.head_branch == 'master')
     outputs:
       tag_created: ${{ steps.create_tag.outputs.tag_created || 'false' }}
       tag_name: ${{ steps.create_tag.outputs.tag_name || '' }}
@@ -82,14 +81,21 @@ jobs:
     runs-on: ubuntu-latest
     name: Create GitHub Release
     needs: create-tag
+    if: needs.create-tag.outputs.tag_created == 'true'
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.create-tag.outputs.tag_name || 'master' }}
+
       - name: Get the version
         id: vars
         run: |
           # Get the tag that was just created
           TAG=$(git describe --tags --abbrev=0)
           echo "TAG=$TAG" >> $GITHUB_ENV
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
           echo "Using tag: $TAG"
 
       - name: Create GitHub Release
