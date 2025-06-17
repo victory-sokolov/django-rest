@@ -1,6 +1,7 @@
 name: Tag Release on VERSION.txt Change
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ['CI-checks']
     types:
