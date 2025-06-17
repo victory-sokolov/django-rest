@@ -23,6 +23,9 @@ jobs:
        github.event.workflow_run.event == 'push' &&
        (github.event.workflow_run.head_branch == 'master' ||
         github.event.workflow_run.head_branch == 'refs/heads/master'))
+    outputs:
+      tag_created: ${{ steps.create_tag.outputs.tag_created || 'false' }}
+      tag_name: ${{ steps.create_tag.outputs.tag_name || '' }}
 
     steps:
       - name: Checkout code
@@ -53,9 +56,12 @@ jobs:
       - name: Create and push tag
         if: steps.version_changed.outputs.result == 'true'
         id: create_tag
+        env:
+          VERSION: ${{ steps.read_version.outputs.version }}
         run: |
-          TAG_NAME="v${{ steps.read_version.outputs.version }}"
+          TAG_NAME="v$VERSION"
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
 
           # Configure git
           git config user.name "github-actions[bot]"
@@ -69,7 +75,6 @@ jobs:
             git tag "$TAG_NAME"
             git push origin "$TAG_NAME"
             echo "tag_created=true" >> $GITHUB_OUTPUT
-            echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
             echo "Created and pushed tag $TAG_NAME"
           fi
 
@@ -77,23 +82,27 @@ jobs:
     runs-on: ubuntu-latest
     name: Create GitHub Release
     needs: create-tag
-    if: needs.create-tag.outputs.tag_created == 'true' && needs.create-tag.outputs.tag_name != ''
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.2.2
-        with:
-          fetch-depth: 0
+      - name: Get the version
+        id: vars
+        run: |
+          # Get the tag that was just created
+          TAG=$(git describe --tags --abbrev=0)
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "Using tag: $TAG"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2.3.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ needs.create-tag.outputs.tag_name }}
-          name: v${{ needs.create-tag.outputs.tag_name }}
+          tag_name: ${{ env.TAG }}
+          name: Release ${{ env.TAG }}
           body: |
-            ## Release ${{ needs.create-tag.outputs.tag_name }}
+            ## Release ${{ env.TAG }}
 
             Automated release created by GitHub Actions
           draft: false
           prerelease: false
+          generate_release_notes: true
