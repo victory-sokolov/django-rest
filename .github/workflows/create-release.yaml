@@ -2,19 +2,27 @@ name: Create GitHub Tag & Release
 
 on:
   workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Ref (branch or tag)'
+        required: true
+        default: 'master'
   workflow_run:
     workflows: ["CI-checks"]
     branches: [master]
-    types:
-      - completed
-  push:
-    branches: [master]
+    types: [completed]
 
 jobs:
   create-tag:
-    # This job will only run when triggered by a successful workflow_run event on the master branch
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'master' }}
     runs-on: ubuntu-latest
+    # Only run if the triggering workflow completed successfully
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       (github.event.workflow_run.head_branch == 'master' ||
+        github.event.workflow_run.head_branch == 'refs/heads/master'))
 
     steps:
       - name: Checkout code
