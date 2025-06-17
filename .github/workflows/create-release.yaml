@@ -1,25 +1,85 @@
-name: Create GitHub Release
+name: Create GitHub Tag & Release
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ['Tag Release on VERSION.txt Change']
-    types:
-      - completed
+  push:
     branches: [main, master]
 
 jobs:
-  create-release:
+  create-tag:
     if: ${{ startsWith(github.event.workflow_run.head_branch, 'master') }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Check if VERSION.txt changed
+        id: version_changed
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+          echo "Changed files: $CHANGED_FILES"
+          if echo "$CHANGED_FILES" | grep -w "VERSION.txt"; then
+            echo "VERSION.txt has been changed."
+            echo "result=true" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION.txt not changed."
+            echo "result=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Read version from VERSION.txt
+        if: steps.version_changed.outputs.result == 'true'
+        id: read_version
+        run: |
+          VERSION=$(cat VERSION.txt)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create and push tag
+        if: steps.version_changed.outputs.result == 'true'
+        id: create_tag
+        run: |
+          TAG_NAME="v${{ steps.read_version.outputs.version }}"
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Check if tag already exists
+          if git tag -l "$TAG_NAME" | grep -q "$TAG_NAME"; then
+            echo "tag_created=false" >> $GITHUB_OUTPUT
+            echo "Tag $TAG_NAME already exists."
+          else
+            git tag "$TAG_NAME"
+            git push origin "$TAG_NAME"
+            echo "tag_created=true" >> $GITHUB_OUTPUT
+            echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+            echo "Created and pushed tag $TAG_NAME"
+          fi
+
+  create-release:
+    runs-on: ubuntu-latest
+    name: Create GitHub Release
+    needs: create-tag
+    if: needs.create-tag.outputs.tag_created == 'true' && needs.create-tag.outputs.tag_name != ''
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2.3.2
-        with:
-          tag_name: ${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.create-tag.outputs.tag_name }}
+          name: v${{ needs.create-tag.outputs.tag_name }}
+          body: |
+            ## Release ${{ needs.create-tag.outputs.tag_name }}
+
+            Automated release created by GitHub Actions
+          draft: false
+          prerelease: false
