@@ -1,6 +1,7 @@
 name: Create GitHub Release
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ['Tag Release on VERSION.txt Change']
     types:
