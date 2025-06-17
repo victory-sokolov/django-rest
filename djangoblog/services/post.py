@@ -2,6 +2,7 @@ import logging
 from typing import Any
 
 from djangoblog.api.v1.posts.serializers import PostSerializer
+from djangoblog.api.v1.posts.types import UserId
 from djangoblog.repository.post import PostRepository
 from djangoblog.repository.tags import TagsRepositry
 from djangoblog.repository.user import UserRepository
@@ -27,7 +28,7 @@ class PostService:
         except Exception as e:
             logger.error("Failed to fetch posts", exc_info=e)
 
-    def create(self, user_id: str, tags: list[str], data: dict[str, str]) -> None:
+    def create(self, user_id: UserId, tags: list[str], data: dict[str, str]) -> None:
         user = self.use_repository.get(user_id)
         tag_set = self.tags_repository.create(tags)
         post = self.post_repository.create(data, user)
