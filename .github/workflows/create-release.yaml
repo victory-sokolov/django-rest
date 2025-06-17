@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Create GitHub Release
     needs: create-tag
-    if: needs.create-tag.outputs.tag_created == 'true'
+    if: needs.create-tag.outputs.should_create_tag == 'true'
 
     steps:
       - name: Checkout code
