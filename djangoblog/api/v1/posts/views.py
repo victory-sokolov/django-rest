@@ -63,7 +63,7 @@ class SingleArticleView(APIView):
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     def delete(self, _request: Request, id: PostId) -> Response:
-        """Delete post by id"""
+        """Delete post by id."""
         post = self.get_object(id)
         if not post:
             return Response(
@@ -77,7 +77,7 @@ class SingleArticleView(APIView):
         )
 
     def put(self, request: Request, id: PostId) -> Response:
-        """Update article"""
+        """Update article."""
         post = self.get_object(post_id=id)
         if not post:
             return Response(

@@ -65,7 +65,7 @@ class UserAdmin(admin.ModelAdmin):
     def get_readonly_fields(
         self,
         request: HttpRequest,
-        obj: UserProfile,
+        obj: Any | None = None,
     ) -> list[str] | tuple[str, ...]:
         if request.user.is_superuser:
             return (
