@@ -14,7 +14,7 @@ on:
 
 jobs:
   create-tag:
-    uses: victory-sokolov/githooks/.github/workflows/create-tag-from-version-txt.yml@master
+    uses: victory-sokolov/githooks/.github/workflows/create-tag-from-version-txt.yml@main
 
   create-release:
     runs-on: ubuntu-latest
