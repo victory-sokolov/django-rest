@@ -1,8 +1,10 @@
 templates:
   default: &default
-    namespace: default
+    namespace: production
     wait: true
-    timeout: 120
+    waitForJobs: true
+    timeout: 200
+    atomic: true
 
 releases:
   - name: configmap
@@ -73,8 +75,9 @@ releases:
 
   - name: static-files
     <<: *default
-    chart: ./charts/static-files
+    chart: ./charts/jobs/static-files
     values:
       - values.yaml
     needs:
       - configmap
+      - django

@@ -114,6 +114,9 @@ install-dev: ## Install dev dependencies
 install: install-dev
 	uv run pre-commit install
 
+outdated: ## Check outdated packages
+	uv tree --outdated --depth 1
+
 # Infra commands
 
 docker-build: ## Build docker image

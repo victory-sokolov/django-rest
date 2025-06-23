@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: haproxy
+  namespace: production
   labels:
     io.kompose.service: haproxy
-  name: haproxy
 spec:
   type: LoadBalancer
   ports:

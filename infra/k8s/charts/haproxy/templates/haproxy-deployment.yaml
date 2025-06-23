@@ -1,11 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: production
+  name: haproxy
   labels:
     io.kompose.service: haproxy
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
-  name: haproxy
 spec:
   replicas: 1
   selector:

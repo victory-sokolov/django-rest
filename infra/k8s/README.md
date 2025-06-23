@@ -3,7 +3,7 @@
 1. `brew intall helm`
 2. `brew install helmfile`
 3. Install helm diff plugin `helm plugin install https://github.com/databus23/helm-diff`
-4. Create secrets from `.env` file: `kubectl create secret generic app-secret --from-env-file=.env`
+4. Create secrets from `.env` file: `kubectl create secret generic app-secret --from-env-file=.env -n production`
 5. `cd infra/k8` and run `helmfile --file helmfile.yaml apply`
 6. `minikube tunnel`
 
