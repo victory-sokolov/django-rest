@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: redis
@@ -34,6 +34,7 @@ spec:
           memory: '512Mi'
       securityContext:
         readOnlyRootFilesystem: false
+        allowPrivilegeEscalation: false
       volumeMounts:
         - mountPath: /usr/local/etc/redis/data
           readOnly: false

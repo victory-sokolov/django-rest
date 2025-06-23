@@ -16,6 +16,7 @@ data:
   # STATIC_URL: https://storage.googleapis.com/django-cdn/
 kind: ConfigMap
 metadata:
+  name: env-prod
+  namespace: production
   labels:
     io.kompose.service: celery-worker-env-prod
-  name: env-prod

@@ -90,5 +90,6 @@ data:
 kind: ConfigMap
 metadata:
   name: haproxy-configmap
+  namespace: production
   labels:
     io.kompose.service: haproxy

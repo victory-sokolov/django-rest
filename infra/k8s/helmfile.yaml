@@ -1,6 +1,6 @@
 templates:
   default: &default
-    namespace: default
+    namespace: production
     wait: true
     timeout: 120
 

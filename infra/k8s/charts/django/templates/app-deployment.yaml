@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: production
   labels:
     io.kompose.service: app
     app.kubernetes.io/instance: '{{ .Release.Name }}'

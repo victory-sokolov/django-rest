@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: '{{ .Values.appName }}-debug'
+  namespace: production
   labels:
     app: '{{ .Values.appName }}'
     app.kubernetes.io/instance: '{{ .Release.Name }}'
