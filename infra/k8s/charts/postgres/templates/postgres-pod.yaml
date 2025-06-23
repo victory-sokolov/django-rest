@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Pod
 metadata:
   namespace: production
+  name: postgres
   labels:
     io.kompose.service: postgres
-  name: postgres
 spec:
   containers:
     - name: postgres

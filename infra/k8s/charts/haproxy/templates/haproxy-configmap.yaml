@@ -66,7 +66,7 @@ data:
 
       http-request set-header X-Request-ID %[uuid()]
 
-      server-template backend 1 nginx.default.svc.cluster.local:80
+      server-template backend 1 nginx.production.svc.cluster.local:80
 
     frontend stats
       bind :8404

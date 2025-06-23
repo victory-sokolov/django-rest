@@ -1,4 +1,0 @@
-apiVersion: v2
-name: django-static-files
-version: 0.1.0
-appVersion: 0.1.0

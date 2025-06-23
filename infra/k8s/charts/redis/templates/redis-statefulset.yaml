@@ -2,12 +2,13 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: redis
+  namespace: production
   labels:
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
 spec:
   serviceName: redis
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: redis
@@ -16,19 +17,58 @@ spec:
       labels:
         app: redis
     spec:
+      terminationGracePeriodSeconds: 60 # Moved under template.spec
       containers:
-      - name: redis
-        image: redis:{{ .Values.image_tag }}
-        ports:
-        - containerPort: 6379
-        volumeMounts:
-        - name: redis-data
-          mountPath: /data
+        - name: redis
+          image: redis:{{ .Values.image_tag }}
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MASTER
+              value: 'true'
+            - name: TZ
+              value: Europe/Riga
+          ports:
+            - containerPort: 6379
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command: ['redis-cli', 'ping']
+            failureThreshold: 3
+            periodSeconds: 15
+            initialDelaySeconds: 10
+            timeoutSeconds: 12
+          readinessProbe:
+            exec:
+              command: ['redis-cli', 'ping']
+            failureThreshold: 3
+            periodSeconds: 15
+            initialDelaySeconds: 10
+            timeoutSeconds: 12
+          resources:
+            limits:
+              cpu: '1'
+              memory: '512Mi'
+          securityContext:
+            readOnlyRootFilesystem: false
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /data
+              name: redis-data
+            - mountPath: /usr/local/etc/redis/redis.conf
+              name: redis-config
+              subPath: redis.conf
+      volumes:
+        - name: redis-config
+          configMap:
+            name: redis-cm
+            items:
+              - key: redis.conf
+                path: redis.conf
   volumeClaimTemplates:
-  - metadata:
-      name: redis-data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: redis-data
+      spec:
+        accessModes: ['ReadWriteOnce']
+        resources:
+          requests:
+            storage: 1Gi
