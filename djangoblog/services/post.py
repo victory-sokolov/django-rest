@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from djangoblog.api.v1.posts.serializers import PostSerializer
 from djangoblog.repository.post import PostRepository
@@ -14,7 +15,7 @@ class PostService:
         self.use_repository = UserRepository()
         self.tags_repository = TagsRepositry()
 
-    def get_all(self):
+    def get_all(self) -> dict[str, Any] | None:
         fields = ["id", "title", "slug", "user", "tags", "content"]
         posts = self.post_repository.get_all(fields)
         logger.info(f"Retrieving all posts. Found {posts.count()} posts.")

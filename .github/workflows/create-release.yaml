@@ -1,0 +1,24 @@
+name: Create GitHub Release
+
+on:
+  workflow_run:
+    workflows: ['Tag Release on VERSION.txt Change']
+    types:
+      - completed
+    branches: [main, master]
+
+jobs:
+  create-release:
+    if: ${{ startsWith(github.event.workflow_run.head_branch, 'master') }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2.3.2
+        with:
+          tag_name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

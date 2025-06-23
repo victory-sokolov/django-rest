@@ -62,7 +62,7 @@ class BlogPageTest(TestCase):
         self.assertIn("Test post data", str(response.content))
         self.assertTemplateUsed(response, "post.html")
 
-    def test_add_post(self):
+    def test_add_post_form_submitted(self):
         self.client.force_login(user=self.user)
         form_data = {
             "title": "Post Title",
@@ -76,9 +76,9 @@ class BlogPageTest(TestCase):
             ),
         }
         form = PostForm(form_data)
-        self.assertFalse(form.is_valid())
+        self.assertTrue(form.is_valid(), form.errors)
 
-    def test_invalid_form(self):
+    def test_invalid_form_validation_fails(self):
         self.client.force_login(user=self.user)
         form = PostForm(data={})
         self.assertFalse(form.is_valid())

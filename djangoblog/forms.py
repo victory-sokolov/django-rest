@@ -3,6 +3,7 @@ from typing import Any
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import Group
+from django_stubs_ext.db.models import TypedModelMeta
 from tagify.fields import TagField
 
 from djangoblog.api.models.post import Post, Tags
@@ -15,11 +16,11 @@ class PostForm(forms.ModelForm):
         delimiters=" ",
     )
 
-    class Meta:
+    class Meta(TypedModelMeta):
         model = Post
-        exclude = ["id", "likes", "views", "favorites", "permissions"]
+        fields = ["draft", "title", "slug", "content", "tags"]
 
-    def __init__(self, *args: Any, **kwargs: dict[str, Any]):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs["class"] = "form-control"
@@ -53,7 +54,7 @@ class GroupAdminForm(forms.ModelForm):
         widget=FilteredSelectMultiple("users", False),
     )
 
-    def __init__(self, *args: Any, **kwargs: dict[str, Any]):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields["users"].initial = self.instance.user_set.all()
@@ -62,7 +63,7 @@ class GroupAdminForm(forms.ModelForm):
         """Save m2m."""
         self.instance.user_set.set(self.cleaned_data["users"])
 
-    def save(self, *args: list[Any], **kwargs: dict[str, Any]) -> Group:
+    def save(self, commit: bool) -> Any:
         """Save data."""
         instance = super().save(commit=True)
         self.save_m2m()

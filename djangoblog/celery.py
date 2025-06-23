@@ -18,7 +18,7 @@ app.autodiscover_tasks()
 
 # Measure celery task execution time
 # Ref: https://stackoverflow.com/questions/19481470/measuring-celery-task-execution-time
-d = {}
+d: dict[str, Any] = {}
 
 
 @task_prerun.connect
@@ -30,7 +30,7 @@ def task_prerun_handler(
     args: Any,
     kwargs: Any,
     **extras: Any,
-):
+) -> None:
     d[task_id] = time()
 
 
@@ -43,7 +43,7 @@ def task_postrun_handler(
     args: Any,
     kwargs: Any,
     **extras: Any,
-):
+) -> None:
     try:
         cost = time() - d.pop(task_id)
     except KeyError:

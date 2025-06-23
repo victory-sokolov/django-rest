@@ -1,4 +1,5 @@
 import time
+from typing import Any
 
 from django import test
 
@@ -8,7 +9,7 @@ class SlowTestException(Exception):
 
 
 class LimitTestCaseMixing:
-    def _callTestMethod(self, method):
+    def _callTestMethod(self, method: Any) -> Any:
         start = time.time()
 
         result = super()._callTestMethod(method)
@@ -25,8 +26,6 @@ class LimitTestCaseMixing:
 
 class TestCase(LimitTestCaseMixing, test.TestCase):
     fixtures = ["test"]
-
-    pass
 
 
 class TransactionTestCase(LimitTestCaseMixing, test.TransactionTestCase):

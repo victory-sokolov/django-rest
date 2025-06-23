@@ -1,3 +1,5 @@
+from typing import Any
+
 from django import forms
 
 from djangoblog.models import UserProfile
@@ -45,7 +47,7 @@ class SignUpForm(forms.Form):
 class LoginForm(SignUpForm):
     name = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.fields["email"].widget.attrs.update(
             {

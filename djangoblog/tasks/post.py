@@ -30,7 +30,7 @@ class CreatePostsTask(celery.Task):
     def __init__(self) -> None:
         self.post_service = PostService()
 
-    def run(self, data: dict):
+    def run(self, data: dict) -> None:
         return self.post_service.create(data["user_id"], data["tags"], data)
 
 

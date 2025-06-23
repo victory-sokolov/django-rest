@@ -4,7 +4,7 @@ from typing import Any
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.http import HttpRequest
-
+from django_stubs_ext.db.models import TypedModelMeta
 from djangoblog.api.models.post import Post
 from djangoblog.forms import GroupAdminForm
 from djangoblog.models import UserProfile
@@ -26,7 +26,7 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ("-user", "title")
     readonly_fields = ("created_at", "id")
 
-    class Meta:
+    class Meta(TypedModelMeta):
         model = Post
 
 
@@ -62,7 +62,11 @@ class UserAdmin(admin.ModelAdmin):
     def get_total_posts(self, obj: Any) -> int:
         return obj.post_set.count()
 
-    def get_readonly_fields(self, request: HttpRequest, obj) -> tuple[str]:
+    def get_readonly_fields(
+        self,
+        request: HttpRequest,
+        obj: UserProfile,
+    ) -> list[str] | tuple[str, ...]:
         if request.user.is_superuser:
             return (
                 "is_active",
