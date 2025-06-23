@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: django-static-job
+  namespace: production
   labels:
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'

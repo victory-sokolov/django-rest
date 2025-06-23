@@ -2,7 +2,9 @@ templates:
   default: &default
     namespace: production
     wait: true
-    timeout: 120
+    waitForJobs: true
+    timeout: 200
+    atomic: true
 
 releases:
   - name: configmap
