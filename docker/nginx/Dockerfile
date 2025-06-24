@@ -2,7 +2,7 @@ FROM ubuntu:24.10 AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG NGINX_VERSION=1.27.3
+ARG NGINX_VERSION=1.28.0
 
 RUN echo "Acquire::http::Pipeline-Depth 0;" > /etc/apt/apt.conf.d/99custom && \
     echo "Acquire::http::No-Cache true;" >> /etc/apt/apt.conf.d/99custom && \
@@ -18,7 +18,7 @@ RUN git clone --recurse-submodules -j8 https://github.com/google/ngx_brotli
 RUN cd nginx-${NGINX_VERSION} && ./configure --with-compat --add-dynamic-module=../ngx_brotli \
     && make modules
 
-FROM nginx:1.28.0@sha256:20555a07052bb7a1a0ed233d5dba2bdafb75e537948fadbc0e1fef151088dcdd
+FROM nginx:1.28.0
 
 ARG NGINX_VERSION
 
