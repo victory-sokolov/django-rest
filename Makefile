@@ -3,6 +3,7 @@ EXCLUDED_DIRS = infra/k8s/haproxy
 ENV := $(or ${DJANGO_ENV}, local)
 PORT := $(or ${PORT}, 8080)
 RUN_IN_DOCKER ?= false
+UV_RUN ?= uv run
 
 NPROCS := $(shell getconf _NPROCESSORS_ONLN)
 FAIL_TEST_UNDER := 100
@@ -23,11 +24,11 @@ check-migrations: ## Check for unapplied migrations
 	DJANGO_ENV=$(ENV) uv run python manage.py makemigrations --check
 
 migrate: ## Run migrations
-	DJANGO_ENV=$(ENV) uv run python manage.py migrate --no-input
-	# DJANGO_ENV=$(ENV) uv run python manage.py migrate --database=read_replica
+	DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py migrate --no-input
+	# DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py migrate --database=read_replica
 
 make-migrations: migrate ## Create and run migrations
-	DJANGO_ENV=$(ENV) uv run python manage.py makemigrations
+	DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py makemigrations
 
 dev: ## Run dev server
 	# DJANGO_ENV=local uv run python manage.py runserver_plus --cert-file certs/cert.pem --key-file certs/certkey.pem
@@ -38,8 +39,7 @@ dev-async: ## Run dev server with uvicorn
 	DJANGO_ENV=$(ENV) uv run uvicorn djangoblog.asgi:application
 
 prod: ## Run production server with gunicorn
-	DJANGO_ENV=$(ENV) uv run gunicorn djangoblog.wsgi:application --config gunicorn_config.py --bind 0.0.0.0:$(PORT)
-	# DJANGO_ENV=$(ENV) uv run gunicorn djangoblog:app -w 4 -k uvicorn.workers.UvicornWorker --config gunicorn_config.py --bind 0.0.0.0:$(PORT)
+	DJANGO_ENV=$(ENV) $(UV_RUN) gunicorn djangoblog.wsgi:application --config gunicorn_config.py --bind 0.0.0.0:$(PORT)
 
 worker: ## Run celery worker
 	DJANGO_ENV=$(ENV) uv run watchmedo auto-restart \
@@ -56,8 +56,8 @@ flower: ## Run Flower Celery monitoring system
 	DJANGO_ENV=local uv run celery -A djangoblog.celery.app flower
 
 collectstatic: ## Collect static files and compress them
-	DJANGO_ENV=$(ENV) uv run python manage.py collectstatic --noinput -i silk/*
-	DJANGO_ENV=$(ENV) uv run python manage.py compress --force
+	DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py collectstatic --noinput -i silk/*
+	DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py compress --force
 
 messages: ## Compile translation messages
 	DJANGO_ENV=$(ENV) uv run python manage.py compilemessages
@@ -96,13 +96,13 @@ flush-db: ## Reset local DB
 	DJANGO_ENV=local uv run python manage.py flush
 
 create-superuser: ## Create a new superuser
-	DJANGO_ENV=$(ENV) uv run python manage.py create_superuser \
+	DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py create_superuser \
 		--user=admin \
 		--password=superPassword12 \
 		--email=admin@gmail.com
 
 create-posts: ## Generate random posts
-	DJANGO_ENV=$(ENV) uv run python manage.py create_posts --count 100
+	DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py create_posts --count 100
 
 print-settings: ## Print Django settings
 	DJANGO_ENV=$(ENV) uv run python manage.py print_settings
@@ -118,9 +118,8 @@ outdated: ## Check outdated packages
 	uv tree --outdated --depth 1
 
 # Infra commands
-
 docker-build: ## Build docker image
-	docker-compose up --build --remove-orphans
+	COMPOSE_BAKE=true docker-compose up --build --remove-orphans
 
 compose-up: ## Docker compose up with watch
 	docker compose up --watch
@@ -131,21 +130,25 @@ compose-down: ## Remove main docker containers and local containers
 docker-local: ## Run local docker compose with metrics
 	docker compose -f docker-compose.yml -f docker-compose.local.yml up
 
+minikube-start: ## Start Minikube cluster
+	minikube start --driver=docker --cpus=2 --memory=7g --disk-size=10g
+	# Set-up secrets
+	kubectl create secret generic app-secret --from-env-file=.env -n production
+
 helm-upgrade: ## Upgrade Helm chart
-	helm upgrade django-blog infra/k8s --values infra/k8s/values.yaml
+	helm upgrade --namespace production django-blog infra/k8s --values infra/k8s/values.yaml
+
+helm-apply: ## Apply Helm chart
+	helmfile --namespace production --file helmfile.yaml apply
 
 push-image: ## Push Docker image to registry
 	docker buildx build -t victorysokolov/django-blog:$(GIT_COMMIT_HASH) --push --platform linux/amd64,linux/arm64 .
 
 deploy: push-image ## Deploy application to Kubernetes
 	# Modify image tag
-	sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/django/app-deployment.yaml
-	sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/celery/celery-worker-pod.yaml
-	sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/debugpy/app-debug-service.yaml
-	sed -i "s/victorysokolov\/django-blog:[^ ]*/victorysokolov\/django-blog:${GIT_COMMIT_HASH}/g" infra/k8s/jobs/staticfiles-job.yaml
-	kubectl apply -f infra/k8s --recursive
-	# find infra/k8s -type f -name "*.yaml" | grep -v -E "$$(echo $$EXCLUDED_DIRS | sed 's/ /|/g')" | xargs -I {} kubectl apply -f {}
-	kubectl get pods
+	sed -i "s/tag:[[:space:]]*[^[:space:]]*/tag: ${GIT_COMMIT_HASH}/g" infra/k8s/values.yaml
+	# Apply Helm chart
+	helmfile --namespace production --file infra/k8s/helmfile.yaml apply
 
 terraform-apply: ## Apply Terraform configuration
 	cd infra/terraform && terraform -chdir=infra/terraform/providers/gcloud apply --parallelism=20 -auto-approve

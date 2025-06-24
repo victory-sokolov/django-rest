@@ -4,13 +4,13 @@ set -eo pipefail
 
 echo "Using '$DJANGO_ENV' environment"
 
-make migrate
-make collectstatic
+make UV_RUN= migrate
+make UV_RUN= collectstatic
 
 # Create superuser
-make create-superuser
+make UV_RUN= create-superuser
 # Generate posts
-make create-posts
+make UV_RUN= create-posts
 
 wait-for-it \
   --host="$DB_HOST" \
@@ -23,7 +23,7 @@ echo "Postgres ${DB_HOST}:${PGPORT} is up"
 echo "App is running on PORT: $PORT"
 if [ "$DJANGO_ENV" = "production" ]; then
     echo "Running with prod config"
-    make prod
+    make UV_RUN= prod
 else
     echo "Running with dev config"
     make dev
