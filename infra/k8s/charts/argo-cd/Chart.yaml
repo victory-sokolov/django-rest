@@ -5,5 +5,5 @@ appVersion: 1.0.0
 icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.iconfinder.com%2Fdata%2Ficons%2Fuser-interface-outlined-2020%2F48%2Fserver-2-1024.png&f=1&nofb=1&ipt=6ca35935b0cf6e84302a4227bfe0632fa9e72f08a7577956c2e257173c39b3b1
 dependencies:
   - name: argo-cd
-    version: 8.1.1
+    version: 8.1.2
     repository: https://argoproj.github.io/argo-helm
