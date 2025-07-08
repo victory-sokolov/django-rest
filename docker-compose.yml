@@ -93,7 +93,7 @@ services:
         condition: service_healthy
 
   redis-sentinel:
-    image: redis:8.0.2@sha256:1b835e5a8d5db58e8b718850bf43a68ef5a576fc68301fd08a789b20b4eecb61
+    image: redis:8.0.3@sha256:a1e0a3b3a6cedd74d8ba44805b2497b93851a296f08a44962fedc03f1c490b47
     container_name: redis-sentinel
     environment:
       <<: *default-env
