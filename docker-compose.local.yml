@@ -132,7 +132,7 @@ services:
     - /sys:/host/sys:ro
 
   celery-exporter:
-    image: danihodovic/celery-exporter:0.12.0
+    image: danihodovic/celery-exporter:0.12.2@sha256:91e0b314cb5d62f0b2cd0ccdd059178d2d26f816ae0df2a4eeeb6b3c6feb5937
     command: ["--broker-url=redis://redis-master:6379/0"]
     platform: linux/amd64
     ports:
