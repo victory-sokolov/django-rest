@@ -346,7 +346,7 @@ DATABASES = {
             "keepalives_interval": 15,
             "keepalives_count": 5,
         },
-        "CONN_MAX_AGE": 120,
+        # "CONN_MAX_AGE": 120,
         "CONN_HEALTH_CHECKS": True,
         "DISABLE_SERVER_SIDE_CURSORS": True,
     },
