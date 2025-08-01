@@ -12,6 +12,10 @@ from djangoblog.api.models.post import Post
 from djangoblog.forms import PostForm
 from djangoblog.tasks.post import CreatePostsTask, GetPostsTask
 
+from django.http import JsonResponse
+from django.db import connections
+from django.db.utils import OperationalError
+
 logger = logging.getLogger(__name__)
 
 
@@ -76,3 +80,42 @@ def handler404(request: HttpRequest, *args: Any, **argv: Any) -> HttpResponse:
 
 def healthcheck(request: HttpRequest, *args: Any, **argv: Any) -> HttpResponse:
     return HttpResponse("OK")
+
+
+def db_health_check(_request: HttpRequest) -> HttpResponse:
+    db_conn = connections["default"]
+    settings_dict = db_conn.settings_dict
+    db_host = settings_dict.get("HOST")
+    db_port = settings_dict.get("PORT")
+    db_name = settings_dict.get("NAME")
+    db_user = settings_dict.get("USER")
+
+    try:
+        db_conn.cursor()
+        return JsonResponse(
+            {
+                "status": "ok",
+                "database": {
+                    "name": db_name,
+                    "user": db_user,
+                    "host": db_host,
+                    "port": db_port,
+                    "reachable": True,
+                },
+            },
+        )
+    except OperationalError as e:
+        return JsonResponse(
+            {
+                "status": "error",
+                "database": {
+                    "name": db_name,
+                    "user": db_user,
+                    "host": db_host,
+                    "port": db_port,
+                    "reachable": False,
+                    "error": str(e),
+                },
+            },
+            status=500,
+        )
