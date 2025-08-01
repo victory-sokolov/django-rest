@@ -154,7 +154,7 @@ terraform-apply: ## Apply Terraform configuration
 	cd infra/terraform && terraform -chdir=infra/terraform/providers/gcloud apply --parallelism=20 -auto-approve
 
 kube-secrets: ## Create secrets for kubernetes from .env file
-	kubectl create secret generic app-secret --from-env-file=.env
+	kubectl create secret generic app-secret --from-env-file=.env -n production
 
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
