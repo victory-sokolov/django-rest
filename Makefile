@@ -135,12 +135,6 @@ minikube-start: ## Start Minikube cluster
 	# Set-up secrets
 	kubectl create secret generic app-secret --from-env-file=.env -n production
 
-helm-upgrade: ## Upgrade Helm chart
-	helm upgrade --namespace production django-blog infra/k8s --values infra/k8s/values.yaml
-
-helm-apply: ## Apply Helm chart
-	helmfile --namespace production --file helmfile.yaml apply
-
 push-image: ## Push Docker image to registry
 	docker buildx build -t victorysokolov/django-blog:$(GIT_COMMIT_HASH) --push --platform linux/amd64,linux/arm64 .
 
