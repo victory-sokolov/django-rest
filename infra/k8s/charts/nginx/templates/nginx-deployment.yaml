@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: {{ .Values.app }}
   labels:
-    app: nginx
+    app: {{ .Values.app }}
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
 spec:
   selector:
     matchLabels:
-      io.kompose.service: nginx
+      io.kompose.service: {{ .Values.app }}
   replicas: 1
   template:
     metadata:
       labels:
-        io.kompose.service: nginx
+        io.kompose.service: {{ .Values.app }}
     spec:
       containers:
-        - name: nginx
+        - name: {{ .Values.app }}
           image: nginx:latest
           ports:
             - containerPort: 80

@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: production
-  name: haproxy
+  name: {{ .Values.app }}
   labels:
-    io.kompose.service: haproxy
+    io.kompose.service: {{ .Values.app }}
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: haproxy
+      io.kompose.service: {{ .Values.app }}
   template:
     metadata:
       labels:
-        io.kompose.service: haproxy
+        io.kompose.service: {{ .Values.app }}
     spec:
       restartPolicy: Always
       containers:
         - image: 'haproxy:{{ .Values.image_tag }}'
-          name: haproxy
+          name: {{ .Values.app }}
           ports:
             - containerPort: 80
               protocol: TCP

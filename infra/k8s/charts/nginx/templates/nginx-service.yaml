@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    io.kompose.service: nginx
+    io.kompose.service: {{ .Values.app }}
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
-  name: nginx
+  name: {{ .Values.app }}
 spec:
   type: LoadBalancer
   ports:
@@ -17,4 +17,4 @@ spec:
     # minikube IP
     - 192.168.64.2
   selector:
-    io.kompose.service: nginx
+    io.kompose.service: {{ .Values.app }}
