@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.app }}
-          image: nginx:latest
+          image: {{ .Values.app }}:1.29.0
           ports:
             - containerPort: 80
           volumeMounts:
