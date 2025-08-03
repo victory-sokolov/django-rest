@@ -8,11 +8,11 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
-        DJANGO_ENV: local
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        POSTGRES_DB: blog
-        POSTGRES_PASSWORD: securepassword
-        POSTGRES_USER: user
+      DJANGO_ENV: local
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      POSTGRES_DB: blog
+      POSTGRES_PASSWORD: securepassword
+      POSTGRES_USER: user
 
     services:
       postgres:
@@ -42,15 +42,15 @@ jobs:
 
       - name: Apply Migrations
         env:
-            SECRET_KEY: ${{ secrets.SECRET_KEY }}
-            POSTGRES_DB: blog
-            POSTGRES_PASSWORD: securepassword
-            POSTGRES_USER: user
-            POSTGRES_HOST: localhost
-            POSTGRES_PORT: 5431
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          POSTGRES_DB: blog
+          POSTGRES_PASSWORD: securepassword
+          POSTGRES_USER: user
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5431
         run: |
-            set -v
-            make migrate
+          set -v
+          make migrate
 
       - name: Start Django server
         continue-on-error: false
