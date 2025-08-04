@@ -1,3 +1,3 @@
-"postgres" "securepassword"
+"user" "securepassword"
 "pgbouncer" "securepassword"
 "pgbouncer_stats" "pgbouncer_stats_password"
