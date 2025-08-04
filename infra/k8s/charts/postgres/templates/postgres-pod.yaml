@@ -13,12 +13,21 @@ spec:
       envFrom:
         - configMapRef:
             name: postgres-env
+      readinessProbe:
+        exec:
+          command:
+            - sh
+            - -c
+            - 'psql -U user -d blog -c "SELECT 1"'
+        failureThreshold: 3
+        periodSeconds: 15
+        timeoutSeconds: 12
       livenessProbe:
         exec:
           command:
             - pg_isready
             - -p
-            - "5431"
+            - '5431'
             - -U
             - user
             - -d
