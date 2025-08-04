@@ -1,5 +1,4 @@
-database: &database
-  # ENGINE: django_prometheus.db.backends.postgresql
+database: &database # ENGINE: django_prometheus.db.backends.postgresql
   ENGINE: django.db.backends.postgresql
   NAME: blog
   USER: user
@@ -151,7 +150,7 @@ production:
       <<: *database
       PORT: 6432 # PG bouncer port
       HOST: pgbouncer
-      USER: pgbouncer
+      USER: postgres
     read_replica:
       <<: *database
       HOST: postgres

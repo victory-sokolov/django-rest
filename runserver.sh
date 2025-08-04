@@ -22,7 +22,7 @@ echo "Postgres ${DB_HOST}:${PGPORT} is up"
 
 echo "App is running on PORT: $PORT"
 if [ "$DJANGO_ENV" = "production" ]; then
-    echo "Running with prod config"
+    echo "Running with $DJANGO_ENV config"
     make UV_RUN= prod
 else
     echo "Running with dev config"

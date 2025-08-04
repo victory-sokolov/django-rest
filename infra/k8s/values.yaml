@@ -1,7 +1,7 @@
 appName: django-app
 image:
   repository: victorysokolov/django-blog
-  tag: 2c7dcc424607788a2026ee0b3d615b5a26a7f794
+  tag: ab76418ef7fe506ba6e3f88ef56fdf4d80555a80
   pullPolicy: Always
 
 appsecrets: app-secret
