@@ -79,7 +79,8 @@ def handler404(request: HttpRequest, *args: Any, **argv: Any) -> HttpResponse:
 
 
 def healthcheck(request: HttpRequest, *args: Any, **argv: Any) -> HttpResponse:
-    return HttpResponse("OK")
+    host = request.get_host()
+    return JsonResponse({"status": "ok", "host": host})
 
 
 def db_health_check(_request: HttpRequest) -> HttpResponse:
@@ -90,16 +91,22 @@ def db_health_check(_request: HttpRequest) -> HttpResponse:
     db_name = settings_dict.get("NAME")
     db_user = settings_dict.get("USER")
 
+    db_options = {
+        "name": db_name,
+        "user": db_user,
+        "host": db_host,
+        "port": db_port,
+    }
+
     try:
-        db_conn.cursor()
+        with db_conn.cursor() as cursor:
+            cursor.execute("SELECT 1;")
+            cursor.fetchone()
         return JsonResponse(
             {
                 "status": "ok",
                 "database": {
-                    "name": db_name,
-                    "user": db_user,
-                    "host": db_host,
-                    "port": db_port,
+                    **db_options,
                     "reachable": True,
                 },
             },
@@ -109,10 +116,7 @@ def db_health_check(_request: HttpRequest) -> HttpResponse:
             {
                 "status": "error",
                 "database": {
-                    "name": db_name,
-                    "user": db_user,
-                    "host": db_host,
-                    "port": db_port,
+                    **db_options,
                     "reachable": False,
                     "error": str(e),
                 },
