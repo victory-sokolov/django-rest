@@ -81,3 +81,12 @@ releases:
     needs:
       - configmap
       - django
+
+  - name: pgbouncer
+    <<: *default
+    chart: ./charts/pgbouncer
+    values:
+      - ./charts/pgbouncer/values.yaml
+    needs:
+      - configmap
+      - postgres

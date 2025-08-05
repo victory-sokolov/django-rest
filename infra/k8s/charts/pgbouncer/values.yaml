@@ -1,0 +1,46 @@
+replicaCount: 1
+
+app: pgbouncer
+image:
+  repository: bitnami/pgbouncer
+  tag: 1.24.1
+  pullPolicy: IfNotPresent
+
+auth:
+  username: user
+  password: securepassword
+
+pgbouncer:
+  listen_port: 6432
+  auth_type: plain
+  auth_file: /etc/pgbouncer/userlist.txt
+  config: |
+    [databases]
+    blog = host=postgres dbname=blog user=user password=securepassword port=5431
+
+    [pgbouncer]
+    listen_addr = 0.0.0.0
+    listen_port = 6432
+    auth_type = any
+    auth_file = /etc/pgbouncer/userlist.txt
+    pool_mode = session
+    max_client_conn = 100
+    default_pool_size = 20
+    admin_users = pgbouncer
+    stats_users = pgbouncer
+    so_reuseport = 1
+    query_wait_timeout = 0
+
+  userlist: |
+    "user" "securepassword"
+
+service:
+  type: ClusterIP
+  port: 6432
+
+database:
+  host: postgres
+  name: blog
+  user: user
+  password: securepassword
+  port: 5431

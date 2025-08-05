@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.app }}
+data:
+  PGBOUNCER_PORT: {{ .Values.pgbouncer.listen_port|quote }}
+  PGBOUNCER_AUTH_TYPE: {{ .Values.pgbouncer.auth_type|quote }}
+  POSTGRESQL_HOST: {{ .Values.database.host|quote }}
+  POSTGRESQL_PORT: {{ .Values.database.port|quote }}
+  POSTGRESQL_USERNAME: {{ .Values.database.user|quote }}
+  POSTGRESQL_DATABASE: {{ .Values.database.name|quote }}
+  pgbouncer.ini: |
+{{ .Values.pgbouncer.config | indent 4 }}
