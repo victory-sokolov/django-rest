@@ -32,6 +32,25 @@ spec:
                   key: PGBOUNCER_AUTH_USER_PASSWORD
           ports:
             - containerPort: 6432
+            - containerPort: 9127
+
+          # Metrics exporter sidecar
+        - name: pgbouncer-exporter
+          image: prometheuscommunity/pgbouncer-exporter:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9127
+              name: metrics
+          env:
+            - name: DATA_SOURCE_NAME
+              value: "postgres://{{ .Values.metrics.user | default "pgbouncer" }}:{{ .Values.metrics.password | default "" }}@localhost:6432/pgbouncer?sslmode=disable"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
 
           volumeMounts:
             - name: config

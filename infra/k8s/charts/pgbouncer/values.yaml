@@ -38,6 +38,10 @@ service:
   type: ClusterIP
   port: 6432
 
+metrics:
+  user: "pgbouncer"
+  password: "pgbouncer"
+
 database:
   host: postgres
   name: blog
