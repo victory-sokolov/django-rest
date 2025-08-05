@@ -4,16 +4,17 @@ metadata:
   name: django-migrations-job
   namespace: production
 spec:
+  ttlSecondsAfterFinished: 3600
   template:
     spec:
       restartPolicy: Never
       containers:
-      - name: run-migrations
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        command: ["python", "manage.py", "migrate"]
+        - name: run-migrations
+          image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+          command: ['python', 'manage.py', 'migrate']
       envFrom:
         - secretRef:
-            name: "{{ .Values.appsecrets }}"
+            name: '{{ .Values.appsecrets }}'
         - configMapRef:
             name: postgres-env
   backoffLimit: 1
