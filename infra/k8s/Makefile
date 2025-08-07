@@ -14,3 +14,6 @@ helm-uninstall: ## Uninstall all Helm releases
 			echo "Uninstalling $$release from namespace $$namespace..."; \
 			helm uninstall -n "$$namespace" "$$release"; \
 		done'
+
+delete-deployments: ## Delete all deployments in the current namespace
+	kubectl delete deployments --all -n production --debug
