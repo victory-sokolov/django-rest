@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.app }}
+  namespace: production
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -41,9 +42,6 @@ spec:
           ports:
             - containerPort: 9127
               name: metrics
-          env:
-            - name: DATA_SOURCE_NAME
-              value: "postgres://{{ .Values.metrics.user | default "pgbouncer" }}:{{ .Values.metrics.password | default "" }}@localhost:6432/pgbouncer?sslmode=disable"
           resources:
             requests:
               cpu: 100m
@@ -54,10 +52,10 @@ spec:
 
           volumeMounts:
             - name: config
-              mountPath: /etc/pgbouncer/pgbouncer.ini
+              mountPath: /bitnami/pgbouncer/conf/pgbouncer.ini
               subPath: pgbouncer.ini
             - name: auth
-              mountPath: /etc/pgbouncer/userlist.txt
+              mountPath: /bitnami/pgbouncer/conf/userlist.txt
               subPath: userlist.txt
       volumes:
         - name: config

@@ -9,5 +9,6 @@ data:
   POSTGRESQL_PORT: {{ .Values.database.port|quote }}
   POSTGRESQL_USERNAME: {{ .Values.database.user|quote }}
   POSTGRESQL_DATABASE: {{ .Values.database.name|quote }}
+  PGBOUNCER_DATABASE: {{ .Values.database.name|quote }}
   pgbouncer.ini: |
 {{ .Values.pgbouncer.config | indent 4 }}

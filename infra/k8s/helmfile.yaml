@@ -88,5 +88,4 @@ releases:
     values:
       - ./charts/pgbouncer/values.yaml
     needs:
-      - configmap
       - postgres
