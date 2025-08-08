@@ -1,6 +1,6 @@
 ARG DEFAULT_PYTHON_VERSION=3.12.11
 
-FROM --platform=$BUILDPLATFORM python:3.12.11-bookworm AS base
+FROM --platform=$BUILDPLATFORM python:3.13.6-bookworm@sha256:21f8dc4bf471755d7b48c294540f5e5db79508f9453a3638075cf9ae76f525a1 AS base
 
 ARG DEV_DEPS=false
 
