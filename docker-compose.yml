@@ -23,7 +23,7 @@ services:
       interval: 15s
       timeout: 15s
       retries: 5
-      start_period: 60s
+      start_period: 20s
 
   worker:
     extends:
@@ -71,7 +71,7 @@ services:
     # vm.overcommit_memory setting
     privileged: true
     volumes:
-      - redis:/data
+      - redis-master:/data
     deploy:
       resources:
         limits:
@@ -81,7 +81,9 @@ services:
   redis-slave:
     build:
       context: docker/redis/
-    command: "redis-server --slaveof redis-master 6379"
+    command: ["redis-server", "redis.conf", "--replicaof", "redis-master", "6379"]
+    volumes:
+      - redis-slave:/data
     environment:
       <<: *default-env
     networks:
@@ -217,7 +219,6 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
-      start_period: 20s
     depends_on:
       app:
         condition: service_healthy
@@ -233,6 +234,7 @@ networks:
 
 volumes:
   postgres:
-  redis:
+  redis-master:
+  redis-slave:
   static_volume:
   sentinel-data:
