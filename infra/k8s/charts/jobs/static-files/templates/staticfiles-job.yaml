@@ -12,14 +12,14 @@ spec:
     spec:
       containers:
         - name: django-static
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
           imagePullPolicy: Always
           command: ['/bin/sh', '-c']
           args:
             - python manage.py collectstatic --noinput && python manage.py compress --force
           envFrom:
             - secretRef:
-                name: "{{ .Values.appsecrets }}"
+                name: '{{ .Values.appsecrets }}'
           volumeMounts:
             - name: static-storage
               mountPath: /app/output/static/
@@ -28,4 +28,9 @@ spec:
           persistentVolumeClaim:
             claimName: static-storage-pvc
       restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
   backoffLimit: 1
