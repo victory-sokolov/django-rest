@@ -53,7 +53,7 @@ data:
 
       option log-health-checks
       option httpchk # Check if the backend server is healthy
-      http-check send meth GET uri /healthcheck
+      http-check send meth GET uri /health/app
       http-check expect status 200
 
       # Compression
