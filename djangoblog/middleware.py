@@ -4,6 +4,8 @@ from uuid import uuid4
 from asgiref.sync import iscoroutinefunction, markcoroutinefunction
 from django.http import Http404, HttpRequest, HttpResponse
 
+MIDDLEWARE_RESPONSE = Callable[[HttpRequest], HttpResponse]
+
 
 class AsyncMiddleware:
     async_capable = True
@@ -38,7 +40,7 @@ class RestrictStaffToAdminMiddleware:
 class RequestIdMiddleware:
     """If X-Request-ID is missing from headers - add generated uuid as Request-ID ."""
 
-    def __init__(self, get_response: Callable[[HttpRequest], HttpResponse]) -> None:
+    def __init__(self, get_response: MIDDLEWARE_RESPONSE) -> None:
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest) -> HttpResponse:
