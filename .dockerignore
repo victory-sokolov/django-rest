@@ -14,7 +14,6 @@ htmlcov/
 coverage/
 .pre-commit-config.yaml
 .coverage
-.coveragerc
 .coverage.*
 .pytest_cache/
 .venv
@@ -43,3 +42,4 @@ setup.cfg
 .yamllint.yaml
 cloudbuild.yaml
 e2e/
+.hypothesis/

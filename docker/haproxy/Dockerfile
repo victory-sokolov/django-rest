@@ -1,4 +1,4 @@
-FROM haproxy:3.2.1
+FROM haproxy:3.2.3
 
 # Ensure the 'haproxy' user is already present
 RUN id -u haproxy &>/dev/null || useradd -m haproxy
