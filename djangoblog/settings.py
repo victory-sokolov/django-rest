@@ -286,6 +286,7 @@ MIDDLEWARE = [
 
 # Only enable the browseable HTML API in dev (DEBUG=True)
 if settings.DEBUG and "test" not in sys.argv:
+    print("Enabling debug toolbar and silk")
     DEFAULT_RENDERER_CLASSES += ("rest_framework.renderers.BrowsableAPIRenderer",)
     INSTALLED_APPS += ["debug_toolbar", "silk"]
     MIDDLEWARE += [

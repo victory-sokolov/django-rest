@@ -10,7 +10,7 @@ worker_class = "gevent"
 worker_connections = 1000
 max_requests = 2000
 max_requests_jitter = 200
-timeout = 60
+timeout = 120
 # Timeout for graceful workers restart.
 graceful_timeout = 40
 proxy_protocol = True

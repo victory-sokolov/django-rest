@@ -42,11 +42,15 @@ def task_postrun_handler(
     task: Any,
     args: Any,
     kwargs: Any,
+    retval: Any,
     **extras: Any,
 ) -> None:
     try:
         cost = time() - d.pop(task_id)
+        payload_size = len(str(retval).encode("utf-8"))
     except KeyError:
         cost = -1
 
-    logger.info(f"Task {task.__name__} took {cost}")
+    logger.info(
+        f"Task {task.__name__} took {cost}, payload size: {payload_size} bytes",
+    )

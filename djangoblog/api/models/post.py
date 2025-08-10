@@ -66,7 +66,7 @@ class Post(TimeStampedModel):
     class Meta:
         db_table = "posts"
         ordering = ("created_at",)
-        indexes = [models.Index(fields=["title", "views"])]
+        indexes = [models.Index(fields=["title", "created_at"])]
 
     def __str__(self) -> str:
         return self.title
