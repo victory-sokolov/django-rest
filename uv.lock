@@ -335,7 +335,7 @@ dev = [
     { name = "factory-boy", specifier = "~=3.3" },
     { name = "faker", specifier = "~=37.5.3" },
     { name = "flower", specifier = "~=2.0" },
-    { name = "locust", specifier = "~=2.37.10" },
+    { name = "locust", specifier = "~=2.38.1" },
     { name = "memray", specifier = ">=1.14.0" },
     { name = "mypy", specifier = "~=1.17.0" },
     { name = "nplusone", specifier = "~=1.0" },
@@ -1827,7 +1827,7 @@ wheels = [
 
 [[package]]
 name = "locust"
-version = "2.37.14"
+version = "2.38.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "configargparse" },
@@ -1845,9 +1845,9 @@ dependencies = [
     { name = "setuptools" },
     { name = "werkzeug" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/77/27/362b73f5d481a82a7891e9fdfcc253016c418358a1af8d597efb234571f7/locust-2.37.14.tar.gz", hash = "sha256:1d6d9e49d335216d456c3be77c04cc79674581c0f8860c910cd3152d0b9bb26b", size = 1403749, upload-time = "2025-07-16T13:52:43.024Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/be/03/2f92b75d971e6043cca6fcec59ceccfa800a1324425a74950603d8cac33a/locust-2.38.1.tar.gz", hash = "sha256:4ad9f2f9e7d56b7747ba67cb16e47ca0466b3908f402f50660f15f37621a5218", size = 1406572, upload-time = "2025-08-12T11:38:52.007Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a9/d5/6148d7a8f63435a5f17b9e3ae30db2ca758107214c7a0257ebcc0aeab384/locust-2.37.14-py3-none-any.whl", hash = "sha256:f3cc7a32673b54b3b1b9aa2214a665b3c6a0b0c90c2cc75b0f3bf49d27e07abf", size = 1420570, upload-time = "2025-07-16T13:52:41.823Z" },
+    { url = "https://files.pythonhosted.org/packages/dd/f6/4a8087f44abd67bb8cc51fba52dcfdddc09d69c154819d56b7da4c79f9ad/locust-2.38.1-py3-none-any.whl", hash = "sha256:34978219ee0d682a135fd4c67f287c26725e7b3fa83d34d65be70efdb42ab4d1", size = 1424130, upload-time = "2025-08-12T11:38:49.707Z" },
 ]
 
 [[package]]
