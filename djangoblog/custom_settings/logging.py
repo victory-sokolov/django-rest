@@ -4,32 +4,37 @@ from djangoblog.logger import date_fmt
 
 FORMATTERS = {
     "verbose": {
-        "format": "[{levelname}]: {asctime:s} {name} Thread: {threadName} {thread:d} | Module: {module} | File: {filename} {lineno:d} {name} {funcName} {process:d} {message}",
+        "format": (
+            "[{levelname}] {asctime} | Logger: {name} | "
+            "Thread: {threadName} | Process: {process} | "
+            "File: {filename}:{lineno} | "
+            "Function: {funcName} | Message: {message}"
+        ),
         "datefmt": date_fmt,
         "style": "{",
     },
     "simple": {
-        "format": "[{levelname}]: {asctime:s} {name} | Module: {module} | File: {filename} {lineno:d} {funcName} {message}",
+        "format": "[{levelname}] {asctime} | {name} | {message}",
         "datefmt": date_fmt,
         "style": "{",
     },
-    "rich": {
+    "rich": {  # Assuming you use RichHandler
         "datefmt": date_fmt,
     },
-    "json": {
+    "json": {  # Keep your Filebeat/ELK formatter
         "class": "djangoblog.formatters.FilebeatFormatter",
     },
 }
 
 LOGGERS = {
     "django": {
-        "handlers": ["console", "logstash"],
+        "handlers": ["console"],
         "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
         "filters": ["exclude_logs"],
         "propagate": True,
     },
     "django.request": {
-        "handlers": ["console", "logstash"],
+        "handlers": ["console"],
         "level": "INFO",
         "propagate": True,
     },
@@ -47,15 +52,17 @@ LOGGERS = {
     "gunicorn.error": {
         "handlers": [
             "console",
-            "logstash",
         ],
         "level": "INFO",
     },
     "gunicorn.access": {
         "handlers": [
             "console",
-            "logstash",
         ],
+        "level": "INFO",
+    },
+    "psycopg.pool": {
+        "handlers": ["console"],
         "level": "INFO",
     },
 }
@@ -83,16 +90,6 @@ LOGGING_HANDLERS = {
         "formatter": "rich",
         "level": "INFO",
         "filters": ["exclude_logs"],
-    },
-    "logstash": {
-        "level": "INFO",
-        "class": "logstash.TCPLogstashHandler",
-        "host": "logstash",
-        "port": 50000,
-        "version": 1,
-        "message_type": "django",
-        "fqdn": False,
-        "tags": ["django.request"],
     },
 }
 

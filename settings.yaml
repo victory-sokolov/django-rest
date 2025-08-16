@@ -11,7 +11,6 @@ kibana-logging: &kibana-logging
     dynaconf_merge: True
     root:
       handlers:
-        - logstash
         - console
 
 test-logger: &test-logger
@@ -64,7 +63,7 @@ local:
 development:
   <<: [*static_storage, *celery]
   APP_ENV: development
-  DEBUG: True
+  DEBUG: False
   ALLOWED_HOSTS: ['*']
   SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
   REDIS_URL: redis://redis:6379/0

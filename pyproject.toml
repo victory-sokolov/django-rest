@@ -24,7 +24,6 @@ dependencies = [
     "drf-writable-nested ~=0.7",
     "ecs-logging ~=2.2.0",
     "elasticsearch-dsl ~=8.18.0",
-    "python-logstash ~=0.4.8",
     "requests ~=2.32.0",
     "rich ~=14.1.0",
     "sentry-sdk ~=2.34.1",

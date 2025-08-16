@@ -237,7 +237,6 @@ dependencies = [
     { name = "prometheus-client" },
     { name = "psycopg", extra = ["binary", "pool"] },
     { name = "pyopenssl" },
-    { name = "python-logstash" },
     { name = "requests" },
     { name = "rich" },
     { name = "sentry-sdk" },
@@ -311,7 +310,6 @@ requires-dist = [
     { name = "prometheus-client", specifier = ">=0.21.0" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = "~=3.2" },
     { name = "pyopenssl", specifier = "~=25.0" },
-    { name = "python-logstash", specifier = "~=0.4.8" },
     { name = "requests", specifier = "~=2.32.0" },
     { name = "rich", specifier = "~=14.1.0" },
     { name = "sentry-sdk", specifier = "~=2.34.1" },
@@ -2629,12 +2627,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/ba/0b/67295279b66835f9f
 wheels = [
     { url = "https://files.pythonhosted.org/packages/0c/fa/df59acedf7bbb937f69174d00f921a7b93aa5a5f5c17d05296c814fff6fc/python_engineio-4.12.2-py3-none-any.whl", hash = "sha256:8218ab66950e179dfec4b4bbb30aecf3f5d86f5e58e6fc1aa7fde2c698b2804f", size = 59536, upload-time = "2025-06-04T19:22:16.916Z" },
 ]
-
-[[package]]
-name = "python-logstash"
-version = "0.4.8"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/f7/3b/c3a957bbdd23859f07905fc3d1adfe89957217a347478c58409f0315cf1d/python-logstash-0.4.8.tar.gz", hash = "sha256:d04e1ce11ecc107e4a4f3b807fc57d96811e964a554081b3bbb44732f74ef5f9", size = 7074, upload-time = "2022-03-30T11:58:04.095Z" }
 
 [[package]]
 name = "python-socketio"
