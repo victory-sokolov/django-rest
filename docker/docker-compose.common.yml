@@ -9,15 +9,17 @@ services:
       - ../.env
     environment:
       DJANGO_LOG_LEVEL: DEBUG
-      DJANGO_ENV: production
+      DJANGO_ENV: development
       TZ: Europe/Riga
+    cap_add:
+      - SYS_PTRACE
     develop:
       watch:
-        - action: sync
-          path: .
-          target: /app
-          ignore:
-            - .venv/
+        # - action: sync
+        #   path: .
+        #   target: /app
+        #   ignore:
+        #     - .venv/
         - action: rebuild
           path: ./uv.lock
     depends_on:
