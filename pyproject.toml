@@ -7,7 +7,7 @@ authors = [
     { name = "Viktor Sokolov", email = "viktorsokolov.and@gmail.com" },
 ]
 dependencies = [
-    "celery ~=5.4",
+    "celery[msgpack] ~=5.5.3",
     "dependency-injector ~=4.42",
     "django ~=5.2.3",
     "django-ckeditor ~=6.7.1",
@@ -18,7 +18,7 @@ dependencies = [
     "django-extensions ~=4.1",
     "django-redis ~=6.0",
     "django-tagify2 ~=1.0.19",
-    "djangorestframework ~=3.16.0",
+    "djangorestframework ~=3.16.1",
     "djangorestframework-simplejwt ~=5.5.0",
     "drf-spectacular ~=0.28.0",
     "drf-writable-nested ~=0.7",
@@ -26,7 +26,7 @@ dependencies = [
     "elasticsearch-dsl ~=8.18.0",
     "requests ~=2.32.0",
     "rich ~=14.1.0",
-    "sentry-sdk ~=2.34.1",
+    "sentry-sdk ~=2.35.0",
     "django-compressor ~=4.5.1",
     "dynaconf ~=3.2.6",
     "gunicorn ~=23.0.0",
