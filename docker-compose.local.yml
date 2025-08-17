@@ -127,9 +127,9 @@ services:
     ports:
       - 9100:9100
     volumes:
-    - /:/rootfs:ro
-    - /proc:/host/proc:ro
-    - /sys:/host/sys:ro
+        - /:/rootfs:ro
+        - /proc:/host/proc:ro
+        - /sys:/host/sys:ro
 
   celery-exporter:
     build:
@@ -156,7 +156,12 @@ services:
       - 9127:9127
     networks:
       - default
-
+    platform: linux/amd64
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9127/metrics || exit 1"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
