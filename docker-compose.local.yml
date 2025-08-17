@@ -132,16 +132,31 @@ services:
     - /sys:/host/sys:ro
 
   celery-exporter:
-    image: danihodovic/celery-exporter:0.12.2@sha256:91e0b314cb5d62f0b2cd0ccdd059178d2d26f816ae0df2a4eeeb6b3c6feb5937
-    command: ["--broker-url=redis://redis-master:6379/0"]
+    build:
+      context: docker/celery-exporter
+    environment:
+      - CE_BROKER_URL=redis://redis-master:6379/0
+      - CE_ACCEPT_CONTENT=application/json,application/x-msgpack,application/x-python-serialize
     platform: linux/amd64
     ports:
       - 9808:9808
     networks:
       - default
     depends_on:
-      redis-master:
-        condition: service_healthy
+      - redis-master
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9808/metrics || exit 1"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+
+  pgbouncer-exporter:
+    image: prometheuscommunity/pgbouncer-exporter:latest
+    ports:
+      - 9127:9127
+    networks:
+      - default
+
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest

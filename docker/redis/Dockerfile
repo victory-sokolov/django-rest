@@ -8,4 +8,7 @@ WORKDIR /redis
 COPY redis.conf ./
 COPY tls /redis/tls/
 
+# skip permission changes
+ENV SKIP_FIX_PERMS=1
+
 CMD [ "redis-server", "redis.conf" ]
