@@ -2,7 +2,7 @@ groups:
   - name: Instance Down
     rules:
       - alert: InstanceDown
-        expr: up == 0
+        expr: up{job!="kube-metrics"} == 0
         for: 5m
         labels:
           severity: critical
@@ -10,14 +10,16 @@ groups:
           summary: 'Instance {{ $labels.instance }} down'
           description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes'
 
-      - alert: Haproxy response time
+  - name: Haproxy
+    rules:
+      - alert: HaproxyResponseTime
         expr: |
           avg by(proxy) (
-            haproxy_backend_response_time_average_seconds{proxy="server_backend"} offset 5m
+            haproxy_backend_response_time_average_seconds{proxy="server_backend"}
           ) > 10
         for: 1m
         labels:
-          severity: critical
+          severity: warning
         annotations:
-          summary: 'Haproxy response time degraded'
-          description: 'Haproxy {{ $labels.instance }} of job {{ $labels.job }} has been degraded'
+          summary: 'High response time for {{ $labels.proxy }}'
+          description: 'Average response time for {{ $labels.proxy }} is {{ $value }}s (threshold: 10s)'
