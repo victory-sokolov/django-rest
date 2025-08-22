@@ -8,7 +8,7 @@ databases: &databases # ENGINE: django_prometheus.db.backends.postgresql
   CONN_MAX_AGE: 0
   CONN_HEALTH_CHECKS: True
   OPTIONS:
-    # options: '-c jit=off'
+    options: '-c jit=off'
     # sslmode: require
     keepalives: 1
     keepalives_idle: 30
