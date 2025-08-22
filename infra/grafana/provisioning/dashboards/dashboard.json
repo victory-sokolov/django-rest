@@ -1,5 +1,5 @@
 {
-   "description": "Djago App Metrics",
+   "description": "Django App Metrics",
    "panels": [
       {
          "collapsed": false,
@@ -596,6 +596,203 @@
          ],
          "title": "Max connections",
          "type": "stat"
+      },
+      {
+         "collapsed": false,
+         "gridPos": {
+            "h": 1,
+            "w": 24,
+            "x": 0,
+            "y": 67
+         },
+         "id": 17,
+         "panels": [ ],
+         "title": "PgBouncer",
+         "type": "row"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Number of active client connections",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "unit": "none"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 68
+         },
+         "id": 18,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(pgbouncer_pools_client_active_connections{database!=\"pgbouncer\"}) by (database)",
+               "legendFormat": "{{database}}"
+            }
+         ],
+         "title": "PgBouncer Client Active Connections",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Number of waiting client connections",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "unit": "none"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 68
+         },
+         "id": 19,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(pgbouncer_pools_client_waiting_connections{database!=\"pgbouncer\"}) by (database)",
+               "legendFormat": "{{database}}"
+            }
+         ],
+         "title": "PgBouncer Client Waiting Connections",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Number of active server connections",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "unit": "none"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 76
+         },
+         "id": 20,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(pgbouncer_pools_server_active_connections{database!=\"pgbouncer\"}) by (database)",
+               "legendFormat": "{{database}}"
+            }
+         ],
+         "title": "PgBouncer Server Active Connections",
+         "type": "timeseries"
+      },
+      {
+         "datasource": {
+            "type": "$datasource",
+            "uid": "$datasource"
+         },
+         "description": "Number of idle server connections",
+         "fieldConfig": {
+            "defaults": {
+               "custom": {
+                  "fillOpacity": 10,
+                  "showPoints": "never"
+               },
+               "unit": "none"
+            }
+         },
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 76
+         },
+         "id": 21,
+         "interval": "1m",
+         "options": {
+            "legend": {
+               "calcs": [
+                  "lastNotNull",
+                  "max"
+               ],
+               "displayMode": "table"
+            }
+         },
+         "pluginVersion": "v11.1.0",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+               },
+               "expr": "sum(pgbouncer_pools_server_idle_connections{database!=\"pgbouncer\"}) by (database)",
+               "legendFormat": "{{database}}"
+            }
+         ],
+         "title": "PgBouncer Server Idle Connections",
+         "type": "timeseries"
       }
    ],
    "schemaVersion": 39,

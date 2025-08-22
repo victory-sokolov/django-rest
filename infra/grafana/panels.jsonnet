@@ -49,6 +49,11 @@ local g = import 'g.libsonnet';
     gunicorn_request_duration: self.base,
     django_response_status: self.base,
 
+    pgbouncer_client_active: self.base,
+    pgbouncer_server_active: self.base,
+    pgbouncer_client_waiting: self.base,
+    pgbouncer_server_idle: self.base,
+
     heatmap: {
       local heatmap = g.panel.heatmap,
       local options = heatmap.options,

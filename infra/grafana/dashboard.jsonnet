@@ -5,13 +5,14 @@ local g = import 'g.libsonnet';
 // Queries
 local django = import './queries/django.libsonnet';
 local haproxy = import './queries/haproxy.libsonnet';
+local pgbouncer = import './queries/pgbouncer.libsonnet';
 local postgres = import './queries/postgres.libsonnet';
 
 local var = g.dashboard.variable;
 local row = g.panel.row;
 
 g.dashboard.new('Django App Dashboard')
-+ g.dashboard.withDescription('Djago App Metrics')
++ g.dashboard.withDescription('Django App Metrics')
 + g.dashboard.withVariables([
   variables.datasource,
   variables.job,
@@ -93,6 +94,29 @@ g.dashboard.new('Django App Dashboard')
           'Max connections',
           'Shows the maximum number of concurrent connections to the PostgreSQL database',
           postgres.max_connections
+        ),
+      ]),
+      row.new('PgBouncer')
+      + row.withPanels([
+        panels.timeseries.pgbouncer_client_active(
+          'PgBouncer Client Active Connections',
+          'Number of active client connections',
+          pgbouncer.client_active_connections
+        ),
+        panels.timeseries.pgbouncer_client_waiting(
+          'PgBouncer Client Waiting Connections',
+          'Number of waiting client connections',
+          pgbouncer.client_waiting_connections
+        ),
+        panels.timeseries.pgbouncer_server_active(
+          'PgBouncer Server Active Connections',
+          'Number of active server connections',
+          pgbouncer.server_active_connections
+        ),
+        panels.timeseries.pgbouncer_server_idle(
+          'PgBouncer Server Idle Connections',
+          'Number of idle server connections',
+          pgbouncer.server_idle_connections
         ),
       ]),
     ], panelWidth=12
