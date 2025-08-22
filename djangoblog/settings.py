@@ -186,9 +186,6 @@ DBBACKUP_STORAGE_OPTIONS = {"location": os.path.join(BASE_DIR, "backup")}
 DBBACKUP_FILENAME_TEMPLATE = "{datetime}-{databasename}.{extension}"
 DBBACKUP_MEDIA_FILENAME_TEMPLATE = "{datetime}-media.{extension}"
 
-CONN_MAX_AGE = 120
-CONN_HEALTH_CHECKS = True
-
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.RemoteUserBackend",
     "django.contrib.auth.backends.ModelBackend",
@@ -339,17 +336,6 @@ DATABASES = {
         "PASSWORD": DB.PASSWORD,
         "PORT": DB.PORT,
         "HOST": DB.HOST,
-        "OPTIONS": {
-            "options": "-c jit=off",
-            "sslmode": "require",
-            "keepalives": 1,
-            "keepalives_idle": 30,
-            "keepalives_interval": 15,
-            "keepalives_count": 5,
-        },
-        # "CONN_MAX_AGE": 120,
-        "CONN_HEALTH_CHECKS": True,
-        "DISABLE_SERVER_SIDE_CURSORS": True,
     },
     # "read_replica": {
     #     "ENGINE": DB.ENGINE,
@@ -370,7 +356,6 @@ FIXTURE_DIRS = [
 # default_database = env("DJANGO_DATABASE")
 # DATABASES["default"] = DATABASES[default_database]
 
-# Tests
 # SOUTH_TESTS_MIGRATE = False
 
 # Password validation
@@ -449,6 +434,7 @@ if settings.APP_ENV == "production" and settings.SENTRY_ENABLED:
         # Set traces_sample_rate to 1.0 to capture 100%
         # of transactions for performance monitoring.
         # We recommend adjusting this value in production.
-        traces_sample_rate=0.2,
+        traces_sample_rate=0.1,
+        # profile_sample_rate=0.01,
         send_default_pii=True,
     )

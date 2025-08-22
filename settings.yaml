@@ -1,21 +1,32 @@
-database: &database # ENGINE: django_prometheus.db.backends.postgresql
+databases: &databases # ENGINE: django_prometheus.db.backends.postgresql
   ENGINE: django.db.backends.postgresql
   NAME: blog
   USER: user
   PASSWORD: securepassword
-  PORT: 5431
-  HOST: 127.0.0.1
+  PORT: 6432
+  HOST: pgbouncer
+  CONN_MAX_AGE: 0
+  CONN_HEALTH_CHECKS: True
+  OPTIONS:
+    # options: '-c jit=off'
+    # sslmode: require
+    keepalives: 1
+    keepalives_idle: 30
+    keepalives_interval: 15
+    keepalives_count: 5
+    pool:
+      min_size: 2
+      max_size: 8
+      max_idle: 120
 
 kibana-logging: &kibana-logging
   LOGGING:
-    dynaconf_merge: True
     root:
       handlers:
         - console
 
 test-logger: &test-logger
   LOGGING:
-    dynaconf_merge: True
     root:
       handlers:
         - base
@@ -54,9 +65,9 @@ local:
   # Database
   DATABASES:
     default:
-      <<: *database
+      <<: *databases
     read_replica:
-      <<: *database
+      <<: *databases
       NAME: blog_read_replica
 
 # For Docker environment
@@ -74,8 +85,7 @@ development:
 
   DATABASES:
     default:
-      <<: *database
-      HOST: postgres
+      <<: *databases
 
 test:
   <<: [*static_storage]
@@ -104,10 +114,13 @@ test:
   # Database
   DATABASES:
     default:
-      <<: *database
-    read_replica:
-      <<: *database
+      <<: *databases
       HOST: postgres
+      PORT: 5432
+    read_replica:
+      <<: *databases
+      HOST: postgres
+      PORT: 5432
 
 production:
   <<: [*default, *bucket, *kibana-logging]
@@ -146,12 +159,9 @@ production:
   # Database
   DATABASES:
     default:
-      <<: *database
-      PORT: 6432 # PG bouncer port
-      HOST: pgbouncer
+      <<: *databases
     read_replica:
-      <<: *database
-      HOST: postgres
+      <<: *databases
 
   # Celery
   CELERY_RESULT_BACKEND: 'redis://redis-master:6379/0'
