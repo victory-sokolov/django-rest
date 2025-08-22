@@ -1,9 +1,9 @@
-setup:
+setup: ## Setup
 	go install -a github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb@latest
 	go install github.com/grafana/dashboard-linter@latest
 	jb install
 
-build-lint:
+build-lint: ## Build and lint Grafana dashboard
 	jsonnet -J vendor dashboard.jsonnet -o provisioning/dashboards/dashboard.json
 	dashboard-linter lint provisioning/dashboards/dashboard.json
 
