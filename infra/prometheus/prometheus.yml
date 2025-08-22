@@ -66,3 +66,8 @@ scrape_configs:
     scheme: http
     static_configs:
       - targets: ['celery-exporter:9808']
+
+  - job_name: pgbouncer-exporter
+    scheme: http
+    static_configs:
+      - targets: ['pgbouncer-exporter:9127']
