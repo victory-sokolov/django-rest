@@ -71,3 +71,8 @@ scrape_configs:
     scheme: http
     static_configs:
       - targets: ['pgbouncer-exporter:9127']
+
+  - job_name: nginx-exporter
+    scheme: http
+    static_configs:
+      - targets: ['nginx-exporter:9113']

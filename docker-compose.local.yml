@@ -198,6 +198,18 @@ services:
       app:
         condition: service_healthy
 
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx-exporter
+    ports:
+      - 9113:9113
+    command:
+      - '-nginx.scrape-uri=http://nginx:80/status/'
+    depends_on:
+      - nginx
+    networks:
+      - default
+
 networks:
   default:
     driver: bridge
