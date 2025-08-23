@@ -18,20 +18,45 @@ class Command(BaseCommand):
             "-a",
             "--amount",
             type=int,
+            default=0,
             help="amount to generate",
+        )
+        parser.add_argument(
+            "-d",
+            "--delete",
+            action="store_true",
+            help="Delete all posts",
         )
 
     def handle(self, *args: Any, **options: Any) -> None:
-        logging.info("Adding new posts")
-        amount = int(options["amount"])
-        run_seed(amount)
-        self.stdout.write(f"Added {amount} posts")
+        amount = options["amount"]
+        delete = options["delete"]
+
+        if delete and self.confirm_clear():
+            delete_posts()
+            self.stdout.write("Deleted all posts")
+        elif amount:
+            self.stdout.write("Adding new posts")
+            run_seed(int(amount))
+            self.stdout.write(f"Added {amount} posts")
+
+    def confirm_clear(self) -> bool:
+        """Confirm before deleting all posts"""
+        self.stdout.write(
+            self.style.WARNING(
+                "WARNING: This will delete ALL posts. This action cannot be undone.",
+            ),
+        )
+        confirmation = input("Are you sure you want to continue? [y/N]: ")
+        return confirmation.lower() in ["y", "yes"]
 
 
-def clear_data() -> None:
-    """Deletes all the table data"""
+def delete_posts() -> int:
+    """Deletes all posts data"""
     logging.warning("Deleting all Posts")
-    Post.objects.all().delete()
+    count, _ = Post.objects.all().delete()
+    logging.info(f"Deleted {count} objects")
+    return count
 
 
 def run_seed(amount: int) -> None:
