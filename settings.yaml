@@ -15,7 +15,7 @@ databases: &databases # ENGINE: django_prometheus.db.backends.postgresql
     keepalives_interval: 15
     keepalives_count: 5
     pool:
-      min_size: 2
+      min_size: 4
       max_size: 8
       max_idle: 120
 

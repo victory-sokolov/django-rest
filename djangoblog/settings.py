@@ -224,15 +224,25 @@ SIMPLE_JWT = {
     "JWK_URL": None,
 }
 
+CACHE_OPTIONS = {
+    "CLIENT_CLASS": "django_redis.client.DefaultClient",
+    "RETRY_ON_TIMEOUT": True,
+    "CONNECTION_POOL_KWARGS": {
+        "retry": 3,
+        "retry_delay": 1,
+    },
+}
+
 CACHES = {
     "default": {
         "BACKEND": settings.CACHE_BACKEND,
         "LOCATION": settings.REDIS_URL,
-        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        "OPTIONS": CACHE_OPTIONS,
     },
     "tasks": {
         "BACKEND": settings.CACHE_BACKEND,
         "LOCATION": "redis://localhost",
+        "OPTIONS": CACHE_OPTIONS,
     },
     "collectfasta": {
         "BACKEND": settings.CACHE_BACKEND,
