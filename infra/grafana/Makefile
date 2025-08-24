@@ -3,10 +3,13 @@ setup: ## Setup
 	go install github.com/grafana/dashboard-linter@latest
 	jb install
 
-build-lint: ## Build and lint Grafana dashboard
+build: ## Build dashboard.json
 	jsonnet -J vendor dashboard.jsonnet -o provisioning/dashboards/dashboard.json
+
+lint: ## Lint Grafana dashboard
 	dashboard-linter lint provisioning/dashboards/dashboard.json
 
+build-lint: build lint
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
