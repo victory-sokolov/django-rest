@@ -63,7 +63,7 @@ messages: ## Compile translation messages
 	DJANGO_ENV=$(ENV) uv run python manage.py compilemessages
 
 loadtest: ## Load test app
-	loadtest -n 300 -k  http://localhost:8081/post/
+	uv run locust -f locustfile.py --users 50 --spawn-rate 1 --host http://localhost:80/post/
 
 mypy: ## Run mypy type checks
 	DJANGO_ENV=$(ENV) uv run mypy --config-file pyproject.toml djangoblog --cache-fine-grained
