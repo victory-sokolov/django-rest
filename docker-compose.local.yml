@@ -40,6 +40,10 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      app:
+        condition: service_healthy
+      worker:
+        condition: service_healthy
       redis-master:
         condition: service_healthy
 
@@ -60,12 +64,15 @@ services:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: admin
       GF_LOG_LEVEL: warn
-      GF_LOG_FILTERS: "rendering:warn,rendering:error"
       RENDERING_MODE: "reusable"
       ENABLE_METRICS: true
+      GF_LOG_FILTERS: "rendering:warn,rendering:error"
+      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-piechart-panel"
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: "grafana-clock-panel,grafana-piechart-panel"
     volumes:
-      - grafana_provisioning:/etc/grafana/provisioning/
+      - ./infra/grafana/provisioning/:/etc/grafana/provisioning/
       - grafana_data:/var/lib/grafana
+
 
   rabbitmq:
     image: rabbitmq:4.1.2-management@sha256:b19379c75c518853b02ab09dfdb84d42b1d40d319bfd315b29ed9e7a32c7968d
@@ -99,6 +106,9 @@ services:
     links:
       - postgres
       - prometheus
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   alertmanager:
     image: quay.io/prometheus/alertmanager
@@ -112,6 +122,8 @@ services:
     volumes:
       - ./infra/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
       - alertmanager_data:/data
+    depends_on:
+      - prometheus
 
   node_exporter:
     image: quay.io/prometheus/node-exporter
@@ -143,7 +155,10 @@ services:
     networks:
       - default
     depends_on:
-      - redis-master
+      redis-master:
+        condition: service_healthy
+      worker:
+        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:9808/metrics || exit 1"]
       interval: 30s
@@ -206,7 +221,8 @@ services:
     command:
       - '-nginx.scrape-uri=http://nginx:80/status/'
     depends_on:
-      - nginx
+      nginx:
+        condition: service_healthy
     networks:
       - default
 

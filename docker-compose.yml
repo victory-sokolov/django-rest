@@ -23,7 +23,10 @@ services:
       interval: 15s
       timeout: 15s
       retries: 5
-      start_period: 30s
+      start_period: 40s
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   worker:
     extends:
@@ -41,7 +44,7 @@ services:
       --directory=./djangoblog \
       --pattern='**/tasks/*.py' \
       --recursive -- \
-      celery -A djangoblog worker -P gevent -c 1000 -l info --uid=nobody --gid=nogroup
+      celery -A djangoblog worker -P gevent -c 8 -l info --uid=nobody --gid=nogroup
       "
     volumes:
       - type: bind
@@ -52,7 +55,12 @@ services:
       interval: 15s
       timeout: 5s
       retries: 5
-      start_period: 60s
+      start_period: 40s
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
 
   redis-master:
     restart: unless-stopped
