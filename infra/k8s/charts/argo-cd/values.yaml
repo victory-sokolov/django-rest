@@ -8,3 +8,6 @@ argo-cd:
   server:
     extraArgs:
       - --insecure
+    secret:
+      create: true
+      secretKey: ''
