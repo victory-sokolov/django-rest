@@ -15,9 +15,15 @@ services:
     volumes:
        - static_volume:/app/output/static
     ports:
-      - 8001:8001
+      - 8001-8004:8001
     expose:
       - 8001
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512M
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://0.0.0.0:80/health/app"]
       interval: 15s
