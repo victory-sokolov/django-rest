@@ -16,3 +16,251 @@ spec:
   syncPolicy:
     automated:
       selfHeal: true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: configmap
+  annotations:
+    argocd.argoproj.io/sync-wave: '0'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/victory-sokolov/django-rest.git
+    targetRevision: HEAD
+    path: infra/k8s/charts/configmap
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgres
+  annotations:
+    argocd.argoproj.io/sync-wave: '1'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/victory-sokolov/django-rest.git
+    targetRevision: HEAD
+    path: infra/k8s/charts/postgres
+    helm:
+      valueFiles:
+        - ./values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis
+  annotations:
+    argocd.argoproj.io/sync-wave: '1'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/victory-sokolov/django-rest.git
+    targetRevision: HEAD
+    path: infra/k8s/charts/redis
+    helm:
+      valueFiles:
+        - ./values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: django
+  annotations:
+    argocd.argoproj.io/sync-wave: '2'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/victory-sokolov/django-rest.git
+    targetRevision: HEAD
+    path: infra/k8s/charts/django
+    helm:
+      valueFiles:
+        - ../../values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: celery
+  annotations:
+    argocd.argoproj.io/sync-wave: '2'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/victory-sokolov/django-rest.git
+    targetRevision: HEAD
+    path: infra/k8s/charts/celery
+    helm:
+      valueFiles:
+        - ../../values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pgbouncer
+  annotations:
+    argocd.argoproj.io/sync-wave: '2'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/victory-sokolov/django-rest.git
+    targetRevision: HEAD
+    path: infra/k8s/charts/pgbouncer
+    helm:
+      valueFiles:
+        - ./values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx
+  annotations:
+    argocd.argoproj.io/sync-wave: '3'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/victory-sokolov/django-rest.git
+    targetRevision: HEAD
+    path: infra/k8s/charts/nginx
+    helm:
+      valueFiles:
+        - ./values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: haproxy
+  annotations:
+    argocd.argoproj.io/sync-wave: '3'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/victory-sokolov/django-rest.git
+    targetRevision: HEAD
+    path: infra/k8s/charts/haproxy
+    helm:
+      valueFiles:
+        - ./values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: debugpy
+  annotations:
+    argocd.argoproj.io/sync-wave: '2'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/victory-sokolov/django-rest.git
+    targetRevision: HEAD
+    path: infra/k8s/charts/debugpy
+    helm:
+      valueFiles:
+        - ../../values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: static-files
+  annotations:
+    argocd.argoproj.io/sync-wave: '4'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/victory-sokolov/django-rest.git
+    targetRevision: HEAD
+    path: infra/k8s/charts/jobs/static-files
+    helm:
+      valueFiles:
+        - ../../values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
