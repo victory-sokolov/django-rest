@@ -226,6 +226,20 @@ services:
     networks:
       - default
 
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    container_name: redis-insight
+    ports:
+      - 5540:5540
+    volumes:
+      - redisinsight-data:/db
+    restart: unless-stopped
+    depends_on:
+      - redis-master
+      - redis-slave
+    networks:
+      - default
+
 networks:
   default:
     driver: bridge
@@ -234,6 +248,7 @@ volumes:
   grafana_data:
   prometheus_data:
   rabbitmq_data:
+  redisinsight-data:
   alertmanager_data:
   grafana_provisioning:
     driver: local
