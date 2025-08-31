@@ -3,7 +3,7 @@ templates:
     namespace: production
     wait: true
     waitForJobs: true
-    timeout: 200
+    timeout: 250
     atomic: true
 
 releases:
@@ -26,7 +26,6 @@ releases:
       - values.yaml
     needs:
       - configmap
-      - redis
       - postgres
 
   - name: django
