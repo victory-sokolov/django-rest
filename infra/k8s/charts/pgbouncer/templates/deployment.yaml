@@ -36,10 +36,9 @@ spec:
             - containerPort: 9127
           volumeMounts:
             - name: config
-              mountPath: /bitnami/pgbouncer/conf/pgbouncer.ini
-              subPath: pgbouncer.ini
+              mountPath: /etc/pbbouncer/
             - name: auth
-              mountPath: /bitnami/pgbouncer/conf/userlist.txt
+              mountPath: /etc/pbbouncer/userlist.txt
               subPath: userlist.txt
           readinessProbe:
             tcpSocket:

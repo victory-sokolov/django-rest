@@ -2,8 +2,8 @@ replicaCount: 1
 
 app: pgbouncer
 image:
-  repository: bitnami/pgbouncer
-  tag: 1.24.1
+  repository: edoburu/pgbouncer
+  tag: v1.24.1-p1
   pullPolicy: IfNotPresent
 
 auth:
@@ -11,9 +11,6 @@ auth:
   password: securepassword
 
 pgbouncer:
-  listen_port: 6432
-  auth_type: plain
-  auth_file: /bitnami/pgbouncer/conf/userlist.txt
   config: |
     [databases]
     blog = host=postgres dbname=blog user=user password=securepassword port=5431
@@ -22,10 +19,10 @@ pgbouncer:
     listen_addr = 0.0.0.0
     listen_port = 6432
     auth_type = any
-    auth_file = /bitnami/pgbouncer/conf/userlist.txt
+    auth_file = /etc/pbbouncer/userlist.txt
     pool_mode = session
-    max_client_conn = 100
-    default_pool_size = 20
+    max_client_conn = 150
+    default_pool_size = 200
     admin_users = pgbouncer
     stats_users = pgbouncer
     so_reuseport = 1
@@ -48,3 +45,4 @@ database:
   user: user
   password: securepassword
   port: 5431
+  pgport: 6432
