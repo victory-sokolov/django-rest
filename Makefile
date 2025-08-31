@@ -132,6 +132,9 @@ docker-local: ## Run local docker compose with metrics
 
 minikube-start: ## Start Minikube cluster
 	minikube start --driver=docker --cpus=2 --memory=7g --disk-size=10g
+	minikube addons enable metrics-server
+	minikube addons enable storage-provisioner
+	minikube addons enable default-storageclass
 	# Set-up secrets
 	kubectl create secret generic app-secret --from-env-file=.env -n production
 
