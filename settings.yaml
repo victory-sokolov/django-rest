@@ -116,11 +116,11 @@ test:
     default:
       <<: *databases
       HOST: postgres
-      PORT: 5432
+      PORT: 5431
     read_replica:
       <<: *databases
       HOST: postgres
-      PORT: 5432
+      PORT: 5431
 
 production:
   <<: [*default, *bucket, *kibana-logging]
