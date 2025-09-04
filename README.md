@@ -1,4 +1,4 @@
-# Djangolog application
+# DjangoBlog application
 
 - Run makefile commands in the Docker container
 ```bash
