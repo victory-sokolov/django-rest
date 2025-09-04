@@ -5,9 +5,9 @@ metadata:
   namespace: production
 
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ .Values.database.pgport }}
       targetPort: 6432
   selector:
     app.kubernetes.io/name: {{ .Values.app }}

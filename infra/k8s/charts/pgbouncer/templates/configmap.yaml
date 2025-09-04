@@ -3,10 +3,14 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.app }}
 data:
-  DB_HOST: {{ .Values.database.host|quote }}
-  DB_PORT: {{ .Values.database.port|quote }}
-  DB_USER: {{ .Values.database.user|quote }}
-  DB_NAME: {{ .Values.database.name|quote }}
-  LISTEN_PORT: {{ .Values.database.pgport|quote }}
+  PGBOUNCER_PORT: {{ .Values.pgbouncer.listen_port|quote }}
+  PGBOUNCER_AUTH_TYPE: {{ .Values.pgbouncer.auth_type|quote }}
+  POSTGRESQL_HOST: {{ .Values.database.host|quote }}
+  POSTGRESQL_PORT: {{ .Values.database.port|quote }}
+  POSTGRESQL_USERNAME: {{ .Values.database.user|quote }}
+  POSTGRESQL_DATABASE: {{ .Values.database.name|quote }}
+  PGBOUNCER_DATABASE: {{ .Values.database.name|quote }}
   pgbouncer.ini: |
 {{ .Values.pgbouncer.config | indent 4 }}
+  userlist.txt: |
+{{ .Values.pgbouncer.userlist | indent 4 }}
