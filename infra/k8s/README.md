@@ -6,6 +6,7 @@
 4. Create secrets from `.env` file: `kubectl create secret generic app-secret --from-env-file=.env -n production`
 5. `cd infra/k8` and run `helmfile --file helmfile.yaml apply`
 6. `minikube tunnel`
+7. Set default namespace to production: `kubectl config set-context --current --namespace=production`
 
 ## Minikube
 

@@ -141,7 +141,7 @@ minikube-start: ## Start Minikube cluster
 	else \
 		echo "app-secret already exists, skipping creation"; \
 	fi
-	kubectl config set-context --current --namespace=production
+
 
 push-image: ## Push Docker image to registry
 	docker buildx build -t victorysokolov/django-blog:$(GIT_COMMIT_HASH) --push --platform linux/amd64,linux/arm64 .
@@ -149,8 +149,6 @@ push-image: ## Push Docker image to registry
 deploy: push-image ## Deploy application to Kubernetes
 	# Modify image tag
 	sed -i "s/tag:[[:space:]]*[^[:space:]]*/tag: ${GIT_COMMIT_HASH}/g" infra/k8s/values.yaml
-	# Apply Helm chart
-	helmfile --namespace production --file infra/k8s/helmfile.yaml apply
 
 terraform-apply: ## Apply Terraform configuration
 	cd infra/terraform && terraform -chdir=infra/terraform/providers/gcloud apply --parallelism=20 -auto-approve

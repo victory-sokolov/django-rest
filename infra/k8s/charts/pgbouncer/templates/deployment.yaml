@@ -32,25 +32,26 @@ spec:
                   name: {{ .Values.app }}
                   key: PGBOUNCER_AUTH_USER_PASSWORD
           ports:
-            - containerPort: 6432
+            - containerPort: {{ .Values.database.pgport }}
             - containerPort: 9127
           volumeMounts:
             - name: config
-              mountPath: /etc/pbbouncer/
+              mountPath: /bitnami/pgbouncer/conf/pgbouncer.ini
+              subPath: pgbouncer.ini
             - name: auth
-              mountPath: /etc/pbbouncer/userlist.txt
+              mountPath: /bitnami/pgbouncer/conf/userlist.txt
               subPath: userlist.txt
           readinessProbe:
             tcpSocket:
-              port: 6432
+              port: {{ .Values.database.pgport }}
             initialDelaySeconds: 5
-            periodSeconds: 10
+            periodSeconds: 15
             failureThreshold: 6
 
           # Metrics exporter sidecar
         - name: pgbouncer-exporter
           image: prometheuscommunity/pgbouncer-exporter:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 9127
               name: metrics
