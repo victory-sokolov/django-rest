@@ -135,7 +135,6 @@ minikube-start: ## Start Minikube cluster
 	minikube addons enable metrics-server
 	minikube addons enable storage-provisioner
 	minikube addons enable default-storageclass
-	# Set-up secrets if they don't exist
 	@if ! kubectl get secret app-secret -n production &>/dev/null; then \
 		echo "Creating app-secret..."; \
 		kubectl create secret generic app-secret --from-env-file=.env -n production; \
