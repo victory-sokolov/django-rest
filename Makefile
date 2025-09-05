@@ -141,6 +141,7 @@ minikube-start: ## Start Minikube cluster
 	else \
 		echo "app-secret already exists, skipping creation"; \
 	fi
+	kubectl config set-context --current --namespace=production
 
 push-image: ## Push Docker image to registry
 	docker buildx build -t victorysokolov/django-blog:$(GIT_COMMIT_HASH) --push --platform linux/amd64,linux/arm64 .
