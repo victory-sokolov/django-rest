@@ -81,6 +81,9 @@ services:
       - 6379:6379
     healthcheck:
       test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     # Run as privileged to allow the container to change the
     # vm.overcommit_memory setting
     privileged: true
@@ -104,6 +107,9 @@ services:
       - default
     healthcheck:
       test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     depends_on:
       redis-master:
         condition: service_healthy
