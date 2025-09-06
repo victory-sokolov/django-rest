@@ -1,4 +1,4 @@
-GIT_COMMIT_HASH := $(shell git rev-parse HEAD)
+GIT_COMMIT_HASH ?= $(shell git rev-parse --short HEAD 2>/dev/null)
 EXCLUDED_DIRS = infra/k8s/haproxy
 ENV := $(or ${DJANGO_ENV}, local)
 PORT := $(or ${PORT}, 8080)
@@ -122,13 +122,13 @@ docker-build: ## Build docker image
 	COMPOSE_BAKE=true docker-compose up --build --remove-orphans
 
 compose-up: ## Docker compose up with watch
-	docker compose up --watch
+	COMPOSE_BAKE=true docker compose up --watch
 
 compose-down: ## Remove main docker containers and local containers
-	docker compose -f docker-compose.yml -f docker-compose.local.yml down --remove-orphans -v
+	COMPOSE_BAKE=true docker compose -f docker-compose.yml -f docker-compose.local.yml down --remove-orphans -v
 
 docker-local: ## Run local docker compose with metrics
-	docker compose -f docker-compose.yml -f docker-compose.local.yml up
+	COMPOSE_BAKE=true docker compose -f docker-compose.yml -f docker-compose.local.yml up
 
 minikube-start: ## Start Minikube cluster
 	minikube start --driver=docker --cpus=2 --memory=7g --disk-size=10g
@@ -137,14 +137,20 @@ minikube-start: ## Start Minikube cluster
 	minikube addons enable default-storageclass
 	@if ! kubectl get secret app-secret -n production &>/dev/null; then \
 		echo "Creating app-secret..."; \
-		kubectl create secret generic app-secret --from-env-file=.env -n production; \
+		kubectl create secret generic app-secret --from-env-file=.env.prod -n production; \
 	else \
 		echo "app-secret already exists, skipping creation"; \
 	fi
 
 
 push-image: ## Push Docker image to registry
-	docker buildx build -t victorysokolov/django-blog:$(GIT_COMMIT_HASH) --push --platform linux/amd64,linux/arm64 .
+	docker buildx build \
+		-t victorysokolov/django-blog:${GIT_COMMIT_HASH} \
+		--platform linux/amd64,linux/arm64 \
+		--push \
+		--cache-from=type=registry,ref=victorysokolov/django-blog:buildcache \
+		--cache-to=type=registry,ref=victorysokolov/django-blog:buildcache,mode=max \
+		.
 
 deploy: push-image ## Deploy application to Kubernetes
 	# Modify image tag
