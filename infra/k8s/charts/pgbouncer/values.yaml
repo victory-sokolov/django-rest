@@ -25,11 +25,15 @@ pgbouncer:
     auth_file = /bitnami/pgbouncer/conf/userlist.txt
     pool_mode = session
     max_client_conn = 150
+    reserve_pool_size = 40
     default_pool_size = 200
     admin_users = pgbouncer
     stats_users = pgbouncer
     so_reuseport = 1
     ignore_startup_parameters = extra_float_digits, jit
+
+    log_connections = 0
+    log_disconnections = 0
 
   userlist: |
     "user" "securepassword"
