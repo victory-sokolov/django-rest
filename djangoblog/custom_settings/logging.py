@@ -106,7 +106,7 @@ LOGGING = {
     "loggers": LOGGERS,
     "root": {
         "handlers": [],
-        "level": "INFO",
+        "level": "WARNING",
         "propagate": True,
         "filters": ["exclude_logs"],
     },
