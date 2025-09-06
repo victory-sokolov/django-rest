@@ -123,7 +123,7 @@ test:
       PORT: 5431
 
 production:
-  <<: [*default, *bucket, *kibana-logging]
+  <<: [*default, *bucket]
   APP_ENV: production
   DEBUG: False
   # SENTRY_DSN: '@format {env[SENTRY_DSN]}'

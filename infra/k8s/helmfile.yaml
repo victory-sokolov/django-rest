@@ -36,6 +36,7 @@ releases:
     needs:
       - configmap
       - postgres
+      - pgbouncer
       - redis
 
   - name: haproxy
