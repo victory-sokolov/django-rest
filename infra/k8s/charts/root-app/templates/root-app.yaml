@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/victory-sokolov/django-rest.git
     targetRevision: HEAD
-    path: infra/k8s/root-app
+    path: infra/k8s/charts/root-app
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
