@@ -1,7 +1,7 @@
 FROM python:3.12.11-slim-buster
 
 RUN apt-get update \
-    apt install -y gdb \
+    apt-get install -y gdb \
     && apt-get clean
 
 RUN pip install debugpy
