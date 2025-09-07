@@ -9,7 +9,7 @@ runs:
       run: echo "PYTHON_VERSION=$(cat .python-version)" >> $GITHUB_ENV
       shell: bash
 
-    - uses: actions/setup-python@6.0.0
+    - uses: actions/setup-python@v6
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 

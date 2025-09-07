@@ -47,7 +47,6 @@ worker: ## Run celery worker
 		--pattern="**/tasks/*.py" \
 		--recursive -- \
 		uv run celery -A djangoblog worker -l info
-	# DJANGO_ENV=local uv run celery -A djangoblog worker -l info
 
 start: ## Start project with uvicorn
 	DJANGO_ENV=$(ENV) uvicorn djangoblog.asgi:application --port 8081 --reload

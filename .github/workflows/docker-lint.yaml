@@ -1,7 +1,14 @@
-name: docker
+name: docker-lint
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ main, master ]
+    paths:
+        - '**'
+      paths-ignore:
+        - '**/*.py'
+        - '**.md'
 
 jobs:
   docker:
