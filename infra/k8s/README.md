@@ -21,9 +21,10 @@
 
 ## ArgoCD
 
-1. Install Helm chart: `helm install argo-cd charts/argo-cd/`
-2. To access web UI: `kubectl port-forward svc/argo-cd-argocd-server 8089:443`
+1. Install Helm chart: `helm install argo-cd charts/argo-cd/ -n argocd`
+2. To access web UI: `kubectl port-forward svc/argo-cd-argocd-server 8089:443 -n argocd`
 Visit `http://localhost:8089`
 3. Username: `admin`.
-Get password: `kubectl get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
-4. Apply manifest. From `infra/k8s/charts` directory run: `helm template root-app/ | kubectl apply -f -`
+Get password: `kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" base64 -d; echo`
+4. Apply manifest. From `infra/k8s/charts` directory run: `helm install root-app ./root-app/ -n argocd --create-namespace`
+5. Upgrade after changes: `helm upgrade root-app ./charts/root-app/ -n argocd`

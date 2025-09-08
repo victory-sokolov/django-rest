@@ -20,3 +20,10 @@ destroy:
 
 delete-deployments: ## Delete all deployments in the current namespace
 	kubectl delete deployments --all -n production --debug
+
+argo-pass:
+	kubectl get secret argocd-initial-admin-secret -n argocd \
+  		-o jsonpath="{.data.password}" | base64 -d; echo
+
+argo-port-forward:
+	kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=argocd-server -n argocd --timeout=30s
