@@ -7,17 +7,17 @@ appVersion: "1.0.0"
 
 dependencies:
   - name: redis
-    version: "*"
+    version: "1.0.0"
     repository: "file://../redis"
   - name: django
-    version: "*"
+    version: "0.1.0"
     repository: "file://../django"
   - name: nginx
-    version: "*"
+    version: "1.0.0"
     repository: "file://../nginx"
   - name: postgres
-    version: "*"
+    version: "1.0.0"
     repository: "file://../postgres"
   - name: pgbouncer
-    version: "*"
+    version: "1.0.0"
     repository: "file://../pgbouncer"
