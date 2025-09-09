@@ -1,0 +1,23 @@
+apiVersion: v2
+name: apps
+description: Umbrella chart that aggregates application subcharts (redis, django, nginx, postgres, pgbouncer)
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+dependencies:
+  - name: redis
+    version: "1.0.0"
+    repository: "file://../redis"
+  - name: django
+    version: "0.1.0"
+    repository: "file://../django"
+  - name: nginx
+    version: "1.0.0"
+    repository: "file://../nginx"
+  - name: postgres
+    version: "1.0.0"
+    repository: "file://../postgres"
+  - name: pgbouncer
+    version: "1.0.0"
+    repository: "file://../pgbouncer"

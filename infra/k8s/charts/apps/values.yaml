@@ -1,0 +1,17 @@
+# Global values and per-subchart overrides for the umbrella chart
+# Set subchart values here to propagate into each chart.
+
+redis:
+  {}
+
+django:
+  {}
+
+nginx:
+  {}
+
+postgres:
+  {}
+
+pgbouncer:
+  {}
