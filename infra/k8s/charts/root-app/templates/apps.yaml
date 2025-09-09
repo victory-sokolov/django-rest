@@ -1,13 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nginx
+  name: apps
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   project: default
   source:
     repoURL: https://github.com/victory-sokolov/django-rest.git
-    path: infra/k8s/charts/nginx
+    path: infra/k8s/charts/apps
     targetRevision: HEAD
     helm:
       valueFiles:
@@ -19,3 +21,6 @@ spec:
     automated:
       selfHeal: true
       prune: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
