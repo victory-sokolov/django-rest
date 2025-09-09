@@ -22,6 +22,7 @@ jobs:
       POSTGRES_USER: user
       POSTGRES_FSYNC: 'off'
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DJANGO_ENV: test
 
     services:
       postgres:
