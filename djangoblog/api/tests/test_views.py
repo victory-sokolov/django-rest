@@ -27,7 +27,7 @@ class TestPostApi(APITestCase):
         data = {"title": title, "slug": slugify(title), "content": "Fetch API Data"}
         response = self.client.post("/api/v1/post/", data=data)
         self.assertEqual(201, response.status_code)
-        self.assertEqual(Post.objects.count(), 2)
+        self.assertEqual(Post.objects.filter(title=title).count(), 1)
 
     def test_get_all_posts(self):
         response = self.client.get("/api/v1/post/")
