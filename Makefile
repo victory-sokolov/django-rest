@@ -2,7 +2,7 @@ GIT_COMMIT_HASH ?= $(shell git rev-parse --short HEAD 2>/dev/null)
 EXCLUDED_DIRS = infra/k8s/haproxy
 ENV := $(or ${DJANGO_ENV}, local)
 PORT := $(or ${PORT}, 8080)
-RUN_IN_DOCKER ?= false
+RUN_IN_DOCKER ?= true
 UV_RUN ?= uv run
 
 NPROCS := $(shell getconf _NPROCESSORS_ONLN)
@@ -71,16 +71,17 @@ lint-html: ## Lint HTML files with djlint
 	uv run djlint djangoblog --extension=html --lint
 
 run-checks: ## Run all checks
-	@$(CMD_PREFIX) sh -c ' \
-		DJANGO_ENV=$(ENV) uv run python manage.py check --deploy; \
-		DJANGO_ENV=$(ENV) uv run python manage.py check; \
-	'
+	DJANGO_ENV=$(ENV) uv run python manage.py check --deploy
+	DJANGO_ENV=$(ENV) uv run python manage.py check
+
 
 test: ## Run tests with coverage
-	DJANGO_ENV=test uv run coverage run manage.py test --parallel -v 2
-	DJANGO_ENV=test uv run coverage combine
-	DJANGO_ENV=test uv run coverage report
-	DJANGO_ENV=test uv run coverage html
+	@$(CMD) sh -c ' \
+		DJANGO_ENV=test; \
+			uv run coverage run manage.py test --parallel -v 2 && \
+			uv run coverage combine && \
+			uv run coverage report; \
+		'
 
 test-single: ## Run a single test with coverage
 	DJANGO_ENV=test uv run python manage.py test

@@ -6,7 +6,7 @@ FORMATTERS = {
     "verbose": {
         "format": (
             "[{levelname}] {asctime} | Logger: {name} | "
-            "Thread: {threadName} | Process: {process} | "
+            # "Thread: {threadName} | Process: {process} | "
             "File: {filename}:{lineno} | "
             "Function: {funcName} | Message: {message}"
         ),
@@ -61,10 +61,10 @@ LOGGERS = {
         ],
         "level": "INFO",
     },
-    "psycopg.pool": {
-        "handlers": ["console"],
-        "level": "INFO",
-    },
+    # "psycopg.pool": {
+    #     "handlers": ["console"],
+    #     "level": "WARNING",
+    # },
 }
 
 LOGGING_HANDLERS = {
