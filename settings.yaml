@@ -117,10 +117,6 @@ test:
       <<: *databases
       HOST: postgres
       PORT: 5431
-    read_replica:
-      <<: *databases
-      HOST: postgres
-      PORT: 5431
 
 production:
   <<: [*default, *bucket]
