@@ -100,3 +100,8 @@ repos:
     rev: 0.8.15
     hooks:
       - id: uv-lock
+
+  - repo: https://github.com/wemake-services/dotenv-linter
+    rev: 0.7.0
+    hooks:
+      - id: dotenv-linter
