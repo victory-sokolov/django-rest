@@ -21,6 +21,7 @@ jobs:
       POSTGRES_PASSWORD: securepassword
       POSTGRES_USER: user
       POSTGRES_FSYNC: off
+      HOST: localhost
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DJANGO_ENV: test
 
