@@ -1,7 +1,7 @@
 [run]
 branch = True
 parallel = True
-concurrency = multiprocessing:4
+concurrency = multiprocessing
 omit=
     */venv/*
     wsgi.py
