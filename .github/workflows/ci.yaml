@@ -86,7 +86,7 @@ jobs:
 
       - name: Run tests
         run: |
-          set -vx
+          set -v
           make test
 
       - uses: reviewdog/action-setup@v1

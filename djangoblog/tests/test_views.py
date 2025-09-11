@@ -35,10 +35,13 @@ class BlogPageTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.factory = AccountFactory()
-        cls.user = UserProfile.objects.create(
-            name="TestUser",
+        cls.user = UserProfile.objects.get_or_create(
             email=cls.factory.user.email,
-            password=cls.factory.user.password,
+            defaults={
+                "email": cls.factory.user.email,
+                "name": "TestUser",
+                "password": cls.factory.user.password,
+            },
         )
         cls.api_client = APIClient()
 
