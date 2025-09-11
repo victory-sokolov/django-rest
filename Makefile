@@ -78,7 +78,7 @@ run-checks: ## Run all checks
 test: ## Run tests with coverage
 	@$(CMD) sh -c ' \
 		DJANGO_ENV=test; \
-			uv run coverage run manage.py test --parallel -v 2 && \
+			uv run coverage run manage.py test --parallel 4 -v 0 && \
 			uv run coverage combine && \
 			uv run coverage report; \
 		'
