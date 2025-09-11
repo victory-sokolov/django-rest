@@ -69,6 +69,11 @@ jobs:
           set -v
           make migrate
 
+      - name: Create .env file from environment variables
+        run: |
+          # Create .env file with all environment variables from the env section
+          env | grep -v '^\s*#' | grep -v '^\s*$' | awk -F= '{print $1 "='\''" $2 "'\''"}' > .env
+
       - name: Load fixtures
         env:
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
