@@ -21,7 +21,7 @@ jobs:
       POSTGRES_PASSWORD: securepassword
       POSTGRES_USER: user
       POSTGRES_FSYNC: off
-      HOST: localhost
+      PGPORT: 5431
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DJANGO_ENV: test
 
@@ -32,7 +32,7 @@ jobs:
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ env.POSTGRES_DB }}
-          PGPORT: 5431
+          PGPORT: ${{ env.PGPORT }}
         ports:
           - 5431:5431
         options: >-
