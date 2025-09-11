@@ -115,7 +115,7 @@ test:
   DATABASES:
     default:
       <<: *databases
-      HOST: postgres
+      HOST: localhost
       PORT: 5431
 
 production:
