@@ -14,7 +14,7 @@ runs:
         python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install uv
-      uses: astral-sh/setup-uv@0.8.17
+      uses: astral-sh/setup-uv@6.6.1
       with:
         enable-cache: true
         cache-dependency-glob: 'uv.lock'
