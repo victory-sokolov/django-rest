@@ -2,12 +2,11 @@ GIT_COMMIT_HASH ?= $(shell git rev-parse --short HEAD 2>/dev/null)
 EXCLUDED_DIRS = infra/k8s/haproxy
 ENV := $(or ${DJANGO_ENV}, local)
 PORT := $(or ${PORT}, 8080)
-RUN_IN_DOCKER :== $(or ${IN_DOCKER}, true)
+RUN_IN_DOCKER := $(or ${IN_DOCKER}, true)
 UV_RUN ?= uv run
 
 NPROCS := $(shell getconf _NPROCESSORS_ONLN)
 FAIL_TEST_UNDER := 100
-
 
 export DOCKER_BUILDKIT ?= 1
 
