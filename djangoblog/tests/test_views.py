@@ -35,7 +35,7 @@ class BlogPageTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.factory = AccountFactory()
-        cls.user = UserProfile.objects.get_or_create(
+        cls.user, _ = UserProfile.objects.get_or_create(
             email=cls.factory.user.email,
             defaults={
                 "email": cls.factory.user.email,
