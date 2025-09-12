@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument("--count", required=True)
 
-    def handle(self, *args: Any, **options: Any) -> None:
+    def handle(self, *args: list[Any], **options: Any) -> None:
         count = int(options["count"])
         AccountFactory.create_batch(count)
         stdout.write(f"Generated {count} posts\n")

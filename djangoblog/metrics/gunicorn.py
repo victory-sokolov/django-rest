@@ -17,7 +17,7 @@ dogstatsd_tags = "hostname:{}".format(
 
 
 class SaturationMonitor(threading.Thread):
-    def __init__(self, server: Any):
+    def __init__(self, server: Any) -> None:
         super().__init__()
         self.server = server
         self.daemon = True

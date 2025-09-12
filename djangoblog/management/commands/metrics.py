@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from django.core.management.base import BaseCommand
 from prometheus_client import (
@@ -15,6 +16,6 @@ class Command(BaseCommand):
 
     help = "Start metrics server"
 
-    def handle(self, *args: list, **options: list) -> None:
+    def handle(self, *args: list[Any], **options: list) -> None:
         registry = CollectorRegistry()
         start_prometheus_server(registry)

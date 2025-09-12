@@ -57,7 +57,7 @@ class PostCreateView(CreateView):
     form_class = PostForm
 
     @method_decorator(login_required)
-    def post(self, request: HttpRequest, **kwargs: Any):
+    def post(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         is_draft = True if request.POST.get("draft") == "on" else False
         tags = json.loads(request.POST.get("tags", []))
         data = {
