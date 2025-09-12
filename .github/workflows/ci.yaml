@@ -3,13 +3,18 @@ name: CI-checks
 on:
   push:
     branches: [main, master]
-
   pull_request:
     types: [opened, reopened, synchronize, labeled]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+  statuses: write
 
 jobs:
   vm-job:
