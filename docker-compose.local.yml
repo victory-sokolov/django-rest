@@ -75,7 +75,7 @@ services:
 
 
   rabbitmq:
-    image: rabbitmq:4.1.4-management@sha256:0165a719af8ef0590ef53eaa14d8630a64ad490dde92cf5756b86ecee3502863
+    image: rabbitmq:4.1.4-management@sha256:ba622d4a2452b42a14be6a796bfa0e9deeab6863b19e5aa4149fbd59d5899745
     profiles:
       - donotstart
     platform: linux/arm64
