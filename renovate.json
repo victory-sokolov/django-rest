@@ -1,4 +1,5 @@
 {
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "lockFileMaintenance": {
         "enabled": true
     },
@@ -7,16 +8,18 @@
     ],
     "packageRules": [
         {
-            "matchManagers": [ "pep621" ],
+            "matchManagers": ["pep621"],
             "enabled": true,
-            "matchUpdateTypes": [ "major", "minor" ]
+            "matchUpdateTypes": ["major", "minor"],
         },
         {
-            "matchManagers": [ "pep621" ],
-            "matchUpdateTypes": [ "patch" ],
-            "automerge": true
+            "matchManagers": ["pep621"],
+            "matchUpdateTypes": ["patch"],
+            "automergeType": "pr"
         }
     ],
-    "prConcurrentLimit": 10,
-    "prHourlyLimit": 10
+    "prConcurrentLimit": 5,
+    "prHourlyLimit": 10,
+    "dependencyDashboard": true,
+    "dependencyDashboardAutoclose": true,
 }
