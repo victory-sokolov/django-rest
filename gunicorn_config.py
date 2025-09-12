@@ -1,10 +1,11 @@
 import ctypes
 import os
-from multiprocessing import Value, cpu_count
+from multiprocessing import Value
+from typing import Any
 
 from djangoblog.metrics.gunicorn import SaturationMonitor
 
-workers = cpu_count() * 2 + 1
+workers = 8
 threads = 4
 worker_class = "gevent"
 worker_connections = 1000
@@ -15,6 +16,7 @@ timeout = 120
 graceful_timeout = 40
 proxy_protocol = True
 preload_app = False
+reload = True if os.getenv("DJANGO_ENV") != "production" else False
 forwarded_allow_ips = "*"
 statsd_host = "localhost:9125"
 statsd_prefix = "app"
@@ -47,7 +49,7 @@ METRIC_INTERVAL = os.environ.get("SATURATION_METRIC_INTERVAL", 5)
 statsd_host = os.environ.get("STATSD_HOST")
 
 
-def when_ready(server):
+def when_ready(server: Any) -> None:
     server.log.info("Starting SaturationMonitor")
     sm = SaturationMonitor(server)
     sm.start()
