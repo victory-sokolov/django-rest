@@ -51,7 +51,7 @@ default-groups = "all"
 
 [dependency-groups]
 dev = [
-    "django-watchfiles ~= 1.0",
+    "django-watchfiles ~= 1.2.0",
     "watchdog[watchmedo] ~= 6.0.0",
     "coverage ~=7.10.6",
     "Faker ~=37.6.0",
