@@ -164,7 +164,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 1024M
           cpus: '1'
     depends_on:
       app:

@@ -13,6 +13,19 @@ services:
       TZ: Europe/Riga
     cap_add:
       - SYS_PTRACE
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - .venv/
+            - .ruff_cache/
+            - __pycache__/
+            - .cache/
+            - .mypy_cache/
+        - action: rebuild
+          path: ./pyproject.toml
     depends_on:
       redis-master:
         condition: service_healthy

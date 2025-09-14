@@ -23,30 +23,35 @@ RUN set -eux; \
     build-essential \
     libpq-dev \
     gettext \
-    wait-for-it \
     vim; \
     if [ "$DEV_DEPS" = "true" ]; then \
     apt-get install --no-install-recommends -y make; \
     fi; \
     apt-get clean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
-
 FROM node:22-alpine3.19 AS frontend
 
 WORKDIR /frontend
 
-# Install npm packages
-COPY ./package.json ./package-lock.json ./
-RUN npm install
-
+# Copy package files first for better caching
+COPY package.json package-lock.json ./
+RUN npm ci --only=production && npm cache clean --force
 
 FROM base AS python_builder
 
 WORKDIR /app
 
-ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
 RUN pip install -U uv
+
+# Set uv environment variables AFTER uv is installed
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_CONCURRENT_DOWNLOADS=4 \
+    UV_CONCURRENT_INSTALLS=4 \
+    UV_CACHE_DIR=/app/.cache/uv
+
+# Copy dependency files first for better layer caching
 COPY uv.lock pyproject.toml ./
 
 
