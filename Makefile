@@ -118,7 +118,7 @@ outdated: ## Check outdated packages
 
 # Infra commands
 docker-build: ## Build docker image
-	COMPOSE_BAKE=true docker-compose up --build --build-arg BUILDKIT_INLINE_CACHE=1 --remove-orphans
+	COMPOSE_BAKE=true docker-compose up --build --remove-orphans
 
 compose-up: ## Docker compose up with watch
 	COMPOSE_BAKE=true docker compose up --watch

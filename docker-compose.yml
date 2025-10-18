@@ -31,7 +31,7 @@ services:
       retries: 5
       start_period: 40s
     depends_on:
-      postgres:
+      pgbouncer:
         condition: service_healthy
 
   worker:
