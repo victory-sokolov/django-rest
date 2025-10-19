@@ -9,6 +9,7 @@ on:
       - '**/Dockerfile*'
       - '**/Dockerfile.*'
       - 'docker-compose*.yml'
+      - 'compose.yml'
       - '**/*.sh'
 
 jobs:
