@@ -67,7 +67,7 @@ dev = [
     "locust ~=2.38",
     "django-debug-toolbar ~=6.0.0",
     "djangorestframework-stubs ~=3.16.0",
-    "ruff ~=0.13.0",
+    "ruff ~=0.14.6",
     "pre-commit ~=4.3.0",
     "factory-boy ~=3.3",
     "django-extensions ~=4.1",
@@ -142,6 +142,10 @@ target-version = "py311"
 [tool.django-stubs]
 django_settings_module="djangoblog.settings"
 strict_settings = true
+
+[tool.ruff.analyze]
+# Exclude type-checking-only imports from the graph
+type-checking-imports = true
 
 [lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
