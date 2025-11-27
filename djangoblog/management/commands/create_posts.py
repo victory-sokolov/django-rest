@@ -1,4 +1,4 @@
-from sys import stdout
+import time
 from typing import Any
 
 from django.core.management.base import BaseCommand, CommandParser
@@ -14,5 +14,14 @@ class Command(BaseCommand):
 
     def handle(self, *args: list[Any], **options: Any) -> None:
         count = int(options["count"])
+
+        t0 = time.perf_counter()
         AccountFactory.create_batch(count)
-        stdout.write(f"Generated {count} posts\n")
+        elapsed = time.perf_counter() - t0
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"Generated {count} accounts in {elapsed:.3f}s "
+                f"({elapsed * 1000 / count:.1f}ms / account)"
+            )
+        )
