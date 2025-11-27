@@ -129,6 +129,9 @@ compose-down: ## Remove main docker containers and local containers
 docker-local: ## Run local docker compose with metrics
 	COMPOSE_BAKE=true docker compose -f docker-compose.yml -f docker-compose.local.yml up
 
+docker-profile:
+	COMPOSE_BAKE=true docker compose -f docker-compose.yml -f docker-compose.profile.yml up
+
 minikube-start: ## Start Minikube cluster
 	minikube start --driver=docker --cpus=2 --memory=7g --disk-size=10g
 	minikube addons enable metrics-server

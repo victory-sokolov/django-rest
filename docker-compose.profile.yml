@@ -1,0 +1,15 @@
+services:
+  app:
+    networks:
+      - default
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    command: >
+      sh -c "py-spy --pid 1 --flame lame.svg --duration 60 --rate 10"
