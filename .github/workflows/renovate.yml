@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Renovate Bot GitHub Action
-        uses: renovatebot/github-action@v41.0.9
+        uses: renovatebot/github-action@v44.0.4
         env:
           LOG_LEVEL: debug
           RENOVATE_REPOSITORIES: victory-sokolov/django-rest
