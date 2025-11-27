@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@master
         with:
           fetch-depth: 0
           ref: ${{ needs.create-tag.outputs.tag_name || 'master' }}

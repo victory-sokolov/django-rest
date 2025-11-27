@@ -8,17 +8,17 @@
     ],
     "packageRules": [
         {
-            "matchManagers": ["pep621"],
+            "matchManagers": [ "pep621" ],
             "enabled": true,
-            "matchUpdateTypes": ["major", "minor"],
+            "matchUpdateTypes": [ "major", "minor" ],
         },
         {
-            "matchManagers": ["pep621"],
-            "matchUpdateTypes": ["patch"],
+            "matchManagers": [ "pep621" ],
+            "matchUpdateTypes": [ "patch" ],
             "automergeType": "pr"
         }
     ],
-    "prConcurrentLimit": 5,
+    "prConcurrentLimit": 10,
     "prHourlyLimit": 10,
     "dependencyDashboard": true,
     "dependencyDashboardAutoclose": true,
