@@ -14,6 +14,7 @@ from djangoblog.tasks.post import CreatePostsTask, GetPostsTask
 
 from django.http import JsonResponse
 from django.db import connections
+from django.conf import settings
 from django.db.utils import OperationalError
 
 logger = logging.getLogger(__name__)
@@ -80,7 +81,13 @@ def handler404(request: HttpRequest, *args: Any, **argv: Any) -> HttpResponse:
 
 def healthcheck(request: HttpRequest, *args: Any, **argv: Any) -> HttpResponse:
     host = request.get_host()
-    return JsonResponse({"status": "ok", "host": host})
+    return JsonResponse(
+        {
+            "status": "ok",
+            "host": host,
+            "environment": getattr(settings, "ENVIRONMENT", "development"),
+        },
+    )
 
 
 def db_health_check(_request: HttpRequest) -> HttpResponse:
@@ -97,6 +104,7 @@ def db_health_check(_request: HttpRequest) -> HttpResponse:
         "host": db_host,
         "port": db_port,
     }
+    env = (getattr(settings, "ENVIRONMENT", "development"),)
 
     try:
         with db_conn.cursor() as cursor:
@@ -105,6 +113,7 @@ def db_health_check(_request: HttpRequest) -> HttpResponse:
         return JsonResponse(
             {
                 "status": "ok",
+                "environment": env,
                 "database": {
                     **db_options,
                     "reachable": True,
@@ -115,6 +124,7 @@ def db_health_check(_request: HttpRequest) -> HttpResponse:
         return JsonResponse(
             {
                 "status": "error",
+                "environment": env,
                 "database": {
                     **db_options,
                     "reachable": False,

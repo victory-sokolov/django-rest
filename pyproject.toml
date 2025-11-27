@@ -143,9 +143,9 @@ target-version = "py311"
 django_settings_module="djangoblog.settings"
 strict_settings = true
 
-[tool.ruff.analyze]
+[tool.ruff.lint.flake8-type-checking]
 # Exclude type-checking-only imports from the graph
-type-checking-imports = true
+strict = true
 
 [lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
