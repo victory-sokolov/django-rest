@@ -1,24 +1,39 @@
-FROM ubuntu:24.10 AS builder
+FROM ubuntu:25.10 AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG NGINX_VERSION=1.29.1
+ARG NGINX_VERSION=1.29.3
 
 RUN echo "Acquire::http::Pipeline-Depth 0;" > /etc/apt/apt.conf.d/99custom && \
     echo "Acquire::http::No-Cache true;" >> /etc/apt/apt.conf.d/99custom && \
     echo "Acquire::BrokenProxy    true;" >> /etc/apt/apt.conf.d/99custom
 
 RUN apt-get update \
-    && apt upgrade -y && apt install -y \
-    libpcre3 libpcre3-dev zlib1g zlib1g-dev openssl libssl-dev wget git gcc make libbrotli-dev
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libpcre3 \
+    libpcre3-dev \
+    zlib1g \
+    zlib1g-dev \
+    openssl \
+    libssl-dev \
+    wget \
+    git \
+    gcc \
+    make \
+    libbrotli-dev \
+    && update-ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-RUN wget https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && tar -zxf nginx-${NGINX_VERSION}.tar.gz
+RUN wget --no-check-certificate https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
+    && tar -zxf nginx-${NGINX_VERSION}.tar.gz
 RUN git clone --recurse-submodules -j8 https://github.com/google/ngx_brotli
 RUN cd nginx-${NGINX_VERSION} && ./configure --with-compat --add-dynamic-module=../ngx_brotli \
     && make modules
 
-FROM nginx:1.29.1@sha256:d5f28ef21aabddd098f3dbc21fe5b7a7d7a184720bc07da0b6c9b9820e97f25e
+FROM nginx:1.29.3
 
 ARG NGINX_VERSION
 
