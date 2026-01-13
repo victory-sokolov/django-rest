@@ -152,6 +152,7 @@ cython_debug/
 node_modules/
 data/
 docker/secrets/*
+vendor/
 
 # Static files
 output/
