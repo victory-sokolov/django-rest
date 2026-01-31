@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.gateway.name }}
+  namespace: {{ .Values.gateway.namespace }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.gateway.port }}
+      targetPort: {{ .Values.gateway.port }}
+      nodePort: {{ .Values.service.nodePort }}
+      protocol: TCP
+  selector:
+    gateway.envoyproxy.io/owning-gateway-name: {{ .Values.gateway.name }}

@@ -1,0 +1,12 @@
+gateway:
+  name: django-gateway
+  namespace: production
+  port: 80
+
+envoy:
+  image: gateway.envoyproxy.io/gateway:v1.2.0
+  replicas: 2
+
+service:
+  type: NodePort
+  nodePort: 30000

@@ -1,0 +1,13 @@
+apiVersion: config.gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: django-envoy-config
+  namespace: {{ .Values.gateway.namespace }}
+spec:
+  telemetry:
+    metrics:
+      prometheus:
+        disable: false
+  logging:
+    level:
+      default: info

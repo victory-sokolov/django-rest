@@ -1,0 +1,17 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ .Values.gateway.name }}
+  namespace: {{ .Values.gateway.namespace }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "19001"
+spec:
+  gatewayClassName: envoy-gateway-class
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: {{ .Values.gateway.port }}
+      allowedRoutes:
+        namespaces:
+          from: Same

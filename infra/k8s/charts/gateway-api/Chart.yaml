@@ -1,0 +1,4 @@
+apiVersion: v2
+name: gateway-api
+version: 1.0.0
+description: Kubernetes Gateway API with Envoy Gateway
