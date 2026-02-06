@@ -1,0 +1,28 @@
+ingress:
+  enabled: true
+  className: nginx
+  namespace: production
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+
+django:
+  host: django.example.com
+  path: /
+  serviceName: app
+  servicePort: 80
+
+static:
+  host: django.example.com
+  paths:
+    - /static
+    - /media
+  serviceName: nginx
+  servicePort: 80
+
+tls:
+  enabled: true
+  secretName: django-tls

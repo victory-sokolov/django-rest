@@ -1,0 +1,4 @@
+apiVersion: v2
+name: ingress
+version: 1.0.0
+description: Kubernetes Ingress resources with NGINX Ingress Controller and cert-manager

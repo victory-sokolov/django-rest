@@ -3,7 +3,7 @@ templates:
     namespace: production
     wait: true
     waitForJobs: true
-    timeout: 250
+    timeout: 600
     atomic: true
 
 releases:

@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod:*)",
+      "Bash(helm plugin install:*)",
+      "Bash(kubectl get:*)",
+      "Bash(minikube status:*)",
+      "Bash(minikube stop:*)",
+      "Bash(make:*)",
+      "Bash(kubectl describe:*)",
+      "Bash(kubectl logs:*)",
+      "Bash(helmfile:*)",
+      "Bash(docker pull:*)",
+      "Bash(minikube image load:*)",
+      "Bash(timeout:*)",
+      "Bash(minikube image ls:*)",
+      "Bash(helm list:*)",
+      "Bash(helm status:*)",
+      "Bash(kubectl delete:*)"
+    ]
+  }
+}

@@ -2,7 +2,7 @@ replicaCount: 1
 
 app: pgbouncer
 image:
-  repository: bitnami/pgbouncer
+  repository: edoburu/pgbouncer
   tag: latest
   pullPolicy: IfNotPresent
 

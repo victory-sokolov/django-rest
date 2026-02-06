@@ -1,0 +1,34 @@
+{{ - if .Values.ingress.enabled - }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: static-files-ingress
+  namespace: {{ .Values.ingress.namespace }}
+  annotations:
+    {{ - range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value }}
+    {{ - end }}
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Strict-Transport-Security: max-age=16000000";
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.static.host }}
+      http:
+        paths:
+          {{ - range .Values.static.paths }}
+          - path: {{ . }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Values.static.serviceName }}
+                port:
+                  number: {{ $.Values.static.servicePort }}
+          {{ - end }}
+  {{ - if $.Values.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.static.host }}
+      secretName: {{ $.Values.tls.secretName }}
+  {{ - end }}
+{{ - end }}

@@ -27,3 +27,8 @@ dependencies:
   - name: gateway-api
     version: "1.0.0"
     repository: "file://../gateway-api"
+    condition: gateway-api.enabled
+  - name: ingress
+    version: "1.0.0"
+    repository: "file://../ingress"
+    condition: ingress.enabled

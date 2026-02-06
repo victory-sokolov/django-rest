@@ -133,10 +133,11 @@ docker-profile:
 	COMPOSE_BAKE=true docker compose -f docker-compose.yml -f docker-compose.profile.yml up
 
 minikube-start: ## Start Minikube cluster
-	minikube start --driver=docker --cpus=2 --memory=7g --disk-size=10g
+	minikube start --driver=docker --cpus=4 --memory=6g --disk-size=20g
 	minikube addons enable metrics-server
 	minikube addons enable storage-provisioner
 	minikube addons enable default-storageclass
+	@kubectl create namespace production --dry-run=client -o yaml | kubectl apply -f -
 	@if ! kubectl get secret app-secret -n production &>/dev/null; then \
 		echo "Creating app-secret..."; \
 		kubectl create secret generic app-secret --from-env-file=.env.prod -n production; \
