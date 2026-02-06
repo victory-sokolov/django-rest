@@ -16,13 +16,18 @@ repos:
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.14.6
+    rev: v0.15.0
     hooks:
       # Run the linter.
       - id: ruff
         args: [--fix]
       # Run the formatter.
       - id: ruff-format
+
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: '1.29.1'
+    hooks:
+      - id: django-upgrade
 
   # - repo: https://github.com/pre-commit/mirrors-mypy
   #   rev: 'v1.8.0'
