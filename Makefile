@@ -147,6 +147,16 @@ minikube-start: ## Start Minikube cluster
 
 
 push-image: ## Push Docker image to registry
+	@if ! docker buildx inspect orbstack-builder >/dev/null 2>&1 && \
+	   ! docker buildx inspect desktop-builder >/dev/null 2>&1; then \
+		if docker info 2>/dev/null | grep -q "orbstack\|OrbStack"; then \
+			echo "Creating orbstack-builder..."; \
+			docker buildx create --name orbstack-builder --driver docker-container --use 2>/dev/null || docker buildx use orbstack-builder; \
+		else \
+			echo "Creating desktop-builder..."; \
+			docker buildx create --name desktop-builder --driver docker-container --use 2>/dev/null || docker buildx use desktop-builder; \
+		fi \
+	fi
 	docker buildx build \
 		-t victorysokolov/django-blog:${GIT_COMMIT_HASH} \
 		--platform linux/amd64,linux/arm64 \
