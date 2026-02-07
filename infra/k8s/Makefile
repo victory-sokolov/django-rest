@@ -1,7 +1,14 @@
+check-minikube: ## Check if minikube is running
+	@status=$$(minikube status 2>&1 | grep "host: Running"); \
+	if [ -z "$$status" ]; then \
+		echo "Error: minikube is not running. Please start minikube first with 'minikube start'"; \
+		exit 1; \
+	fi
+
 helm-upgrade: ## Upgrade Helm chart
 	helm upgrade --namespace production django-blog infra/k8s --values infra/k8s/values.yaml
 
-helm-apply: ## Apply Helm chart
+helm-apply: check-minikube ## Apply Helm chart
 	helmfile --namespace production --file helmfile.yaml apply
 
 helm-list:

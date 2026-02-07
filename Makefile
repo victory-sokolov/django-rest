@@ -135,6 +135,7 @@ docker-profile:
 minikube-start: ## Start Minikube cluster
 	minikube start --driver=docker --cpus=4 --memory=6g --disk-size=20g
 	minikube addons enable metrics-server
+	minikube addons enable ingress
 	minikube addons enable storage-provisioner
 	minikube addons enable default-storageclass
 	@kubectl create namespace production --dry-run=client -o yaml | kubectl apply -f -
