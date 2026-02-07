@@ -1,53 +1,62 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   namespace: production
   name: postgres
   labels:
     io.kompose.service: postgres
 spec:
-  containers:
-    - name: postgres
-      image: 'postgres:{{ .Values.image_tag }}'
-      imagePullPolicy: IfNotPresent
-      envFrom:
-        - configMapRef:
-            name: postgres-env
-      readinessProbe:
-        exec:
-          command:
-            - sh
-            - -c
-            - 'psql -U user -d blog -c "SELECT 1"'
-        failureThreshold: 3
-        periodSeconds: 15
-        timeoutSeconds: 12
-      livenessProbe:
-        exec:
-          command:
-            - pg_isready
-            - -p
-            - '5431'
-            - -U
-            - user
-            - -d
-            - blog
-        failureThreshold: 3
-        periodSeconds: 15
-        timeoutSeconds: 12
-      ports:
-        - containerPort: 5431
-          protocol: TCP
-      # resources:
-      #   limits:
-      #     cpu: '1'
-      #     memory: '1073741824'
-      volumeMounts:
-        - mountPath: /var/lib/postgresql/data
-          name: djdata
-          subPath: data
-  restartPolicy: OnFailure
-  volumes:
-    - name: djdata
-      persistentVolumeClaim:
-        claimName: postgres-pvc
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: postgres
+  template:
+    metadata:
+      labels:
+        io.kompose.service: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: 'postgres:{{ .Values.image_tag }}'
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: postgres-env
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - 'psql -U user -d blog -c "SELECT 1"'
+            failureThreshold: 3
+            periodSeconds: 15
+            timeoutSeconds: 12
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -p
+                - '5431'
+                - -U
+                - user
+                - -d
+                - blog
+            failureThreshold: 3
+            periodSeconds: 15
+            timeoutSeconds: 12
+          ports:
+            - containerPort: 5431
+              protocol: TCP
+          # resources:
+          #   limits:
+          #     cpu: '1'
+          #     memory: '1073741824'
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: djdata
+              subPath: data
+      volumes:
+        - name: djdata
+          persistentVolumeClaim:
+            claimName: postgres-pvc

@@ -89,3 +89,13 @@ releases:
       - ./charts/pgbouncer/values.yaml
     needs:
       - postgres
+
+  - name: migrations
+    <<: *default
+    chart: ./charts/jobs/migrations
+    values:
+      - values.yaml
+    needs:
+      - configmap
+      - postgres
+      - pgbouncer
