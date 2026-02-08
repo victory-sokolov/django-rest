@@ -14,7 +14,7 @@ max_requests_jitter = 200
 timeout = 120
 # Timeout for graceful workers restart.
 graceful_timeout = 40
-proxy_protocol = True
+proxy_protocol = False
 preload_app = False
 reload = True if os.getenv("DJANGO_ENV") != "production" else False
 forwarded_allow_ips = "*"
