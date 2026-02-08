@@ -5,8 +5,31 @@
 3. Install helm diff plugin `helm plugin install https://github.com/databus23/helm-diff`
 4. Create secrets from `.env` file: `kubectl create secret generic app-secret --from-env-file=.env.prod -n production`
 5. `cd infra/k8` and run `helmfile --file helmfile.yaml apply` or `make helm-apply`
-6. `minikube tunnel`
+6. `minikube tunnel` or run `make tunnel`
 7. Set default namespace to production: `kubectl config set-context --current --namespace=production`
+
+### Accessing the App
+
+**Recommended**: Use port-forward (no tunnel needed)
+```bash
+make pf
+# Then open: http://localhost:8080/
+```
+
+**Alternative**: Use minikube tunnel
+```bash
+make tunnel
+# Then open: http://192.168.64.2:8080/
+```
+
+### Quick Reference
+
+| Command | Description |
+|---------|-------------|
+| `make pf` | Port-forward HAProxy to localhost:8080 |
+| `make tunnel` | Start minikube tunnel (requires sudo) |
+| `make url` | Show app access URLs |
+| `make helm-apply` | Apply Helm charts |
 
 ## Minikube
 

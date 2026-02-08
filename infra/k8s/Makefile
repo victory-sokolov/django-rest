@@ -34,3 +34,19 @@ argo-pass:
 
 argo-port-forward:
 	kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=argocd-server -n argocd --timeout=30s
+
+pf: ## Port-forward HAProxy to localhost:8080
+	@echo "Starting port-forward for HAProxy on localhost:8080..."
+	@kubectl port-forward svc/haproxy 8080:8080 -n production
+
+tunnel: ## Start minikube tunnel (requires sudo)
+	@if pgrep -f "minikube tunnel" > /dev/null; then \
+		echo "✓ minikube tunnel already running"; \
+		echo "✓ Access app at: http://192.168.64.2:8080/"; \
+	else \
+		echo "Starting minikube tunnel..."; \
+		sudo minikube tunnel & \
+		sleep 3; \
+		echo "✓ Tunnel started"; \
+		echo "✓ Access app at: http://192.168.64.2:8080/"; \
+	fi
