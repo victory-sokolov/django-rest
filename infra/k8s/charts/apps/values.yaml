@@ -42,13 +42,22 @@ redis:
   {}
 
 django:
-  {}
+  image:
+    repository: victorysokolov/django-blog
+    tag: a8c09be
+    pullPolicy: Always
+  appsecrets: app-secret
+  persistence:
+    enabled: false
+    existingClaim: static-storage-pvc
 
 nginx:
   {}
 
 postgres:
-  {}
+  persistence:
+    enabled: false
+    existingClaim: postgres-pvc
 
 pgbouncer:
   {}
