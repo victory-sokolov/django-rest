@@ -1,0 +1,27 @@
+dependencies:
+- name: redis
+  repository: file://../redis
+  version: 1.0.0
+- name: django
+  repository: file://../django
+  version: 0.1.0
+- name: nginx
+  repository: file://../nginx
+  version: 1.0.0
+- name: postgres
+  repository: file://../postgres
+  version: 1.0.0
+- name: pgbouncer
+  repository: file://../pgbouncer
+  version: 1.0.0
+- name: haproxy
+  repository: file://../haproxy
+  version: 1.0.0
+- name: gateway-api
+  repository: file://../gateway-api
+  version: 1.0.0
+- name: ingress
+  repository: file://../ingress
+  version: 1.0.0
+digest: sha256:4a3b2c808de1b91537a51ba7e18ded8efb6a185d14bdab9aee260fcaf3879663
+generated: "2026-02-14T18:01:10.659259+02:00"

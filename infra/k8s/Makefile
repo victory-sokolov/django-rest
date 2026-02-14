@@ -72,7 +72,13 @@ argo-sync: ## Sync all ArgoCD applications
 argo-app-list: ## List ArgoCD applications
 	argocd app list --server argocd-server.argocd.svc.cluster.local
 
-argo: argo-install ## Install ArgoCD and open UI (one command)
+check-tunnel: ## Check if minikube tunnel is running
+	@if ! pgrep -f "minikube tunnel" > /dev/null; then \
+		echo "Error: minikube tunnel is not running. Please start it with 'make tunnel'"; \
+		exit 1; \
+	fi
+
+argo: check-tunnel argo-install ## Install ArgoCD and open UI (one command)
 	@echo ""
 	@echo "=========================================="
 	@echo "ArgoCD Admin Credentials:"
