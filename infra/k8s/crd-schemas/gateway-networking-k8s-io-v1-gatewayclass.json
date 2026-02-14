@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gateway-api.sigs.k8s.io/schemas/gateway-networking-k8s-io-v1-gatewayclass.json",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "const": "gateway.networking.k8s.io/v1"
+    },
+    "kind": {
+      "const": "GatewayClass"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "namespace": { "type": "string" },
+        "labels": { "type": "object" },
+        "annotations": { "type": "object" }
+      },
+      "required": ["name"]
+    },
+    "spec": {
+      "type": "object",
+      "properties": {
+        "controllerName": { "type": "string" },
+        "parametersRef": {
+          "type": "object",
+          "properties": {
+            "group": { "type": "string" },
+            "kind": { "type": "string" },
+            "name": { "type": "string" },
+            "namespace": { "type": "string" }
+          },
+          "required": ["group", "kind", "name"]
+        }
+      },
+      "required": ["controllerName"]
+    }
+  },
+  "required": ["apiVersion", "kind", "metadata", "spec"]
+}

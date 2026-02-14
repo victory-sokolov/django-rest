@@ -1,0 +1,36 @@
+# Chart Testing Configuration
+# https://github.com/helm/chart-testing/blob/main/pkg/config/ct_config.yaml
+
+# Target remote charts (we use local charts)
+remote: false
+
+# Target charts directory
+chart-dirs:
+  - charts
+
+# Charts to validate (all charts in charts/)
+all: true
+
+# Validate chart maintainers
+validate-maintainers: false
+
+# Validate Chart.yaml schema
+check-version-increment: false
+
+# Helm lint strict mode
+helm-lint-strict: true
+
+# Lint confguration
+lint-conf: .yamllint.yaml
+
+# Chart schema for Chart.yaml validation
+chart-schema: .chart-schema.yaml
+
+# Target kubernetes version for validation
+target-branch: master
+
+# Excluded charts (if any)
+excluded-charts: []
+
+# Debug output
+debug: false

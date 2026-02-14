@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://django-blog.example.com/schemas/apps-values.json",
+  "title": "Apps Umbrella Chart Values",
+  "description": "Schema for the apps umbrella chart values",
+  "type": "object",
+  "properties": {
+    "gateway-api": {
+      "type": "object",
+      "description": "Gateway API routing configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable Gateway API routing",
+          "default": false
+        }
+      }
+    },
+    "ingress": {
+      "type": "object",
+      "description": "Ingress routing configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable Ingress routing",
+          "default": true
+        },
+        "className": {
+          "type": "string",
+          "description": "Ingress class name"
+        },
+        "namespace": {
+          "type": "string",
+          "description": "Namespace for ingress resources"
+        },
+        "annotations": {
+          "type": "object",
+          "description": "Ingress annotations",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "django": {
+          "type": "object",
+          "description": "Django ingress configuration",
+          "properties": {
+            "host": { "type": "string" },
+            "path": { "type": "string" },
+            "serviceName": { "type": "string" },
+            "servicePort": { "type": "integer" }
+          },
+          "required": ["host", "path", "serviceName", "servicePort"]
+        },
+        "static": {
+          "type": "object",
+          "description": "Static files ingress configuration",
+          "properties": {
+            "host": { "type": "string" },
+            "paths": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "serviceName": { "type": "string" },
+            "servicePort": { "type": "integer" }
+          }
+        },
+        "tls": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "secretName": { "type": "string" }
+          }
+        }
+      }
+    },
+    "redis": {
+      "type": "object",
+      "description": "Redis chart values"
+    },
+    "django": {
+      "type": "object",
+      "description": "Django application values",
+      "properties": {
+        "image": {
+          "type": "object",
+          "description": "Docker image configuration",
+          "properties": {
+            "repository": {
+              "type": "string",
+              "description": "Docker image repository"
+            },
+            "tag": {
+              "type": "string",
+              "description": "Docker image tag"
+            },
+            "pullPolicy": {
+              "type": "string",
+              "enum": ["Always", "IfNotPresent", "Never"],
+              "default": "Always",
+              "description": "Image pull policy"
+            }
+          },
+          "required": ["repository", "tag"]
+        },
+        "appsecrets": {
+          "type": "string",
+          "description": "Name of the Kubernetes secret containing app secrets"
+        },
+        "persistence": {
+          "type": "object",
+          "description": "Persistent storage configuration",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "existingClaim": {
+              "type": "string",
+              "description": "Name of existing PVC to use"
+            }
+          }
+        },
+        "resources": {
+          "type": "object",
+          "description": "Resource limits and requests",
+          "properties": {
+            "limits": {
+              "type": "object",
+              "properties": {
+                "cpu": { "type": "string" },
+                "memory": { "type": "string" }
+              }
+            },
+            "requests": {
+              "type": "object",
+              "properties": {
+                "cpu": { "type": "string" },
+                "memory": { "type": "string" }
+              }
+            }
+          }
+        },
+        "replicaCount": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1,
+          "description": "Number of Django replicas"
+        },
+        "securityContext": {
+          "type": "object",
+          "description": "Pod security context"
+        }
+      }
+    },
+    "nginx": {
+      "type": "object",
+      "description": "Nginx chart values"
+    },
+    "postgres": {
+      "type": "object",
+      "description": "PostgreSQL chart values",
+      "properties": {
+        "persistence": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "existingClaim": { "type": "string" }
+          }
+        }
+      }
+    },
+    "pgbouncer": {
+      "type": "object",
+      "description": "PgBouncer chart values"
+    },
+    "haproxy": {
+      "type": "object",
+      "description": "HAProxy chart values"
+    }
+  },
+  "required": ["django", "ingress"]
+}

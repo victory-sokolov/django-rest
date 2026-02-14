@@ -1,0 +1,34 @@
+# Chart.yaml Schema Validation
+# https://github.com/helm/chart-testing/blob/main/pkg/config/chart_schema.yaml
+
+name: str()
+version: str(required=True)
+apiVersion: str(required=True)
+appVersion: any(str(), num(), required=False)
+description: str(required=False)
+type: str(required=False)
+home: str(required=False)
+sources: list(str(), required=False)
+maintainers: list(include('maintainer'), required=False)
+icon: str(required=False)
+deprecated: bool(required=False)
+kubeVersion: str(required=False)
+annotations: any(list(), map(), required=False)
+dependencies: list(include('dependency'), required=False)
+
+---
+maintainer:
+  name: str()
+  email: str(required=False)
+  url: str(required=False)
+
+---
+dependency:
+  name: str()
+  version: str()
+  repository: str()
+  condition: str(required=False)
+  tags: list(str(), required=False)
+  enabled: bool(required=False)
+  import-values: any(list(), str(), required=False)
+  alias: str(required=False)

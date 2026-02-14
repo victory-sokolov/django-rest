@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://argoproj.io/schemas/argoproj-io-appproject.json",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "const": "argoproj.io/v1alpha1"
+    },
+    "kind": {
+      "const": "AppProject"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "namespace": { "type": "string" },
+        "labels": { "type": "object" },
+        "annotations": { "type": "object" }
+      },
+      "required": ["name", "namespace"]
+    },
+    "spec": {
+      "type": "object",
+      "properties": {
+        "description": { "type": "string" },
+        "sourceRepos": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "destinations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "server": { "type": "string" },
+              "namespace": { "type": "string" },
+              "name": { "type": "string" }
+            }
+          }
+        },
+        "clusterResourceWhitelist": { "type": "array" },
+        "clusterResourceBlacklist": { "type": "array" },
+        "namespaceResourceWhitelist": { "type": "array" },
+        "namespaceResourceBlacklist": { "type": "array" },
+        "roles": { "type": "array" },
+        "syncWindows": { "type": "array" },
+        "signatureKeys": { "type": "array" },
+        "orphanedResources": { "type": "object" }
+      }
+    }
+  },
+  "required": ["apiVersion", "kind", "metadata", "spec"]
+}

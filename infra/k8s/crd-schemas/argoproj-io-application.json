@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://argoproj.io/schemas/argoproj-io-application.json",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "const": "argoproj.io/v1alpha1"
+    },
+    "kind": {
+      "const": "Application"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "namespace": { "type": "string" },
+        "labels": { "type": "object" },
+        "annotations": { "type": "object" },
+        "finalizers": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["name", "namespace"]
+    },
+    "spec": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "object",
+          "properties": {
+            "repoURL": { "type": "string" },
+            "path": { "type": "string" },
+            "targetRevision": { "type": "string" },
+            "helm": {
+              "type": "object",
+              "properties": {
+                "valueFiles": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "parameters": { "type": "array" },
+                "releaseName": { "type": "string" }
+              }
+            },
+            "kustomize": { "type": "object" },
+            "directory": { "type": "object" }
+          },
+          "required": ["repoURL"]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "repoURL": { "type": "string" },
+              "path": { "type": "string" },
+              "targetRevision": { "type": "string" }
+            }
+          }
+        },
+        "destination": {
+          "type": "object",
+          "properties": {
+            "server": { "type": "string" },
+            "namespace": { "type": "string" },
+            "name": { "type": "string" }
+          }
+        },
+        "project": { "type": "string" },
+        "syncPolicy": {
+          "type": "object",
+          "properties": {
+            "automated": {
+              "type": "object",
+              "properties": {
+                "prune": { "type": "boolean" },
+                "selfHeal": { "type": "boolean" },
+                "allowEmpty": { "type": "boolean" }
+              }
+            },
+            "syncOptions": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "retry": {
+              "type": "object",
+              "properties": {
+                "limit": { "type": "integer" },
+                "backoff": { "type": "object" }
+              }
+            }
+          }
+        },
+        "ignoreDifferences": { "type": "array" },
+        "info": { "type": "array" },
+        "revisionHistoryLimit": { "type": "integer" }
+      },
+      "required": ["destination", "project"]
+    },
+    "status": {
+      "type": "object",
+      "properties": {
+        "sync": { "type": "object" },
+        "health": { "type": "object" },
+        "history": { "type": "array" },
+        "resources": { "type": "array" },
+        "operationState": { "type": "object" }
+      }
+    }
+  },
+  "required": ["apiVersion", "kind", "metadata", "spec"]
+}

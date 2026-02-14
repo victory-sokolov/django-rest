@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gateway-api.sigs.k8s.io/schemas/gateway-networking-k8s-io-v1-gateway.json",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "const": "gateway.networking.k8s.io/v1"
+    },
+    "kind": {
+      "const": "Gateway"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "namespace": { "type": "string" },
+        "labels": { "type": "object" },
+        "annotations": { "type": "object" }
+      },
+      "required": ["name"]
+    },
+    "spec": {
+      "type": "object",
+      "properties": {
+        "gatewayClassName": { "type": "string" },
+        "listeners": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "hostname": { "type": ["string", "null"] },
+              "port": { "type": "integer" },
+              "protocol": { "type": "string" },
+              "tls": {
+                "type": "object",
+                "properties": {
+                  "mode": { "type": "string" },
+                  "certificateRefs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string" },
+                        "namespace": { "type": "string" },
+                        "group": { "type": "string" },
+                        "kind": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "allowedRoutes": {
+                "type": "object",
+                "properties": {
+                  "namespaces": {
+                    "type": "object",
+                    "properties": {
+                      "from": { "type": "string" },
+                      "selector": { "type": "object" }
+                    }
+                  },
+                  "kinds": { "type": "array" }
+                }
+              }
+            },
+            "required": ["name", "port", "protocol"]
+          }
+        },
+        "addresses": { "type": "array" }
+      },
+      "required": ["gatewayClassName", "listeners"]
+    }
+  },
+  "required": ["apiVersion", "kind", "metadata", "spec"]
+}

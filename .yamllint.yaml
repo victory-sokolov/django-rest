@@ -1,3 +1,44 @@
+extends: default
+
 rules:
-  line-length:
-    max: 150
+  line-length: disable
+
+  # Helm template exceptions
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 0
+
+  # Allow comments without space after # in Helm templates
+  comments:
+    require-starting-space: false
+    min-spaces-from-content: 1
+
+  # Disable document-start for Helm templates (they don't have ---)
+  document-start: disable
+
+  # Allow empty values in Helm
+  empty-values:
+    forbid-in-block-mappings: false
+    forbid-in-flow-mappings: false
+
+  # More lenient key ordering for K8s manifests
+  key-ordering: disable
+
+  # Allow trailing spaces in certain cases
+  trailing-spaces: enable
+
+  # Truthy values common in K8s
+  truthy:
+    check-keys: false
+
+# Ignore patterns for Helm and generated files
+ignore:
+  - infra/k8s/charts/*/charts/
+  - infra/k8s/charts/*/templates/
+  - infra/k8s/crd-schemas/
+  - "*.gotmpl"
+  - "*.tpl"

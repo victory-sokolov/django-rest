@@ -1,0 +1,37 @@
+# Kubeconform Configuration
+# https://github.com/yannh/kubeconform
+
+# Kubernetes version to validate against
+kubernetes-version: "1.29.0"
+
+# Maximum number of concurrent workers
+workers: 4
+
+# Skip validation for these resource kinds
+skip: List
+
+# Exit with non-zero code on warnings
+strict: true
+
+# Output format: json, junit, tap, text
+output: text
+
+# Enable verbose output
+verbose: false
+
+# Quiet mode (only print errors)
+quiet: false
+
+# Summary mode (print summary of validation)
+summary: true
+
+# Custom schema locations for CRDs
+schema-location:
+  - crd-schemas/
+  - https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/
+
+# Ignore missing schemas for custom resources
+ignore-missing-schemas: false
+
+# Reject additional properties not in schema
+reject: []

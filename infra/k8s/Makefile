@@ -1,3 +1,79 @@
+# ============================================
+# Validation Targets
+# ============================================
+
+.PHONY: helm-validate helm-lint kubeconform pluto security-scan helmfile-lint yaml-lint chart-testing
+
+helm-validate: yaml-lint helm-lint kubeconform pluto security-scan helmfile-lint ## Run all Helm/K8s validation checks
+	@echo ""
+	@echo "✓ All validation checks passed!"
+
+yaml-lint: ## Run yamllint on YAML files (excludes Helm templates)
+	@echo "Running yamllint..."
+	@command -v yamllint >/dev/null 2>&1 || { echo "Installing yamllint..."; pip install yamllint; }
+	@find . -type f \( -name '*.yaml' -o -name '*.yml' \) \
+		| grep -v '/templates/' \
+		| grep -v '/charts/apps/charts/' \
+		| grep -v './ConfigMap.yaml' \
+		| xargs yamllint -d '{extends: default, rules: {line-length: disable, document-start: disable}}' --strict
+
+helm-lint: ## Run helm lint on charts with values
+	@echo "Running helm lint..."
+	@echo "Linting apps umbrella chart..."
+	helm lint charts/apps --strict --with-subcharts
+	@echo "Linting standalone charts..."
+	@for chart in charts/gateway-api charts/haproxy charts/ingress charts/nginx charts/pgbouncer charts/postgres charts/redis; do \
+		echo "Linting $$chart..."; \
+		helm lint "$$chart" --strict || true; \
+	done
+
+chart-testing: ## Run chart-testing (ct) lint
+	@echo "Running chart-testing..."
+	@command -v ct >/dev/null 2>&1 || { echo "Error: ct (chart-testing) not installed. Install with: brew install chart-testing"; exit 1; }
+	ct lint --config ct.yaml --all
+
+kubeconform: ## Validate rendered templates against K8s schemas
+	@echo "Running kubeconform..."
+	@command -v kubeconform >/dev/null 2>&1 || { echo "Error: kubeconform not installed. Install with: brew install kubeconform"; exit 1; }
+	@helm dependency update charts/apps 2>/dev/null || true
+	helm template charts/apps -f charts/apps/values.yaml --namespace production | \
+		kubeconform -summary -kubernetes-version 1.29.0 -skip List \
+		-schema-location "crd-schemas/" \
+		-schema-location "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/"
+
+pluto: ## Detect deprecated/removed K8s APIs
+	@echo "Running pluto..."
+	@if command -v pluto >/dev/null 2>&1; then \
+		helm dependency update charts/apps 2>/dev/null || true; \
+		helm template charts/apps -f charts/apps/values.yaml --namespace production | \
+			pluto detect - --target-versions k8s=v1.29.0; \
+	else \
+		echo "Skipping pluto (not installed). Install with: brew install fairwindsops/tap/pluto"; \
+	fi
+
+security-scan: ## Run security scan on rendered manifests
+	@echo "Running security scan..."
+	@if command -v checkov >/dev/null 2>&1; then \
+		helm dependency update charts/apps 2>/dev/null || true; \
+		helm template charts/apps -f charts/apps/values.yaml --namespace production > /tmp/rendered-manifests.yaml; \
+		checkov -f /tmp/rendered-manifests.yaml --framework kubernetes --compact --soft-fail; \
+		rm -f /tmp/rendered-manifests.yaml; \
+	else \
+		echo "Skipping checkov (not installed). Install with: pip install checkov"; \
+	fi
+
+helmfile-lint: ## Run helmfile lint
+	@echo "Running helmfile lint..."
+	@if command -v helmfile >/dev/null 2>&1; then \
+		helmfile lint; \
+	else \
+		echo "Skipping helmfile (not installed). Install with: brew install helmfile"; \
+	fi
+
+# ============================================
+# Minikube Targets
+# ============================================
+
 check-minikube: ## Check if minikube is running
 	@status=$$(minikube status 2>&1 | grep "host: Running"); \
 	if [ -z "$$status" ]; then \

@@ -1,0 +1,13 @@
+# Default values for django subchart
+# These are typically overridden by parent chart (apps)
+
+image:
+  repository: django-blog
+  tag: latest
+  pullPolicy: Always
+
+appsecrets: app-secret
+
+persistence:
+  enabled: false
+  existingClaim: ""

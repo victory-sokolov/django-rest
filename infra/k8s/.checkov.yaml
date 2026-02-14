@@ -1,0 +1,37 @@
+# Checkov Configuration for Kubernetes Security Scanning
+# https://www.checkov.io/1.Welcome/Quick%20Start.html
+
+# Framework to scan
+framework:
+  - kubernetes
+
+# Output format
+compact: true
+
+# Soft fail (don't exit with error code on failures)
+soft-fail: true
+
+# Skip specific checks (project-specific exceptions)
+skip-check:
+  - CKV_K8S_21  # Default namespace - we explicitly use it for some resources
+  - CKV_K8S_43  # Image digest - we use tags for development
+
+# External checks directories
+external-checks: []
+
+# Variable files (for helm values)
+var-file: []
+
+# Skip paths
+skip-path:
+  - crd-schemas/
+  - .git/
+
+# Hard fail on these severity levels
+hard-fail-on: []
+
+# Output file (optional)
+output-file-path: []
+
+# Include all check results (not just failures)
+include-all-checkoast: false

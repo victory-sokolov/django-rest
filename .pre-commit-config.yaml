@@ -110,3 +110,52 @@ repos:
     rev: 0.7.0
     hooks:
       - id: dotenv-linter
+
+  # ============================================
+  # Helm/Kubernetes Validation Hooks
+  # ============================================
+
+  - repo: local
+    hooks:
+      - id: helm-lint
+        name: Helm Lint
+        entry: bash -c 'cd infra/k8s && helm lint charts/apps --strict --with-subcharts'
+        language: system
+        files: ^infra/k8s/(charts/.*\.yaml|Chart\.yaml|values\.yaml)$
+        pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: helm-template-validate
+        name: Helm Template Validate
+        entry: bash -c 'cd infra/k8s && helm dependency update charts/apps 2>/dev/null || true && helm template charts/apps -f charts/apps/values.yaml --namespace production > /dev/null'
+        language: system
+        files: ^infra/k8s/.*\.(yaml|tpl)$
+        pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: pluto
+        name: Pluto (Deprecated API Detection)
+        entry: bash -c "which pluto >/dev/null 2>&1 || exit 0; cd infra/k8s && helm dependency update charts/apps 2>/dev/null || true && helm template charts/apps -f charts/apps/values.yaml --namespace production | pluto detect - --target-versions k8s=v1.29.0"
+        language: system
+        files: ^infra/k8s/.*\.(yaml|tpl)$
+        pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: kubeconform
+        name: Kubeconform (K8s Schema Validation)
+        entry: bash -c "which kubeconform >/dev/null 2>&1 || exit 0; cd infra/k8s && helm dependency update charts/apps 2>/dev/null || true && helm template charts/apps -f charts/apps/values.yaml --namespace production | kubeconform -summary -kubernetes-version 1.29.0 -skip List"
+        language: system
+        files: ^infra/k8s/.*\.(yaml|tpl)$
+        pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: helmfile-lint
+        name: Helmfile Lint
+        entry: bash -c "which helmfile >/dev/null 2>&1 || exit 0; cd infra/k8s && helmfile lint"
+        language: system
+        files: ^infra/k8s/(helmfile\.yaml|charts/.*\.yaml|values\.yaml)$
+        pass_filenames: false
