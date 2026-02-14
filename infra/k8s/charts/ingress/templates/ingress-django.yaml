@@ -8,10 +8,6 @@ metadata:
 {{- range $key, $value := .Values.ingress.annotations }}
     {{ $key }}: {{ $value | toString | replace "\"" "" | printf "\"%s\"" }}
 {{- end }}
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      more_set_input_headers "X-Request-ID: $request_id";
-      more_set_headers "X-Forwarded-Proto: $scheme";
-      more_set_headers "Strict-Transport-Security: max-age=16000000";
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
