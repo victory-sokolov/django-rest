@@ -19,3 +19,5 @@ kind: ConfigMap
 metadata:
   namespace: production
   name: redis-cm
+  labels:
+    {{- include "configmap.labels" . | nindent 4 }}

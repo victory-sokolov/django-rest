@@ -5,6 +5,7 @@ metadata:
   namespace: production
   labels:
     app: postgres
+    {{- include "configmap.labels" . | nindent 4 }}
 data:
   DEBUG: 'False'
   PGPORT: '5431'
