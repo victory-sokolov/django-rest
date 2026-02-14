@@ -1,13 +1,13 @@
-{{ - if .Values.ingress.enabled - }}
+{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: django-app-ingress
   namespace: {{ .Values.ingress.namespace }}
   annotations:
-    {{ - range $key, $value := .Values.ingress.annotations }}
+    {{- range $key, $value := .Values.ingress.annotations }}
     {{ $key }}: {{ $value }}
-    {{ - end }}
+    {{- end }}
     nginx.ingress.kubernetes.io/configuration-snippet: |
       more_set_input_headers "X-Request-ID: $request_id";
       more_set_headers "X-Forwarded-Proto: $scheme";
@@ -25,10 +25,10 @@ spec:
                 name: {{ .Values.django.serviceName }}
                 port:
                   number: {{ .Values.django.servicePort }}
-  {{ - if .Values.tls.enabled }}
+  {{- if .Values.tls.enabled }}
   tls:
     - hosts:
         - {{ .Values.django.host }}
       secretName: {{ .Values.tls.secretName }}
-  {{ - end }}
-{{ - end }}
+  {{- end }}
+{{- end }}
