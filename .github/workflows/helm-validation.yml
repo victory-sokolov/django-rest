@@ -5,15 +5,12 @@ name: Helm/K8s Validation
 
 on:
   pull_request:
+    types: [opened, reopened, synchronize, labeled]
     paths:
       - 'infra/k8s/**'
       - '.github/workflows/helm-validation.yml'
       - '.yamllint.yaml'
       - '.pre-commit-config.yaml'
-  push:
-    branches: [master]
-    paths:
-      - 'infra/k8s/**'
   workflow_dispatch:
 
 concurrency:
