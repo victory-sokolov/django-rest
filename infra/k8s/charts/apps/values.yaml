@@ -2,13 +2,13 @@
 # ROUTING - Choose ONE method
 # ============================================
 
-# Option 1: Gateway API (default)
+# Option 1: Gateway API (disabled for minikube - requires CRDs)
 gateway-api:
-  enabled: true
-
-# Option 2: Ingress (set gateway-api.enabled: false to use)
-ingress:
   enabled: false
+
+# Option 2: Ingress (enabled for minikube)
+ingress:
+  enabled: true
   ingress:
     className: nginx
     namespace: production
