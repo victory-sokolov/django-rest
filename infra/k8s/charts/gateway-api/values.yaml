@@ -10,3 +10,8 @@ envoy:
 service:
   type: NodePort
   nodePort: 30000
+
+# Canary traffic splitting configuration
+canary:
+  enabled: false
+  weight: 10  # Percentage of traffic to canary (1-100)

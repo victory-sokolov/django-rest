@@ -11,3 +11,13 @@ appsecrets: app-secret
 persistence:
   enabled: false
   existingClaim: ""
+
+# Canary deployment configuration
+canary:
+  enabled: false
+  replicas: 1
+  image:
+    repository: ""  # Defaults to .Values.image.repository
+    tag: ""         # Required when canary.enabled: true
+    pullPolicy: ""  # Defaults to .Values.image.pullPolicy
+  weight: 10        # Percentage of traffic (1-100)

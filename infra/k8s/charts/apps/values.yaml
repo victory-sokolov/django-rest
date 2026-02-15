@@ -5,6 +5,10 @@
 # Option 1: Gateway API (disabled for minikube - requires CRDs)
 gateway-api:
   enabled: false
+  # Canary traffic splitting (sync with django.canary settings)
+  canary:
+    enabled: false
+    weight: 10  # Percentage of traffic to canary (1-100)
 
 # Option 2: Ingress (enabled for minikube)
 ingress:
@@ -49,6 +53,15 @@ django:
   persistence:
     enabled: false
     existingClaim: static-storage-pvc
+  # Canary deployment configuration
+  canary:
+    enabled: false
+    replicas: 1
+    image:
+      repository: ""  # Defaults to django.image.repository
+      tag: ""         # Required when canary.enabled: true
+      pullPolicy: ""  # Defaults to django.image.pullPolicy
+    weight: 10        # Percentage of traffic to canary (1-100)
 
 nginx:
   {}

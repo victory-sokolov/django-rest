@@ -51,3 +51,76 @@ Visit `http://localhost:8089`
 Get password: `kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" base64 -d; echo`
 4. Apply manifest. From `infra/k8s/charts` directory run: `helm install root-app ./root-app/ -n argocd --create-namespace`
 5. Upgrade after changes: `helm upgrade root-app ./charts/root-app/ -n argocd`
+
+## Canary Deployments
+
+Canary deployments allow gradual rollout of new versions by routing a percentage of traffic to the canary version while the majority goes to the stable version.
+
+### Configuration
+
+Canary is **disabled by default**. To enable it, update `charts/apps/values.yaml`:
+
+```yaml
+gateway-api:
+  enabled: true
+  canary:
+    enabled: true
+    weight: 10  # Percentage of traffic to canary (1-100)
+
+django:
+  image:
+    repository: victorysokolov/django-blog
+    tag: v1.2.0  # Stable version
+  canary:
+    enabled: true
+    replicas: 1
+    image:
+      tag: v1.3.0  # New version to test
+    weight: 10  # Should match gateway-api.canary.weight
+```
+
+### Gradual Rollout
+
+```yaml
+# Start with 10% traffic to canary
+canary:
+  weight: 10
+
+# Increase to 30%
+canary:
+  weight: 30
+
+# Increase to 50%
+canary:
+  weight: 50
+
+# Full rollout - promote canary to stable
+image:
+  tag: v1.3.0  # Now becomes stable
+canary:
+  enabled: false
+```
+
+### Deploy with Canary
+
+```bash
+# Enable canary with 20% traffic
+helm upgrade --install apps ./charts/apps -n production \
+  --set gateway-api.enabled=true \
+  --set gateway-api.canary.enabled=true \
+  --set gateway-api.canary.weight=20 \
+  --set django.canary.enabled=true \
+  --set django.canary.image.tag=v1.3.0 \
+  --set django.canary.weight=20
+```
+
+### Verify
+
+```bash
+# Check pods
+kubectl get pods -l track=stable
+kubectl get pods -l track=canary
+
+# Check HTTPRoute traffic splitting
+kubectl get httproute django-app-route -n production -o yaml
+```

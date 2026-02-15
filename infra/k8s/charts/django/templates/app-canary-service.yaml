@@ -1,11 +1,12 @@
+{{ - if .Values.canary.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: app
+  name: app-canary
   namespace: production
   labels:
     io.kompose.service: app
-    track: stable
+    track: canary
     app.kubernetes.io/instance: '{{ .Release.Name }}'
     app.kubernetes.io/managed-by: '{{ .Release.Service }}'
 spec:
@@ -17,4 +18,5 @@ spec:
       targetPort: 80
   selector:
     io.kompose.service: app
-    track: stable
+    track: canary
+{{ - end }}

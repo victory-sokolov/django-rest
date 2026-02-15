@@ -13,6 +13,24 @@
           "type": "boolean",
           "description": "Enable Gateway API routing",
           "default": false
+        },
+        "canary": {
+          "type": "object",
+          "description": "Canary traffic splitting configuration",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enable canary traffic splitting",
+              "default": false
+            },
+            "weight": {
+              "type": "integer",
+              "description": "Percentage of traffic to canary (1-100)",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
+          }
         }
       }
     },
@@ -149,6 +167,48 @@
         "securityContext": {
           "type": "object",
           "description": "Pod security context"
+        },
+        "canary": {
+          "type": "object",
+          "description": "Canary deployment configuration",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enable canary deployment",
+              "default": false
+            },
+            "replicas": {
+              "type": "integer",
+              "description": "Number of canary replicas",
+              "minimum": 1,
+              "default": 1
+            },
+            "image": {
+              "type": "object",
+              "description": "Canary image configuration",
+              "properties": {
+                "repository": {
+                  "type": "string",
+                  "description": "Canary image repository (defaults to django.image.repository)"
+                },
+                "tag": {
+                  "type": "string",
+                  "description": "Canary image tag (required when canary.enabled: true)"
+                },
+                "pullPolicy": {
+                  "type": "string",
+                  "description": "Canary image pull policy (defaults to django.image.pullPolicy, empty string uses parent value)"
+                }
+              }
+            },
+            "weight": {
+              "type": "integer",
+              "description": "Percentage of traffic to canary (1-100)",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
+          }
         }
       }
     },

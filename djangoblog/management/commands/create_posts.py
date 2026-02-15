@@ -22,6 +22,6 @@ class Command(BaseCommand):
         self.stdout.write(
             self.style.SUCCESS(
                 f"Generated {count} accounts in {elapsed:.3f}s "
-                f"({elapsed * 1000 / count:.1f}ms / account)"
-            )
+                f"({elapsed * 1000 / count:.1f}ms / account)",
+            ),
         )

@@ -14,6 +14,12 @@ spec:
       backendRefs:
         - name: app
           port: 80
+          weight: {{ if .Values.canary.enabled }}{{ sub 100 .Values.canary.weight }}{{ else }}1{{ end }}
+        {{ - if .Values.canary.enabled }}
+        - name: app-canary
+          port: 80
+          weight: {{ .Values.canary.weight }}
+        {{ - end }}
       filters:
         - type: RequestHeaderModifier
           requestHeaderModifier:
