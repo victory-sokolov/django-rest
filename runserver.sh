@@ -4,8 +4,15 @@ set -eo pipefail
 
 echo "Using '$DJANGO_ENV' environment"
 
-make UV_RUN= migrate
-make UV_RUN= collectstatic
+# Only run migrations if there are pending ones
+if DJANGO_ENV="$DJANGO_ENV" python manage.py migrate --plan 2>/dev/null | grep -q '\[ \]'; then
+    echo "Pending migrations found, running migrate..."
+    make UV_RUN= migrate
+else
+    echo "No pending migrations, skipping..."
+fi
+
+# Static files are collected at build time in Dockerfile
 
 # Create superuser
 make UV_RUN= create-superuser
