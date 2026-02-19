@@ -120,8 +120,9 @@ outdated: ## Check outdated packages
 docker-build: ## Build docker image
 	COMPOSE_BAKE=true docker-compose up --build --remove-orphans
 
-compose-up: ## Docker compose up with watch
-	COMPOSE_BAKE=true docker compose up --watch
+compose-up: ## Docker compose up
+	docker network create docker-elk_elk 2>/dev/null || true
+	COMPOSE_BAKE=true docker compose up
 
 compose-down: ## Remove main docker containers and local containers
 	COMPOSE_BAKE=true docker compose -f docker-compose.yml -f docker-compose.local.yml down --remove-orphans -v
