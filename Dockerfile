@@ -91,5 +91,9 @@ RUN --mount=type=secret,id=SECRET_KEY,target=/run/secrets/SECRET_KEY,required=fa
     fi && \
     make run-checks
 
+# Collect and compress static files at build time
+RUN DJANGO_ENV=production SECRET_KEY=build-time-key python manage.py collectstatic --noinput -i silk/* && \
+    DJANGO_ENV=production SECRET_KEY=build-time-key python manage.py compress --force
+
 RUN chmod +x ./runserver.sh
 CMD ["./runserver.sh"]

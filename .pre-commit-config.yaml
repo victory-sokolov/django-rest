@@ -42,9 +42,9 @@ repos:
     hooks:
       - id: check-django-migrations
         name: Check django migrations
-        entry: uv run python manage.py makemigrations --check
+        entry: uv run python manage.py makemigrations --check --noinput
         language: system
-        types: [python] # hook only runs if a python file is staged
+        files: ^(djangoblog/.+/models\.py|djangoblog/models\.py)$
         pass_filenames: false
 
   - repo: local
