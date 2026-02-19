@@ -171,6 +171,39 @@ pf: ## Port-forward HAProxy to localhost:8080
 	@echo "Starting port-forward for HAProxy on localhost:8080..."
 	@kubectl port-forward svc/haproxy 8080:8080 -n production
 
+# ============================================
+# Monitoring Targets
+# ============================================
+
+.PHONY: monitoring-port-forward monitoring-status monitoring-servicemonitors
+
+monitoring-port-forward: ## Port-forward all monitoring services (Prometheus, Grafana, Kibana)
+	@echo "Starting port-forwards for monitoring services..."
+	@echo "Prometheus: http://localhost:9090"
+	@echo "Grafana: http://localhost:3000 (admin/changeme)"
+	@echo "Kibana: http://localhost:5601"
+	@kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring & \
+		kubectl port-forward svc/prometheus-grafana 3000:80 -n monitoring & \
+		kubectl port-forward svc/kibana-kibana 5601:5601 -n monitoring; \
+		wait
+
+monitoring-status: ## Check status of monitoring pods
+	@echo "=== Monitoring Namespace ==="
+	@kubectl get pods -n monitoring
+	@echo ""
+	@echo "=== Monitoring Services ==="
+	@kubectl get svc -n monitoring
+	@echo ""
+	@echo "=== ServiceMonitors ==="
+	@kubectl get servicemonitors -A
+
+monitoring-servicemonitors: ## List all ServiceMonitors across all namespaces
+	@echo "=== ServiceMonitors ==="
+	@kubectl get servicemonitors -A -o custom-columns="NAMESPACE:.metadata.namespace,NAME:.metadata_NAME,LABELS:.metadata.labels"
+
+monitoring-sync: ## Sync monitoring stack ArgoCD application
+	argocd app sync monitoring-stack --server argocd-server.argocd.svc.cluster.local
+
 tunnel: ## Start minikube tunnel (requires sudo)
 	@if pgrep -f "minikube tunnel" > /dev/null; then \
 		echo "✓ minikube tunnel already running"; \

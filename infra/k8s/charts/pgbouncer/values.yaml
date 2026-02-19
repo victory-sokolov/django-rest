@@ -49,3 +49,7 @@ database:
   password: securepassword
   port: 5431
   pgport: 6432
+
+# ServiceMonitor for Prometheus
+serviceMonitor:
+  enabled: false

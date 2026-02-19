@@ -1,22 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: django-production
+  name: monitoring-stack
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "20"
 spec:
-  project: default
+  project: monitoring
   source:
     repoURL: https://github.com/victory-sokolov/django-rest.git
-    path: infra/k8s/charts/apps
+    path: infra/k8s/charts/monitoring-stack
     targetRevision: HEAD
     helm:
       valueFiles:
         - values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: production
+    namespace: monitoring
   syncPolicy:
     automated:
       selfHeal: true

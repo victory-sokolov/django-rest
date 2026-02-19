@@ -1,0 +1,19 @@
+{{- if .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: envoy-gateway
+  namespace: production
+  labels:
+    release: prometheus
+    app: envoy-gateway
+spec:
+  selector:
+    matchLabels:
+      gateway.envoyproxy.io/owning-gateway-name: {{ .Values.gateway.name }}
+  endpoints:
+    - port: http
+      path: /stats/prometheus
+      interval: 30s
+      scheme: http
+{{- end }}

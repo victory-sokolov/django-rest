@@ -21,3 +21,7 @@ canary:
     tag: ""         # Required when canary.enabled: true
     pullPolicy: ""  # Defaults to .Values.image.pullPolicy
   weight: 10        # Percentage of traffic (1-100)
+
+# ServiceMonitor for Prometheus
+serviceMonitor:
+  enabled: false

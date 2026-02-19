@@ -133,7 +133,7 @@ docker-profile:
 	COMPOSE_BAKE=true docker compose -f docker-compose.yml -f docker-compose.profile.yml up
 
 minikube-start: ## Start Minikube cluster
-	minikube start --driver=docker --cpus=4 --memory=6g --disk-size=20g
+	minikube start --driver=docker --cpus=4 --memory=6g --disk-size=25g
 	minikube addons enable metrics-server
 	minikube addons enable ingress
 	minikube addons enable storage-provisioner

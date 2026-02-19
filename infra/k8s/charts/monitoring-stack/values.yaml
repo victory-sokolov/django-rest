@@ -1,0 +1,16 @@
+# Monitoring Stack Configuration
+# Global values that can be overridden
+
+# Enable/disable individual components
+prometheus:
+  enabled: true
+
+elasticsearch:
+  enabled: true
+
+kibana:
+  enabled: true
+
+# Default namespace for all monitoring components
+global:
+  namespace: monitoring

@@ -1,0 +1,12 @@
+dependencies:
+- name: prometheus
+  repository: file://../prometheus
+  version: 1.0.0
+- name: elasticsearch
+  repository: file://../elasticsearch
+  version: 1.0.0
+- name: kibana
+  repository: file://../kibana
+  version: 1.0.0
+digest: sha256:38c8b3e507eadb1c912b3cade7c7437ab822586b287436957baf90277cfa16ff
+generated: "2026-02-15T19:23:52.072885+02:00"

@@ -1,0 +1,44 @@
+# Elasticsearch Configuration
+elasticsearch:
+  # Single node for development (scale to 3 for production)
+  replicas: 1
+
+  # Use a lightweight image for minikube/development
+  image: "docker.elastic.co/elasticsearch/elasticsearch"
+  imageTag: "8.12.0"
+
+  # Resource limits
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 4Gi
+    limits:
+      cpu: 2000m
+      memory: 8Gi
+
+  # Persistent storage
+  volumeClaimTemplate:
+    accessModes: ["ReadWriteOnce"]
+    storageClassName: "standard"
+    resources:
+      requests:
+        storage: 100Gi
+
+  # Minimum master nodes (for single node deployment)
+  minimumMasterNodes: 1
+
+  # Cluster configuration
+  esConfig:
+    elasticsearch.yml: |
+      cluster.name: "django-rest-cluster"
+      network.host: "0.0.0.0"
+      discovery.type: "single-node"
+      xpack.security.enabled: false
+      xpack.monitoring.collection.enabled: true
+
+  # Disable security for development (enable for production)
+  security:
+    enabled: false
+
+  # Disable ML for development (save resources)
+  ml: false

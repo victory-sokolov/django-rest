@@ -15,3 +15,7 @@ service:
 canary:
   enabled: false
   weight: 10  # Percentage of traffic to canary (1-100)
+
+# ServiceMonitor for Prometheus
+serviceMonitor:
+  enabled: false
