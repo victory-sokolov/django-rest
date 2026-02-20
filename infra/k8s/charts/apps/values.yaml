@@ -75,4 +75,7 @@ pgbouncer:
   {}
 
 haproxy:
-  {}
+  # Canary deployment configuration for HAProxy
+  canary:
+    enabled: false
+    weight: 10  # Percentage of traffic to canary (1-100)

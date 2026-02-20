@@ -41,7 +41,13 @@ data:
       # Set X-Forwarded-Proto to "http" otherwise
       http-request set-header X-Forwarded-Proto http unless { ssl_fc }
 
+{{ - if .Values.canary.enabled }}
+      # Canary routing: stable -> nginx, canary -> app-canary (direct to Django)
+      use_backend canary_backend if { rand(100) lt {{ .Values.canary.weight }} }
+      default_backend server_backend
+{{ - else }}
       use_backend server_backend
+{{ - end }}
 
     resolvers kube_dns
       nameserver dns 10.96.0.10:53
@@ -68,6 +74,28 @@ data:
 
       server-template backend 1 nginx.production.svc.cluster.local:80
 
+{{ - if .Values.canary.enabled }}
+    backend canary_backend
+      balance roundrobin
+
+      option log-health-checks
+      option httpchk # Check if the backend server is healthy
+      http-check send meth GET uri /health/app
+      http-check expect status 200
+
+      # Compression
+      filter compression
+      compression algo gzip
+      compression type text/css text/html text/javascript application/javascript text/plain text/xml application/json
+      compression direction both
+
+      default-server inter 160s fastinter 3s downinter 3s fall 3 rise 5
+
+      http-request set-header X-Request-ID %[uuid()]
+
+      server-template backend 1 app-canary.production.svc.cluster.local:8001
+{{ - end }}
+
     frontend stats
       bind :8404
       mode http
@@ -93,4 +121,4 @@ metadata:
   namespace: production
   labels:
     io.kompose.service: haproxy
-    {{- include "configmap.labels" . | nindent 4 }}
+    {{ - include "configmap.labels" . | nindent 4 }}
