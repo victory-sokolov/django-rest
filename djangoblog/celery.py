@@ -3,7 +3,7 @@ from time import time
 from typing import Any
 
 from celery import Celery
-from celery.signals import task_postrun, task_prerun
+from celery.signals import task_postrun, task_prerun, worker_init
 
 from djangoblog.celeryconfig import CeleryConfig
 
@@ -15,6 +15,17 @@ app.config_from_object(CeleryConfig)
 
 # Load task modules from all registered Django apps
 app.autodiscover_tasks()
+
+
+@worker_init.connect
+def init_pyroscope_for_celery(sender: Any, **kwargs: Any) -> None:
+    """Initialize Pyroscope profiling for Celery workers."""
+    from djangoblog.metrics.pyroscope import init_pyroscope
+
+    worker_name = sender.hostname.split("@")[0] if sender.hostname else "unknown"
+    app_name = f"django-blog-celery-{worker_name}"
+    init_pyroscope(app_name=app_name)
+
 
 # Measure celery task execution time
 # Ref: https://stackoverflow.com/questions/19481470/measuring-celery-task-execution-time

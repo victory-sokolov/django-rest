@@ -24,7 +24,7 @@ services:
     image: prom/prometheus:latest
     restart: unless-stopped
     ports:
-      - 9090:9090
+      - 9091:9090
     networks:
       - default
     extra_hosts:
@@ -54,6 +54,7 @@ services:
       - default
     depends_on:
       - prometheus
+      - pyroscope
     ports:
       - 3010:3000
     healthcheck:
@@ -67,11 +68,22 @@ services:
       RENDERING_MODE: "reusable"
       ENABLE_METRICS: true
       GF_LOG_FILTERS: "rendering:warn,rendering:error"
-      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-piechart-panel"
+      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-piechart-panel,grafana-pyroscope-datasource"
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: "grafana-clock-panel,grafana-piechart-panel"
     volumes:
       - ./infra/grafana/provisioning/:/etc/grafana/provisioning/
       - grafana_data:/var/lib/grafana
+
+  pyroscope:
+    image: grafana/pyroscope:latest
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - 4040:4040
+    command: ["server"]
+    volumes:
+      - pyroscope_data:/var/lib/pyroscope
 
 
   rabbitmq:
@@ -188,7 +200,8 @@ services:
       - .env
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    platform: linux/arm64
     attach: false
     privileged: true
     ports:
@@ -247,6 +260,7 @@ networks:
 volumes:
   grafana_data:
   prometheus_data:
+  pyroscope_data:
   rabbitmq_data:
   redisinsight-data:
   alertmanager_data:

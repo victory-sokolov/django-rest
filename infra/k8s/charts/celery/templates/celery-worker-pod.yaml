@@ -14,6 +14,13 @@ spec:
               - -c
               - DJANGO_ENV=production uv run celery -A djangoblog worker -l info --uid=nobody --gid=nogroup
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          env:
+              - name: PYROSCOPE_ENABLED
+                value: "true"
+              - name: PYROSCOPE_SERVER_URL
+                value: "http://pyroscope.monitoring:4040"
+              - name: PYROSCOPE_TAGS
+                value: "component:celery-worker"
           envFrom:
               - secretRef:
                   name: "{{ .Values.appsecrets }}"

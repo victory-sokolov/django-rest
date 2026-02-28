@@ -1,6 +1,6 @@
 apiVersion: v2
 name: monitoring-stack
-description: Umbrella chart that aggregates monitoring subcharts (prometheus, elasticsearch, kibana)
+description: Umbrella chart that aggregates monitoring subcharts (prometheus, elasticsearch, kibana, pyroscope)
 type: application
 version: 0.1.0
 appVersion: "1.0.0"
@@ -15,3 +15,6 @@ dependencies:
   - name: kibana
     version: "1.0.0"
     repository: "file://../kibana"
+  - name: pyroscope
+    version: "1.0.0"
+    repository: "file://../pyroscope"

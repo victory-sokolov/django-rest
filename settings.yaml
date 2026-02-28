@@ -59,6 +59,10 @@ local:
   USE_GC_LOCAL: False
   SENTRY_ENABLED: True
 
+  # Pyroscope profiling
+  PYROSCOPE_ENABLED: True
+  PYROSCOPE_SERVER_URL: http://pyroscope:4040
+
   CACHE_BACKEND: django_redis.cache.RedisCache
   REDIS_URL: redis://localhost:6379/0
 
@@ -79,6 +83,10 @@ development:
   SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
   REDIS_URL: redis://redis:6379/0
   CACHE_BACKEND: django_redis.cache.RedisCache
+
+  # Pyroscope profiling
+  PYROSCOPE_ENABLED: True
+  PYROSCOPE_SERVER_URL: http://pyroscope:4040
 
   CELERY_RESULT_BACKEND: redis://redis-master:6379
   CELERY_BROKER_URL: redis://redis-master:6379
@@ -127,6 +135,11 @@ production:
   SECRET_KEY: MM5EZ0rZdrsc-TX9vU432Cg-L-lqpjDZ50AICyU9iDBOEOo3BNzl1uxd-Sd9Avrs0u_-Nw
   SECRET_KEY_FALLBACKS: []
   ALLOWED_HOSTS: ['*']
+
+  # Pyroscope profiling
+  PYROSCOPE_ENABLED: True
+  PYROSCOPE_SERVER_URL: http://pyroscope.monitoring:4040
+  PYROSCOPE_SAMPLE_RATE: 100
 
   COMPRESS_OFFLINE: True
   COMPRESS_ENABLED: True

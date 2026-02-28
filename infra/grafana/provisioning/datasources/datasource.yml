@@ -8,3 +8,11 @@ datasources:
     isDefault: true
     version: 1
     editable: true
+  - name: Pyroscope
+    type: grafana-pyroscope-datasource
+    access: proxy
+    orgId: 1
+    url: http://pyroscope:4040
+    isDefault: false
+    version: 1
+    editable: true

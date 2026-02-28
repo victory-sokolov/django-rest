@@ -1,0 +1,36 @@
+# Pyroscope Server Configuration
+
+replicaCount: 1
+
+image:
+  repository: grafana/pyroscope
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 4040
+  targetPort: 4040
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  storageClassName: standard
+
+# Additional environment variables
+env: []
+
+# Additional labels
+labels: {}
+
+# Additional annotations
+annotations: {}

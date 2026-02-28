@@ -1,0 +1,7 @@
+apiVersion: v2
+name: pyroscope
+description: Pyroscope continuous profiling server for Kubernetes
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+icon: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F64276786&f=1&nofb=1

@@ -39,6 +39,11 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          env:
+            - name: PYROSCOPE_ENABLED
+              value: "true"
+            - name: PYROSCOPE_SERVER_URL
+              value: "http://pyroscope.monitoring:4040"
           envFrom:
             - secretRef:
                 name: '{{ .Values.appsecrets }}'
