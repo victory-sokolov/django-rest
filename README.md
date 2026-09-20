@@ -57,6 +57,32 @@ Run with entr to reload on changes
 Install: `brew install entr`
 Run: `ls locustfile.py | entr -r uv run locust -f locustfile.py --host=http://localhost:9020`
 
+## Memray memory profiling
+
+The Docker development image includes Memray and mounts profiling output to
+`./memray`. Record the development server, exercise the suspected leak, then
+press `Ctrl-C` to save the recording:
+
+```bash
+make memray-record
+```
+
+Generate the interactive, leak-focused flame graph and open
+`memray/flamegraph.html` in a browser. It scales with the browser window and
+can be zoomed or shown full-screen for a larger view:
+
+```bash
+make memray-flamegraph
+make memray-summary
+```
+
+The default profiled command is the Django development server. To profile a
+different command, override `MEMRAY_COMMAND`, for example:
+
+```bash
+make memray-record MEMRAY_COMMAND='manage.py test djangoblog.api.tests'
+```
+
 ## Launch Debugger
 
 - `docker-compose -f docker-compose.yml -f docker-compose.debug.yml up`

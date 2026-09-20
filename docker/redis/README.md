@@ -2,7 +2,6 @@
 
 Generate Redis SSL
 
-1. `chmod +x ./generate_redis_certs.sh`
-2. Run:  `./generate_redis_certs.sh`
+1. From this directory, run: `./generate_redis_certs.sh`
 
-tls folder will be created
+The script creates the ignored `tls/` folder required by the Redis Dockerfile.

@@ -1,0 +1,10 @@
+services:
+  # Memray does not need the external ELK network. Replace, rather than
+  # append to, the base service network lists so Compose never looks it up.
+  app:
+    networks: !override
+      - default
+
+  postgres:
+    networks: !override
+      - default

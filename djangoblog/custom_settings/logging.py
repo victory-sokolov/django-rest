@@ -5,10 +5,9 @@ from djangoblog.logger import date_fmt
 FORMATTERS = {
     "verbose": {
         "format": (
-            "[{levelname}] {asctime} | Logger: {name} | "
+            "[{levelname}] {asctime} | "
             # "Thread: {threadName} | Process: {process} | "
-            "File: {filename}:{lineno} | "
-            "Function: {funcName} | Message: {message}"
+            "File: {filename}:{lineno} | {message}"
         ),
         "datefmt": date_fmt,
         "style": "{",
@@ -36,7 +35,7 @@ LOGGERS = {
     "django.request": {
         "handlers": ["console"],
         "level": "INFO",
-        "propagate": True,
+        "propagate": False,
     },
     "django.template": {
         "handlers": ["console"],

@@ -1,3 +1,5 @@
+.PHONY: redis-certs memray memray-record memray-flamegraph memray-summary
+
 GIT_COMMIT_HASH ?= $(shell git rev-parse --short HEAD 2>/dev/null)
 EXCLUDED_DIRS = infra/k8s/haproxy
 ENV := $(or ${DJANGO_ENV}, local)
@@ -5,15 +7,28 @@ PORT := $(or ${PORT}, 8080)
 RUN_IN_DOCKER := $(or ${IN_DOCKER}, true)
 UV_RUN ?= uv run
 
+MEMRAY_DIR ?= memray
+MEMRAY_BIN ?= $(MEMRAY_DIR)/app.bin
+MEMRAY_FLAMEGRAPH ?= $(MEMRAY_DIR)/flamegraph.html
+MEMRAY_COMMAND ?= manage.py runserver 0.0.0.0:8001 --noreload
+
 NPROCS := $(shell getconf _NPROCESSORS_ONLN)
 FAIL_TEST_UNDER := 100
 
 export DOCKER_BUILDKIT ?= 1
 
 ifeq ($(RUN_IN_DOCKER), true)
-	CMD := docker compose run --rm app
+	MEMRAY_COMPOSE := docker compose -f docker-compose.yml -f docker-compose.memray.yml
+	CMD := $(MEMRAY_COMPOSE) run --rm app
+	MEMRAY_RECORD_CMD := $(MEMRAY_COMPOSE) run --rm --service-ports app
+	MEMRAY_REPORT_CMD := $(MEMRAY_COMPOSE) run --rm app
+	MEMRAY_PATH := /app
 else:
 	CMD :=
+	MEMRAY_COMPOSE :=
+	MEMRAY_RECORD_CMD :=
+	MEMRAY_REPORT_CMD :=
+	MEMRAY_PATH := ./
 endif
 
 shell: ## Django shell
@@ -23,7 +38,7 @@ check-migrations: ## Check for unapplied migrations
 	DJANGO_ENV=$(ENV) uv run python manage.py makemigrations --check
 
 migrate: ## Run migrations
-	DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py migrate --no-input
+	$(CMD) sh -c 'DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py migrate --no-input'
 	# DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py migrate --database=read_replica
 
 make-migrations: migrate ## Create and run migrations
@@ -85,23 +100,46 @@ test: ## Run tests with coverage
 test-single: ## Run a single test with coverage
 	DJANGO_ENV=test uv run python manage.py test
 
-build-local: load-fixtures migrate ## Build local environment
+redis-certs: ## Generate local Redis TLS certificates when they are missing
+	@if [ ! -f docker/redis/tls/ca.crt ] || [ ! -f docker/redis/tls/redis.crt ] || [ ! -f docker/redis/tls/redis.key ]; then \
+		bash docker/redis/generate_redis_certs.sh; \
+	fi
+
+memray-record: redis-certs ## Record allocations while running MEMRAY_COMMAND (Ctrl-C to stop)
+	@mkdir -p $(MEMRAY_DIR)
+	$(MEMRAY_RECORD_CMD) sh -c 'exec memray run --native --force -o $(MEMRAY_PATH)/$(MEMRAY_BIN) $(MEMRAY_COMMAND)'
+
+memray-flamegraph: ## Generate a leak-focused interactive HTML flame graph
+	@test -f $(MEMRAY_BIN) || (echo "Missing $(MEMRAY_BIN); run 'make memray-record' first" >&2; exit 1)
+	@mkdir -p $(MEMRAY_DIR)
+	$(MEMRAY_REPORT_CMD) memray flamegraph --leaks --force -o $(MEMRAY_PATH)/$(MEMRAY_FLAMEGRAPH) $(MEMRAY_PATH)/$(MEMRAY_BIN)
+
+memray-summary: ## Print the allocation summary for the latest recording
+	@test -f $(MEMRAY_BIN) || (echo "Missing $(MEMRAY_BIN); run 'make memray-record' first" >&2; exit 1)
+	$(MEMRAY_REPORT_CMD) memray summary $(MEMRAY_PATH)/$(MEMRAY_BIN)
+
+memray: ## Record allocations and generate a flame graph (Ctrl-C stops recording)
+	@$(MAKE) memray-record; status=$$?; \
+	if [ $$status -ne 0 ] && [ $$status -ne 130 ] && [ $$status -ne 143 ]; then exit $$status; fi
+	@$(MAKE) memray-flamegraph
+
+build-local: load-fixtures migrate create-superuser create-posts  ## Build local environment
 	DJANGO_ENV=local uv install --no-root
 
 load-fixtures: ## Load local and test fixtures
-	DJANGO_ENV=$(ENV) uv run python manage.py loaddata djangoblog/fixtures/*.yaml
+	$(CMD) sh -c 'DJANGO_ENV=$(ENV) uv run python manage.py loaddata djangoblog/fixtures/*.yaml'
 
 flush-db: ## Reset local DB
 	DJANGO_ENV=local uv run python manage.py flush
 
 create-superuser: ## Create a new superuser
-	DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py create_superuser \
+	$(CMD) sh -c 'DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py create_superuser \
 		--user=admin \
 		--password=superPassword12 \
-		--email=admin@gmail.com
+		--email=admin@gmail.com'
 
 create-posts: ## Generate random posts
-	DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py create_posts --count 100
+	$(CMD) sh -c 'DJANGO_ENV=$(ENV) $(UV_RUN) python manage.py create_posts --count 100'
 
 print-settings: ## Print Django settings
 	DJANGO_ENV=$(ENV) uv run python manage.py print_settings

@@ -157,4 +157,7 @@ vendor/
 # Static files
 output/
 
+# Memray profiling recordings and reports
+memray/
+
 infra/k8s/charts/**/charts
