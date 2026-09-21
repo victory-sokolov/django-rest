@@ -16,9 +16,9 @@ class PostService:
         self.use_repository = UserRepository()
         self.tags_repository = TagsRepositry()
 
-    def get_all(self) -> dict[str, Any] | None:
+    def get_all(self, user_id: int) -> dict[str, Any] | None:
         fields = ["id", "title", "slug", "user", "tags", "content"]
-        posts = self.post_repository.get_all(fields)
+        posts = self.post_repository.get_all(fields, user_id)
         logger.info(f"Retrieving all posts. Found {posts.count()} posts.")
 
         serializer = PostSerializer(posts, many=True)

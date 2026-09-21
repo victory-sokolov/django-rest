@@ -11,11 +11,13 @@ services:
       service: application
     networks:
       - default
-      - docker-elk_elk
+    environment:
+      <<: *default-env
+      PORT: 8001
     volumes:
        - static_volume:/app/output/static
     ports:
-      - 8001-8004:8001
+      - 8001:8001
     expose:
       - 8001
     deploy:
@@ -25,7 +27,7 @@ services:
           cpus: 0.5
           memory: 512M
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:80/health/app"]
+      test: ["CMD", "curl", "--fail", "http://localhost:8001/health/app"]
       interval: 15s
       timeout: 15s
       retries: 5
@@ -43,7 +45,6 @@ services:
       <<: *default-env
     networks:
       - default
-      - docker-elk_elk
     command: >
       sh -c "
       watchmedo auto-restart \
@@ -174,7 +175,6 @@ services:
     restart: on-failure
     networks:
       - default
-      - docker-elk_elk
     env_file:
       - .env
     environment:

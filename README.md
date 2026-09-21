@@ -60,27 +60,24 @@ Run: `ls locustfile.py | entr -r uv run locust -f locustfile.py --host=http://lo
 ## Memray memory profiling
 
 The Docker development image includes Memray and mounts profiling output to
-`./memray`. Record the development server, exercise the suspected leak, then
-press `Ctrl-C` to save the recording:
+`./memray`. Start the app normally, run the workload that may leak, then stop
+the capture with `Ctrl-C`:
 
 ```bash
-make memray-record
+docker compose up -d app worker
+make memray
 ```
 
-Generate the interactive, leak-focused flame graph and open
-`memray/flamegraph.html` in a browser. It scales with the browser window and
-can be zoomed or shown full-screen for a larger view:
+The generated flame graph is `memray/app-flamegraph.html`. It includes all
+allocations by default, including allocations freed while handling requests.
+For an automatic bounded capture, set a duration in seconds, for example
+`make memray MEMRAY_DURATION=60`. To show only allocations still live at the
+end, add `MEMRAY_LEAKS=true`. For separate steps, use:
 
 ```bash
+make memray-attach
 make memray-flamegraph
 make memray-summary
-```
-
-The default profiled command is the Django development server. To profile a
-different command, override `MEMRAY_COMMAND`, for example:
-
-```bash
-make memray-record MEMRAY_COMMAND='manage.py test djangoblog.api.tests'
 ```
 
 ## Launch Debugger

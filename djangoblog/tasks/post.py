@@ -18,8 +18,8 @@ class GetPostsTask(celery.Task):
     def __init__(self) -> None:
         self.post_service = PostService()
 
-    def run(self):
-        return self.post_service.get_all()
+    def run(self, user_id: int):
+        return self.post_service.get_all(user_id)
 
 
 class CreatePostsTask(celery.Task):

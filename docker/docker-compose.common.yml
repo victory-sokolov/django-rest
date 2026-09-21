@@ -10,6 +10,7 @@ services:
     environment:
       DJANGO_LOG_LEVEL: DEBUG
       DJANGO_ENV: development
+      IN_DOCKER: "false"
       TZ: Europe/Riga
     cap_add:
       - SYS_PTRACE

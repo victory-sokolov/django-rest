@@ -23,7 +23,9 @@ RUN set -eux; \
     build-essential \
     libpq-dev \
     gettext \
-    vim; \
+    vim \
+    gdb \
+    procps; \
     if [ "$DEV_DEPS" = "true" ]; then \
     apt-get install --no-install-recommends -y make; \
     fi; \

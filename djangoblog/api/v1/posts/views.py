@@ -21,10 +21,10 @@ class ArticleListView(APIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
-    @extend_schema(description="Get all available blog posts")
-    def get(self, _request: Request) -> Response:
+    @extend_schema(description="Get all user blog posts")
+    def get(self, request: Request) -> Response:
         """Get all posts"""
-        posts = GetPostsTask().apply_async()
+        posts = GetPostsTask().apply_async(args=[request.user.id])
         return Response(status=status.HTTP_200_OK, data=posts.get())
 
     @extend_schema(description="Create new blog post", tags=["post"])

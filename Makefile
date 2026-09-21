@@ -1,4 +1,4 @@
-.PHONY: redis-certs memray memray-record memray-flamegraph memray-summary
+.PHONY: redis-certs memray memray-attach memray-flamegraph memray-summary
 
 GIT_COMMIT_HASH ?= $(shell git rev-parse --short HEAD 2>/dev/null)
 EXCLUDED_DIRS = infra/k8s/haproxy
@@ -9,8 +9,12 @@ UV_RUN ?= uv run
 
 MEMRAY_DIR ?= memray
 MEMRAY_BIN ?= $(MEMRAY_DIR)/app.bin
-MEMRAY_FLAMEGRAPH ?= $(MEMRAY_DIR)/flamegraph.html
-MEMRAY_COMMAND ?= manage.py runserver 0.0.0.0:8001 --noreload
+MEMRAY_FLAMEGRAPH ?= $(MEMRAY_DIR)/app-flamegraph.html
+MEMRAY_LEAKS ?= false
+# 0 means record until Ctrl-C. Set MEMRAY_DURATION to a positive number for
+# an automatic bounded capture.
+MEMRAY_DURATION ?= 0
+MEMRAY_PID ?= auto
 
 NPROCS := $(shell getconf _NPROCESSORS_ONLN)
 FAIL_TEST_UNDER := 100
@@ -18,17 +22,13 @@ FAIL_TEST_UNDER := 100
 export DOCKER_BUILDKIT ?= 1
 
 ifeq ($(RUN_IN_DOCKER), true)
-	MEMRAY_COMPOSE := docker compose -f docker-compose.yml -f docker-compose.memray.yml
+	MEMRAY_COMPOSE := docker compose -f docker-compose.yml
 	CMD := $(MEMRAY_COMPOSE) run --rm app
-	MEMRAY_RECORD_CMD := $(MEMRAY_COMPOSE) run --rm --service-ports app
-	MEMRAY_REPORT_CMD := $(MEMRAY_COMPOSE) run --rm app
-	MEMRAY_PATH := /app
+	MEMRAY_EXEC_CMD := $(MEMRAY_COMPOSE) exec -T app
 else:
 	CMD :=
 	MEMRAY_COMPOSE :=
-	MEMRAY_RECORD_CMD :=
-	MEMRAY_REPORT_CMD :=
-	MEMRAY_PATH := ./
+	MEMRAY_EXEC_CMD :=
 endif
 
 shell: ## Django shell
@@ -105,23 +105,51 @@ redis-certs: ## Generate local Redis TLS certificates when they are missing
 		bash docker/redis/generate_redis_certs.sh; \
 	fi
 
-memray-record: redis-certs ## Record allocations while running MEMRAY_COMMAND (Ctrl-C to stop)
+memray-attach: ## Attach Memray to the running app process
 	@mkdir -p $(MEMRAY_DIR)
-	$(MEMRAY_RECORD_CMD) sh -c 'exec memray run --native --force -o $(MEMRAY_PATH)/$(MEMRAY_BIN) $(MEMRAY_COMMAND)'
+	@pid="$(if $(filter auto,$(MEMRAY_PID)),$$($(MEMRAY_EXEC_CMD) sh -c 'pgrep -f "/app/.venv/bin/python.*[m]anage.py runserver" | tail -n 1'),$(MEMRAY_PID))"; \
+	test -n "$$pid" || { echo "Could not find the Django runserver process" >&2; exit 1; }; \
+	echo "Attaching Memray to PID $$pid"; \
+	duration_args=""; \
+	if [ "$(MEMRAY_DURATION)" != "0" ]; then duration_args="--duration $(MEMRAY_DURATION)"; fi; \
+	$(MEMRAY_EXEC_CMD) memray attach $$duration_args --native --force -o /app/$(MEMRAY_BIN) "$$pid" || exit $$?; \
+	trap '$(MEMRAY_EXEC_CMD) memray detach "$$pid" >/dev/null 2>&1 || true; exit 130' INT TERM; \
+	if [ "$(MEMRAY_DURATION)" = "0" ]; then \
+		echo "Recording. Exercise the app, then press Ctrl-C to stop"; \
+		while :; do sleep 1; done; \
+	else \
+		echo "Recording for $(MEMRAY_DURATION) seconds"; \
+		sleep "$(MEMRAY_DURATION)"; \
+	fi
 
-memray-flamegraph: ## Generate a leak-focused interactive HTML flame graph
-	@test -f $(MEMRAY_BIN) || (echo "Missing $(MEMRAY_BIN); run 'make memray-record' first" >&2; exit 1)
+memray-flamegraph: ## Generate a flame graph from the attached recording
+	@test -f $(MEMRAY_BIN) || (echo "Missing $(MEMRAY_BIN); run 'make memray-attach' first" >&2; exit 1)
+	$(MEMRAY_EXEC_CMD) memray flamegraph $(if $(filter true,$(MEMRAY_LEAKS)),--leaks,) --force \
+		-o /app/$(MEMRAY_FLAMEGRAPH) /app/$(MEMRAY_BIN)
+
+memray-summary: ## Print the allocation summary from the attached recording
+	@test -f $(MEMRAY_BIN) || (echo "Missing $(MEMRAY_BIN); run 'make memray-attach' first" >&2; exit 1)
+	$(MEMRAY_EXEC_CMD) memray summary /app/$(MEMRAY_BIN)
+
+memray: ## Attach until Ctrl-C, then generate a flame graph
 	@mkdir -p $(MEMRAY_DIR)
-	$(MEMRAY_REPORT_CMD) memray flamegraph --leaks --force -o $(MEMRAY_PATH)/$(MEMRAY_FLAMEGRAPH) $(MEMRAY_PATH)/$(MEMRAY_BIN)
-
-memray-summary: ## Print the allocation summary for the latest recording
-	@test -f $(MEMRAY_BIN) || (echo "Missing $(MEMRAY_BIN); run 'make memray-record' first" >&2; exit 1)
-	$(MEMRAY_REPORT_CMD) memray summary $(MEMRAY_PATH)/$(MEMRAY_BIN)
-
-memray: ## Record allocations and generate a flame graph (Ctrl-C stops recording)
-	@$(MAKE) memray-record; status=$$?; \
-	if [ $$status -ne 0 ] && [ $$status -ne 130 ] && [ $$status -ne 143 ]; then exit $$status; fi
-	@$(MAKE) memray-flamegraph
+	@pid="$(if $(filter auto,$(MEMRAY_PID)),$$($(MEMRAY_EXEC_CMD) sh -c 'pgrep -f "/app/.venv/bin/python.*[m]anage.py runserver" | tail -n 1'),$(MEMRAY_PID))"; \
+	test -n "$$pid" || { echo "Could not find the Django runserver process" >&2; exit 1; }; \
+	echo "Attaching Memray to PID $$pid"; \
+	duration_args=""; \
+	if [ "$(MEMRAY_DURATION)" != "0" ]; then duration_args="--duration $(MEMRAY_DURATION)"; fi; \
+	$(MEMRAY_EXEC_CMD) memray attach $$duration_args --native --force -o /app/$(MEMRAY_BIN) "$$pid" || exit $$?; \
+	stopped=0; trap '$(MEMRAY_EXEC_CMD) memray detach "$$pid" >/dev/null 2>&1 || true; stopped=1' INT TERM; \
+	if [ "$(MEMRAY_DURATION)" = "0" ]; then \
+		echo "Recording. Exercise the app, then press Ctrl-C to stop"; \
+		while [ "$$stopped" -eq 0 ]; do sleep 1; done; \
+	else \
+		echo "Recording for $(MEMRAY_DURATION) seconds"; \
+		seconds=0; while [ "$$seconds" -lt "$(MEMRAY_DURATION)" ] && [ "$$stopped" -eq 0 ]; do sleep 1; seconds=$$((seconds + 1)); done; \
+		if [ "$$stopped" -eq 0 ]; then sleep 1; fi; \
+	fi; \
+	$(MEMRAY_EXEC_CMD) memray flamegraph $(if $(filter true,$(MEMRAY_LEAKS)),--leaks,) --force -o /app/$(MEMRAY_FLAMEGRAPH) /app/$(MEMRAY_BIN); \
+	exit 0
 
 build-local: load-fixtures migrate create-superuser create-posts  ## Build local environment
 	DJANGO_ENV=local uv install --no-root

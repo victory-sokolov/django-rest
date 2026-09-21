@@ -33,6 +33,22 @@ class TestPostApi(APITestCase):
         response = self.client.get("/api/v1/post/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_get_posts_returns_only_posts_owned_by_authenticated_user(self):
+        other_user = UserProfile.objects.get(pk=2)
+        other_post = Post.objects.create(
+            user=other_user,
+            title="Other user's post",
+            slug=f"other-user-{uuid4()}",
+            content="Other user's content",
+        )
+
+        response = self.client.get("/api/v1/post/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        returned_ids = {post["id"] for post in response.json()}
+        self.assertNotIn(str(other_post.id), returned_ids)
+        self.assertIn(str(self.post.id), returned_ids)
+
     def test_create_post_bad_request(self):
         data = {
             "title": "JavaScript Fetch API",

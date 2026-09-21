@@ -11,11 +11,12 @@ class PostRepository(IRepository):
     def __init__(self) -> None:
         self.post = Post.objects
 
-    def get_all(self, fields: list[str]) -> QuerySet[Post]:
+    def get_all(self, fields: list[str], user_id: int) -> QuerySet[Post]:
         selected_posts = (
             self.post.select_related("user")
             .prefetch_related("tags")
             .only(*fields)
+            .filter(user_id=user_id)
             .order_by("-created_at")
         )
         return selected_posts

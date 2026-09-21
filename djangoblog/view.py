@@ -48,7 +48,7 @@ class PostView(ListView):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         context = {"form": self.form, "posts": []}
-        data = GetPostsTask().apply_async()
+        data = GetPostsTask().apply_async(args=[request.user.id])
         context["posts"] = data.get()
         return render(request, self.template_name, context)
 

@@ -161,3 +161,4 @@ output/
 memray/
 
 infra/k8s/charts/**/charts
+.DS_Store
