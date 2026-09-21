@@ -4,6 +4,10 @@ services:
   app:
     networks: !override
       - default
+    ports: !override
+      - 8001:8001
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8001/health/app"]
 
   postgres:
     networks: !override
