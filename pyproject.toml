@@ -2,12 +2,12 @@
 name = "blog-application"
 version = "0.1.0"
 description = "Django blog"
-requires-python = ">=3.12,<4.0.0"
+requires-python = ">=3.14,<4.0.0"
 authors = [
     { name = "Viktor Sokolov", email = "viktorsokolov.and@gmail.com" },
 ]
 dependencies = [
-    "celery[msgpack] ~=5.5.3",
+    "celery[msgpack] ~=5.6.3",
     "dependency-injector ~=4.42",
     "django ~=5.2.6",
     "django-ckeditor ~=6.7.1",
@@ -28,7 +28,7 @@ dependencies = [
     "sentry-sdk ~=2.37.1",
     "django-compressor ~=4.5.1",
     "dynaconf ~=3.2.6",
-    "gunicorn ~=25.0.2",
+    "gunicorn ~=26.2.0",
     "django-storages[google] ~=1.14",
     "google-auth ~=2.34",
     "django-jazzmin ~=3.0",
@@ -41,9 +41,9 @@ dependencies = [
     # Required for ImageField
     "pillow>=11.3.0",
     "vstils>=0.1.0",
-    "adrf>=0.1.9",
-    "uvicorn-worker>=0.4.0",
     "prometheus-client>=0.21.0",
+    # CFFI 1.x has no CPython 3.14 wheel and falls back to a native build.
+    "cffi>=2.1.1",
     "pyroscope-io ~=0.8.8",
 ]
 
@@ -59,7 +59,7 @@ dev = [
     "openapi-spec-validator ~=0.7.1",
     "pdbpp ~=0.11.6",
     "tblib ~=3.2.2",
-    "uvicorn ~=0.21",
+    "uvicorn ~=0.54",
     "py-spy ~=0.4.1",
     "flower ~=2.0",
     "nplusone ~=1.0",
@@ -68,7 +68,7 @@ dev = [
     "locust ~=2.39",
     "django-debug-toolbar ~=6.0.0",
     "djangorestframework-stubs ~=3.16.0",
-    "ruff ~=0.14.8",
+    "ruff ~=0.16.8",
     "pre-commit ~=4.5.0",
     "factory-boy ~=3.3",
     "django-extensions ~=4.1",
@@ -77,7 +77,7 @@ dev = [
     "playwright>=1.56.0",
     "bandit>=1.9.2",
     "djlint>=1.36.1",
-    "memray>=1.19.1",
+    "memray>=1.20.0",
     "vulture>=2.14",
     "cosmic-ray>=8.4.1",
 ]

@@ -97,8 +97,7 @@ INSTALLED_APPS = [
     # app based
     "djangoblog",
     "djangoblog.api",
-    "djangoblog.authentication",
-    "adrf",
+    "djangoblog.authentication"
 ]
 
 MESSAGE_TAGS = {
