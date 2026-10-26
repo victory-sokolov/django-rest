@@ -6,6 +6,9 @@
     "extends": [
         "config:best-practices"
     ],
+    "vulnerabilityAlerts": {
+        "commitMessageSuffix": "[{{{vulnerabilitySeverity}}}]"
+    },
     "packageRules": [
         {
             "matchManagers": [ "pep621" ],
@@ -21,5 +24,5 @@
     "prConcurrentLimit": 10,
     "prHourlyLimit": 10,
     "dependencyDashboard": true,
-    "dependencyDashboardAutoclose": true,
+    "dependencyDashboardAutoclose": true
 }
