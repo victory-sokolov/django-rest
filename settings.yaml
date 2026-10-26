@@ -99,7 +99,7 @@ test:
   <<: [*static_storage]
   APP_ENV: test
   DEBUG: True
-  SECRET_KEY: '@format {env[SECRET_KEY]}'
+  SECRET_KEY: test-only-insecure-key-not-for-production-use-0123456789abcdef
   USE_GC_LOCAL: False
   COMPRESS_OFFLINE: False
   ALLOWED_HOSTS:
