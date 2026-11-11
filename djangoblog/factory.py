@@ -20,7 +20,7 @@ class AccountFactory(DjangoModelFactory):
 
     @lazy_attribute
     def user(self) -> UserProfile:
-        return self.get_default_user()
+        return AccountFactory.get_default_user()
 
     @lazy_attribute
     def created_at(self) -> datetime:

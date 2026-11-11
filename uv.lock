@@ -282,7 +282,6 @@ dev = [
     { name = "locust" },
     { name = "memray" },
     { name = "mypy" },
-    { name = "nplusone" },
     { name = "openapi-spec-validator" },
     { name = "pdbpp" },
     { name = "playwright" },
@@ -354,7 +353,6 @@ dev = [
     { name = "locust", specifier = "~=2.39" },
     { name = "memray", specifier = ">=1.20.0" },
     { name = "mypy", specifier = "~=1.17.0" },
-    { name = "nplusone", specifier = "~=1.0" },
     { name = "openapi-spec-validator", specifier = "~=0.7.1" },
     { name = "pdbpp", specifier = "~=0.11.6" },
     { name = "playwright", specifier = ">=1.56.0" },
@@ -1896,19 +1894,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/43/16/fc88b08840de0e0a72a2f9d8c6bae36be573e475a6326ae854bcc549fc45/nodeenv-1.9.1.tar.gz", hash = "sha256:6ec12890a2dab7946721edbfbcd91f3319c6ccc9aec47be7c7e6b7011ee6645f", size = 47437, upload-time = "2024-06-04T18:44:11.171Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d2/1d/1b658dbd2b9fa9c4c9f32accbfc0205d532c8c6194dc0f2a4c0428e7128a/nodeenv-1.9.1-py2.py3-none-any.whl", hash = "sha256:ba11c9782d29c27c70ffbdda2d7415098754709be8a7056d79a737cd901155c9", size = 22314, upload-time = "2024-06-04T18:44:08.352Z" },
-]
-
-[[package]]
-name = "nplusone"
-version = "1.0.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "blinker" },
-    { name = "six" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/26/da/663f551cdda166eaf75a564f64d022c6eb03c710ba83c3fb0f4ac664ebde/nplusone-1.0.0.tar.gz", hash = "sha256:1726c0a10c0aa7eabb04e24db2882ff97b6b7ee29d729a8d97dcbd12ef5a5651", size = 13501, upload-time = "2018-05-21T03:40:25.01Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/13/6b/9721ba7c68036316bd8aeb596b397253590c87d7045c9d6fc82b7364eff4/nplusone-1.0.0-py2.py3-none-any.whl", hash = "sha256:96b1e6e29e6af3e71b67d0cc012a5ec8c97c6a2f5399f4ba41a2bbe0e253a9ac", size = 15920, upload-time = "2018-05-21T03:40:23.69Z" },
 ]
 
 [[package]]

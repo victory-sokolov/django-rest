@@ -302,12 +302,6 @@ if settings.DEBUG and "test" not in sys.argv:
     SHOW_TOOLBAR_CALLBACK = True
     DEBUG_TOOLBAR_CONFIG = {"IS_RUNNING_TESTS": False}
 
-elif "test" in sys.argv:
-    NPLUSONE_RAISE = False
-    INSTALLED_APPS += ["nplusone.ext.django"]
-    MIDDLEWARE += ["nplusone.ext.django.NPlusOneMiddleware"]
-
-
 ROOT_URLCONF = "djangoblog.urls"
 CSRF_COOKIE_SECURE = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True

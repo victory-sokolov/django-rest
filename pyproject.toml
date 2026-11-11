@@ -62,7 +62,6 @@ dev = [
     "uvicorn ~=0.54",
     "py-spy ~=0.4.1",
     "flower ~=2.0",
-    "nplusone ~=1.0",
     "django-silk ~=5.1",
     "mypy ~=1.17.0",
     "locust ~=2.39",
